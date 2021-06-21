@@ -9,7 +9,7 @@ processCtrlE()
             return
         }
     }
-    send e
+    send {blind}e
 }
 
 processCtrlShiftF()
@@ -24,7 +24,7 @@ processCtrlShiftF()
         }
     }
 
-    send f
+    send {blind}f
 }
 
 processCtrlF()
@@ -39,7 +39,7 @@ processCtrlF()
         }
     }
     
-    send f
+    send {blind}f
 }
 
 processCtrlR()
@@ -54,7 +54,7 @@ processCtrlR()
         }
     }
     
-    send r
+    send {blind}r
 }
 
 processCtrlW()
@@ -100,7 +100,7 @@ processCtrlUp()
         return
     }
 
-    send {up}
+    send {blind}{up}
 }
 
 processCtrlDown()
@@ -111,7 +111,7 @@ processCtrlDown()
         return
     }
 
-    send {down}
+    send {blind}{down}
 }
 
 processShiftF1()
@@ -132,7 +132,7 @@ processShiftF1()
         return
     }
 
-    send {F1}
+    send {blind}{F1}
 }
 
 processShiftF2()
@@ -153,7 +153,7 @@ processShiftF2()
         return
     }
 
-    send {F2}
+    send {blind}{F2}
 }
 
 processModifierWithNumber(combination, index)
@@ -163,21 +163,21 @@ processModifierWithNumber(combination, index)
     {
         modifiers := SubStr(combination, 1, StrLen(combination)-1)
         extraInstructions := ["{home}"]
-        if (number = 1)
+        if (number = 2 || number = 3 || number = 4 || number = 5 || number = 6)
         {
-            extraInstructions := ["{F7}"] ; unfold tasks
+            extraInstructions := ["{F6}", "{home}"] ; unfold tasks
         }
-        if (number = 3 || number = 7 || number = 8 || number = 9)
+        if (number = 7)
         {
-            extraInstructions := ["{home}{F6}"] ; fold tasks
+            extraInstructions := ["{home}", "^+{F9}"]
         }
-        if (number = 4)
+        if (number = 8)
         {
-            extraInstructions := ["{home}{ctrl down}{shift down}{F9}{ctrl up}{shift up}"]
+            extraInstructions := ["{F6}", "{end}"]
         }
-        if (number = 0)
+        if (number = 9)
         {
-            extraInstructions := []
+            extraInstructions := ["{F7}", "{home}"]
         }
 
         changeViewMlo(combination, extraInstructions)
@@ -185,82 +185,4 @@ processModifierWithNumber(combination, index)
     }
 
     send {blind}{%number%}
-}
-
-processCtrlShiftWithNumber(combination, index)
-{
-    number := SubStr(combination, 0, 1)
-    IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
-    {
-        extraInstructions := ["{home}"]
-        if (number = 0)
-        {
-            extraInstructions := []
-        }
-
-        changeViewMlo(number, extraInstructions)
-        return
-    }
-
-    send {%number%}
-}
-
-processCtrlAltWithNumber(combination, index)
-{
-    number := SubStr(combination, 0, 1)
-    IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
-    {
-        extraInstructions := ["{home}"]
-        if (number = 1)
-        {
-            extraInstructions := ["{F7}"]
-        }
-        if (number = 3 || number = 7 || number = 8 || number = 9)
-        {
-            extraInstructions := ["{home}{F6}"]
-        }
-        if (number = 4)
-        {
-            extraInstructions := ["{home}{ctrl down}{shift down}{F9}{ctrl up}{shift up}"]
-        }
-        if (number = 0)
-        {
-            extraInstructions := []
-        }
-
-        changeViewMlo(number, extraInstructions)
-        return
-    }
-
-    send {%number%}
-}
-
-processShiftAltWithNumber(combination, index)
-{
-    number := SubStr(combination, 0, 1)
-    IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
-    {
-        extraInstructions := ["{home}"]
-        if (number = 1)
-        {
-            extraInstructions := ["{F7}"]
-        }
-        if (number = 3 || number = 7 || number = 8 || number = 9)
-        {
-            extraInstructions := ["{home}{F6}"]
-        }
-        if (number = 4)
-        {
-            extraInstructions := ["{home}{ctrl down}{shift down}{F9}{ctrl up}{shift up}"]
-        }
-        if (number = 0)
-        {
-            extraInstructions := []
-        }
-
-        changeViewMlo(number, extraInstructions)
-        return
-    }
-
-    send {%number%}
 }

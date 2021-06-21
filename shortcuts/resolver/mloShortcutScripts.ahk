@@ -43,19 +43,18 @@ mloCloseFind()
 {
     send {ctrl up}
     send {shift up}
-    send ^+!- ; schimb workspace taskuri focus
+    sendKeyCombinationIndependentActiveModifiers("^+!-") ; schimb workspace taskuri focus
 }
 
 mloShowFind()
 {
-    send ^+!= ; schimb workspace all tasks
-    send ^+=  ; schimb view search
+    sendKeyCombinationIndependentActiveModifiers("^+!=") ; schimb workspace all tasks
+    sendKeyCombinationIndependentActiveModifiers("^+=") ; schimb view search
     sleep 50
-    send {F7}
-    send ^+l ; clear task filter
-    sleep 500
+    sendKeyCombinationIndependentActiveModifiers("{F7}") ; unfold all tasks
     ControlClick, TEdit3, A,,,, NA
     ControlClick, TEdit2, A,,,, NA
+    sendKeyCombinationIndependentActiveModifiers("^a")
 }
 
 moveNoteWindowAndSetCursorEnd(direction)

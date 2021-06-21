@@ -1,0 +1,15 @@
+HKEY_USERS\S-1-5-21-2158515036-987303324-3988316896-1001\SOFTWARE\Synaptics\SynTPEnh\UltraNavPS2
+
+TrackPointMode from 1214 -> 2214
+
+ 
+HKEY_USERS\S-1-5-21-2158515036-987303324-3988316896-1001\SOFTWARE\Synaptics\SynTP\StickSMBTM2182
+
+MiddleButtonAction from 4 -> 1 (4 este middle button)
+LeftButtonAction from 1 -> 2 (2 este right button)
+
+
+
+AMBELE SUNT NECESARE CA SA MEARGA !!!
+
+https://forums.lenovo.com/t5/Windows-10/FIXED-Middle-Click-Functionality-Disabled-on-Windows-10-upgrade/td-p/2131854

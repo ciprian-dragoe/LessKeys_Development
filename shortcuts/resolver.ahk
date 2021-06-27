@@ -99,8 +99,6 @@ resolverAction[524] := func("wobblyKeyPress")
 processShortcut(index, combination)
 {
     debug("shortcut: " . combination)
-    SetTimer TimerStickyFailBack, OFF
-    SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
     resolverAction[index].call(combination, index)
     return false
 }

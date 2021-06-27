@@ -45,8 +45,6 @@ timerWobblyKey()
 
     if (GetKeyState(selectedWobblyKey, "P"))
     {
-        SetTimer TimerStickyFailBack, OFF
-        SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
         if (activePressedKeys.length() > 0)
         {
             otherKeyPressedWhileWobblyKeyDown := true
@@ -62,10 +60,7 @@ timerWobblyKey()
         }
         else
         {
-            SetTimer TimerStickyFailBack, OFF
-            SetTimer, TimerCancelWobblyKey, OFF
             isWobblyTimeoutActive := true
-            SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
             justBefore := min(timerTimeoutStickyKeys - 100, 500)
             SetTimer, TimerCancelWobblyKey, %justBefore%
         }

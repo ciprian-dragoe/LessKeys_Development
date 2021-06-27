@@ -8,37 +8,28 @@ timerCheckMloChange()
     if (inStr(lastActiveAppName, NAME_MLO_SYNC_FILE . " *") || inStr(lastActiveAppName, "Rapid Task Entry"))
     {
         SYNC_MLO := 1
+        resetTimerSyncMlo()
     }
     else if (SYNC_MLO)
     {
         resetTimerSyncMlo()
         SYNC_MLO := 0
-        timerSyncMlo()
+        timerSyncMloStep1_launchPing()
     }
-}
-
-timerSyncMlo()
-{
-
-
-    SetTimer TimerSyncMloStep1_launchPing, 500
 }
 
 timerSyncMloStep1_launchPing()
 {
-
-    if (A_TimeIdleKeyboard > 2000)
-    {
-        SetTimer TimerSyncMloStep1_launchPing, OFF
-        Run,%comspec% /c ping -n 2 -w 200 bing.com > %A_Temp%\ping.log,,hide
-
-        SetTimer TimerSyncMloStep2_readPing, 2000
-    }
+    Run,%comspec% /c ping -n 2 -w 200 bing.com > %A_Temp%\ping.log,,hide
+    SetTimer TimerSyncMloStep2_readPing, 4000
 }
 
 timerSyncMloStep2_readPing()
 {
+    SYNC_MLO := 0
     SetTimer TimerSyncMloStep2_readPing, OFF
+    SetTimer TimerCheckMloChange, OFF
+
     fileread , StrTemp, %A_Temp%\ping.log
     StrTemp := trim(StrTemp)
     stringsplit , TempArr, StrTemp, =
@@ -52,12 +43,10 @@ timerSyncMloStep2_readPing()
         INTERNET_ACCESS := 0
         ControlSend, , ^s, ahk_class %MLO_CLASS_NAME%
     }
+    SetTimer TimerCheckMloChange, 1000
 }
 
 resetTimerSyncMlo()
 {
-    SetTimer TimerSyncMlo, OFF
-    SetTimer TimerSyncMloStep1_launchPing, OFF
     SetTimer TimerSyncMloStep2_readPing, OFF
-    SetTimer TimerSyncMlo, 3600000
 }

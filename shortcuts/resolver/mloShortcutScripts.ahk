@@ -50,6 +50,7 @@ mloShowFind()
 {
     sendKeyCombinationIndependentActiveModifiers("^+!=") ; schimb workspace all tasks
     sendKeyCombinationIndependentActiveModifiers("^+=") ; schimb view search
+    sendKeyCombinationIndependentActiveModifiers("{home}{F7}") ; expand all tasks
     sleep 50
     sendKeyCombinationIndependentActiveModifiers("{F7}") ; unfold all tasks
     ControlClick, TEdit3, A,,,, NA

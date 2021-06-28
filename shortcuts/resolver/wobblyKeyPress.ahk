@@ -22,6 +22,8 @@ wobblyKeyPress(combination, index)
 
 timerWobblyKey()
 {
+    SetTimer TimerStickyFailBack, OFF
+    SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
     if (isWobblyTimeoutActive)
     {
         isNonModifierKeyPress := true

@@ -41,8 +41,6 @@ changeViewMlo(viewCombination, extraInstructions)
 
 mloCloseFind()
 {
-    send {ctrl up}
-    send {shift up}
     sendKeyCombinationIndependentActiveModifiers("^+!-") ; schimb workspace taskuri focus
 }
 
@@ -50,12 +48,16 @@ mloShowFind()
 {
     sendKeyCombinationIndependentActiveModifiers("^+!=") ; schimb workspace all tasks
     sendKeyCombinationIndependentActiveModifiers("^+=") ; schimb view search
-    sendKeyCombinationIndependentActiveModifiers("{home}{F7}") ; expand all tasks
     sleep 50
-    sendKeyCombinationIndependentActiveModifiers("{F7}") ; unfold all tasks
+    sendKeyCombinationIndependentActiveModifiers("{home}") ;
     ControlClick, TEdit3, A,,,, NA
     ControlClick, TEdit2, A,,,, NA
     sendKeyCombinationIndependentActiveModifiers("^a")
+    sendKeyCombinationIndependentActiveModifiers("{backspace}") ;
+    sleep 300
+    sendKeyCombinationIndependentActiveModifiers("{F7}") ; unfold all tasks
+    sleep 300
+    sendKeyCombinationIndependentActiveModifiers("{F7}") ; unfold all tasks
 }
 
 moveNoteWindowAndSetCursorEnd(direction)

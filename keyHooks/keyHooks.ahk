@@ -919,8 +919,7 @@
 #If
 
 *printscreen::
-    debug("---------QUIT BY PRINT SCREEN")
-    storeDebugData()
+    storeDebugData("QUIT-PPRINT-SCREEN")
     showtooltip("Exit")
     exitApp
 return

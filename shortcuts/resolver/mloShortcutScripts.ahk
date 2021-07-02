@@ -39,6 +39,38 @@ changeViewMlo(viewCombination, extraInstructions)
     }
 }
 
+contextDependentView()
+{
+    extraInstructions := ["{home}"]
+    if (A_Hour >= 5 && A_Hour < 9)
+    {
+        ; ========== PLANIFIC
+        extraInstructions := ["{F7}", "{home}"]
+        changeViewMlo("^9", extraInstructions)
+    }
+    else if (A_Hour >= 9 && A_Hour < 18 && (A_DDDD = "Saturday" || A_DDDD = "Sunday"))
+    {
+        ; ========== PROIECT
+        changeViewMlo("^+3", extraInstructions)
+    }
+    else if (A_Hour >= 9 && A_Hour < 18 (A_DDDD = "Monday" || A_DDDD = "Tuesday" || A_DDDD = "Wednesday" || A_DDDD = "Thursday" || A_DDDD = "Friday"))
+    {
+        ; ========== SERVICI
+        changeViewMlo("^+2", extraInstructions)
+    }
+    else if (A_Hour >= 18 && A_Hour < 21 (A_DDDD = "Monday" || A_DDDD = "Tuesday" || A_DDDD = "Wednesday" || A_DDDD = "Thursday" || A_DDDD = "Friday"))
+    {
+        ; ========== ADMIN
+        changeViewMlo("^+1", extraInstructions)
+    }
+    if (A_Hour >= 21 && A_Hour < 25)
+    {
+        ; ========== PLANIFIC
+        extraInstructions := ["{F7}", "{home}"]
+        changeViewMlo("^9", extraInstructions)
+    }
+}
+
 mloCloseFind()
 {
     sendKeyCombinationIndependentActiveModifiers("^+!-") ; schimb workspace taskuri focus

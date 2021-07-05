@@ -180,7 +180,6 @@ processModifierWithNumber(combination, index)
         {
             extraInstructions := ["{F7}", "{home}"]
         }
-
         changeViewMlo(combination, extraInstructions)
         return
     }

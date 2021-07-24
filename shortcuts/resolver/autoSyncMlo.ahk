@@ -1,11 +1,24 @@
-global NAME_MLO_SYNC_FILE := ".ml - MyLifeOrganized"
 global SYNC_MLO := 0
 global INTERNET_ACCESS := 1
 
+timerCancelTooltip()
+{
+    tooltip
+}
+
+timerCheckReminder()
+{
+    if (WinExist("MyLifeOrganized - Reminders"))
+    {
+        tooltip, ========= CHECK REMINDERS =========
+        SetTimer timerCancelTooltip, 1000
+        timerSyncMloStep1_launchPing()
+    }
+}
 
 timerCheckMloChange()
 {
-    if (inStr(lastActiveAppName, NAME_MLO_SYNC_FILE . " *") || inStr(lastActiveAppName, "Rapid Task Entry"))
+    if (inStr(lastActiveAppName, ".ml - MyLifeOrganized" . " *") || inStr(lastActiveAppName, "Rapid Task Entry") || inStr(lastActiveAppName, "MyLifeOrganized - Reminders"))
     {
         SYNC_MLO := 1
         resetTimerSyncMlo()

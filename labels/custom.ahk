@@ -17,3 +17,11 @@ return
 TimerSyncMloStep2_readPing:
     timerSyncMloStep2_readPing()
 return
+
+TimerCheckReminder:
+    timerCheckReminder()
+return
+
+TimerCancelTooltip:
+    timerCancelTooltip()
+return

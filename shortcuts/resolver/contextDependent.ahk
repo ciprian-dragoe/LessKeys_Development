@@ -162,24 +162,28 @@ processModifierWithNumber(combination, index)
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
         modifiers := SubStr(combination, 1, StrLen(combination)-1)
-        extraInstructions := ["{home}"]
-        if (number = 9 && modifiers = "^")
-        {
-            contextDependentView()
-            return
-        }
+        extraInstructions := []
         if (number = 1 || number = 2 || number = 3 || number = 4 || number = 5 || number = 6)
         {
             extraInstructions := ["{home}", "{F6}"] ; fold tasks
         }
-        if (number = 8)
+        else if (number = 8)
         {
             extraInstructions := ["{home}", "{F6}", "{end}"]
         }
-        if (number = 9)
+        else if (number = 9)
         {
             extraInstructions := ["{F7}", "{home}"]
         }
+        else if (number = 0)
+        {
+            extraInstructions := []
+        }
+        else
+        {
+            extraInstructions := ["{home}"]
+        }
+
         changeViewMlo(combination, extraInstructions)
         return
     }

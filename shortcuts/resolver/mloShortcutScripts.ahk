@@ -29,6 +29,7 @@ setContextMlo(number)
 
 changeViewMlo(viewCombination, extraInstructions)
 {
+    sendKeyCombinationIndependentActiveModifiers("!/") ; unzoom
     sendKeyCombinationIndependentActiveModifiers("^+!-") ; schimb workspace taskuri focus
     sleep 50
     sendKeyCombinationIndependentActiveModifiers(viewCombination)
@@ -46,7 +47,7 @@ contextDependentView()
     {
         ; ========== PLANIFIC
         extraInstructions := ["{F7}", "{home}"]
-        changeViewMlo("^9", extraInstructions)
+        changeViewMlo("^+9", extraInstructions)
     }
     else if (A_Hour >= 9 && A_Hour < 18 && (A_DDDD = "Saturday"))
     {
@@ -67,13 +68,13 @@ contextDependentView()
     {
         ; ========== PLANIFIC
         extraInstructions := ["{F7}", "{home}"]
-        changeViewMlo("^9", extraInstructions)
+        changeViewMlo("^+9", extraInstructions)
     }
     else
     {
         ; ========== PLANIFIC
         extraInstructions := ["{F7}", "{home}"]
-        changeViewMlo("^9", extraInstructions)
+        changeViewMlo("^+9", extraInstructions)
     }
 }
 

@@ -4,198 +4,234 @@
         critical on
         processKeyDown(layout["escape"])
         critical off
+        return
     return
     *escape up::
         critical on
         processRealKeyUp("escape")
         critical off
+        return
     return
 
     *f1::
         critical on
         processKeyDown(layout["F1"])
         critical off
+        return
     return
     *f1 up::
         critical on
         processRealKeyUp("F1")
         critical off
+        return
     return
 
     *f2::
         critical on
         processKeyDown(layout["F2"])
         critical off
+        return
     return
     *f2 up::
         critical on
         processRealKeyUp("F2")
         critical off
+        return
     return
 
     *f3::
         critical on
         processKeyDown(layout["F3"])
         critical off
+        return
     return
     *f3 up::
         critical on
         processRealKeyUp("F3")
         critical off
+        return
     return
 
     *f4::
         critical on
         processKeyDown(layout["F4"])
         critical off
+        return
     return
     *f4 up::
         critical on
         processRealKeyUp("F4")
         critical off
+        return
     return
 
     *f5::
         critical on
         processKeyDown(layout["F5"])
         critical off
+        return
     return
     *f5 up::
         critical on
         processRealKeyUp("F5")
         critical off
+        return
     return
 
     *f6::
         critical on
         processKeyDown(layout["F6"])
         critical off
+        return
     return
     *f6 up::
         critical on
         processRealKeyUp("F6")
         critical off
+        return
     return
 
     *f7::
         critical on
         processKeyDown(layout["F7"])
         critical off
+        return
     return
     *f7 up::
         critical on
         processRealKeyUp("F7")
         critical off
+        return
     return
 
     *f8::
         critical on
         processKeyDown(layout["F8"])
         critical off
+        return
     return
     *f8 up::
         critical on
         processRealKeyUp("F8")
         critical off
+        return
     return
 
     *f9::
         critical on
         processKeyDown(layout["F9"])
         critical off
+        return
     return
     *f9 up::
         critical on
         processRealKeyUp("F9")
         critical off
+        return
     return
 
     *f10::
         critical on
         processKeyDown(layout["F10"])
         critical off
+        return
     return
     *f10 up::
         critical on
         processRealKeyUp("F10")
         critical off
+        return
     return
 
     *f11::
         critical on
         processKeyDown(layout["F11"])
         critical off
+        return
     return
     *f11 up::
         critical on
         processRealKeyUp("F11")
         critical off
+        return
     return
 
     *f12::
         critical on
         processKeyDown(layout["F12"])
         critical off
+        return
     return
     *f12 up::
         critical on
         processRealKeyUp("F12")
         critical off
+        return
     return
 
     *home::
         critical on
         processKeyDown(layout["home"])
         critical off
+        return
     return
     *home up::
         critical on
         processRealKeyUp("home")
         critical off
+        return
     return
 
     *end::
         critical on
         processKeyDown(layout["end"])
         critical off
+        return
     return
     *end up::
         critical on
         processRealKeyUp("end")
         critical off
+        return
     return
 
     *insert::
         critical on
         processKeyDown(layout["insert"])
         critical off
+        return
     return
     *insert up::
         critical on
         processRealKeyUp("insert")
         critical off
+        return
     return
 
     *delete::
         critical on
         processKeyDown(layout["delete"])
         critical off
+        return
     return
     *delete up::
         critical on
         processRealKeyUp("delete")
         critical off
+        return
     return
 
     *sc029::
         critical on
         processKeyDown(layout["``"])
         critical off
+        return
     return
     *sc029 up::
         critical on
         processRealKeyUp("``")
         critical off
+        return
     return
 
     *1::
@@ -205,14 +241,17 @@
         critical on
         processRealKeyUp(1)
         critical off
+        return
     return
     *2::
         critical on
         processKeyDown(layout[2])
+        return
     *2 up::
         critical on
         processRealKeyUp(2)
         critical off
+        return
     return
     *3::
         critical on
@@ -221,6 +260,7 @@
         critical on
         processRealKeyUp(3)
         critical off
+        return
     return
     *4::
         critical on
@@ -229,6 +269,7 @@
         critical on
         processRealKeyUp(4)
         critical off
+        return
     return
     *5::
         critical on
@@ -237,6 +278,7 @@
         critical on
         processRealKeyUp(5)
         critical off
+        return
     return
     *6::
         critical on
@@ -245,6 +287,7 @@
         critical on
         processRealKeyUp(6)
         critical off
+        return
     return
     *7::
         critical on
@@ -253,6 +296,7 @@
         critical on
         processRealKeyUp(7)
         critical off
+        return
     return
     *8::
         critical on
@@ -261,6 +305,7 @@
         critical on
         processRealKeyUp(8)
         critical off
+        return
     return
     *9::
         critical on
@@ -269,6 +314,7 @@
         critical on
         processRealKeyUp(9)
         critical off
+        return
     return
     *0::
         critical on
@@ -277,319 +323,376 @@
         critical on
         processRealKeyUp(0)
         critical off
+        return
     return
     *-::
         critical on
         processKeyDown(layout["-"])
         critical off
+        return
     return
     *- up::
         critical on
         processRealKeyUp("-")
         critical off
+        return
     return
 
     *=::
         critical on
         processKeyDown(layout["="])
         critical off
+        return
     return
     *= up::
         critical on
         processRealKeyUp("=")
         critical off
+        return
     return
 
     *backspace::
         critical on
         processKeyDown(layout["backspace"])
         critical off
+        return
     return
     *backspace up::
         critical on
         processRealKeyUp("backspace")
         critical off
+        return
     return
 
     *tab::
         critical on
         processKeyDown(layout["tab"])
         critical off
+        return
     return
     *tab up::
         critical on
         processRealKeyUp("tab")
         critical off
+        return
     return
 
     *q::
         critical on
         processKeyDown(layout["q"])
         critical off
+        return
     return
     *q up::
         critical on
         processRealKeyUp("q")
         critical off
+        return
     return
 
     *w::
         critical on
         processKeyDown(layout["w"])
         critical off
+        return
     return
     *w up::
         critical on
         processRealKeyUp("w")
         critical off
+        return
     return
 
     *e::
         critical on
         processKeyDown(layout["e"])
         critical off
+        return
     return
     *e up::
         critical on
         processRealKeyUp("e")
         critical off
+        return
     return
 
     *r::
         critical on
         processKeyDown(layout["r"])
         critical off
+        return
     return
     *r up::
         critical on
         processRealKeyUp("r")
         critical off
+        return
     return
 
     *t::
         critical on
         processKeyDown(layout["t"])
         critical off
+        return
     return
     *t up::
         critical on
         processRealKeyUp("t")
         critical off
+        return
     return
 
     *y::
         critical on
         processKeyDown(layout["y"])
         critical off
+        return
     return
     *y up::
         critical on
         processRealKeyUp("y")
         critical off
+        return
     return
 
     *u::
         critical on
         processKeyDown(layout["u"])
         critical off
+        return
     return
     *u up::
         critical on
         processRealKeyUp("u")
         critical off
+        return
     return
 
     *i::
         critical on
         processKeyDown(layout["i"])
         critical off
+        return
     return
     *i up::
         critical on
         processRealKeyUp("i")
         critical off
+        return
     return
 
     *o::
         critical on
         processKeyDown(layout["o"])
         critical off
+        return
     return
     *o up::
         critical on
         processRealKeyUp("o")
         critical off
+        return
     return
 
     *p::
         critical on
         processKeyDown(layout["p"])
         critical off
+        return
     return
     *p up::
         critical on
         processRealKeyUp("p")
         critical off
+        return
     return
 
     *[::
         critical on
         processKeyDown(layout["["])
         critical off
+        return
     return
     *[ up::
         critical on
         processRealKeyUp("[")
         critical off
+        return
     return
 
     *]::
         critical on
         processKeyDown(layout["]"])
         critical off
+        return
     return
     *] up::
         critical on
         processRealKeyUp("]")
         critical off
+        return
     return
 
     *\::
         critical on
         processKeyDown(layout["\"])
         critical off
+        return
     return
     *\ up::
         critical on
         processRealKeyUp("\")
         critical off
+        return
     return
 
     *capslock::
         critical on
         processKeyDown(layout["capslock"])
         critical off
+        return
     return
     *capslock up::
         critical on
         processRealKeyUp("capslock")
         critical off
+        return
     return
 
     *a::
         critical on
         processKeyDown(layout["a"])
         critical off
+        return
     return
     *a up::
         critical on
         processRealKeyUp("a")
         critical off
+        return
     return
 
     *s::
         critical on
         processKeyDown(layout["s"])
         critical off
+        return
     return
     *s up::
         critical on
         processRealKeyUp("s")
         critical off
+        return
     return
 
     *d::
         critical on
         processKeyDown(layout["d"])
         critical off
+        return
     return
     *d up::
         critical on
         processRealKeyUp("d")
         critical off
+        return
     return
 
     *f::
         critical on
         processKeyDown(layout["f"])
         critical off
+        return
     return
     *f up::
         critical on
         processRealKeyUp("f")
         critical off
+        return
     return
 
     *g::
         critical on
         processKeyDown(layout["g"])
         critical off
+        return
     return
     *g up::
         critical on
         processRealKeyUp("g")
         critical off
+        return
     return
 
     *h::
         critical on
         processKeyDown(layout["h"])
         critical off
+        return
     return
     *h up::
         critical on
         processRealKeyUp("h")
         critical off
+        return
     return
 
     *j::
         critical on
         processKeyDown(layout["j"])
         critical off
+        return
     return
     *j up::
         critical on
         processRealKeyUp("j")
         critical off
+        return
     return
 
     *k::
         critical on
         processKeyDown(layout["k"])
         critical off
+        return
     return
     *k up::
         critical on
         processRealKeyUp("k")
         critical off
+        return
     return
 
     *l::
         critical on
         processKeyDown(layout["l"])
         critical off
+        return
     return
     *l up::
         critical on
         processRealKeyUp("l")
         critical off
+        return
     return
 
     *`::
         critical on
         processKeyDown(layout[""])
         critical off
+        return
     return
     *` up::
         critical on
         processRealKeyUp("")
         critical off
+        return
     return
 
     *'::
         critical on
         processKeyDown(layout["'"])
-        critical off
+                        critical off
     return
     *' up::
         critical on
@@ -930,9 +1033,5 @@ return
 ; they are sent twice on up
 processRealKeyUp(key)
 {
-    if (GetKeyState(key, "P"))
-    {
-        return
-    }
     processKeyUp(layout[key])
 }

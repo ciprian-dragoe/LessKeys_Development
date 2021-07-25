@@ -6,6 +6,14 @@ timerCancelTooltip()
     tooltip
 }
 
+timerSyncMlo()
+{
+    if (!inStr(lastActiveAppName, ".ml - MyLifeOrganized" . " *") || inStr(lastActiveAppName, "Rapid Task Entry") || inStr(lastActiveAppName, "MyLifeOrganized - Reminders"))
+    {
+        timerSyncMloStep1_launchPing()
+    }
+}
+
 timerCheckReminder()
 {
     if (WinExist("MyLifeOrganized - Reminders"))

@@ -25,3 +25,7 @@ return
 TimerCancelTooltip:
     timerCancelTooltip()
 return
+
+TimerSyncMlo:
+    timerSyncMlo()
+return

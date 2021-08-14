@@ -10,6 +10,10 @@ TimerCancelWobblyKey:
     timerCancelWobblyKey()
 return
 
+TimerCheckAfterSyncReminders:
+    timerCheckAfterSyncReminders()
+return
+
 TimerCheckMloChange:
     timerCheckMloChange()
 return

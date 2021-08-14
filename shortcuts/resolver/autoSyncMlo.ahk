@@ -8,9 +8,21 @@ timerCancelTooltip()
 
 timerSyncMlo()
 {
-    if (!inStr(lastActiveAppName, ".ml - MyLifeOrganized" . " *") || inStr(lastActiveAppName, "Rapid Task Entry") || inStr(lastActiveAppName, "MyLifeOrganized - Reminders"))
+    if (!inStr(lastActiveAppName, ".ml - MyLifeOrganized" . " *") && !inStr(lastActiveAppName, "Rapid Task Entry") && !inStr(lastActiveAppName, "MyLifeOrganized - Reminders"))
     {
+        ;showtooltip("`n`n`n`n`n`n`n`n`n" . "                           SYNC                           ;"  . "`n`n`n`n`n`n`n`n`n")
         timerSyncMloStep1_launchPing()
+    }
+}
+
+timerCheckAfterSyncReminders()
+{
+    if (WinExist("MyLifeOrganized - Reminders"))
+    {
+        tooltip, `n`n`n`n`n========= CHECK REMINDERS =========`n`n`n`n`n
+        SetTimer TimerCheckAfterSyncReminders, OFF
+        SetTimer TimerCancelTooltip, OFF
+        SetTimer TimerCancelTooltip, 1000
     }
 }
 
@@ -18,8 +30,8 @@ timerCheckReminder()
 {
     if (WinExist("MyLifeOrganized - Reminders"))
     {
-        tooltip, ========= CHECK REMINDERS =========
-        SetTimer timerCancelTooltip, 1000
+        SetTimer TimerCheckAfterSyncReminders, OFF
+        SetTimer TimerCheckAfterSyncReminders, 30000
         timerSyncMloStep1_launchPing()
     }
 }
@@ -42,6 +54,7 @@ timerCheckMloChange()
 timerSyncMloStep1_launchPing()
 {
     Run,%comspec% /c ping -n 2 -w 200 bing.com > %A_Temp%\ping.log,,hide
+    SetTimer TimerSyncMloStep2_readPing, OFF
     SetTimer TimerSyncMloStep2_readPing, 4000
 }
 
@@ -64,6 +77,7 @@ timerSyncMloStep2_readPing()
         INTERNET_ACCESS := 0
         ControlSend, , ^s, ahk_class %MLO_CLASS_NAME%
     }
+    SetTimer TimerCheckMloChange, OFF
     SetTimer TimerCheckMloChange, 1000
 }
 

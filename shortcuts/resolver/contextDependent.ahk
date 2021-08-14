@@ -1,3 +1,38 @@
+processModifierWithNumber(combination, index)
+{
+    number := SubStr(combination, 0, 1)
+    IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
+    {
+        modifiers := SubStr(combination, 1, StrLen(combination)-1)
+        extraInstructions := []
+        if (number = 1 || number = 2 || number = 3 || number = 4 || number = 5 || number = 6 || number = 7)
+        {
+            extraInstructions := ["{home}", "{F6}"] ; fold tasks
+        }
+        else if (number = 8)
+        {
+            extraInstructions := ["{home}", "{F6}", "{end}"]
+        }
+        else if (number = 9)
+        {
+            extraInstructions := ["{F7}", "{home}"]
+        }
+        else if (number = 0)
+        {
+            extraInstructions := []
+        }
+        else
+        {
+            extraInstructions := ["{home}"]
+        }
+
+        changeViewMlo(combination, extraInstructions)
+        return
+    }
+
+    send {blind}{%number%}
+}
+
 processCtrlE()
 {
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
@@ -154,39 +189,4 @@ processShiftF2()
     }
 
     send {blind}{F2}
-}
-
-processModifierWithNumber(combination, index)
-{
-    number := SubStr(combination, 0, 1)
-    IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
-    {
-        modifiers := SubStr(combination, 1, StrLen(combination)-1)
-        extraInstructions := []
-        if (number = 1 || number = 2 || number = 3 || number = 4 || number = 5 || number = 6)
-        {
-            extraInstructions := ["{home}", "{F6}"] ; fold tasks
-        }
-        else if (number = 8)
-        {
-            extraInstructions := ["{home}", "{F6}", "{end}"]
-        }
-        else if (number = 9)
-        {
-            extraInstructions := ["{F7}", "{home}"]
-        }
-        else if (number = 0)
-        {
-            extraInstructions := []
-        }
-        else
-        {
-            extraInstructions := ["{home}"]
-        }
-
-        changeViewMlo(combination, extraInstructions)
-        return
-    }
-
-    send {blind}{%number%}
 }

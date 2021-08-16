@@ -22,6 +22,7 @@ wobblyKeyPress(combination, index)
 
 timerWobblyKey()
 {
+    setTimer TimerCheckAgainIfTimerTriggeredBeforeKeyLift, off
     SetTimer TimerStickyFailBack, off
     SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
     if (isWobblyTimeoutActive)

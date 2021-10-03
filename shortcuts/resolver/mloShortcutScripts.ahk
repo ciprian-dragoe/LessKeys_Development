@@ -87,12 +87,12 @@ mloShowFind()
 {
     sendKeyCombinationIndependentActiveModifiers("^+!=") ; schimb workspace all tasks
     sendKeyCombinationIndependentActiveModifiers("^+=") ; schimb view search
-    sleep 50
-    sendKeyCombinationIndependentActiveModifiers("{home}") ;
+    sleep 500
+    sendKeyCombinationIndependentActiveModifiers("{home}") ; unfold all tasks
     ControlClick, TEdit3, A,,,, NA
     ControlClick, TEdit2, A,,,, NA
     sendKeyCombinationIndependentActiveModifiers("^a")
-    sendKeyCombinationIndependentActiveModifiers("{backspace}") ;
+    sendKeyCombinationIndependentActiveModifiers("{backspace}")
     sleep 300
     sendKeyCombinationIndependentActiveModifiers("{F7}") ; unfold all tasks
     sleep 300

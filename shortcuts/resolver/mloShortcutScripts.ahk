@@ -221,6 +221,14 @@ journalTemplateMLO()
 rapidTaskEntry()
 {
     sendKeyCombinationIndependentActiveModifiers("#!]") ; shortcut MLO for rapid task entry
-    WinWait ahk_class TfrmQuickAddMLOTask, , 2
-    WinActivate ahk_class TfrmQuickAddMLOTask, , 2
+    SetTimer TimerActivateMloRapidTaskWindow, 200
+}
+
+timerActivateMloRapidTaskWindow()
+{
+    If WinExist("Rapid Task Entry")
+    {
+        WinActivate ahk_class TfrmQuickAddMLOTask, , 2
+        SetTimer TimerActivateMloRapidTaskWindow, OFF
+    }
 }

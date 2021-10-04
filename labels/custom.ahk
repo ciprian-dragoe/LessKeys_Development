@@ -33,3 +33,7 @@ return
 TimerSyncMlo:
     timerSyncMlo()
 return
+
+TimerActivateMloRapidTaskWindow:
+    timerActivateMloRapidTaskWindow()
+return

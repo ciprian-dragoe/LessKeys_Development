@@ -37,3 +37,7 @@ return
 TimerActivateMloRapidTaskWindow:
     timerActivateMloRapidTaskWindow()
 return
+
+TimerMloDarkMode:
+    timerMloDarkMode()
+return

@@ -232,3 +232,52 @@ timerActivateMloRapidTaskWindow()
         SetTimer TimerActivateMloRapidTaskWindow, OFF
     }
 }
+
+setMloDarkMode(enabled)
+{
+    if (enabled)
+    {
+        topWidth := A_ScreenWidth + 10
+        topHeight := 155
+        topX := -10
+        topY := -10
+        Gui, top:new
+        Gui, +toolwindow -caption +alwaysontop
+        Gui, color , 000000  ; set color value RGB
+        Gui, top:show, w%topWidth% h%topHeight% x%topX% y%topY%
+
+        bottomWidth := A_ScreenWidth + 10
+        bottomHeight := 60
+        bottomX := -10
+        bottomY := A_ScreenHeight - bottomHeight
+        Gui, bottom:new
+        Gui, +toolwindow -caption +alwaysontop
+        Gui, color , 000000  ; set color value RGB
+        Gui, bottom:show, w%bottomWidth% h%bottomHeight% x%bottomX% y%bottomY%
+
+        leftWidth := 20
+        leftHeight := A_ScreenHeight + 20
+        leftX := -10
+        leftY := 0
+        Gui, left:new
+        Gui, +toolwindow -caption +alwaysontop
+        Gui, color , 000000  ; set color value RGB
+        Gui, left:show, w%leftWidth% h%leftHeight% x%leftX% y%leftY%
+
+        rightWidth := 70
+        rightHeight := A_ScreenHeight + 20
+        rightX := A_ScreenWidth - 25
+        rightY := 0
+        Gui, right:new
+        Gui, +toolwindow -caption +alwaysontop
+        Gui, color , 000000  ; set color value RGB
+        Gui, right:show, w%rightWidth% h%rightHeight% x%rightX% y%rightY%
+    }
+    else
+    {
+        Gui, top:destroy
+        Gui, bottom:destroy
+        Gui, left:destroy
+        Gui, right:destroy
+    }
+}

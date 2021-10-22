@@ -228,11 +228,15 @@ timerActivateMloRapidTaskWindow()
 {
     If WinExist("Rapid Task Entry")
     {
-        WinActivate ahk_class TfrmQuickAddMLOTask, , 2
         SetTimer TimerActivateMloRapidTaskWindow, OFF
+        WinActivate ahk_class TfrmQuickAddMLOTask, , 2
+
+        WinMove, A,, 0, 0, (A_ScreenWidth), 500
     }
 }
 
+
+; reduce scroll bar width in windows https://www.thewindowsclub.com/windows-8-scroll-bar-hard-see-change-windows-8-scrollbar-width
 setMloDarkMode(enabled)
 {
     if (enabled)
@@ -266,7 +270,7 @@ setMloDarkMode(enabled)
 
         rightWidth := 70
         rightHeight := A_ScreenHeight + 20
-        rightX := A_ScreenWidth - 25
+        rightX := A_ScreenWidth - 28
         rightY := 0
         Gui, right:new
         Gui, +toolwindow -caption +alwaysontop

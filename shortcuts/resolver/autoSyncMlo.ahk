@@ -30,6 +30,7 @@ timerCheckReminder()
 {
     if (WinExist("MyLifeOrganized - Reminders"))
     {
+        SetTimer TimerCheckMloChange, OFF
         SetTimer TimerCheckAfterSyncReminders, OFF
         SetTimer TimerCheckAfterSyncReminders, 30000
         timerSyncMloStep1_launchPing()

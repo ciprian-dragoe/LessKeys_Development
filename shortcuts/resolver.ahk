@@ -1,7 +1,7 @@
 global ACTIVE_COMPUTER_1 := "lenovo-x230"
 global ACTIVE_COMPUTER_2 := "CIPI-ASUS-ROG"
 global ACTIVE_COMPUTER_3 := "yoga-cipi"
-global SCREEN_SLEEP_PATH := A_ScriptDir . "\app\environmentDependent\_development\shortcuts\nircmd"
+global SCREEN_SLEEP_PATH := A_ScriptDir . "\environmentDependent\_development\shortcuts\nircmd"
 if (A_ScriptName = "LessKeys.exe")
 {
     SCREEN_SLEEP_PATH := A_ScriptDir .  "\externalResources\nircmd"
@@ -9,23 +9,23 @@ if (A_ScriptName = "LessKeys.exe")
 
 
 
-#include %A_ScriptDir%\app\environmentDependent\COMMON\accentedCharacters.ahk
-#include %A_ScriptDir%\app\environmentDependent\COMMON\debug.ahk
-#include %A_ScriptDir%\app\environmentDependent\COMMON\functionKeys.ahk
-#include %A_ScriptDir%\app\environmentDependent\COMMON\rightClick.ahk
-#include %A_ScriptDir%\app\environmentDependent\COMMON\random.ahk
-#include %A_ScriptDir%\app\environmentDependent\_development\shortcuts\resolver\modifierClick.ahk
-#include %A_ScriptDir%\app\environmentDependent\_development\shortcuts\resolver\mloShortcutScripts.ahk
-#include %A_ScriptDir%\app\environmentDependent\_development\shortcuts\resolver\freeplaneShortcutScripts.ahk
-#include %A_ScriptDir%\app\environmentDependent\_development\shortcuts\resolver\conceptsShortcutScripts.ahk
-#include %A_ScriptDir%\app\environmentDependent\_development\shortcuts\resolver\simplemindShortcutScripts.ahk
-#include %A_ScriptDir%\app\environmentDependent\_development\shortcuts\resolver\foobarShortcutScripts.ahk
-#include %A_ScriptDir%\app\environmentDependent\_development\shortcuts\resolver\winSplit.ahk
-#include %A_ScriptDir%\app\environmentDependent\_development\shortcuts\resolver\contextDependent.ahk
-#include %A_ScriptDir%\app\environmentDependent\_development\shortcuts\resolver\windowsShortcuts.ahk
-#include %A_ScriptDir%\app\environmentDependent\_development\shortcuts\resolver\timedCapsLock.ahk
-#include %A_ScriptDir%\app\environmentDependent\_development\shortcuts\resolver\autoSyncMlo.ahk
-#include %A_ScriptDir%\app\environmentDependent\_development\shortcuts\resolver\wobblyKeyPress.ahk
+#include %A_ScriptDir%\..\environmentDependent\COMMON\accentedCharacters.ahk
+#include %A_ScriptDir%\..\environmentDependent\COMMON\debug.ahk
+#include %A_ScriptDir%\..\environmentDependent\COMMON\functionKeys.ahk
+#include %A_ScriptDir%\..\environmentDependent\COMMON\rightClick.ahk
+#include %A_ScriptDir%\..\environmentDependent\COMMON\random.ahk
+#include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\modifierClick.ahk
+#include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\mloShortcutScripts.ahk
+#include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\freeplaneShortcutScripts.ahk
+#include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\conceptsShortcutScripts.ahk
+#include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\simplemindShortcutScripts.ahk
+#include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\foobarShortcutScripts.ahk
+#include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\winSplit.ahk
+#include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\contextDependent.ahk
+#include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\windowsShortcuts.ahk
+#include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\timedCapsLock.ahk
+#include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\autoSyncMlo.ahk
+#include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\wobblyKeyPress.ahk
 
 
 

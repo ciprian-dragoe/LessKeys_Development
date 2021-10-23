@@ -2,14 +2,6 @@ TimerCheckKeyPress:
     timerCheckKeyPress()
 return
 
-TimerWobblyKey:
-    timerWobblyKey()
-return
-
-TimerCancelWobblyKey:
-    timerCancelWobblyKey()
-return
-
 TimerCheckAfterSyncReminders:
     timerCheckAfterSyncReminders()
 return
@@ -24,10 +16,6 @@ return
 
 TimerCheckReminder:
     timerCheckReminder()
-return
-
-TimerCancelTooltip:
-    timerCancelTooltip()
 return
 
 TimerSyncMlo:

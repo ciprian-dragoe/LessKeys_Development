@@ -34,7 +34,7 @@ ShowFreeplaneNotes(windowName)
 
 CloseFreeplaneNotes()
 {
-    while getkeystate("ctrl")
+    while (ctrlActive)
     {
         sleep 22
     }

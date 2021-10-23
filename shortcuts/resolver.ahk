@@ -8,12 +8,6 @@ if (A_ScriptName = "LessKeys.exe")
 }
 
 
-
-#include %A_ScriptDir%\..\environmentDependent\COMMON\accentedCharacters.ahk
-#include %A_ScriptDir%\..\environmentDependent\COMMON\debug.ahk
-#include %A_ScriptDir%\..\environmentDependent\COMMON\functionKeys.ahk
-#include %A_ScriptDir%\..\environmentDependent\COMMON\rightClick.ahk
-#include %A_ScriptDir%\..\environmentDependent\COMMON\random.ahk
 #include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\modifierClick.ahk
 #include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\mloShortcutScripts.ahk
 #include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\freeplaneShortcutScripts.ahk
@@ -25,8 +19,9 @@ if (A_ScriptName = "LessKeys.exe")
 #include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\windowsShortcuts.ahk
 #include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\timedCapsLock.ahk
 #include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\autoSyncMlo.ahk
-#include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\wobblyKeyPress.ahk
-
+#include %A_ScriptDir%\..\environmentDependent\COMMON\accentedCharacters.ahk
+#include %A_ScriptDir%\..\environmentDependent\COMMON\functionKeys.ahk
+#include %A_ScriptDir%\..\environmentDependent\COMMON\random.ahk
 
 
 global resolverAction := object()
@@ -74,12 +69,9 @@ resolverAction[208] := func("winsplitMoveToArea8")
 resolverAction[209] := func("winsplitMoveToArea9")
 resolverAction[499] := func("timedCapsLock")
 resolverAction[500] := func("sendAccentedSibling")
-resolverAction[501] := func("rightClick")
-resolverAction[502] := func("sendTestMessage")
-resolverAction[503] := func("displayDebugData")
-resolverAction[504] := func("reloadApp")
-resolverAction[505] := func("exit")
-resolverAction[509] := func("storeDebugData")
+resolverAction[504] := func("reloadHookHandler")
+resolverAction[505] := func("exitHookHandler")
+resolverAction[509] := func("storeDebugLogHookHandler")
 global functionKeysStartIndexMinusOne := 510
 resolverAction[511] := func("sendFunctionKey")
 resolverAction[512] := func("sendFunctionKey")
@@ -95,10 +87,10 @@ resolverAction[521] := func("sendFunctionKey")
 resolverAction[522] := func("sendFunctionKey")
 resolverAction[523] := func("ignoreShortcut")
 resolverAction[524] := func("wobblyKeyPress")
+resolverAction[525] := func("toggleRealTimeDebug")
 
 processShortcut(index, combination)
 {
     debug("shortcut: " . combination)
     resolverAction[index].call(combination, index)
-    return false
 }

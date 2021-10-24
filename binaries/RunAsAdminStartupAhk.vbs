@@ -1,2 +1,2 @@
 Set app = CreateObject("Shell.Application")
-app.ShellExecute """.\..\..\..\..\_startDevelopment.ahk""", , , "runas", 3
+app.ShellExecute """.\..\..\..\lessKeys\_LessKeys_development.ahk""", , , "runas", 3

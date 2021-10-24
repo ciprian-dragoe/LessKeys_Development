@@ -17,8 +17,12 @@ timerSyncMlo()
 
 timerCheckAfterSyncReminders()
 {
+    critical
+    DetectHiddenWindows Off
     if (WinExist("MyLifeOrganized - Reminders"))
     {
+        DetectHiddenWindows On
+        critical off
         tooltip, `n`n`n`n`n========= CHECK REMINDERS =========`n`n`n`n`n
         SetTimer TimerCheckAfterSyncReminders, OFF
         SetTimer TimerCancelTooltip, OFF

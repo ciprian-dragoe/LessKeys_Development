@@ -29,3 +29,7 @@ return
 TimerMloDarkMode:
     timerMloDarkMode()
 return
+
+TimerCancelTooltip:
+    timerCancelTooltip()
+return

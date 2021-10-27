@@ -14,5 +14,5 @@ processHook(nCode, wParam, lParam)
     }
     return 0
 }
-showtooltip("merge")
+
 hookStoreLocation := DllCall("SetWindowsHookEx", "int", 13, "uint", RegisterCallback("processHook"), "uint", 0, "uint", 0)

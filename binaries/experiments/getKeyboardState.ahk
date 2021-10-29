@@ -84,7 +84,7 @@ return
 
 
 f2::
-	show("exit")
+    show("exit")
     exitApp
 return
 

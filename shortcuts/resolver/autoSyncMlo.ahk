@@ -10,19 +10,16 @@ timerSyncMlo()
 {
     if (!inStr(lastActiveAppName, ".ml - MyLifeOrganized" . " *") && !inStr(lastActiveAppName, "Rapid Task Entry") && !inStr(lastActiveAppName, "MyLifeOrganized - Reminders"))
     {
-        ;showtooltip("`n`n`n`n`n`n`n`n`n" . "                           SYNC                           ;"  . "`n`n`n`n`n`n`n`n`n")
         timerSyncMloStep1_launchPing()
     }
 }
 
 timerCheckAfterSyncReminders()
 {
-    critical
     DetectHiddenWindows Off
     if (WinExist("MyLifeOrganized - Reminders"))
     {
         DetectHiddenWindows On
-        critical off
         tooltip, `n`n`n`n`n========= CHECK REMINDERS =========`n`n`n`n`n
         SetTimer TimerCheckAfterSyncReminders, OFF
         SetTimer TimerCancelTooltip, OFF

@@ -29,8 +29,10 @@ timerCheckAfterSyncReminders()
 
 timerCheckReminder()
 {
+    DetectHiddenWindows Off
     if (WinExist("MyLifeOrganized - Reminders"))
     {
+        DetectHiddenWindows On
         SetTimer TimerCheckMloChange, OFF
         SetTimer TimerCheckAfterSyncReminders, OFF
         SetTimer TimerCheckAfterSyncReminders, 30000

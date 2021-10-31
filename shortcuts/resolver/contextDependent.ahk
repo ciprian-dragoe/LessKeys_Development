@@ -5,9 +5,19 @@ processModifierWithNumber(combination, index)
     {
         modifiers := SubStr(combination, 1, StrLen(combination)-1)
         extraInstructions := []
-        if (number = 1 || number = 2 || number = 3 || number = 4 || number = 5 || number = 6 || number = 7 || number = 9)
+        if (number = 1 || number = 2 || number = 3 || number = 4 || number = 5 || number = 6 || number = 9)
         {
             extraInstructions := ["{home}", "{F6}"] ; fold tasks
+        }
+        else if (number = 7 && modifiers = "^")
+        {
+            sendKeyCombinationIndependentActiveModifiers("^{F12}")
+            extraInstructions := ["{enter}", "{escape}", "{home}", "{F6}", "^+'", "!e"]
+        }
+        else if (number = 7 && modifiers = "^+")
+        {
+            sendKeyCombinationIndependentActiveModifiers("^{F12}")
+            extraInstructions := ["{enter}", "{escape}", "{home}", "{F6}", "{down}", "^+'", "!e"]
         }
         else if (number = 8)
         {

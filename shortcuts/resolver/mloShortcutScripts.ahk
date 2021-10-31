@@ -233,6 +233,7 @@ timerActivateMloRapidTaskWindow()
 
         WinMove, A,, 0, 0, (A_ScreenWidth), 500
     }
+    resetModifierWithoutTriggerUpState("lwin", winActive)
 }
 
 

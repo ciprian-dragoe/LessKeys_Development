@@ -6,6 +6,10 @@ activateWin1()
     send {blind}^{left}
     send {blind}1
     SetTimer, TimerMloDarkMode, 500
+    if (MLO_TIMER_FLASH_ARE_YOU_WORKING)
+    {
+        setTimer timerFlashMinutesUp, %MLO_TIMER_FLASH_ARE_YOU_WORKING%
+    }
 }
 
 activateWin2()

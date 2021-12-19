@@ -4,7 +4,7 @@ global MLO_FILTER_WINDOWS_NAME :="TEdit2_"
 global MLO_NAME := "MyLifeOrganized"
 global MLO_MOVE_UP_PIXELS
 global MLO_WINDOW_NAME := "MyLifeOrganized"
-
+global MLO_TIMER_FLASH_ARE_YOU_WORKING := 0
 
 
 if (A_ComputerName = ACTIVE_COMPUTER_1) {
@@ -285,4 +285,23 @@ setMloDarkMode(enabled)
         Gui, left:destroy
         Gui, right:destroy
     }
+}
+
+timerFlashMinutesUp()
+{
+    setTimer TimerFlashMinutesUp, OFF
+    MLO_TIMER_FLASH_ARE_YOU_WORKING := 60000
+    mloActive := WinActive("01-MY-LIST.ml")
+    if (mloActive)
+    {
+        setTimer TimerFlashMinutesUp, %MLO_TIMER_FLASH_ARE_YOU_WORKING%
+        enters := "`n`n`n`n`n`n`n`n`n`n"
+        spacing := "                        "
+        showtooltip(enters . spacing . "Timer UP" . spacing . enters)
+    }
+}
+
+stopTimerFlashMinutesUp()
+{
+    setTimer TimerFlashMinutesUp, off
 }

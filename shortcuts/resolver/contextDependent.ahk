@@ -4,10 +4,19 @@ processModifierWithNumber(combination, index)
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
         modifiers := SubStr(combination, 1, StrLen(combination)-1)
-        extraInstructions := []
-        if (number = 1 || number = 2 || number = 3 || number = 4 || number = 5 || number = 6 || number = 9)
+        extraInstructions := ["{home}", "{F6}"]
+
+        stopTimerFlashMinutesUp()
+        MLO_TIMER_FLASH_ARE_YOU_WORKING := 0
+        if (number = 5 && modifiers = "^")
         {
-            extraInstructions := ["{home}", "{F6}"] ; fold tasks
+            extraInstructions := ["{home}", "{F6}", "{right}"]
+        }
+        else if (number = 5 && modifiers = "^+")
+        {
+            MLO_TIMER_FLASH_ARE_YOU_WORKING := 180000
+            extraInstructions := []
+            setTimer timerFlashMinutesUp, %MLO_TIMER_FLASH_ARE_YOU_WORKING%
         }
         else if (number = 7 && modifiers = "^")
         {
@@ -19,6 +28,11 @@ processModifierWithNumber(combination, index)
             sendKeyCombinationIndependentActiveModifiers("^{F12}")
             extraInstructions := ["{enter}", "{escape}", "{home}", "{F6}", "{down}", "^+'", "!e"]
         }
+        else if (number = 7 && modifiers = "!+")
+        {
+            sendKeyCombinationIndependentActiveModifiers("^{F12}")
+            extraInstructions := ["{enter}", "{escape}", "{home}", "{F6}", "{down}", "{down}", "^+'", "!e"]
+        }
         else if (number = 8)
         {
             extraInstructions := ["{home}", "{F6}", "{end}"]
@@ -26,10 +40,6 @@ processModifierWithNumber(combination, index)
         else if (number = 0)
         {
             extraInstructions := []
-        }
-        else
-        {
-            extraInstructions := ["{home}"]
         }
 
         changeViewMlo(combination, extraInstructions)

@@ -6,6 +6,10 @@ TimerCheckAfterSyncReminders:
     timerCheckAfterSyncReminders()
 return
 
+TimerFlashMinutesUp:
+    timerFlashMinutesUp()
+return
+
 TimerCheckMloChange:
     timerCheckMloChange()
 return

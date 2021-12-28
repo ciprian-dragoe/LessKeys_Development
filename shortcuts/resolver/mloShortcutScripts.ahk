@@ -260,7 +260,7 @@ setMloDarkMode(enabled)
         Gui, color , 000000  ; set color value RGB
         Gui, bottom:show, w%bottomWidth% h%bottomHeight% x%bottomX% y%bottomY%
 
-        leftWidth := 20
+        leftWidth := 14
         leftHeight := A_ScreenHeight + 20
         leftX := -10
         leftY := 0

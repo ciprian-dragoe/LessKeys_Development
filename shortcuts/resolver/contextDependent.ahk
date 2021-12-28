@@ -8,38 +8,31 @@ processModifierWithNumber(combination, index)
 
         stopTimerFlashMinutesUp()
         MLO_TIMER_FLASH_ARE_YOU_WORKING := 0
-        if (number = 5 && modifiers = "^")
+        if (number = 1)
         {
-            extraInstructions := ["{home}", "{F6}", "{right}"]
+            extraInstructions := ["{home}", "{F7}"]
         }
-        else if (number = 5 && modifiers = "^+")
+        else if (number = 2 && modifiers = "^")
         {
             MLO_TIMER_FLASH_ARE_YOU_WORKING := 180000
-            extraInstructions := []
+            extraInstructions := ["{end}", "{F7}"]
             setTimer timerFlashMinutesUp, %MLO_TIMER_FLASH_ARE_YOU_WORKING%
         }
-        else if (number = 7 && modifiers = "^")
+        else if (number = 3 && modifiers = "^")
         {
-            sendKeyCombinationIndependentActiveModifiers("^{F12}")
-            extraInstructions := ["{enter}", "{escape}", "{home}", "{F6}", "^+'", "!e"]
+            MLO_TIMER_FLASH_ARE_YOU_WORKING := 180000
+            extraInstructions := ["{end}", "{F7}"]
+            setTimer timerFlashMinutesUp, %MLO_TIMER_FLASH_ARE_YOU_WORKING%
         }
-        else if (number = 7 && modifiers = "^+")
+        else if (number = 4 && modifiers = "^")
         {
-            sendKeyCombinationIndependentActiveModifiers("^{F12}")
-            extraInstructions := ["{enter}", "{escape}", "{home}", "{F6}", "{down}", "^+'", "!e"]
+            MLO_TIMER_FLASH_ARE_YOU_WORKING := 180000
+            extraInstructions := ["{end}", "{F7}"]
+            setTimer timerFlashMinutesUp, %MLO_TIMER_FLASH_ARE_YOU_WORKING%
         }
-        else if (number = 7 && modifiers = "!+")
+        else if (number = 5)
         {
-            sendKeyCombinationIndependentActiveModifiers("^{F12}")
-            extraInstructions := ["{enter}", "{escape}", "{home}", "{F6}", "{down}", "{down}", "^+'", "!e"]
-        }
-        else if (number = 8)
-        {
-            extraInstructions := ["{home}", "{F6}", "{end}"]
-        }
-        else if (number = 0)
-        {
-            extraInstructions := []
+            extraInstructions := ["{F7}", "{home}"]
         }
 
         changeViewMlo(combination, extraInstructions)

@@ -75,6 +75,8 @@ timerSyncMloStep2_readPing()
     {
         INTERNET_ACCESS := 1
         ControlSend, , {F9}, ahk_class %MLO_CLASS_NAME%
+        SetTimer TimerSyncMloStep3_syncCalendar, OFF
+        SetTimer TimerSyncMloStep3_syncCalendar, 10000
     }
     else
     {
@@ -83,6 +85,15 @@ timerSyncMloStep2_readPing()
     }
     SetTimer TimerCheckMloChange, OFF
     SetTimer TimerCheckMloChange, 1000
+}
+
+timerSyncMloStep3_syncCalendar()
+{
+    SetTimer TimerSyncMloStep3_syncCalendar, OFF
+    if (!inStr(lastActiveAppName, ".ml - MyLifeOrganized"))
+    {
+        ControlSend, , {F10}, ahk_class %MLO_CLASS_NAME%
+    }
 }
 
 resetTimerSyncMlo()

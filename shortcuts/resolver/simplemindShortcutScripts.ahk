@@ -1,37 +1,26 @@
-global SIMPLEMIND_MOVE_UP_PIXELS
-global SIMPLEMIND_MOVE_LEFT_PIXELS
-
-
-global SIMPLEMIND_NOTE_WINDOW_NAME := "Topic Properties"
 global SIMPLEMIND_WINDOW_NAME := "SimpleMind"
-global SIMPLEMIND_CLASS_NAME := "SunAwtDialog"
+global SIMPLEMIND_CLASSNN_NOTES := "TRichEditEx2"
 
 
-if (A_ComputerName = DEBUG_COMPUTER_1) {
-    SIMPLEMIND_MOVE_UP_PIXELS := -55
-    SIMPLEMIND_MOVE_LEFT_PIXELS := -10
-} else if (A_ComputerName = DEBUG_COMPUTER_2) {
-    SIMPLEMIND_MOVE_UP_PIXELS := -140
-    SIMPLEMIND_MOVE_LEFT_PIXELS := -14
-} else if (A_ComputerName = DEBUG_COMPUTER_3){
-    SIMPLEMIND_MOVE_UP_PIXELS := -100
-    SIMPLEMIND_MOVE_LEFT_PIXELS := -10
-}
-
-
-ShowSimplemindNotes(windowName)
+setSimplemindFocusTopic(topicName)
 {
-    send ^w
-    WinWaitActive, %windowName%, ,2
-    IfWinActive, %windowName%
+    ControlGetFocus, activeWindowNow, A
+    activeWindowNow := activeWindowNow . "_"  ; transform into a string so that comparison can work
+    SetTimer TimerStickyFailBack, off
+
+    IfInString, activeWindowNow, %SIMPLEMIND_CLASSNN_NOTES%
     {
-        WinMaximize
-        WinMove %SIMPLEMIND_MOVE_LEFT_PIXELS%, %SIMPLEMIND_MOVE_UP_PIXELS%
+        sendKeyCombinationIndependentActiveModifiers("+{tab 2}") ; focus mindmap area
+        sleep 100
     }
-}
-
-
-CloseSimplemindNotes()
-{
-    send {tab}{enter}
+    sendKeyCombinationIndependentActiveModifiers("^f") ; search for matching tasks
+    sleep 100
+    sendKeyCombinationIndependentActiveModifiers(topicName)
+    sleep 100
+    sendKeyCombinationIndependentActiveModifiers("{enter}")
+    sleep 100
+    send {blind}y ; center topic
+    sleep 100
+    sendKeyCombinationIndependentActiveModifiers("{tab 2}")
+    SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
 }

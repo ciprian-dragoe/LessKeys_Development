@@ -8,34 +8,27 @@ processModifierWithNumber(combination, index)
 
         stopTimerFlashMinutesUp()
         MLO_TIMER_FLASH_ARE_YOU_WORKING := 0
-        if (number = 1)
+        if (number = 9 && modifiers = "^")
         {
-            extraInstructions := ["{home}", "{F7}"]
-        }
-        else if (number = 2 && modifiers = "^")
-        {
-            MLO_TIMER_FLASH_ARE_YOU_WORKING := 180000
-            extraInstructions := ["{end}", "{F7}"]
+            MLO_TIMER_FLASH_ARE_YOU_WORKING := 3000000
             setTimer timerFlashMinutesUp, %MLO_TIMER_FLASH_ARE_YOU_WORKING%
         }
-        else if (number = 3 && modifiers = "^")
+        else if (number = 0)
         {
-            MLO_TIMER_FLASH_ARE_YOU_WORKING := 180000
-            extraInstructions := ["{end}", "{F7}"]
-            setTimer timerFlashMinutesUp, %MLO_TIMER_FLASH_ARE_YOU_WORKING%
+            extraInstructions := []
         }
-        else if (number = 4 && modifiers = "^")
+        else if (number = 8 && modifiers = "^")
         {
-            MLO_TIMER_FLASH_ARE_YOU_WORKING := 180000
-            extraInstructions := ["{end}", "{F7}"]
-            setTimer timerFlashMinutesUp, %MLO_TIMER_FLASH_ARE_YOU_WORKING%
-        }
-        else if (number = 5)
-        {
-            extraInstructions := ["{F7}", "{home}"]
+            extraInstructions := ["{F6}", "{home}", "{right}"]
         }
 
         changeViewMlo(combination, extraInstructions)
+        return
+    }
+
+    IfInString, lastActiveAppName, %SIMPLEMIND_WINDOW_NAME%
+    {
+        setSimplemindFocusTopic("@" . number)
         return
     }
 
@@ -112,27 +105,22 @@ processCtrlW()
             return
         }
     }
-    IfInString, lastActiveAppName, %FREEPLANE_NOTE_WINDOW_NAME%
-    {
-        CloseFreeplaneNotes()
-        return
-    } 
-    IfInString, lastActiveAppName, %FREEPLANE_WINDOW_NAME%
-    {
-        ShowFreeplaneNotes(FREEPLANE_NOTE_WINDOW_NAME)
-        return
-    }
+
     IfInString, lastActiveAppName, %SIMPLEMIND_WINDOW_NAME%
     {
-        ShowSimplemindNotes(SIMPLEMIND_NOTE_WINDOW_NAME)
+        ControlGetFocus, activeWindowNow, A
+        activeWindowNow := activeWindowNow . "_"  ; transform into a string so that comparison can work
+        IfInString, activeWindowNow, %SIMPLEMIND_CLASSNN_NOTES%
+        {
+            sendKeyCombinationIndependentActiveModifiers("+{tab 2}")
+        }
+        else
+        {
+            sendKeyCombinationIndependentActiveModifiers("{tab 2}")
+        }
         return
     }
-    IfInString, lastActiveAppName, %SIMPLEMIND_NOTE_WINDOW_NAME%
-    {
-        CloseSimplemindNotes()
-        return
-    }
-    
+
     send {blind}w
 }
 

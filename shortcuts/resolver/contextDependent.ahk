@@ -6,9 +6,19 @@ processModifierWithNumber(combination, index)
         modifiers := SubStr(combination, 1, StrLen(combination)-1)
         extraInstructions := ["{home}", "{F6}"]
 
-        stopTimerFlashMinutesUp()
-        MLO_TIMER_FLASH_ARE_YOU_WORKING := 0
-        if (number = 9 && modifiers = "^")
+        stopMloEnhancements()
+        if (number = 5 && modifiers = "^+")
+        {
+            MLO_MODIFY_ENTER_MODE := 1
+            showtooltip("MLO ENTER MODE")
+            setTimer timerMaintainMloEnterMode, 500
+            extraInstructions := ["{F7}"]
+        }
+        else if (number = 8 && modifiers = "^")
+        {
+            extraInstructions := ["{F6}", "{home}", "{right}"]
+        }
+        else if (number = 9 && modifiers = "^")
         {
             MLO_TIMER_FLASH_ARE_YOU_WORKING := 3000000
             setTimer timerFlashMinutesUp, %MLO_TIMER_FLASH_ARE_YOU_WORKING%
@@ -16,10 +26,6 @@ processModifierWithNumber(combination, index)
         else if (number = 0)
         {
             extraInstructions := []
-        }
-        else if (number = 8 && modifiers = "^")
-        {
-            extraInstructions := ["{F6}", "{home}", "{right}"]
         }
 
         changeViewMlo(combination, extraInstructions)
@@ -62,6 +68,32 @@ processCtrlShiftF()
     }
 
     send {blind}f
+}
+
+processEnter()
+{
+    if (MLO_MODIFY_ENTER_MODE)
+    {
+        SetTimer TimerStickyFailBack, off
+        send {enter}
+        sleep 500
+        send !e
+        return
+        SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
+    }
+
+    send {blind}{enter}
+}
+
+deactivateAlternativeMloMode(key)
+{
+    if (MLO_MODIFY_ENTER_MODE)
+    {
+        showtooltip("DEACTIVATE ENTER MODE")
+        MLO_MODIFY_ENTER_MODE := 0
+    }
+
+    send {blind}{%key%}
 }
 
 processCtrlF()

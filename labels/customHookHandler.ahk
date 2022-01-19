@@ -41,3 +41,7 @@ return
 TimerSyncMloStep3_syncCalendar:
     timerSyncMloStep3_syncCalendar()
 return
+
+TimerMaintainMloEnterMode:
+    timerMaintainMloEnterMode()
+return

@@ -5,6 +5,7 @@ global MLO_NAME := "MyLifeOrganized"
 global MLO_MOVE_UP_PIXELS
 global MLO_WINDOW_NAME := "MyLifeOrganized"
 global MLO_TIMER_FLASH_ARE_YOU_WORKING := 0
+global MLO_MODIFY_ENTER_MODE := 0
 
 
 if (A_ComputerName = ACTIVE_COMPUTER_1) {
@@ -301,7 +302,40 @@ timerFlashMinutesUp()
     }
 }
 
-stopTimerFlashMinutesUp()
+stopMloEnhancements()
 {
+    MLO_MODIFY_ENTER_MODE := 0
+    MLO_TIMER_FLASH_ARE_YOU_WORKING := 0
     setTimer TimerFlashMinutesUp, off
+    setTimer timerMaintainMloEnterMode, off
+}
+
+timerMloDarkMode()
+{
+    mloActive := WinActive("01-MY-LIST.ml")
+    if (mloActive)
+    {
+        if (!MLO_OVERLAY_ACTIVE)
+        {
+            MLO_OVERLAY_ACTIVE := 1
+            setMloDarkMode(1)
+            WinActivate ahk_class TfrmMyLifeMain, , 2 ; reselect mlo because overlay is not selected
+        }
+    }
+    else
+    {
+        SetTimer TimerMloDarkMode, OFF
+        MLO_MODIFY_ENTER_MODE := 0
+        MLO_OVERLAY_ACTIVE := 0
+        setMloDarkMode(0)
+    }
+}
+
+timerMaintainMloEnterMode()
+{
+    IfNotInString, lastActiveAppName, %MLO_WINDOW_NAME%
+    {
+        setTimer timerMaintainMloEnterMode, off
+        MLO_MODIFY_ENTER_MODE := 0
+    }
 }

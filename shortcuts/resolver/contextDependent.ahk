@@ -11,7 +11,6 @@ processModifierWithNumber(combination, index)
         {
             MLO_MODIFY_ENTER_MODE := 1
             setTimer timerMaintainMloEnterMode, 500
-            extraInstructions := ["{F7}"]
         }
         else if (number = 5 && modifiers = "^+")
         {

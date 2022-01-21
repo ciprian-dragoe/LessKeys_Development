@@ -47,7 +47,7 @@ contextDependentView()
     if (A_Hour >= 5 && A_Hour < 9)
     {
         ; ========== PLANIFIC
-        extraInstructions := ["{F7}", "{home}"]
+        extraInstructions := ["{F12}", "{home}"]
         changeViewMlo("^+9", extraInstructions)
     }
     else if (A_Hour >= 9 && A_Hour < 18 && (A_DDDD = "Saturday"))
@@ -68,13 +68,13 @@ contextDependentView()
     else if (A_Hour >= 21 && A_Hour < 25)
     {
         ; ========== PLANIFIC
-        extraInstructions := ["{F7}", "{home}"]
+        extraInstructions := ["{F12}", "{home}"]
         changeViewMlo("^+9", extraInstructions)
     }
     else
     {
         ; ========== PLANIFIC
-        extraInstructions := ["{F7}", "{home}"]
+        extraInstructions := ["{F12}", "{home}"]
         changeViewMlo("^+9", extraInstructions)
     }
 }
@@ -86,6 +86,7 @@ mloCloseFind()
 
 mloShowFind()
 {
+    SetTimer TimerStickyFailBack, off
     sendKeyCombinationIndependentActiveModifiers("^+!=") ; schimb workspace all tasks
     sendKeyCombinationIndependentActiveModifiers("^+=") ; schimb view search
     sleep 500
@@ -94,10 +95,11 @@ mloShowFind()
     ControlClick, TEdit2, A,,,, NA
     sendKeyCombinationIndependentActiveModifiers("^a")
     sendKeyCombinationIndependentActiveModifiers("{backspace}")
-    sleep 300
-    sendKeyCombinationIndependentActiveModifiers("{F7}") ; unfold all tasks
-    sleep 300
-    sendKeyCombinationIndependentActiveModifiers("{F7}") ; unfold all tasks
+    showtooltip("search")
+    sendKeyCombinationIndependentActiveModifiers("{F12}") ; unfold all tasks
+    sleep 700
+    sendKeyCombinationIndependentActiveModifiers("{F12}") ; unfold all tasks
+    SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
 }
 
 moveNoteWindowAndSetCursorEnd(direction)
@@ -351,10 +353,29 @@ goToTaskAndWriteNotes(key)
     {
         taskNumber := SubStr(key, 2, StrLen(key)) + 2
     }
+    view_hotkey := ["/", ".", ",", "m", "n", "b"][taskNumber]
+    send ^!{%view_hotkey%}
+
+
+    ;send ^{F11} ; collapse other subtasks
+    ;send !q ; open sub-tasks if any
+    ;openNotesAssociatedWithTask()
+
+    /* previous version
+    if (!isTaskWindowInFocus())
+    {
+        hideNotesAndFocusTasks()
+    }
+    taskNumber := SubStr(key, 2, StrLen(key)) - 4
+    if (taskNumber < 1)
+    {
+        taskNumber := SubStr(key, 2, StrLen(key)) + 2
+    }
     send %taskNumber%
     send ^{F11} ; collapse other subtasks
     send !q ; open sub-tasks if any
     openNotesAssociatedWithTask()
+    */
 
 
     /* previous version keeping for quick tests

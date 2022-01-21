@@ -4,19 +4,29 @@ processModifierWithNumber(combination, index)
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
         modifiers := SubStr(combination, 1, StrLen(combination)-1)
-        extraInstructions := ["{home}", "{F6}"]
+        extraInstructions := ["{home}", "{F11}"]
 
         stopMloEnhancements()
-        if (number = 5 && modifiers = "^+")
+        if (number = 1 || number = 2 || number = 3 || number = 4)
         {
             MLO_MODIFY_ENTER_MODE := 1
-            showtooltip("MLO ENTER MODE")
             setTimer timerMaintainMloEnterMode, 500
             extraInstructions := ["{F7}"]
         }
+        else if (number = 5 && modifiers = "^+")
+        {
+            sendKeyCombinationIndependentActiveModifiers("^+5")
+            sleep 300
+            sendKeyCombinationIndependentActiveModifiers("^a")
+            sleep 200
+            sendKeyCombinationIndependentActiveModifiers("{delete}")
+            sleep 200
+            sendKeyCombinationIndependentActiveModifiers("^5")
+            return
+        }
         else if (number = 8 && modifiers = "^")
         {
-            extraInstructions := ["{F6}", "{home}", "{right}"]
+            extraInstructions := ["{F11}", "{home}", "{right}"]
         }
         else if (number = 9 && modifiers = "^")
         {
@@ -218,4 +228,14 @@ processShiftF2()
     }
 
     send {blind}{F2}
+}
+
+processFunctionKey(key)
+{
+    IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
+    {
+        return goToTaskAndWriteNotes(key)
+    }
+
+    send {blind}{%key%}
 }

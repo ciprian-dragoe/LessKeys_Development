@@ -339,3 +339,42 @@ timerMaintainMloEnterMode()
         MLO_MODIFY_ENTER_MODE := 0
     }
 }
+
+goToTaskAndWriteNotes(key)
+{
+    if (!isTaskWindowInFocus())
+    {
+        hideNotesAndFocusTasks()
+    }
+    taskNumber := SubStr(key, 2, StrLen(key)) - 4
+    if (taskNumber < 1)
+    {
+        taskNumber := SubStr(key, 2, StrLen(key)) + 2
+    }
+    send %taskNumber%
+    send ^{F11} ; collapse other subtasks
+    send !q ; open sub-tasks if any
+    openNotesAssociatedWithTask()
+
+
+    /* previous version keeping for quick tests
+    if (!isTaskWindowInFocus())
+    {
+        hideNotesAndFocusTasks()
+    }
+    send {left 12}{F11}!q
+    goToBookmark := "+{" . key . "}"
+    sendKeyCombinationIndependentActiveModifiers(goToBookmark)
+    openNotesAssociatedWithTask()
+    */
+
+    /* previous version keeping for quick tests
+    if (!isTaskWindowInFocus())
+    {
+        hideNotesAndFocusTasks()
+    }
+    taskNumber := SubStr(key, 2, StrLen(key)) - 4
+    send {F11}{home}{down %taskNumber%}!q
+    openNotesAssociatedWithTask()
+    */
+}

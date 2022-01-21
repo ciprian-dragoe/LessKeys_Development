@@ -1,13 +1,13 @@
 global SIMPLEMIND_WINDOW_NAME := "SimpleMind"
-global SIMPLEMIND_CLASSNN_NOTES := "TRichEditEx2"
+global SIMPLEMIND_CLASSNN_NOTES := "TRichEditEx"
 
 
 setSimplemindFocusTopic(topicName)
 {
-    ControlGetFocus, activeWindowNow, A
-    activeWindowNow := activeWindowNow . "_"  ; transform into a string so that comparison can work
     SetTimer TimerStickyFailBack, off
 
+    ControlGetFocus, activeWindowNow, A
+    activeWindowNow := activeWindowNow . "_"  ; transform into a string so that comparison can work
     IfInString, activeWindowNow, %SIMPLEMIND_CLASSNN_NOTES%
     {
         sendKeyCombinationIndependentActiveModifiers("+{tab 2}") ; focus mindmap area

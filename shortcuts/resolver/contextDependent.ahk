@@ -9,13 +9,14 @@ processModifierWithNumber(combination, index)
         stopMloEnhancements()
         if (number = 1 || number = 2 || number = 3 || number = 4)
         {
-            MLO_ENTER_MODE := 1
-            setTimer timerMaintainMloEnterMode, 500
+            MLO_ENTER_MODE_NEW_CHILD := 1
+            setTimer TimerToggleMloMode, 500
         }
-        else if (number = 5 && modifiers = "^+")
+        else if (number = 5 && modifiers = "^")
         {
-            deleteStaleIdeas()
-            return
+            MLO_ENTER_MODE_BRAINSTORM := 1
+            extraInstructions := ["{F12}"]
+            setTimer, timerToggleMloMode, 500
         }
         else if (number = 8 && modifiers = "^")
         {
@@ -69,9 +70,14 @@ processCtrlShiftF()
 
 processEnter()
 {
-    if (MLO_ENTER_MODE)
+    if (MLO_ENTER_MODE_NEW_CHILD)
     {
         return confirmAndCreateAnotherTask()
+    }
+
+    if (MLO_ENTER_MODE_BRAINSTORM)
+    {
+        return newBrainStormTask("!w")
     }
 
     IfInString, lastActiveAppName, %SIMPLEMIND_WINDOW_NAME%
@@ -84,9 +90,9 @@ processEnter()
 
 deactivateAlternativeMloMode(key)
 {
-    if (MLO_ENTER_MODE)
+    if (MLO_ENTER_MODE_NEW_CHILD)
     {
-        MLO_ENTER_MODE := 0
+        MLO_ENTER_MODE_NEW_CHILD := 0
     }
 
     send {blind}{%key%}
@@ -249,4 +255,24 @@ processCtrlQ()
     }
 
     send ^q
+}
+
+processCtrlEnter()
+{
+    if (MLO_ENTER_MODE_BRAINSTORM)
+    {
+        return newBrainStormTask("!e")
+    }
+
+    send ^{enter}
+}
+
+processF2()
+{
+    if (MLO_ENTER_MODE_BRAINSTORM)
+    {
+        MLO_SKIP_NEXT_ENTER_MODE_BRAINSTORM := 1
+    }
+
+    send {F2}
 }

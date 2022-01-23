@@ -4,8 +4,10 @@ global MLO_FILTER_WINDOWS_NAME :="TEdit2_"
 global MLO_NAME := "MyLifeOrganized"
 global MLO_MOVE_UP_PIXELS
 global MLO_WINDOW_NAME := "MyLifeOrganized"
-global MLO_ENTER_MODE := 0
+global MLO_ENTER_MODE_NEW_CHILD := 0
 global MLO_OVERLAY_ACTIVE := 0
+global MLO_ENTER_MODE_BRAINSTORM := 0
+global MLO_SKIP_NEXT_ENTER_MODE_BRAINSTORM := 0
 
 
 if (A_ComputerName = ACTIVE_COMPUTER_1) {
@@ -305,10 +307,11 @@ timerFlashMinutesUp()
 
 stopMloEnhancements()
 {
-    MLO_ENTER_MODE := 0
+    MLO_ENTER_MODE_NEW_CHILD := 0
+    MLO_ENTER_MODE_BRAINSTORM := 0
     MLO_TIMER_FLASH_ARE_YOU_WORKING := 0
     setTimer TimerFlashMinutesUp, off
-    setTimer timerMaintainMloEnterMode, off
+    setTimer TimerToggleMloMode, off
 }
 
 timerMloDarkMode()
@@ -326,32 +329,32 @@ timerMloDarkMode()
     else
     {
         SetTimer TimerMloDarkMode, OFF
-        MLO_ENTER_MODE := 0
+        MLO_ENTER_MODE_NEW_CHILD := 0
         MLO_OVERLAY_ACTIVE := 0
         setMloDarkMode(0)
     }
 }
 
-timerMaintainMloEnterMode()
+timerToggleMloMode()
 {
     IfNotInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
-        setTimer timerMaintainMloEnterMode, off
-        MLO_ENTER_MODE := 0
+        stopMloEnhancements()
     }
 }
 
 goToTaskAndWriteNotes(key)
 {
-    if (!isTaskWindowInFocus())
-    {
-        hideNotesAndFocusTasks()
-    }
+    ;if (!isTaskWindowInFocus())
+    ;{
+    ;    hideNotesAndFocusTasks()
+    ;}
     taskNumber := SubStr(key, 2, StrLen(key)) - 4
     if (taskNumber < 1)
     {
         taskNumber := SubStr(key, 2, StrLen(key)) + 2
     }
+    send {escape}
     send %taskNumber%
     send ^{F11} ; collapse other subtasks
     send !q ; open sub-tasks if any
@@ -360,10 +363,6 @@ goToTaskAndWriteNotes(key)
 
 deleteStaleIdeas()
 {
-    if (!isTaskWindowInFocus())
-    {
-        hideNotesAndFocusTasks()
-    }
     sendKeyCombinationIndependentActiveModifiers("^+5")
     sleep 300
     sendKeyCombinationIndependentActiveModifiers("^a")
@@ -380,5 +379,24 @@ confirmAndCreateAnotherTask()
     sleep 500
     send !e
     return
+    SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
+}
+
+newBrainStormTask(taskMode)
+{
+    if (MLO_SKIP_NEXT_ENTER_MODE_BRAINSTORM)
+    {
+        MLO_SKIP_NEXT_ENTER_MODE_BRAINSTORM := 0
+        sendKeyCombinationIndependentActiveModifiers("{enter}")
+        return
+    }
+
+    SetTimer TimerStickyFailBack, off
+
+    sendKeyCombinationIndependentActiveModifiers("{enter}")
+    sleep 50
+    sendKeyCombinationIndependentActiveModifiers("{F5}")
+    sendKeyCombinationIndependentActiveModifiers(taskMode)
+
     SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
 }

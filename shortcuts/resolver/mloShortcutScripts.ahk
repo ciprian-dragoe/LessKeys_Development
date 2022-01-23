@@ -4,8 +4,8 @@ global MLO_FILTER_WINDOWS_NAME :="TEdit2_"
 global MLO_NAME := "MyLifeOrganized"
 global MLO_MOVE_UP_PIXELS
 global MLO_WINDOW_NAME := "MyLifeOrganized"
-global MLO_TIMER_FLASH_ARE_YOU_WORKING := 0
-global MLO_MODIFY_ENTER_MODE := 0
+global MLO_ENTER_MODE := 0
+global MLO_OVERLAY_ACTIVE := 0
 
 
 if (A_ComputerName = ACTIVE_COMPUTER_1) {
@@ -95,7 +95,6 @@ mloShowFind()
     ControlClick, TEdit2, A,,,, NA
     sendKeyCombinationIndependentActiveModifiers("^a")
     sendKeyCombinationIndependentActiveModifiers("{backspace}")
-    showtooltip("search")
     sendKeyCombinationIndependentActiveModifiers("{F12}") ; unfold all tasks
     sleep 700
     sendKeyCombinationIndependentActiveModifiers("{F12}") ; unfold all tasks
@@ -306,7 +305,7 @@ timerFlashMinutesUp()
 
 stopMloEnhancements()
 {
-    MLO_MODIFY_ENTER_MODE := 0
+    MLO_ENTER_MODE := 0
     MLO_TIMER_FLASH_ARE_YOU_WORKING := 0
     setTimer TimerFlashMinutesUp, off
     setTimer timerMaintainMloEnterMode, off
@@ -327,7 +326,7 @@ timerMloDarkMode()
     else
     {
         SetTimer TimerMloDarkMode, OFF
-        MLO_MODIFY_ENTER_MODE := 0
+        MLO_ENTER_MODE := 0
         MLO_OVERLAY_ACTIVE := 0
         setMloDarkMode(0)
     }
@@ -338,7 +337,7 @@ timerMaintainMloEnterMode()
     IfNotInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
         setTimer timerMaintainMloEnterMode, off
-        MLO_MODIFY_ENTER_MODE := 0
+        MLO_ENTER_MODE := 0
     }
 }
 
@@ -353,49 +352,33 @@ goToTaskAndWriteNotes(key)
     {
         taskNumber := SubStr(key, 2, StrLen(key)) + 2
     }
-    view_hotkey := ["/", ".", ",", "m", "n", "b"][taskNumber]
-    send ^!{%view_hotkey%}
-
-
-    ;send ^{F11} ; collapse other subtasks
-    ;send !q ; open sub-tasks if any
-    ;openNotesAssociatedWithTask()
-
-    /* previous version
-    if (!isTaskWindowInFocus())
-    {
-        hideNotesAndFocusTasks()
-    }
-    taskNumber := SubStr(key, 2, StrLen(key)) - 4
-    if (taskNumber < 1)
-    {
-        taskNumber := SubStr(key, 2, StrLen(key)) + 2
-    }
     send %taskNumber%
     send ^{F11} ; collapse other subtasks
     send !q ; open sub-tasks if any
-    openNotesAssociatedWithTask()
-    */
+    ;openNotesAssociatedWithTask()
+}
 
-
-    /* previous version keeping for quick tests
+deleteStaleIdeas()
+{
     if (!isTaskWindowInFocus())
     {
         hideNotesAndFocusTasks()
     }
-    send {left 12}{F11}!q
-    goToBookmark := "+{" . key . "}"
-    sendKeyCombinationIndependentActiveModifiers(goToBookmark)
-    openNotesAssociatedWithTask()
-    */
+    sendKeyCombinationIndependentActiveModifiers("^+5")
+    sleep 300
+    sendKeyCombinationIndependentActiveModifiers("^a")
+    sleep 200
+    sendKeyCombinationIndependentActiveModifiers("{delete}")
+    sleep 200
+    sendKeyCombinationIndependentActiveModifiers("^5")
+}
 
-    /* previous version keeping for quick tests
-    if (!isTaskWindowInFocus())
-    {
-        hideNotesAndFocusTasks()
-    }
-    taskNumber := SubStr(key, 2, StrLen(key)) - 4
-    send {F11}{home}{down %taskNumber%}!q
-    openNotesAssociatedWithTask()
-    */
+confirmAndCreateAnotherTask()
+{
+    SetTimer TimerStickyFailBack, off
+    send {enter}
+    sleep 500
+    send !e
+    return
+    SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
 }

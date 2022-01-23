@@ -9,18 +9,12 @@ processModifierWithNumber(combination, index)
         stopMloEnhancements()
         if (number = 1 || number = 2 || number = 3 || number = 4)
         {
-            MLO_MODIFY_ENTER_MODE := 1
+            MLO_ENTER_MODE := 1
             setTimer timerMaintainMloEnterMode, 500
         }
         else if (number = 5 && modifiers = "^+")
         {
-            sendKeyCombinationIndependentActiveModifiers("^+5")
-            sleep 300
-            sendKeyCombinationIndependentActiveModifiers("^a")
-            sleep 200
-            sendKeyCombinationIndependentActiveModifiers("{delete}")
-            sleep 200
-            sendKeyCombinationIndependentActiveModifiers("^5")
+            deleteStaleIdeas()
             return
         }
         else if (number = 8 && modifiers = "^")
@@ -38,12 +32,6 @@ processModifierWithNumber(combination, index)
         }
 
         changeViewMlo(combination, extraInstructions)
-        return
-    }
-
-    IfInString, lastActiveAppName, %SIMPLEMIND_WINDOW_NAME%
-    {
-        setSimplemindFocusTopic("@" . number)
         return
     }
 
@@ -81,14 +69,14 @@ processCtrlShiftF()
 
 processEnter()
 {
-    if (MLO_MODIFY_ENTER_MODE)
+    if (MLO_ENTER_MODE)
     {
-        SetTimer TimerStickyFailBack, off
-        send {enter}
-        sleep 500
-        send !e
-        return
-        SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
+        return confirmAndCreateAnotherTask()
+    }
+
+    IfInString, lastActiveAppName, %SIMPLEMIND_WINDOW_NAME%
+    {
+        return simplemindClearIdeas()
     }
 
     send {blind}{enter}
@@ -96,10 +84,9 @@ processEnter()
 
 deactivateAlternativeMloMode(key)
 {
-    if (MLO_MODIFY_ENTER_MODE)
+    if (MLO_ENTER_MODE)
     {
-        showtooltip("DEACTIVATE ENTER MODE")
-        MLO_MODIFY_ENTER_MODE := 0
+        MLO_ENTER_MODE := 0
     }
 
     send {blind}{%key%}
@@ -236,5 +223,30 @@ processFunctionKey(key)
         return goToTaskAndWriteNotes(key)
     }
 
+    IfInString, lastActiveAppName, %SIMPLEMIND_WINDOW_NAME%
+    {
+        return setSimplemindFocusTopic(key)
+    }
+
     send {blind}{%key%}
+}
+
+processNavigation(key)
+{
+    IfInString, lastActiveAppName, %SIMPLEMIND_WINDOW_NAME%
+    {
+        return navigateAndCenter(key)
+    }
+
+    send {blind}{%key%}
+}
+
+processCtrlQ()
+{
+    IfInString, lastActiveAppName, %SIMPLEMIND_WINDOW_NAME%
+    {
+        return centerBrainstorm()
+    }
+
+    send ^q
 }

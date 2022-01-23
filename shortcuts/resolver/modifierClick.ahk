@@ -1,6 +1,3 @@
-global MLO_OVERLAY_ACTIVE := 0
-
-
 activateWin1()
 {
     send {blind}^{left}

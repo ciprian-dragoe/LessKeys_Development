@@ -7,7 +7,6 @@ global MLO_WINDOW_NAME := "MyLifeOrganized"
 global MLO_ENTER_MODE_NEW_CHILD := 0
 global MLO_OVERLAY_ACTIVE := 0
 global MLO_ENTER_MODE_BRAINSTORM := 0
-global MLO_SKIP_NEXT_ENTER_MODE_BRAINSTORM := 0
 
 
 if (A_ComputerName = ACTIVE_COMPUTER_1) {
@@ -266,16 +265,16 @@ setMloDarkMode(enabled)
 
         leftWidth := 14
         leftHeight := A_ScreenHeight + 20
-        leftX := -10
+        leftX := 0
         leftY := 0
         Gui, left:new
         Gui, +toolwindow -caption +alwaysontop
         Gui, color , 000000  ; set color value RGB
         Gui, left:show, w%leftWidth% h%leftHeight% x%leftX% y%leftY%
 
-        rightWidth := 70
+        rightWidth := 45
         rightHeight := A_ScreenHeight + 20
-        rightX := A_ScreenWidth - 28
+        rightX := A_ScreenWidth - rightWidth
         rightY := 0
         Gui, right:new
         Gui, +toolwindow -caption +alwaysontop
@@ -295,8 +294,7 @@ timerFlashMinutesUp()
 {
     setTimer TimerFlashMinutesUp, OFF
     MLO_TIMER_FLASH_ARE_YOU_WORKING := 60000
-    mloActive := WinActive("01-MY-LIST.ml")
-    if (mloActive)
+    IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
         setTimer TimerFlashMinutesUp, %MLO_TIMER_FLASH_ARE_YOU_WORKING%
         enters := "`n`n`n`n`n`n`n`n`n`n"
@@ -311,7 +309,6 @@ stopMloEnhancements()
     MLO_ENTER_MODE_BRAINSTORM := 0
     MLO_TIMER_FLASH_ARE_YOU_WORKING := 0
     setTimer TimerFlashMinutesUp, off
-    setTimer TimerToggleMloMode, off
 }
 
 timerMloDarkMode()
@@ -332,14 +329,6 @@ timerMloDarkMode()
         MLO_ENTER_MODE_NEW_CHILD := 0
         MLO_OVERLAY_ACTIVE := 0
         setMloDarkMode(0)
-    }
-}
-
-timerToggleMloMode()
-{
-    IfNotInString, lastActiveAppName, %MLO_WINDOW_NAME%
-    {
-        stopMloEnhancements()
     }
 }
 
@@ -382,21 +371,48 @@ confirmAndCreateAnotherTask()
     SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
 }
 
-newBrainStormTask(taskMode)
+newBrainStormTask()
 {
-    if (MLO_SKIP_NEXT_ENTER_MODE_BRAINSTORM)
-    {
-        MLO_SKIP_NEXT_ENTER_MODE_BRAINSTORM := 0
-        sendKeyCombinationIndependentActiveModifiers("{enter}")
-        return
-    }
-
     SetTimer TimerStickyFailBack, off
 
-    sendKeyCombinationIndependentActiveModifiers("{enter}")
+    sendKeyCombinationIndependentActiveModifiers("{space}{enter}")
     sleep 50
     sendKeyCombinationIndependentActiveModifiers("{F5}")
-    sendKeyCombinationIndependentActiveModifiers(taskMode)
+    sendKeyCombinationIndependentActiveModifiers("!w")
 
     SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
+}
+
+setEnterBrainstormMode(combination)
+{
+    MLO_ENTER_MODE_BRAINSTORM := 1
+    sendKeyCombinationIndependentActiveModifiers(combination)
+}
+
+changeViewMloFactory(combination)
+{
+    number := SubStr(combination, 0, 1)
+    modifiers := SubStr(combination, 1, StrLen(combination)-1)
+
+    extraInstructions := ["{home}", "{F11}"]
+    stopMloEnhancements()
+    if (number = 1 || number = 2 || number = 3 || number = 4)
+    {
+        MLO_ENTER_MODE_NEW_CHILD := 1
+    }
+    else if (number = 5 && modifiers = "^")
+    {
+        MLO_TIMER_FLASH_ARE_YOU_WORKING := 3000000
+        setTimer timerFlashMinutesUp, %MLO_TIMER_FLASH_ARE_YOU_WORKING%
+    }
+    else if (number = 8 && modifiers = "^")
+    {
+        extraInstructions := ["{F11}", "{home}", "{right}"]
+    }
+    else if (number = 0)
+    {
+        extraInstructions := []
+    }
+
+    changeViewMlo(combination, extraInstructions)
 }

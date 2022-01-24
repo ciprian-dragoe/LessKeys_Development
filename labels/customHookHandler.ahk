@@ -41,7 +41,3 @@ return
 TimerSyncMloStep3_syncCalendar:
     timerSyncMloStep3_syncCalendar()
 return
-
-TimerToggleMloMode:
-    timerToggleMloMode()
-return

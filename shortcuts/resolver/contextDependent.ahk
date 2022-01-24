@@ -1,39 +1,8 @@
 processModifierWithNumber(combination, index)
 {
-    number := SubStr(combination, 0, 1)
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
-        modifiers := SubStr(combination, 1, StrLen(combination)-1)
-        extraInstructions := ["{home}", "{F11}"]
-
-        stopMloEnhancements()
-        if (number = 1 || number = 2 || number = 3 || number = 4)
-        {
-            MLO_ENTER_MODE_NEW_CHILD := 1
-            setTimer TimerToggleMloMode, 500
-        }
-        else if (number = 5 && modifiers = "^")
-        {
-            MLO_ENTER_MODE_BRAINSTORM := 1
-            extraInstructions := ["{F12}"]
-            setTimer, timerToggleMloMode, 500
-        }
-        else if (number = 8 && modifiers = "^")
-        {
-            extraInstructions := ["{F11}", "{home}", "{right}"]
-        }
-        else if (number = 9 && modifiers = "^")
-        {
-            MLO_TIMER_FLASH_ARE_YOU_WORKING := 3000000
-            setTimer timerFlashMinutesUp, %MLO_TIMER_FLASH_ARE_YOU_WORKING%
-        }
-        else if (number = 0)
-        {
-            extraInstructions := []
-        }
-
-        changeViewMlo(combination, extraInstructions)
-        return
+        return changeViewMloFactory(combination)
     }
 
     send {blind}{%number%}
@@ -43,13 +12,10 @@ processCtrlE()
 {
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
-        WinGetClass, lastActiveClassName, A
-        IfInString, lastActiveClassName, %MLO_CLASS_NAME%
-        {
-            sendKeyCombinationIndependentActiveModifiers("!w")
-            return
-        }
+        MLO_ENTER_MODE_BRAINSTORM := 0
+        return sendKeyCombinationIndependentActiveModifiers("!w")
     }
+
     send {blind}e
 }
 
@@ -77,7 +43,7 @@ processEnter()
 
     if (MLO_ENTER_MODE_BRAINSTORM)
     {
-        return newBrainStormTask("!w")
+        return newBrainStormTask()
     }
 
     IfInString, lastActiveAppName, %SIMPLEMIND_WINDOW_NAME%
@@ -117,12 +83,8 @@ processCtrlR()
 {
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
-        WinGetClass, lastActiveClassName, A
-        IfInString, lastActiveClassName, %MLO_CLASS_NAME%
-        {
-            sendKeyCombinationIndependentActiveModifiers("!e")
-            return
-        }
+        MLO_ENTER_MODE_BRAINSTORM := 0
+        return sendKeyCombinationIndependentActiveModifiers("!e")
     }
     
     send {blind}r
@@ -261,7 +223,7 @@ processCtrlEnter()
 {
     if (MLO_ENTER_MODE_BRAINSTORM)
     {
-        return newBrainStormTask("!e")
+        return newBrainStormTask()
     }
 
     send ^{enter}
@@ -271,8 +233,24 @@ processF2()
 {
     if (MLO_ENTER_MODE_BRAINSTORM)
     {
-        MLO_SKIP_NEXT_ENTER_MODE_BRAINSTORM := 1
+        MLO_ENTER_MODE_BRAINSTORM := 0
     }
 
     send {F2}
+}
+
+processCtrlShiftE()
+{
+    IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
+    {
+        return setEnterBrainstormMode("!w")
+    }
+}
+
+processCtrlShiftR()
+{
+    IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
+    {
+        return setEnterBrainstormMode("!e")
+    }
 }

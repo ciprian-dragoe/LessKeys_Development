@@ -1,6 +1,6 @@
 ;BlockInput, On
 
-showToolTip(value, time = 600)
+show(value, time = 600)
 {
     tooltip, |%value%|
     sleep %time%
@@ -22,7 +22,7 @@ processHook(nCode, wParam, lParam)
 			initial := initial * initial
 		}
 		elapsedtime := A_TickCount - starttime
-		;showtooltip("keyScanCode = " . keyScanCode . "    wParam = " . wParam . "    time = " . elapsedtime)
+		;show("keyScanCode = " . keyScanCode . "    wParam = " . wParam . "    time = " . elapsedtime)
     }
 
 	if (wParam = 256)

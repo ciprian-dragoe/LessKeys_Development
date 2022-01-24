@@ -6,6 +6,10 @@ global MLO_MOVE_UP_PIXELS
 global MLO_WINDOW_NAME := "MyLifeOrganized"
 global MLO_ENTER_MODE_NEW_CHILD := 0
 global MLO_ENTER_MODE_BRAINSTORM := 0
+global MLO_REMINDER_TIMER_STANDING := 900000
+global MLO_REMINDER_TIMER_SITTING := 1500000
+global MLO_REMINDER_TIMER_WALKING := 180000
+global MLO_REMINDER_TIMER := 0
 
 
 if (A_ComputerName = ACTIVE_COMPUTER_1) {
@@ -16,16 +20,6 @@ else if (A_ComputerName = ACTIVE_COMPUTER_2) {
 }
 else if (A_ComputerName = ACTIVE_COMPUTER_3) {
     MLO_MOVE_UP_PIXELS := -115
-}
-
-setContextMlo(number)
-{
-    send !l ; context window
-    sleep 100
-    send %number%
-    send {space}
-    send {enter}
-    hideNotesAndFocusTasks()
 }
 
 changeViewMlo(viewCombination, extraInstructions)
@@ -113,27 +107,6 @@ moveNoteWindowAndSetCursorEnd(direction)
     {
         send ^{%direction%}
     }
-}
-
-toggleMaximizeMloWindow()
-{
-    WinGetClass, activeProgramWindowClass, A
-    if (activeProgramWindowClass = MLO_CLASS_NAME)
-    {
-        WinMinimize, A
-    }
-    else
-    {
-        SetTitleMatchMode, 2
-        WinActivate, %MLO_NAME%, , 2
-        WinWait, %MLO_NAME%, , 2
-        setMloWindowPosition()
-    }
-}
-
-setMloWindowPosition()
-{
-    WinMove, , %MLO_MOVE_UP_PIXELS%
 }
 
 hideShowMLOnotes()
@@ -238,7 +211,6 @@ timerActivateMloRapidTaskWindow()
     resetModifierWithoutTriggerUpState("lwin", winActive)
 }
 
-
 ; reduce scroll bar width in windows https://www.thewindowsclub.com/windows-8-scroll-bar-hard-see-change-windows-8-scrollbar-width
 setMloDarkMode(enabled)
 {
@@ -294,21 +266,40 @@ setMloDarkMode(enabled)
 timerFlashMinutesUp()
 {
     setTimer TimerFlashMinutesUp, OFF
-    MLO_TIMER_FLASH_ARE_YOU_WORKING := 60000
+    if (MLO_REMINDER_TIMER = MLO_REMINDER_TIMER_STANDING)
+    {
+        MLO_REMINDER_TIMER := MLO_REMINDER_TIMER_SITTING
+    }
+    else if (MLO_REMINDER_TIMER = MLO_REMINDER_TIMER_SITTING)
+    {
+        MLO_REMINDER_TIMER := MLO_REMINDER_TIMER_WALKING
+    }
+    else if (MLO_REMINDER_TIMER = MLO_REMINDER_TIMER_WALKING)
+    {
+        MLO_REMINDER_TIMER := MLO_REMINDER_TIMER_STANDING
+    }
+
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
-        setTimer TimerFlashMinutesUp, %MLO_TIMER_FLASH_ARE_YOU_WORKING%
+        SetTimer TimerStickyFailBack, off
+
+        setTimer TimerFlashMinutesUp, %MLO_REMINDER_TIMER%
         enters := "`n`n`n`n`n`n`n`n`n`n"
         spacing := "                        "
-        showtooltip(enters . spacing . "Timer UP" . spacing . enters)
+        showtooltip(enters . spacing . "Timer UP" . spacing . enters, 2000, A_CaretX, A_CaretY)
+
+        SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
     }
 }
 
-stopMloEnhancements(deactivateDarkMode = 0)
+stopMloEnhancements(deactivateDarkMode = 0, deactivateReminderTime = 0)
 {
     MLO_ENTER_MODE_NEW_CHILD := 0
     MLO_ENTER_MODE_BRAINSTORM := 0
-    MLO_TIMER_FLASH_ARE_YOU_WORKING := 0
+    if (deactivateReminderTime)
+    {
+        MLO_REMINDER_TIMER := 0
+    }
     if (deactivateDarkMode)
     {
         setMloDarkMode(0)
@@ -328,10 +319,6 @@ timerMloEnhancements()
 
 goToTaskAndWriteNotes(key)
 {
-    ;if (!isTaskWindowInFocus())
-    ;{
-    ;    hideNotesAndFocusTasks()
-    ;}
     taskNumber := SubStr(key, 2, StrLen(key)) - 4
     if (taskNumber < 1)
     {
@@ -341,18 +328,6 @@ goToTaskAndWriteNotes(key)
     send %taskNumber%
     send ^{F11} ; collapse other subtasks
     send !q ; open sub-tasks if any
-    ;openNotesAssociatedWithTask()
-}
-
-deleteStaleIdeas()
-{
-    sendKeyCombinationIndependentActiveModifiers("^+5")
-    sleep 300
-    sendKeyCombinationIndependentActiveModifiers("^a")
-    sleep 200
-    sendKeyCombinationIndependentActiveModifiers("{delete}")
-    sleep 200
-    sendKeyCombinationIndependentActiveModifiers("^5")
 }
 
 confirmAndCreateAnotherTask()
@@ -386,15 +361,15 @@ setEnterBrainstormMode(combination)
 changeViewMloFactory(number, modifiers)
 {
     extraInstructions := ["{home}", "{F11}"]
-    stopMloEnhancements()
+    stopMloEnhancements(0, 1)
     if (number = 1 || number = 2 || number = 3 || number = 4)
     {
         MLO_ENTER_MODE_NEW_CHILD := 1
     }
     else if (number = 5 && modifiers = "^")
     {
-        MLO_TIMER_FLASH_ARE_YOU_WORKING := 3000000
-        setTimer timerFlashMinutesUp, %MLO_TIMER_FLASH_ARE_YOU_WORKING%
+        MLO_REMINDER_TIMER := MLO_REMINDER_TIMER_STANDING
+        setTimer timerFlashMinutesUp, %MLO_REMINDER_TIMER%
     }
     else if (number = 8 && modifiers = "^")
     {

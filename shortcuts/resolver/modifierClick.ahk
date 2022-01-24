@@ -1,11 +1,20 @@
 activateWin1()
 {
     send {blind}^{left}
-    send {blind}1
-    SetTimer, TimerMloDarkMode, 500
-    if (MLO_TIMER_FLASH_ARE_YOU_WORKING)
+
+    mloActive := WinActive(MLO_WINDOW_NAME)
+    if (!mloActive)
     {
-        setTimer timerFlashMinutesUp, %MLO_TIMER_FLASH_ARE_YOU_WORKING%
+        setMloDarkMode(1)
+        if (MLO_TIMER_FLASH_ARE_YOU_WORKING)
+        {
+            setTimer timerFlashMinutesUp, %MLO_TIMER_FLASH_ARE_YOU_WORKING%
+        }
+        SetTimer, TimerMloEnhancements, 500
+    }
+    else
+    {
+        send {blind}1
     }
 }
 

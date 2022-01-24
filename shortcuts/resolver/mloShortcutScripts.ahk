@@ -5,7 +5,6 @@ global MLO_NAME := "MyLifeOrganized"
 global MLO_MOVE_UP_PIXELS
 global MLO_WINDOW_NAME := "MyLifeOrganized"
 global MLO_ENTER_MODE_NEW_CHILD := 0
-global MLO_OVERLAY_ACTIVE := 0
 global MLO_ENTER_MODE_BRAINSTORM := 0
 
 
@@ -280,6 +279,8 @@ setMloDarkMode(enabled)
         Gui, +toolwindow -caption +alwaysontop
         Gui, color , 000000  ; set color value RGB
         Gui, right:show, w%rightWidth% h%rightHeight% x%rightX% y%rightY%
+
+        WinActivate ahk_class TfrmMyLifeMain, , 2 ; reselect mlo because overlay is not selected
     }
     else
     {
@@ -303,32 +304,25 @@ timerFlashMinutesUp()
     }
 }
 
-stopMloEnhancements()
+stopMloEnhancements(deactivateDarkMode = 0)
 {
     MLO_ENTER_MODE_NEW_CHILD := 0
     MLO_ENTER_MODE_BRAINSTORM := 0
     MLO_TIMER_FLASH_ARE_YOU_WORKING := 0
+    if (deactivateDarkMode)
+    {
+        setMloDarkMode(0)
+        SetTimer TimerMloEnhancements, off
+    }
+
     setTimer TimerFlashMinutesUp, off
 }
 
-timerMloDarkMode()
+timerMloEnhancements()
 {
-    mloActive := WinActive("01-MY-LIST.ml")
-    if (mloActive)
+    IfNotInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
-        if (!MLO_OVERLAY_ACTIVE)
-        {
-            MLO_OVERLAY_ACTIVE := 1
-            setMloDarkMode(1)
-            WinActivate ahk_class TfrmMyLifeMain, , 2 ; reselect mlo because overlay is not selected
-        }
-    }
-    else
-    {
-        SetTimer TimerMloDarkMode, OFF
-        MLO_ENTER_MODE_NEW_CHILD := 0
-        MLO_OVERLAY_ACTIVE := 0
-        setMloDarkMode(0)
+        stopMloEnhancements(1)
     }
 }
 
@@ -389,11 +383,8 @@ setEnterBrainstormMode(combination)
     sendKeyCombinationIndependentActiveModifiers(combination)
 }
 
-changeViewMloFactory(combination)
+changeViewMloFactory(number, modifiers)
 {
-    number := SubStr(combination, 0, 1)
-    modifiers := SubStr(combination, 1, StrLen(combination)-1)
-
     extraInstructions := ["{home}", "{F11}"]
     stopMloEnhancements()
     if (number = 1 || number = 2 || number = 3 || number = 4)
@@ -414,5 +405,5 @@ changeViewMloFactory(combination)
         extraInstructions := []
     }
 
-    changeViewMlo(combination, extraInstructions)
+    changeViewMlo(modifiers . number, extraInstructions)
 }

@@ -1,8 +1,12 @@
+
 processModifierWithNumber(combination, index)
 {
+    number := SubStr(combination, 0, 1)
+    modifiers := SubStr(combination, 1, StrLen(combination)-1)
+
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
-        return changeViewMloFactory(combination)
+        return changeViewMloFactory(number, modifiers)
     }
 
     send {blind}{%number%}
@@ -75,7 +79,7 @@ processCtrlF()
             return
         }
     }
-    
+
     send {blind}f
 }
 
@@ -86,7 +90,7 @@ processCtrlR()
         MLO_ENTER_MODE_BRAINSTORM := 0
         return sendKeyCombinationIndependentActiveModifiers("!e")
     }
-    
+
     send {blind}r
 }
 
@@ -245,6 +249,8 @@ processCtrlShiftE()
     {
         return setEnterBrainstormMode("!w")
     }
+
+    send {blind}e
 }
 
 processCtrlShiftR()
@@ -253,4 +259,6 @@ processCtrlShiftR()
     {
         return setEnterBrainstormMode("!e")
     }
+
+    send {blind}r
 }

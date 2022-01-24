@@ -30,8 +30,8 @@ TimerActivateMloRapidTaskWindow:
     timerActivateMloRapidTaskWindow()
 return
 
-TimerMloDarkMode:
-    timerMloDarkMode()
+TimerMloEnhancements:
+    timerMloEnhancements()
 return
 
 TimerCancelTooltip:

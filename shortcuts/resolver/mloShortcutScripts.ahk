@@ -10,16 +10,20 @@ global MLO_REMINDER_TIMER_STANDING := 900000
 global MLO_REMINDER_TIMER_SITTING := 1500000
 global MLO_REMINDER_TIMER_WALKING := 180000
 global MLO_REMINDER_TIMER := 0
+global MLO_FLAGS_PATH := 0
 
 
 if (A_ComputerName = ACTIVE_COMPUTER_1) {
     MLO_MOVE_UP_PIXELS := -115
+    MLO_FLAGS_PATH := "d:\sync\cipi\MOBILE-SYNC\mlo-flags.txt"
 }
 else if (A_ComputerName = ACTIVE_COMPUTER_2) {
     MLO_MOVE_UP_PIXELS := -115
+    MLO_FLAGS_PATH := "d:\sync\cipi\MOBILE-SYNC\mlo-flags.txt"
 }
 else if (A_ComputerName = ACTIVE_COMPUTER_3) {
     MLO_MOVE_UP_PIXELS := -115
+    MLO_FLAGS_PATH := "d:\sync\cipi\MOBILE-SYNC\mlo-flags.txt"
 }
 
 changeViewMlo(viewCombination, extraInstructions)
@@ -374,6 +378,18 @@ changeViewMloFactory(number, modifiers)
     else if (number = 8 && modifiers = "^")
     {
         extraInstructions := ["{F11}", "{home}", "{right}"]
+    }
+    else if (number = 9 && modifiers = "^")
+    {
+        FileReadLine, allowRating, %MLO_FLAGS_PATH%, 1
+        if (allowRating > 80)
+        {
+            sendKeyCombinationIndependentActiveModifiers("^[")
+        }
+        else
+        {
+            sendKeyCombinationIndependentActiveModifiers("^]")
+        }
     }
     else if (number = 0)
     {

@@ -3,7 +3,7 @@ global MLO_TASK_WINDOWS_NAME :="TVirtualStringTree5_"
 global MLO_FILTER_WINDOWS_NAME :="TEdit2_"
 global MLO_NAME := "MyLifeOrganized"
 global MLO_MOVE_UP_PIXELS
-global MLO_WINDOW_NAME := "MyLifeOrganized"
+global MLO_WINDOW_NAME := "01-MY-LIST.ml"
 global MLO_ENTER_MODE_NEW_CHILD := 0
 global MLO_ENTER_MODE_BRAINSTORM := 0
 global MLO_REMINDER_TIMER_STANDING := 900000
@@ -41,40 +41,39 @@ changeViewMlo(viewCombination, extraInstructions)
 
 contextDependentView()
 {
-    extraInstructions := ["{home}"]
-    if (A_Hour >= 5 && A_Hour < 9)
+    projectNumberToKeyboardShortcut := { 22: "^!+{F2}", 23: "^!+{F3}", 24: "^!+{F4}", 25: "^!+{F5}", 26:"^!+{F6}", 221: "^!+{F7}", 231: "^!+{F8}", 241: "^!+{F9}", 251: "^!+{F10}", 261: "^!+{F11}"}
+    rechargeShortcut := "^!+{F12}"
+    SetTimer TimerStickyFailBack, off
+    FileRead, mlo_flags, %MLO_FLAGS_PATH%
+    events := StrSplit(mlo_flags, "`n")
+    for index, event in events
     {
-        ; ========== PLANIFIC
-        extraInstructions := ["{F12}", "{home}"]
-        changeViewMlo("^+9", extraInstructions)
+        elements := StrSplit(event, "|")
+        if (elements.length() > 1)
+        {
+            if (A_Hour * 60 + A_Min > elements[1] && A_Hour * 60 + A_Min < elements[2])
+            {
+                shortcut := projectNumberToKeyboardShortcut[elements[3]]
+                if (shortcut)
+                {
+                    sendKeyCombinationIndependentActiveModifiers(shortcut)
+                    sleep 500
+                    sendKeyCombinationIndependentActiveModifiers("{F12}")
+                }
+
+                MLO_REMINDER_TIMER := MLO_REMINDER_TIMER_STANDING
+                setTimer timerFlashMinutesUp, %MLO_REMINDER_TIMER%
+                enters := "`n`n`n"
+                spacing := "            "
+                showtooltip(enters . spacing . "15 === 25 === 5" . spacing . enters)
+                return
+            }
+        }
     }
-    else if (A_Hour >= 9 && A_Hour < 18 && (A_DDDD = "Saturday"))
-    {
-        ; ========== HOBBY
-        changeViewMlo("^+3", extraInstructions)
-    }
-    else if (A_Hour >= 9 && A_Hour < 18 && (A_DDDD = "Monday" || A_DDDD = "Tuesday" || A_DDDD = "Wednesday" || A_DDDD = "Thursday" || A_DDDD = "Friday"))
-    {
-        ; ========== SERVICI
-        changeViewMlo("^+2", extraInstructions)
-    }
-    else if (A_Hour >= 18 && A_Hour < 21 && (A_DDDD = "Monday" || A_DDDD = "Tuesday" || A_DDDD = "Wednesday" || A_DDDD = "Thursday" || A_DDDD = "Friday"))
-    {
-        ; ========== ADMIN
-        changeViewMlo("^+1", extraInstructions)
-    }
-    else if (A_Hour >= 21 && A_Hour < 25)
-    {
-        ; ========== PLANIFIC
-        extraInstructions := ["{F12}", "{home}"]
-        changeViewMlo("^+9", extraInstructions)
-    }
-    else
-    {
-        ; ========== PLANIFIC
-        extraInstructions := ["{F12}", "{home}"]
-        changeViewMlo("^+9", extraInstructions)
-    }
+    sendKeyCombinationIndependentActiveModifiers(rechargeShortcut)
+
+    SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
+    return
 }
 
 mloCloseFind()
@@ -290,7 +289,7 @@ timerFlashMinutesUp()
         setTimer TimerFlashMinutesUp, %MLO_REMINDER_TIMER%
         enters := "`n`n`n`n`n`n`n`n`n`n"
         spacing := "                        "
-        showtooltip(enters . spacing . "Timer UP" . spacing . enters, 2000, A_CaretX, A_CaretY)
+        showtooltip(enters . spacing . "Timer UP" . spacing . enters, 60000, A_CaretX, A_CaretY)
 
         SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
     }
@@ -359,7 +358,14 @@ newBrainStormTask()
 setEnterBrainstormMode(combination)
 {
     MLO_ENTER_MODE_BRAINSTORM := 1
-    sendKeyCombinationIndependentActiveModifiers(combination)
+    sendKeyCombinationIndependentActiveModifiers("^c")
+    sleep 50
+    temp := clipboard
+    if (clipboard != "New Task")
+    {
+        sendKeyCombinationIndependentActiveModifiers(combination)
+    }
+    clipboard := temp
 }
 
 changeViewMloFactory(number, modifiers)
@@ -370,26 +376,13 @@ changeViewMloFactory(number, modifiers)
     {
         MLO_ENTER_MODE_NEW_CHILD := 1
     }
-    else if (number = 5 && modifiers = "^")
-    {
-        MLO_REMINDER_TIMER := MLO_REMINDER_TIMER_STANDING
-        setTimer timerFlashMinutesUp, %MLO_REMINDER_TIMER%
-    }
     else if (number = 8 && modifiers = "^")
     {
         extraInstructions := ["{F11}", "{home}", "{right}"]
     }
     else if (number = 9 && modifiers = "^")
     {
-        FileReadLine, allowRating, %MLO_FLAGS_PATH%, 1
-        if (allowRating > 80)
-        {
-            sendKeyCombinationIndependentActiveModifiers("^[")
-        }
-        else
-        {
-            sendKeyCombinationIndependentActiveModifiers("^]")
-        }
+        return contextDependentView()
     }
     else if (number = 0)
     {
@@ -398,3 +391,4 @@ changeViewMloFactory(number, modifiers)
 
     changeViewMlo(modifiers . number, extraInstructions)
 }
+

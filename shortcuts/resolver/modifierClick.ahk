@@ -6,10 +6,6 @@ activateWin1()
     if (!mloActive)
     {
         setMloDarkMode(1)
-        if (MLO_REMINDER_TIMER)
-        {
-            setTimer timerFlashMinutesUp, %MLO_REMINDER_TIMER%
-        }
         SetTimer, TimerMloEnhancements, 500
     }
     else

@@ -10,20 +10,16 @@ global MLO_REMINDER_TIMER_STANDING := 900000
 global MLO_REMINDER_TIMER_SITTING := 1500000
 global MLO_REMINDER_TIMER_WALKING := 180000
 global MLO_REMINDER_TIMER := 0
-global MLO_FLAGS_PATH := 0
 
 
 if (A_ComputerName = ACTIVE_COMPUTER_1) {
     MLO_MOVE_UP_PIXELS := -115
-    MLO_FLAGS_PATH := "d:\sync\cipi\MOBILE-SYNC\mlo-flags.txt"
 }
 else if (A_ComputerName = ACTIVE_COMPUTER_2) {
     MLO_MOVE_UP_PIXELS := -115
-    MLO_FLAGS_PATH := "d:\sync\cipi\MOBILE-SYNC\mlo-flags.txt"
 }
 else if (A_ComputerName = ACTIVE_COMPUTER_3) {
     MLO_MOVE_UP_PIXELS := -115
-    MLO_FLAGS_PATH := "d:\sync\cipi\MOBILE-SYNC\mlo-flags.txt"
 }
 
 changeViewMlo(viewCombination, extraInstructions)
@@ -37,43 +33,6 @@ changeViewMlo(viewCombination, extraInstructions)
         sleep 50
         sendKeyCombinationIndependentActiveModifiers(instruction)
     }
-}
-
-contextDependentView()
-{
-    projectNumberToKeyboardShortcut := { 22: "^!+{F2}", 23: "^!+{F3}", 24: "^!+{F4}", 25: "^!+{F5}", 26:"^!+{F6}", 221: "^!+{F7}", 231: "^!+{F8}", 241: "^!+{F9}", 251: "^!+{F10}", 261: "^!+{F11}"}
-    rechargeShortcut := "^!+{F12}"
-    SetTimer TimerStickyFailBack, off
-    FileRead, mlo_flags, %MLO_FLAGS_PATH%
-    events := StrSplit(mlo_flags, "`n")
-    for index, event in events
-    {
-        elements := StrSplit(event, "|")
-        if (elements.length() > 1)
-        {
-            if (A_Hour * 60 + A_Min > elements[1] && A_Hour * 60 + A_Min < elements[2])
-            {
-                shortcut := projectNumberToKeyboardShortcut[elements[3]]
-                if (shortcut)
-                {
-                    sendKeyCombinationIndependentActiveModifiers(shortcut)
-                    sleep 500
-                    sendKeyCombinationIndependentActiveModifiers("{F12}")
-                }
-
-                MLO_REMINDER_TIMER := MLO_REMINDER_TIMER_STANDING
-                setTimer timerFlashMinutesUp, %MLO_REMINDER_TIMER%
-                enters := "`n`n`n"
-                spacing := "            "
-                showtooltip(enters . spacing . "15 === 25 === 5" . spacing . enters)
-                return
-            }
-        }
-    }
-    sendKeyCombinationIndependentActiveModifiers(rechargeShortcut)
-
-    SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
-    return
 }
 
 mloCloseFind()
@@ -327,17 +286,27 @@ goToTaskAndWriteNotes(key)
     {
         taskNumber := SubStr(key, 2, StrLen(key)) + 2
     }
+    If (!isTaskWindowInFocus())
+    {
+        hideNotesAndFocusTasks()
+        reOpenNotesWindows := 1
+    }
     send {escape}
     send %taskNumber%
     send ^{F11} ; collapse other subtasks
     send !q ; open sub-tasks if any
+    if (reOpenNotesWindows)
+    {
+        openNotesAssociatedWithTask()
+    }
 }
 
 confirmAndCreateAnotherTask()
 {
     SetTimer TimerStickyFailBack, off
     send {enter}
-    sleep 500
+    send {F5}
+    sleep 50
     send !e
     return
     SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
@@ -372,21 +341,14 @@ changeViewMloFactory(number, modifiers)
 {
     extraInstructions := ["{home}", "{F11}"]
     stopMloEnhancements(0, 1)
-    if (number = 1 || number = 2 || number = 3 || number = 4)
-    {
-        MLO_ENTER_MODE_NEW_CHILD := 1
-    }
-    else if (number = 8 && modifiers = "^")
-    {
-        extraInstructions := ["{F11}", "{home}", "{right}"]
-    }
-    else if (number = 9 && modifiers = "^")
-    {
-        return contextDependentView()
-    }
-    else if (number = 0)
+    if (number = 0)
     {
         extraInstructions := []
+    }
+    else if (number = 1 || number = 2 || number = 3 || number = 4)
+    {
+        extraInstructions := ["{F12}", "{home}"]
+        MLO_ENTER_MODE_NEW_CHILD := 1
     }
 
     changeViewMlo(modifiers . number, extraInstructions)

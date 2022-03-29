@@ -1,4 +1,3 @@
-
 processModifierWithNumber(combination, index)
 {
     number := SubStr(combination, 0, 1)
@@ -56,16 +55,6 @@ processEnter()
     }
 
     send {blind}{enter}
-}
-
-deactivateAlternativeMloMode(key)
-{
-    if (MLO_ENTER_MODE_NEW_CHILD)
-    {
-        MLO_ENTER_MODE_NEW_CHILD := 0
-    }
-
-    send {blind}{%key%}
 }
 
 processCtrlF()

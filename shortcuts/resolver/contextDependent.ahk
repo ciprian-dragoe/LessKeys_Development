@@ -85,14 +85,11 @@ processCtrlR()
 
 processCtrlW()
 {
+
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
-        WinGetClass, lastActiveClassName, A
-        IfInString, lastActiveClassName, %MLO_CLASS_NAME%
-        {
-            hideShowMLOnotes()
-            return
-        }
+        hideShowMLOnotes()
+        return
     }
 
     IfInString, lastActiveAppName, %SIMPLEMIND_WINDOW_NAME%

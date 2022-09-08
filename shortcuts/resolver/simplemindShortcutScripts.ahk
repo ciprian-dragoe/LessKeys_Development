@@ -43,7 +43,7 @@ centerBrainstorm()
 {
     SetTimer TimerStickyFailBack, off
 
-    setSimplemindOverlay(1)
+    ;setSimplemindOverlay(1)
     sendKeyCombinationIndependentActiveModifiers("^!u") ; unfocus selected topic
     sendKeyCombinationIndependentActiveModifiers("^q") ; brainstorm
     sleep 100
@@ -74,7 +74,7 @@ simplemindClearIdeas()
             sleep 100
             setSimplemindFocusTopic("F5", 0) ; focus main branch
             send ^c^a{delete}{enter}^v^q ; clear all tasks except root node
-            setSimplemindOverlay(1)
+            ;setSimplemindOverlay(1)
         }
     }
 

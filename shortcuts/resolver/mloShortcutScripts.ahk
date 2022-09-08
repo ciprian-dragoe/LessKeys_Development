@@ -3,7 +3,7 @@ global MLO_TASK_WINDOWS_NAME :="TVirtualStringTree5_"
 global MLO_FILTER_WINDOWS_NAME :="TEdit2_"
 global MLO_NAME := "MyLifeOrganized"
 global MLO_MOVE_UP_PIXELS
-global MLO_WINDOW_NAME := "01-MY-LIST.ml"
+global MLO_WINDOW_NAME := "01-MY-LIST.ml - MyLifeOrganized"
 global MLO_ENTER_MODE_NEW_CHILD := 0
 global MLO_ENTER_MODE_BRAINSTORM := 0
 global MLO_REMINDER_TIMER_STANDING := 900000
@@ -24,6 +24,10 @@ else if (A_ComputerName = ACTIVE_COMPUTER_3) {
 
 changeViewMlo(viewCombination, extraInstructions)
 {
+    If (!isTaskWindowInFocus())
+    {
+        hideNotesAndFocusTasks()
+    }
     sendKeyCombinationIndependentActiveModifiers("!/") ; unzoom
     sendKeyCombinationIndependentActiveModifiers("^+!-") ; schimb workspace taskuri focus
     sleep 50
@@ -179,7 +183,7 @@ setMloDarkMode(enabled)
     if (enabled)
     {
         topWidth := A_ScreenWidth + 10
-        topHeight := 155
+        topHeight := 120
         topX := -10
         topY := -10
         Gui, top:new
@@ -188,7 +192,7 @@ setMloDarkMode(enabled)
         Gui, top:show, w%topWidth% h%topHeight% x%topX% y%topY%
 
         bottomWidth := A_ScreenWidth + 10
-        bottomHeight := 60
+        bottomHeight := 130
         bottomX := -10
         bottomY := A_ScreenHeight - bottomHeight
         Gui, bottom:new
@@ -281,20 +285,30 @@ timerMloEnhancements()
 
 goToTaskAndWriteNotes(key)
 {
-    taskNumber := SubStr(key, 2, StrLen(key)) - 4
-    if (taskNumber < 1)
+    taskNumber := SubStr(key, 2, StrLen(key))
+    if (taskNumber > 4)
     {
-        taskNumber := SubStr(key, 2, StrLen(key)) + 2
+        taskNumber := taskNumber - 4
+    } 
+    else
+    {
+        taskNumber := taskNumber + 2
     }
+    ;showtooltip(key . "|" . taskNumber) 
+    
     If (!isTaskWindowInFocus())
     {
         hideNotesAndFocusTasks()
         reOpenNotesWindows := 1
     }
-    send {escape}
+    
+    send {escape} ; deselect current task if missing
     send %taskNumber%
     send ^{F11} ; collapse other subtasks
+    sleep 100
     send !q ; open sub-tasks if any
+    send {down}
+
     if (reOpenNotesWindows)
     {
         openNotesAssociatedWithTask()
@@ -341,7 +355,7 @@ changeViewMloFactory(number, modifiers)
 {
     extraInstructions := ["{home}", "{F11}"]
     stopMloEnhancements(0, 1)
-    if (number = 0)
+    if (number = 9)
     {
         extraInstructions := []
     }

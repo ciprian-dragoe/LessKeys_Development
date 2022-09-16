@@ -23,10 +23,14 @@ else if (A_ComputerName = ACTIVE_COMPUTER_3) {
 
 changeViewMlo(viewCombination, extraInstructions)
 {
+    sendKeyCombinationIndependentActiveModifiers("{enter}{escape}") ; in caz ca editam un task
+    sleep 150
+    
     If (!isTaskWindowInFocus())
     {
         hideNotesAndFocusTasks()
     }
+    
     sendKeyCombinationIndependentActiveModifiers("!/") ; unzoom
     sendKeyCombinationIndependentActiveModifiers("^+!-") ; schimb workspace taskuri focus
     sleep 50
@@ -296,18 +300,20 @@ goToTaskAndWriteNotes(key)
     }
     ;showtooltip(key . "|" . taskNumber) 
     
-    If (!isTaskWindowInFocus())
-    {
-        hideNotesAndFocusTasks()
-        reOpenNotesWindows := 1
-    }
     
-    send {escape} ; deselect current task if missing
+;    If (!isTaskWindowInFocus())
+;    {
+;        hideNotesAndFocusTasks()
+;        reOpenNotesWindows := 1
+;    }
+    send {enter}{escape}{home} ; deselect current task if missing
     send %taskNumber%
-    ;send ^{F11} ; collapse other subtasks
+    send ^{F11} ; collapse other subtasks
     sleep 100
     send !q ; open sub-tasks if any
-    ;send {down}
+    sleep 100
+    send {down}
+    sendKeyCombinationIndependentActiveModifiers("!e")
 
     if (reOpenNotesWindows)
     {
@@ -319,7 +325,7 @@ newBrainStormTask()
 {
     SetTimer TimerStickyFailBack, off
 
-    sendKeyCombinationIndependentActiveModifiers("{space}")
+    ;sendKeyCombinationIndependentActiveModifiers("{space}")
     if (ENTER_COUNT > -9) ; previously was 8 to have a more fluid typing experience
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")

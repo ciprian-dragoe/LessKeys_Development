@@ -13,12 +13,16 @@ processModifierWithNumber(combination, index)
 
 processCtrlE()
 {
-    IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
+    if (MLO_ENTER_MODE_BRAINSTORM)
     {
-        MLO_ENTER_MODE_BRAINSTORM := 0
         return sendKeyCombinationIndependentActiveModifiers("!w")
     }
-
+    
+    IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
+    {
+        return sendKeyCombinationIndependentActiveModifiers("!w")
+    }
+    
     send {blind}e
 }
 
@@ -39,11 +43,6 @@ processCtrlShiftF()
 
 processEnter()
 {
-    if (MLO_ENTER_MODE_NEW_CHILD)
-    {
-        return confirmAndCreateAnotherTask()
-    }
-
     if (MLO_ENTER_MODE_BRAINSTORM)
     {
         return newBrainStormTask()
@@ -74,9 +73,13 @@ processCtrlF()
 
 processCtrlR()
 {
+    if (MLO_ENTER_MODE_BRAINSTORM)
+    {
+        return sendKeyCombinationIndependentActiveModifiers("!e")
+    }
+    
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
-        MLO_ENTER_MODE_BRAINSTORM := 0
         return sendKeyCombinationIndependentActiveModifiers("!e")
     }
 
@@ -85,11 +88,10 @@ processCtrlR()
 
 processCtrlW()
 {
-
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
-        hideShowMLOnotes()
-        return
+        MLO_ENTER_MODE_BRAINSTORM := 0
+        return hideShowMLOnotes()
     }
 
     IfInString, lastActiveAppName, %SIMPLEMIND_WINDOW_NAME%
@@ -211,40 +213,20 @@ processCtrlQ()
 
 processCtrlEnter()
 {
-    if (MLO_ENTER_MODE_BRAINSTORM)
-    {
-        return newBrainStormTask()
-    }
-
     send ^{enter}
 }
 
 processF2()
 {
-    if (MLO_ENTER_MODE_BRAINSTORM)
-    {
-        MLO_ENTER_MODE_BRAINSTORM := 0
-    }
-
     send {F2}
 }
 
 processCtrlShiftE()
 {
-    IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
-    {
-        return setEnterBrainstormMode("!w")
-    }
-
     send {blind}e
 }
 
 processCtrlShiftR()
 {
-    IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
-    {
-        return setEnterBrainstormMode("!e")
-    }
-
     send {blind}r
 }

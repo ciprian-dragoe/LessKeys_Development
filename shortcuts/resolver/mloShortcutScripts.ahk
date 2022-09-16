@@ -3,14 +3,13 @@ global MLO_TASK_WINDOWS_NAME :="TVirtualStringTree5_"
 global MLO_FILTER_WINDOWS_NAME :="TEdit2_"
 global MLO_NAME := "MyLifeOrganized"
 global MLO_MOVE_UP_PIXELS
-global MLO_WINDOW_NAME := "01-MY-LIST.ml - MyLifeOrganized"
-global MLO_ENTER_MODE_NEW_CHILD := 0
+global MLO_WINDOW_NAME := "01-MY-LIST"
 global MLO_ENTER_MODE_BRAINSTORM := 0
 global MLO_REMINDER_TIMER_STANDING := 900000
 global MLO_REMINDER_TIMER_SITTING := 1500000
 global MLO_REMINDER_TIMER_WALKING := 180000
 global MLO_REMINDER_TIMER := 0
-
+global ENTER_COUNT := 0
 
 if (A_ComputerName = ACTIVE_COMPUTER_1) {
     MLO_MOVE_UP_PIXELS := -115
@@ -260,7 +259,6 @@ timerFlashMinutesUp()
 
 stopMloEnhancements(deactivateDarkMode = 0, deactivateReminderTime = 0)
 {
-    MLO_ENTER_MODE_NEW_CHILD := 0
     MLO_ENTER_MODE_BRAINSTORM := 0
     if (deactivateReminderTime)
     {
@@ -277,8 +275,10 @@ stopMloEnhancements(deactivateDarkMode = 0, deactivateReminderTime = 0)
 
 timerMloEnhancements()
 {
-    IfNotInString, lastActiveAppName, %MLO_WINDOW_NAME%
+    trimmed := SubStr(lastActiveAppName, 1 , 10)
+    If (trimmed != MLO_WINDOW_NAME)
     {
+        ;showtooltip("*" . trimmed . "*" . MLO_WINDOW_NAME . "*", 1500)
         stopMloEnhancements(1)
     }
 }
@@ -304,10 +304,10 @@ goToTaskAndWriteNotes(key)
     
     send {escape} ; deselect current task if missing
     send %taskNumber%
-    send ^{F11} ; collapse other subtasks
+    ;send ^{F11} ; collapse other subtasks
     sleep 100
     send !q ; open sub-tasks if any
-    send {down}
+    ;send {down}
 
     if (reOpenNotesWindows)
     {
@@ -315,40 +315,20 @@ goToTaskAndWriteNotes(key)
     }
 }
 
-confirmAndCreateAnotherTask()
-{
-    SetTimer TimerStickyFailBack, off
-    send {enter}
-    send {F5}
-    sleep 50
-    send !e
-    return
-    SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
-}
-
 newBrainStormTask()
 {
     SetTimer TimerStickyFailBack, off
 
-    sendKeyCombinationIndependentActiveModifiers("{space}{enter}")
-    sleep 50
-    sendKeyCombinationIndependentActiveModifiers("{F5}")
+    sendKeyCombinationIndependentActiveModifiers("{space}")
+    if (ENTER_COUNT > -9) ; previously was 8 to have a more fluid typing experience
+    {
+        sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
+        ENTER_COUNT := 0
+    }
+    ENTER_COUNT := ENTER_COUNT + 1 
     sendKeyCombinationIndependentActiveModifiers("!w")
 
     SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
-}
-
-setEnterBrainstormMode(combination)
-{
-    MLO_ENTER_MODE_BRAINSTORM := 1
-    sendKeyCombinationIndependentActiveModifiers("^c")
-    sleep 50
-    temp := clipboard
-    if (clipboard != "New Task")
-    {
-        sendKeyCombinationIndependentActiveModifiers(combination)
-    }
-    clipboard := temp
 }
 
 changeViewMloFactory(number, modifiers)
@@ -359,10 +339,9 @@ changeViewMloFactory(number, modifiers)
     {
         extraInstructions := []
     }
-    else if (number = 1 || number = 2 || number = 3 || number = 4)
+    else if (number = 7)
     {
-        extraInstructions := ["{F12}", "{home}"]
-        MLO_ENTER_MODE_NEW_CHILD := 1
+        MLO_ENTER_MODE_BRAINSTORM := 1
     }
 
     changeViewMlo(modifiers . number, extraInstructions)

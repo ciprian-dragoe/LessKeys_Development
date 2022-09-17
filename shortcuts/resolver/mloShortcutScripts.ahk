@@ -23,9 +23,8 @@ else if (A_ComputerName = ACTIVE_COMPUTER_3) {
 
 changeViewMlo(viewCombination, extraInstructions)
 {
-    sendKeyCombinationIndependentActiveModifiers("{enter}{escape}") ; in caz ca editam un task
-    sleep 150
-    
+;    sendKeyCombinationIndependentActiveModifiers("{enter}{escape}") ; in caz ca editam un task
+;    sleep 150
     If (!isTaskWindowInFocus())
     {
         hideNotesAndFocusTasks()
@@ -284,6 +283,7 @@ timerMloEnhancements()
     {
         ;showtooltip("*" . trimmed . "*" . MLO_WINDOW_NAME . "*", 1500)
         stopMloEnhancements(1)
+        timerSyncMlo()
     }
 }
 
@@ -345,7 +345,7 @@ changeViewMloFactory(number, modifiers)
     {
         extraInstructions := []
     }
-    else if (number = 7)
+    else if (number = 1 || number = 2 || number = 3)
     {
         MLO_ENTER_MODE_BRAINSTORM := 1
     }

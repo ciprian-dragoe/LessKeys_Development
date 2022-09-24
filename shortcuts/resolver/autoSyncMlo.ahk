@@ -8,7 +8,7 @@ timerCancelTooltip()
 
 timerSyncMlo()
 {
-    if (!inStr(lastActiveAppName, ".ml - MyLifeOrganized" . " *") && !inStr(lastActiveAppName, "Rapid Task Entry") && !inStr(lastActiveAppName, "MyLifeOrganized - Reminders"))
+    if (!inStr(lastActiveAppName, ".ml - MyLifeOrganized" . " *", true) && !inStr(lastActiveAppName, "Rapid Task Entry", true) && !inStr(lastActiveAppName, "MyLifeOrganized - Reminders", true))
     {
         timerSyncMloStep1_launchPing()
     }
@@ -90,7 +90,7 @@ timerSyncMloStep2_readPing()
 timerSyncMloStep3_syncCalendar()
 {
     SetTimer TimerSyncMloStep3_syncCalendar, OFF
-    if (!inStr(lastActiveAppName, ".ml - MyLifeOrganized"))
+    if (!inStr(lastActiveAppName, ".ml - MyLifeOrganized", true))
     {
         ControlSend, , {F10}, ahk_class %MLO_CLASS_NAME%
     }

@@ -13,14 +13,14 @@ processModifierWithNumber(combination, index)
 
 processCtrlE()
 {
-    if (MLO_ENTER_MODE_BRAINSTORM)
-    {
-        return sendKeyCombinationIndependentActiveModifiers("!w")
-    }
-    
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
-        return sendKeyCombinationIndependentActiveModifiers("!w")
+        if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNALING)
+        {
+            return newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        }
+        
+        return mloNewContextDependentTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
     
     send {blind}e
@@ -43,12 +43,20 @@ processCtrlShiftF()
 
 processEnter()
 {
-    if (MLO_ENTER_MODE_BRAINSTORM)
+    if (inStr(lastActiveAppName, MLO_WINDOW_NAME))
     {
-        return newBrainStormTask()
+        if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JORNAL_NEW_TOPIC)
+        {
+            return mloAddJournalDelimiterSubTask()
+        }
+        
+        if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNALING)
+        {
+            return newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        }    
     }
-
-    IfInString, lastActiveAppName, %SIMPLEMIND_WINDOW_NAME%
+    
+    if (inStr(lastActiveAppName, SIMPLEMIND_WINDOW_NAME, true))
     {
         return simplemindClearIdeas()
     }
@@ -73,14 +81,19 @@ processCtrlF()
 
 processCtrlR()
 {
-    if (MLO_ENTER_MODE_BRAINSTORM)
+    if (inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
     {
-        return sendKeyCombinationIndependentActiveModifiers("!e")
-    }
-    
-    IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
-    {
-        return sendKeyCombinationIndependentActiveModifiers("!e")
+        if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JORNAL_NEW_TOPIC)
+        {
+            return mloAddJournalDelimiterSubTask()
+        }
+        
+        if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNALING)
+        {
+            return newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        }
+        
+        return mloNewContextDependentTask(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
 
     send {blind}r
@@ -90,8 +103,9 @@ processCtrlW()
 {
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
-        MLO_ENTER_MODE_BRAINSTORM := 0
-        return hideShowMLOnotes()
+        MLO_ENTER_MODE := 0
+        hideShowMLOnotes()
+        return 
     }
 
     IfInString, lastActiveAppName, %SIMPLEMIND_WINDOW_NAME%

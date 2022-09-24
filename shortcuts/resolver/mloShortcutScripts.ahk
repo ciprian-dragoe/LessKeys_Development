@@ -4,12 +4,17 @@ global MLO_FILTER_WINDOWS_NAME :="TEdit2_"
 global MLO_NAME := "MyLifeOrganized"
 global MLO_MOVE_UP_PIXELS
 global MLO_WINDOW_NAME := "01-MY-LIST"
-global MLO_ENTER_MODE_BRAINSTORM := 0
+global MLO_ENTER_MODE := 0
 global MLO_REMINDER_TIMER_STANDING := 900000
 global MLO_REMINDER_TIMER_SITTING := 1500000
 global MLO_REMINDER_TIMER_WALKING := 180000
 global MLO_REMINDER_TIMER := 0
-global ENTER_COUNT := 0
+
+global MLO_ENTER_MODE_SET_AS_JOURNALING := 1
+global MLO_ENTER_MODE_SET_AS_JORNAL_NEW_TOPIC := 2
+
+global MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK := "!e" 
+global MLO_KEYBOARD_SHORTCUT_NEW_TASK := "!w" 
 
 if (A_ComputerName = ACTIVE_COMPUTER_1) {
     MLO_MOVE_UP_PIXELS := -115
@@ -25,10 +30,10 @@ changeViewMlo(viewCombination, extraInstructions)
 {
 ;    sendKeyCombinationIndependentActiveModifiers("{enter}{escape}") ; in caz ca editam un task
 ;    sleep 150
-    If (!isTaskWindowInFocus())
-    {
-        hideNotesAndFocusTasks()
-    }
+;    If (!isTaskWindowInFocus())
+;    {
+;        hideNotesAndFocusTasks()
+;    }
     
     sendKeyCombinationIndependentActiveModifiers("!/") ; unzoom
     sendKeyCombinationIndependentActiveModifiers("^+!-") ; schimb workspace taskuri focus
@@ -262,7 +267,7 @@ timerFlashMinutesUp()
 
 stopMloEnhancements(deactivateDarkMode = 0, deactivateReminderTime = 0)
 {
-    MLO_ENTER_MODE_BRAINSTORM := 0
+    MLO_ENTER_MODE := 0
     if (deactivateReminderTime)
     {
         MLO_REMINDER_TIMER := 0
@@ -278,10 +283,8 @@ stopMloEnhancements(deactivateDarkMode = 0, deactivateReminderTime = 0)
 
 timerMloEnhancements()
 {
-    trimmed := SubStr(lastActiveAppName, 1 , 10)
-    If (trimmed != MLO_WINDOW_NAME)
+    If (!inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
     {
-        ;showtooltip("*" . trimmed . "*" . MLO_WINDOW_NAME . "*", 1500)
         stopMloEnhancements(1)
         timerSyncMlo()
     }
@@ -298,43 +301,19 @@ goToTaskAndWriteNotes(key)
     {
         taskNumber := taskNumber + 2
     }
-    ;showtooltip(key . "|" . taskNumber) 
-    
-    
-;    If (!isTaskWindowInFocus())
-;    {
-;        hideNotesAndFocusTasks()
-;        reOpenNotesWindows := 1
-;    }
-    send {enter}{escape}{home} ; deselect current task if missing
-    send %taskNumber%
+    taskNumber := taskNumber + 2 ; because bookmarks start from 3, not 1
+    bookmark := "+{F" . taskNumber . "}"   
+    send %bookmark% ; go to bookmark associated with task number
     send ^{F11} ; collapse other subtasks
-    sleep 100
+    sleep 50
     send !q ; open sub-tasks if any
-    sleep 100
-    send {down}
-    sendKeyCombinationIndependentActiveModifiers("!e")
-
-    if (reOpenNotesWindows)
-    {
-        openNotesAssociatedWithTask()
-    }
-}
-
-newBrainStormTask()
-{
-    SetTimer TimerStickyFailBack, off
-
-    ;sendKeyCombinationIndependentActiveModifiers("{space}")
-    if (ENTER_COUNT > -9) ; previously was 8 to have a more fluid typing experience
-    {
-        sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
-        ENTER_COUNT := 0
-    }
-    ENTER_COUNT := ENTER_COUNT + 1 
+    sleep 50
+    taskNumber := taskNumber + 1
+    bookmark := "+{F" . taskNumber . "}"
+    send %bookmark% ; go to bookmark associated with task number
+    sleep 50
+    send {up}
     sendKeyCombinationIndependentActiveModifiers("!w")
-
-    SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
 }
 
 changeViewMloFactory(number, modifiers)
@@ -347,7 +326,7 @@ changeViewMloFactory(number, modifiers)
     }
     else if (number = 1 || number = 2 || number = 3)
     {
-        MLO_ENTER_MODE_BRAINSTORM := 1
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNALING
     }
 
     changeViewMlo(modifiers . number, extraInstructions)

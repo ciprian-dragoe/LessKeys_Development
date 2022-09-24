@@ -19,6 +19,7 @@ if (A_ScriptName = "LessKeys.exe")
 #include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\windowsShortcuts.ahk
 #include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\timedCapsLock.ahk
 #include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\autoSyncMlo.ahk
+#include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\mloContextDependentFactory.ahk
 #include %A_ScriptDir%\..\environmentDependent\COMMON\accentedCharacters.ahk
 #include %A_ScriptDir%\..\environmentDependent\COMMON\functionKeys.ahk
 

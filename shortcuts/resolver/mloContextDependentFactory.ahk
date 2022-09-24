@@ -1,7 +1,12 @@
 ﻿global MLO_ENTER_MODE := 0
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH := 1
-global MLO_ENTER_MODE_SET_AS_JORNAL_NEW_TOPIC := 2
+global MLO_ENTER_MODE_SET_AS_JOURNAL_NEW_TOPIC := 2
 global MLO_ENTER_MODE_SET_AS_NEW_TASK := 3
+global MLO_ENTER_MODE_SET_AS_DAY_REVIEW_CONTEXT := 4
+global MLO_ENTER_MODE_SET_AS_DAY_REVIEW_GOOD := 5
+global MLO_ENTER_MODE_SET_AS_DAY_REVIEW_BAD := 6
+global MLO_ENTER_MODE_SET_AS_LET_GO := 7
+global MLO_ENTER_MODE_SET_AS_DO := 8
 
 
 
@@ -40,7 +45,7 @@ mloContextDependentKeyFactory(originalAction)
 
 mloNewContextDependentEnter(currentTask)
 {
-    if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JORNAL_NEW_TOPIC)
+    if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL_NEW_TOPIC)
     {
         mloAddJournalDelimiterSubTask()
     }
@@ -52,6 +57,38 @@ mloNewContextDependentEnter(currentTask)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DAY_REVIEW_CONTEXT)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
+        sendKeyCombinationIndependentActiveModifiers("EVENIMENT:{space}")    
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DAY_REVIEW_GOOD
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DAY_REVIEW_GOOD)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
+        sendKeyCombinationIndependentActiveModifiers("APRECIEZ:{space}")    
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DAY_REVIEW_BAD
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DAY_REVIEW_BAD)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
+        sendKeyCombinationIndependentActiveModifiers("DIFERIT:{space}")    
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DAY_REVIEW_CONTEXT
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_LET_GO)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{F5}")
+        sendKeyCombinationIndependentActiveModifiers("{END}")    
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)    
+        sendKeyCombinationIndependentActiveModifiers("DAU{SPACE}DRUMUL:{space}")    
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DO
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DO)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
+        sendKeyCombinationIndependentActiveModifiers("REGASESC:{space}")
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_LET_GO
+    }
     else
     {
         send {blind}{enter}
@@ -60,12 +97,29 @@ mloNewContextDependentEnter(currentTask)
 
 mloNewContextDependentSubTask(currentTask)
 {
-    if (inStr(currentTask, " BUCLA", true))
+    if (inStr(currentTask, "--BUCLA--", true))
     {
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JORNAL_NEW_TOPIC
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNAL_NEW_TOPIC
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    }
+    else if (inStr(currentTask, "--REVIEW--", true))
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DAY_REVIEW_GOOD
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        sendKeyCombinationIndependentActiveModifiers("EVENIMENT:{space}")
+    }
+    else if (inStr(currentTask, "--DAU--DRUMUL--INAINTE--SOMN--", true))
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    }
+    else if (inStr(currentTask, "DAU--DRUMUL--REGASESC--", true))
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DO
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        sendKeyCombinationIndependentActiveModifiers("DAU{SPACE}DRUMUL:{SPACE}")
     } 
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JORNAL_NEW_TOPIC)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL_NEW_TOPIC)
     {
         mloAddJournalDelimiterSubTask()
     }

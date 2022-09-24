@@ -96,6 +96,7 @@ resolverAction[522] := func("sendFunctionKey")
 resolverAction[523] := func("ignoreShortcut")
 resolverAction[524] := func("wobblyKeyPress")
 resolverAction[525] := func("toggleRealTimeDebug")
+resolverAction[530] := func("processEscape")
 
 processShortcut(index, combination)
 {

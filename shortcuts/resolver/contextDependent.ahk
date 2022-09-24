@@ -214,7 +214,14 @@ processCtrlEnter()
 
 processF2()
 {
+    MLO_ENTER_MODE := 0
     send {F2}
+}
+
+processEscape()
+{
+    MLO_ENTER_MODE := 0
+    send {blind}{escape}
 }
 
 processCtrlShiftE()

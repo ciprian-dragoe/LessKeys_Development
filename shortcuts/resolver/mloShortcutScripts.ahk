@@ -4,11 +4,7 @@ global MLO_FILTER_WINDOWS_NAME :="TEdit2_"
 global MLO_NAME := "MyLifeOrganized"
 global MLO_MOVE_UP_PIXELS
 global MLO_WINDOW_NAME := "01-MY-LIST"
-global MLO_ENTER_MODE := 0
 global MLO_WINDOW_ACTIVE := 0
-
-global MLO_ENTER_MODE_SET_AS_JOURNALING := 1
-global MLO_ENTER_MODE_SET_AS_JORNAL_NEW_TOPIC := 2
 
 global MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK := "!e" 
 global MLO_KEYBOARD_SHORTCUT_NEW_TASK := "!w" 
@@ -290,9 +286,13 @@ changeViewMloFactory(number, modifiers)
     {
         extraInstructions := []
     }
+    else if (number = 8)
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK
+    }
     else if (number = 1 || number = 2 || number = 3)
     {
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNALING
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
     }
 
     changeViewMlo(modifiers . number, extraInstructions)

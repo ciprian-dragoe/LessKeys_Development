@@ -15,12 +15,12 @@ processCtrlE()
 {
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
-        if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNALING)
+        if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH)
         {
             return newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
         }
         
-        return mloNewContextDependentTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        return mloContextDependentKeyFactory(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
     
     send {blind}e
@@ -43,17 +43,9 @@ processCtrlShiftF()
 
 processEnter()
 {
-    if (inStr(lastActiveAppName, MLO_WINDOW_NAME))
+    if (inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
     {
-        if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JORNAL_NEW_TOPIC)
-        {
-            return mloAddJournalDelimiterSubTask()
-        }
-        
-        if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNALING)
-        {
-            return newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-        }    
+        return mloContextDependentKeyFactory("enter")    
     }
     
     if (inStr(lastActiveAppName, SIMPLEMIND_WINDOW_NAME, true))
@@ -83,17 +75,7 @@ processCtrlR()
 {
     if (inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
     {
-        if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JORNAL_NEW_TOPIC)
-        {
-            return mloAddJournalDelimiterSubTask()
-        }
-        
-        if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNALING)
-        {
-            return newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-        }
-        
-        return mloNewContextDependentTask(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        return mloContextDependentKeyFactory(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
 
     send {blind}r

@@ -5,10 +5,7 @@ global MLO_NAME := "MyLifeOrganized"
 global MLO_MOVE_UP_PIXELS
 global MLO_WINDOW_NAME := "01-MY-LIST"
 global MLO_ENTER_MODE := 0
-global MLO_REMINDER_TIMER_STANDING := 900000
-global MLO_REMINDER_TIMER_SITTING := 1500000
-global MLO_REMINDER_TIMER_WALKING := 180000
-global MLO_REMINDER_TIMER := 0
+global MLO_WINDOW_ACTIVE := 0
 
 global MLO_ENTER_MODE_SET_AS_JOURNALING := 1
 global MLO_ENTER_MODE_SET_AS_JORNAL_NEW_TOPIC := 2
@@ -26,15 +23,32 @@ else if (A_ComputerName = ACTIVE_COMPUTER_3) {
     MLO_MOVE_UP_PIXELS := -115
 }
 
+processMloEnhancements()
+{
+    If (inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
+    {
+        MLO_WINDOW_ACTIVE := 1
+        if (inStr(lastActiveAppName, " *", true) || inStr(lastActiveAppName, "Rapid Task Entry", true) || inStr(lastActiveAppName, "MyLifeOrganized - Reminders", true))
+        {
+            SYNC_MLO := 1
+            resetTimerSyncMlo()
+        }
+    }
+    else if (MLO_WINDOW_ACTIVE)
+    {
+        MLO_WINDOW_ACTIVE := 0
+        stopMloEnhancements()
+        if (SYNC_MLO)
+        {
+            resetTimerSyncMlo()
+            SYNC_MLO := 0
+            timerSyncMloStep1_launchPing()
+        }
+    }
+}
+
 changeViewMlo(viewCombination, extraInstructions)
 {
-;    sendKeyCombinationIndependentActiveModifiers("{enter}{escape}") ; in caz ca editam un task
-;    sleep 150
-;    If (!isTaskWindowInFocus())
-;    {
-;        hideNotesAndFocusTasks()
-;    }
-    
     sendKeyCombinationIndependentActiveModifiers("!/") ; unzoom
     sendKeyCombinationIndependentActiveModifiers("^+!-") ; schimb workspace taskuri focus
     sleep 50
@@ -236,58 +250,10 @@ setMloDarkMode(enabled)
     }
 }
 
-timerFlashMinutesUp()
-{
-    setTimer TimerFlashMinutesUp, OFF
-    if (MLO_REMINDER_TIMER = MLO_REMINDER_TIMER_STANDING)
-    {
-        MLO_REMINDER_TIMER := MLO_REMINDER_TIMER_SITTING
-    }
-    else if (MLO_REMINDER_TIMER = MLO_REMINDER_TIMER_SITTING)
-    {
-        MLO_REMINDER_TIMER := MLO_REMINDER_TIMER_WALKING
-    }
-    else if (MLO_REMINDER_TIMER = MLO_REMINDER_TIMER_WALKING)
-    {
-        MLO_REMINDER_TIMER := MLO_REMINDER_TIMER_STANDING
-    }
-
-    IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
-    {
-        SetTimer TimerStickyFailBack, off
-
-        setTimer TimerFlashMinutesUp, %MLO_REMINDER_TIMER%
-        enters := "`n`n`n`n`n`n`n`n`n`n"
-        spacing := "                        "
-        showtooltip(enters . spacing . "Timer UP" . spacing . enters, 60000, A_CaretX, A_CaretY)
-
-        SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
-    }
-}
-
-stopMloEnhancements(deactivateDarkMode = 0, deactivateReminderTime = 0)
+stopMloEnhancements()
 {
     MLO_ENTER_MODE := 0
-    if (deactivateReminderTime)
-    {
-        MLO_REMINDER_TIMER := 0
-    }
-    if (deactivateDarkMode)
-    {
-        setMloDarkMode(0)
-        SetTimer TimerMloEnhancements, off
-    }
-
-    setTimer TimerFlashMinutesUp, off
-}
-
-timerMloEnhancements()
-{
-    If (!inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
-    {
-        stopMloEnhancements(1)
-        timerSyncMlo()
-    }
+    setMloDarkMode(0)
 }
 
 goToTaskAndWriteNotes(key)
@@ -319,7 +285,7 @@ goToTaskAndWriteNotes(key)
 changeViewMloFactory(number, modifiers)
 {
     extraInstructions := ["{home}", "{F11}"]
-    stopMloEnhancements(0, 1)
+    MLO_ENTER_MODE := 0
     if (number = 9)
     {
         extraInstructions := []

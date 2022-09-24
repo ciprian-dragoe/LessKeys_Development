@@ -6,7 +6,6 @@ activateWin1()
     if (!mloActive)
     {
         setMloDarkMode(1)
-        SetTimer, TimerMloEnhancements, 500
     }
     else
     {

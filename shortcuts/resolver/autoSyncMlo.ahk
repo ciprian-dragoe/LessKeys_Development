@@ -6,52 +6,22 @@ timerCancelTooltip()
     tooltip
 }
 
-timerSyncMlo()
+timerCheckReminder()
 {
-    if (!inStr(lastActiveAppName, ".ml - MyLifeOrganized" . " *", true) && !inStr(lastActiveAppName, "Rapid Task Entry", true) && !inStr(lastActiveAppName, "MyLifeOrganized - Reminders", true))
-    {
-        timerSyncMloStep1_launchPing()
-    }
+    timerSyncMloStep1_launchPing()
+    SetTimer TimerCheckAfterSyncReminders, 8000    
 }
 
 timerCheckAfterSyncReminders()
 {
+    SetTimer TimerCheckAfterSyncReminders, OFF
     DetectHiddenWindows Off
     if (WinExist("MyLifeOrganized - Reminders"))
     {
         DetectHiddenWindows On
         tooltip, `n`n`n`n`n========= CHECK REMINDERS =========`n`n`n`n`n
-        SetTimer TimerCheckAfterSyncReminders, OFF
         SetTimer TimerCancelTooltip, OFF
         SetTimer TimerCancelTooltip, 1000
-    }
-}
-
-timerCheckReminder()
-{
-    DetectHiddenWindows Off
-    if (WinExist("MyLifeOrganized - Reminders"))
-    {
-        DetectHiddenWindows On
-        SetTimer TimerCheckMloChange, OFF
-        SetTimer TimerCheckAfterSyncReminders, OFF
-        SetTimer TimerCheckAfterSyncReminders, 30000
-        timerSyncMloStep1_launchPing()
-    }
-}
-
-timerCheckMloChange()
-{
-    if (inStr(lastActiveAppName, ".ml - MyLifeOrganized" . " *") || inStr(lastActiveAppName, "Rapid Task Entry") || inStr(lastActiveAppName, "MyLifeOrganized - Reminders"))
-    {
-        SYNC_MLO := 1
-        resetTimerSyncMlo()
-    }
-    else if (SYNC_MLO)
-    {
-        resetTimerSyncMlo()
-        SYNC_MLO := 0
-        timerSyncMloStep1_launchPing()
     }
 }
 
@@ -66,7 +36,6 @@ timerSyncMloStep2_readPing()
 {
     SYNC_MLO := 0
     SetTimer TimerSyncMloStep2_readPing, OFF
-    SetTimer TimerCheckMloChange, OFF
 
     fileread , StrTemp, %A_Temp%\ping.log
     StrTemp := trim(StrTemp)
@@ -83,8 +52,6 @@ timerSyncMloStep2_readPing()
         INTERNET_ACCESS := 0
         ControlSend, , ^s, ahk_class %MLO_CLASS_NAME%
     }
-    SetTimer TimerCheckMloChange, OFF
-    SetTimer TimerCheckMloChange, 1000
 }
 
 timerSyncMloStep3_syncCalendar()

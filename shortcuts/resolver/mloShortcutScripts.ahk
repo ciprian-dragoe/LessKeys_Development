@@ -288,7 +288,7 @@ changeViewMloFactory(number, modifiers)
     }
     else if (number = 8)
     {
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_AUTO_ADVANCE
     }
     else if (number = 1 || number = 2 || number = 3)
     {
@@ -297,4 +297,3 @@ changeViewMloFactory(number, modifiers)
 
     changeViewMlo(modifiers . number, extraInstructions)
 }
-

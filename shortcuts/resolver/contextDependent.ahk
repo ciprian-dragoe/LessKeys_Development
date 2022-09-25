@@ -220,7 +220,10 @@ processF2()
 
 processEscape()
 {
-    MLO_ENTER_MODE := 0
+    if (inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
+    {
+        return mloContextDependentKeyFactory("escape")    
+    }
     send {blind}{escape}
 }
 

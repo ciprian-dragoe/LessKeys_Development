@@ -60,6 +60,7 @@ processCtrlF()
 {
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
+        MLO_ENTER_MODE := 0
         WinGetClass, lastActiveClassName, A
         IfInString, lastActiveClassName, %MLO_CLASS_NAME%
         {
@@ -214,7 +215,6 @@ processCtrlEnter()
 
 processF2()
 {
-    MLO_ENTER_MODE := 0
     send {F2}
 }
 

@@ -8,6 +8,7 @@ global MLO_ENTER_MODE_SET_AS_DAY_REVIEW_BAD := 6
 global MLO_ENTER_MODE_SET_AS_LET_GO := 7
 global MLO_ENTER_MODE_SET_AS_DO := 8
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_AUTO_ADVANCE := 9
+global MLO_ENTER_MODE_SET_ADD_SPACES := 10
 
 
 
@@ -15,7 +16,7 @@ mloContextDependentKeyFactory(originalAction)
 {
     if (originalAction = MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     {
-        currentTask = getCurrentTask()
+        currentTask := getCurrentTask()
         mloNewContextDependentSubTask(currentTask)
     }
     else if (originalAction = MLO_KEYBOARD_SHORTCUT_NEW_TASK)
@@ -24,7 +25,7 @@ mloContextDependentKeyFactory(originalAction)
     } 
     else if (originalAction = "enter")
     {
-        mloNewContextDependentEnter()
+        mloContextDependentEnter()
     }
     else if (originalAction = "escape")
     {
@@ -45,7 +46,7 @@ getCurrentTask()
     return currentTask
 }
 
-mloNewContextDependentEnter()
+mloContextDependentEnter()
 {
     if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL_NEW_TOPIC)
     {
@@ -54,6 +55,10 @@ mloNewContextDependentEnter()
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH)
     {
         newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_ADD_SPACES && A_CaretX)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{space}{space}{enter}")
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK)
     {
@@ -170,6 +175,10 @@ mloNewContextDependentEscape()
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         DOUBLE_PRESS_KEY_ACTIVE := 1
         setTimer TimerDoubleKeyPressInterval, 2500
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_ADD_SPACES)
+    {
+        send {blind}{escape}
     }
     else
     {

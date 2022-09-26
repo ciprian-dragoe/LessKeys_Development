@@ -108,32 +108,33 @@ mloContextDependentEnter()
 
 mloNewContextDependentSubTask(currentTask)
 {
-    if (inStr(currentTask, "--BUCLA--", true))
+    if (inStr(currentTask, "<JOURNAL_NEW_TOPIC>", true))
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNAL_NEW_TOPIC
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
-    else if (inStr(currentTask, "--REVIEW--", true))
+    else if (inStr(currentTask, "<NEW_TASK_WITH_AUTO_ADVANCE>", true))
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_AUTO_ADVANCE
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    }
+    else if (inStr(currentTask, "<DAY_REVIEW_GOOD>", true))
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DAY_REVIEW_GOOD
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         sendKeyCombinationIndependentActiveModifiers("EVENIMENT:{space}")
     }
-    else if (inStr(currentTask, "--DAU--DRUMUL--INAINTE--SOMN--", true))
+    else if (inStr(currentTask, "<NEW_TASK>", true))
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
-    else if (inStr(currentTask, "DAU--DRUMUL--REGASESC--", true))
+    else if (inStr(currentTask, "<DO>", true))
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DO
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         sendKeyCombinationIndependentActiveModifiers("DAU{SPACE}DRUMUL:{SPACE}")
     } 
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL_NEW_TOPIC)
-    {
-        mloAddJournalDelimiterSubTask()
-    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH)
     {
         newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)

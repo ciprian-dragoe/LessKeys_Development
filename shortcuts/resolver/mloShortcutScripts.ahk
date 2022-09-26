@@ -284,14 +284,6 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     {
         extraInstructions := []
     }
-    else if (number = 8)
-    {
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_AUTO_ADVANCE
-    }
-    else if (number = 7 && modifiers = "^+")
-    {
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_ADD_SPACES
-    }
     else if (number = 1 || number = 2 || number = 3)
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH

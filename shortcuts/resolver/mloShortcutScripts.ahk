@@ -9,14 +9,17 @@ global MLO_WINDOW_ACTIVE := 0
 global MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK := "!e" 
 global MLO_KEYBOARD_SHORTCUT_NEW_TASK := "!w" 
 
-if (A_ComputerName = ACTIVE_COMPUTER_1) {
+global MLO_POSITION_Y_RAPID_TASK_ENTRY := 0
+
+if (A_ComputerName = ACTIVE_COMPUTER_X230) {
     MLO_MOVE_UP_PIXELS := -115
 }
-else if (A_ComputerName = ACTIVE_COMPUTER_2) {
+else if (A_ComputerName = ACTIVE_COMPUTER_ASUS_ROG) {
     MLO_MOVE_UP_PIXELS := -115
 }
-else if (A_ComputerName = ACTIVE_COMPUTER_3) {
+else if (A_ComputerName = ACTIVE_COMPUTER_X1_YOGA_G3) {
     MLO_MOVE_UP_PIXELS := -115
+    MLO_POSITION_Y_RAPID_TASK_ENTRY := 70
 }
 
 processMloEnhancements()
@@ -189,7 +192,7 @@ timerActivateMloRapidTaskWindow()
         SetTimer TimerActivateMloRapidTaskWindow, OFF
         WinActivate ahk_class TfrmQuickAddMLOTask, , 2
 
-        WinMove, A,, 0, 0, (A_ScreenWidth), 500
+        WinMove, A,, 0, %MLO_POSITION_Y_RAPID_TASK_ENTRY%, (A_ScreenWidth), 500
     }
     resetModifierWithoutTriggerUpState("lwin", winActive)
 }

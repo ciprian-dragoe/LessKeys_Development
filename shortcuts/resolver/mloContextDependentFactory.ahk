@@ -141,13 +141,22 @@ mloNewContextDependentSubTask(currentTask)
     }
     else
     {
+        MLO_ENTER_MODE := 0
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
 }
 
 mloNewContextDependentTask()
 {
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    if (MLO_ENTER_MODE > 0)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    }
+    else
+    {
+        MLO_ENTER_MODE := 0
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    }
 }
 
 newBrainStormTask(originalAction)

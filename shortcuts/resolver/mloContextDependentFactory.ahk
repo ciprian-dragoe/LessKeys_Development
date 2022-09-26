@@ -186,6 +186,10 @@ mloNewContextDependentEscape()
         DOUBLE_PRESS_KEY_ACTIVE := 1
         setTimer TimerDoubleKeyPressInterval, 2500
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH)
+    {
+        send {blind}{escape}
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_ADD_SPACES)
     {
         send {blind}{escape}

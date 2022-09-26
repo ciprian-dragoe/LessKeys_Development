@@ -36,7 +36,7 @@ processMloEnhancements()
     else if (MLO_WINDOW_ACTIVE)
     {
         MLO_WINDOW_ACTIVE := 0
-        stopMloEnhancements()
+        setMloDarkMode(0)
         if (SYNC_MLO)
         {
             resetTimerSyncMlo()
@@ -249,12 +249,6 @@ setMloDarkMode(enabled)
     }
 }
 
-stopMloEnhancements()
-{
-    MLO_ENTER_MODE := 0
-    setMloDarkMode(0)
-}
-
 goToTaskAndWriteNotes(key)
 {
     taskNumber := SubStr(key, 2, StrLen(key))
@@ -283,6 +277,7 @@ goToTaskAndWriteNotes(key)
 
 changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + # 
 {
+    sendKeyCombinationIndependentActiveModifiers("{escape}")
     extraInstructions := ["{home}", "{F11}"]
     MLO_ENTER_MODE := 0
     if (number = 9)

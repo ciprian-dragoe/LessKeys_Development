@@ -5,6 +5,10 @@ global MLO_NAME := "MyLifeOrganized"
 global MLO_MOVE_UP_PIXELS
 global MLO_WINDOW_NAME := "01-MY-LIST"
 global MLO_WINDOW_ACTIVE := 0
+global MLO_DARK_MODE_TOP_HEIGHT := 0
+global MLO_DARK_MODE_BOTTOM_HEIGHT := 0
+global MLO_DARK_MODE_RIGHT_WIDTH := 0
+global MLO_DARK_MODE_LEFT_WIDTH := 0
 
 global MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK := "!e" 
 global MLO_KEYBOARD_SHORTCUT_NEW_TASK := "!w" 
@@ -20,6 +24,18 @@ else if (A_ComputerName = ACTIVE_COMPUTER_ASUS_ROG) {
 else if (A_ComputerName = ACTIVE_COMPUTER_X1_YOGA_G3) {
     MLO_MOVE_UP_PIXELS := -115
     MLO_POSITION_Y_RAPID_TASK_ENTRY := 70
+    MLO_DARK_MODE_TOP_HEIGHT := 120
+    MLO_DARK_MODE_RIGHT_WIDTH := 45
+    MLO_DARK_MODE_LEFT_WIDTH := 14
+    MLO_DARK_MODE_BOTTOM_HEIGHT := 230
+}
+else if (A_ComputerName = ACTIVE_COMPUTER_X1_EXTREME) {
+    MLO_MOVE_UP_PIXELS := -90
+    MLO_POSITION_Y_RAPID_TASK_ENTRY := 105
+    MLO_DARK_MODE_TOP_HEIGHT := 115
+    MLO_DARK_MODE_RIGHT_WIDTH := 67
+    MLO_DARK_MODE_BOTTOM_HEIGHT := 215
+    MLO_DARK_MODE_LEFT_WIDTH := 13
 }
 
 processMloEnhancements()
@@ -203,7 +219,7 @@ setMloDarkMode(enabled)
     if (enabled)
     {
         topWidth := A_ScreenWidth + 10
-        topHeight := 120
+        topHeight := MLO_DARK_MODE_TOP_HEIGHT
         topX := -10
         topY := -10
         Gui, top:new
@@ -212,7 +228,7 @@ setMloDarkMode(enabled)
         Gui, top:show, w%topWidth% h%topHeight% x%topX% y%topY%
 
         bottomWidth := A_ScreenWidth + 10
-        bottomHeight := 130
+        bottomHeight := MLO_DARK_MODE_BOTTOM_HEIGHT
         bottomX := -10
         bottomY := A_ScreenHeight - bottomHeight
         Gui, bottom:new
@@ -220,7 +236,7 @@ setMloDarkMode(enabled)
         Gui, color , 000000  ; set color value RGB
         Gui, bottom:show, w%bottomWidth% h%bottomHeight% x%bottomX% y%bottomY%
 
-        leftWidth := 14
+        leftWidth := MLO_DARK_MODE_LEFT_WIDTH
         leftHeight := A_ScreenHeight + 20
         leftX := 0
         leftY := 0
@@ -229,7 +245,7 @@ setMloDarkMode(enabled)
         Gui, color , 000000  ; set color value RGB
         Gui, left:show, w%leftWidth% h%leftHeight% x%leftX% y%leftY%
 
-        rightWidth := 45
+        rightWidth := MLO_DARK_MODE_RIGHT_WIDTH
         rightHeight := A_ScreenHeight + 20
         rightX := A_ScreenWidth - rightWidth
         rightY := 0

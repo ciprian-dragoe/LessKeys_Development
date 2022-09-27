@@ -1,6 +1,7 @@
 global ACTIVE_COMPUTER_X230 := "lenovo-x230"
 global ACTIVE_COMPUTER_2 := "CIPI-ASUS-ROG"
 global ACTIVE_COMPUTER_X1_YOGA_G3 := "yoga-cipi"
+global ACTIVE_COMPUTER_X1_EXTREME := "x1-extreme"
 global SCREEN_SLEEP_PATH := A_ScriptDir . "\environmentDependent\_development\shortcuts\nircmd"
 if (A_ScriptName = "LessKeys.exe")
 {

@@ -180,7 +180,7 @@ mloNewContextDependentEscape()
         sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
         SetTimer TimerStickyFailBack, off
         sleep 150 ; wait for the os to register the command, smaller time causes mlo process errors
-        sendKeyCombinationIndependentActiveModifiers("{escape}")
+        sendKeyCombinationIndependentActiveModifiers("{escape}{home}")
         SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         DOUBLE_PRESS_KEY_ACTIVE := 1

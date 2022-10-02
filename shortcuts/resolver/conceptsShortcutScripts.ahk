@@ -1,4 +1,22 @@
 global CONCEPTS_WINDOW_NAME := "Concepts"
+global IS_SCREEN_ROTATED := 0
+
+processConceptsEnhancements()
+{
+    If (inStr(lastActiveAppName, CONCEPTS_WINDOW_NAME, true))
+    {
+        if (!IS_SCREEN_ROTATED && A_ComputerName = ACTIVE_COMPUTER_X1_EXTREME)
+        {
+            IS_SCREEN_ROTATED := 1
+            sendKeyCombinationIndependentActiveModifiers("^!{down}") ; change screen orientation 180 degrees
+        }
+    }
+    else if (IS_SCREEN_ROTATED)
+    {
+        IS_SCREEN_ROTATED := 0
+        sendKeyCombinationIndependentActiveModifiers("^!{up}") ; change screen orientation 0 degrees
+    }
+}
 
 conceptsTemplate(templateNumber)
 {

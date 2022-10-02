@@ -71,7 +71,7 @@ mloContextDependentEnter()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DAY_REVIEW_GOOD)
     {
-        sendKeyCombinationIndependentActiveModifiers("{escape}{HOME}{DOWN}")
+        sendKeyCombinationIndependentActiveModifiers("{escape}1{DOWN}")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         sendKeyCombinationIndependentActiveModifiers("APRECIEZ:{space}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DAY_REVIEW_BAD    
@@ -83,7 +83,7 @@ mloContextDependentEnter()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_LET_GO)
     {
-        sendKeyCombinationIndependentActiveModifiers("{escape}{end}")
+        sendKeyCombinationIndependentActiveModifiers("{escape}3{down}")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         sendKeyCombinationIndependentActiveModifiers("DAU{SPACE}DRUMUL:{space}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DO
@@ -107,7 +107,7 @@ mloContextDependentEnter()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_THANK_YOU)
     {
-        sendKeyCombinationIndependentActiveModifiers("{escape}{end}{UP}")
+        sendKeyCombinationIndependentActiveModifiers("{escape}2{down}")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         sendKeyCombinationIndependentActiveModifiers("NEVOIE{SPACE}INGRIJIT:{SPACE}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_APPRECIATE
@@ -227,6 +227,27 @@ mloNewContextDependentEscape()
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ADD_SPACES)
     {
         send {blind}{escape}
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_FOR_APPRECIATE)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{escape}2{down}")
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        sendKeyCombinationIndependentActiveModifiers("NEVOIE{SPACE}INGRIJIT:{SPACE}")
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_APPRECIATE
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_FOR_LET_GO)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{escape}3{down}")
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        sendKeyCombinationIndependentActiveModifiers("DAU{SPACE}DRUMUL:{space}")
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DO
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_FOR_DAY_REVIEW)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{escape}1{DOWN}")
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        sendKeyCombinationIndependentActiveModifiers("APRECIEZ:{space}")
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DAY_REVIEW_BAD    
     }
     else
     {

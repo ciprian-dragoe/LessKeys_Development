@@ -2,14 +2,17 @@
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH := 1
 global MLO_ENTER_MODE_SET_AS_JOURNAL_NEW_TOPIC := 2
 global MLO_ENTER_MODE_SET_AS_NEW_TASK := 3
-global MLO_ENTER_MODE_SET_AS_DAY_REVIEW_CONTEXT := 4
+global MLO_ENTER_MODE_SET_AS_NEW_TASK_FOR_DAY_REVIEW := 4
 global MLO_ENTER_MODE_SET_AS_DAY_REVIEW_GOOD := 5
 global MLO_ENTER_MODE_SET_AS_DAY_REVIEW_BAD := 6
+global MLO_ENTER_MODE_SET_AS_NEW_TASK_FOR_LET_GO := 11
 global MLO_ENTER_MODE_SET_AS_LET_GO := 7
 global MLO_ENTER_MODE_SET_AS_DO := 8
+global MLO_ENTER_MODE_SET_AS_NEW_TASK_FOR_APPRECIATE := 20
+global MLO_ENTER_MODE_SET_AS_APPRECIATE := 21
+global MLO_ENTER_MODE_SET_AS_THANK_YOU := 22
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_AUTO_ADVANCE := 9
-global MLO_ENTER_MODE_SET_ADD_SPACES := 10
-
+global MLO_ENTER_MODE_SET_AS_ADD_SPACES := 10
 
 
 mloContextDependentKeyFactory(originalAction)
@@ -33,19 +36,6 @@ mloContextDependentKeyFactory(originalAction)
     }
 }
 
-getCurrentTask()
-{
-    ; copy current task so that it can be parsed without loosing clipboard
-    temp := Clipboard
-    sendKeyCombinationIndependentActiveModifiers("^c")
-    SetTimer TimerStickyFailBack, off
-    sleep 150 ; wait for the os to register the command, smaller time causes mlo process errors
-    currentTask := Clipboard
-    Clipboard := temp
-    SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
-    return currentTask
-}
-
 mloContextDependentEnter()
 {
     if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL_NEW_TOPIC)
@@ -56,7 +46,7 @@ mloContextDependentEnter()
     {
         newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_ADD_SPACES && A_CaretX)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ADD_SPACES && A_CaretX)
     {
         sendKeyCombinationIndependentActiveModifiers("{space}{space}{enter}")
     }
@@ -68,30 +58,34 @@ mloContextDependentEnter()
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DAY_REVIEW_CONTEXT)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_FOR_DAY_REVIEW)
     {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
-        sendKeyCombinationIndependentActiveModifiers("EVENIMENT:{space}")    
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DAY_REVIEW_GOOD
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DAY_REVIEW_GOOD)
-    {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
-        sendKeyCombinationIndependentActiveModifiers("APRECIEZ:{space}")    
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DAY_REVIEW_BAD
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        sendKeyCombinationIndependentActiveModifiers("EVENIMENT<REVIEW_GOOD>:{SPACE}")
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DAY_REVIEW_BAD)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
         sendKeyCombinationIndependentActiveModifiers("DIFERIT:{space}")    
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DAY_REVIEW_CONTEXT
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DAY_REVIEW_GOOD
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DAY_REVIEW_GOOD)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{escape}{HOME}{DOWN}")
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        sendKeyCombinationIndependentActiveModifiers("APRECIEZ:{space}")
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DAY_REVIEW_BAD    
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_FOR_LET_GO)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        sendKeyCombinationIndependentActiveModifiers("DAU{SPACE}DRUMUL{SPACE}INAINTE{SPACE}SOMN<LET_GO>:{SPACE}")    
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_LET_GO)
     {
-        sendKeyCombinationIndependentActiveModifiers("{F5}")
-        sendKeyCombinationIndependentActiveModifiers("{END}")    
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)    
-        sendKeyCombinationIndependentActiveModifiers("DAU{SPACE}DRUMUL:{space}")    
+        sendKeyCombinationIndependentActiveModifiers("{escape}{end}")
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        sendKeyCombinationIndependentActiveModifiers("DAU{SPACE}DRUMUL:{space}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DO
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DO)
@@ -99,6 +93,24 @@ mloContextDependentEnter()
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
         sendKeyCombinationIndependentActiveModifiers("REGASESC:{space}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_LET_GO
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_FOR_APPRECIATE)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
+        sendKeyCombinationIndependentActiveModifiers("APRECIEZ{SPACE}INTERACTIUNE{SPACE}AZI<APPRECIATE>:{SPACE}")
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_APPRECIATE)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
+        sendKeyCombinationIndependentActiveModifiers("POT{SPACE}SA{SPACE}MULTUMESC{SPACE}PRIN:{SPACE}")
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_THANK_YOU
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_THANK_YOU)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{escape}{end}{UP}")
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        sendKeyCombinationIndependentActiveModifiers("NEVOIE{SPACE}INGRIJIT:{SPACE}")
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_APPRECIATE
     }
     else
     {
@@ -139,6 +151,42 @@ mloNewContextDependentSubTask(currentTask)
     {
         newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
+    else if (inStr(currentTask, "<NEW_TASK_FOR_LET_GO>", true))
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_FOR_LET_GO
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        sendKeyCombinationIndependentActiveModifiers("DAU{SPACE}DRUMUL{SPACE}INAINTE{SPACE}SOMN<LET_GO>:{SPACE}")
+    }
+    else if (inStr(currentTask, "<LET_GO>", true))
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)    
+        sendKeyCombinationIndependentActiveModifiers("DAU{SPACE}DRUMUL:{space}")    
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DO
+    }
+    else if (inStr(currentTask, "<NEW_TASK_FOR_DAY_REVIEW>", true))
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_FOR_DAY_REVIEW
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        sendKeyCombinationIndependentActiveModifiers("EVENIMENT<REVIEW_GOOD>:{SPACE}")
+    }
+    else if (inStr(currentTask, "<REVIEW_GOOD>", true))
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DAY_REVIEW_BAD
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        sendKeyCombinationIndependentActiveModifiers("APRECIEZ:{SPACE}")
+    }
+    else if (inStr(currentTask, "<NEW_TASK_FOR_APPRECIATE>", true))
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_FOR_APPRECIATE
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        sendKeyCombinationIndependentActiveModifiers("APRECIEZ{SPACE}INTERACTIUNE{SPACE}AZI<APPRECIATE>:{SPACE}")
+    }
+    else if (inStr(currentTask, "<APPRECIATE>", true))
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_APPRECIATE
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        sendKeyCombinationIndependentActiveModifiers("NEVOIE{SPACE}INGRIJIT:{SPACE}")
+    }
     else
     {
         MLO_ENTER_MODE := 0
@@ -159,20 +207,6 @@ mloNewContextDependentTask()
     }
 }
 
-newBrainStormTask(originalAction)
-{
-    sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
-    sendKeyCombinationIndependentActiveModifiers(originalAction)
-}
-
-mloAddJournalDelimiterSubTask()
-{
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-    sendKeyCombinationIndependentActiveModifiers("========={space}{space}")
-    newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-    MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
-}
-
 mloNewContextDependentEscape()
 {
     if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_AUTO_ADVANCE && !DOUBLE_PRESS_KEY_ACTIVE)
@@ -190,7 +224,7 @@ mloNewContextDependentEscape()
     {
         send {blind}{escape}
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_ADD_SPACES)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ADD_SPACES)
     {
         send {blind}{escape}
     }
@@ -199,4 +233,31 @@ mloNewContextDependentEscape()
         MLO_ENTER_MODE := 0
         send {blind}{escape}
     }
+}
+
+newBrainStormTask(originalAction)
+{
+    sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
+    sendKeyCombinationIndependentActiveModifiers(originalAction)
+}
+
+mloAddJournalDelimiterSubTask()
+{
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    sendKeyCombinationIndependentActiveModifiers("========={space}{space}")
+    newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
+}
+
+getCurrentTask()
+{
+    ; copy current task so that it can be parsed without loosing clipboard
+    temp := Clipboard
+    sendKeyCombinationIndependentActiveModifiers("^c")
+    SetTimer TimerStickyFailBack, off
+    sleep 150 ; wait for the os to register the command, smaller time causes mlo process errors
+    currentTask := Clipboard
+    Clipboard := temp
+    SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
+    return currentTask
 }

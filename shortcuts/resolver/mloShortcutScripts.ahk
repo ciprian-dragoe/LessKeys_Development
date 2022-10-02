@@ -306,7 +306,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     }
     else if (number = 7 && modifiers = "^+")
     {
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_ADD_SPACES
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ADD_SPACES
     }
     else if (number = 1 || number = 2 || number = 3)
     {

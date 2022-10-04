@@ -314,7 +314,7 @@ mloNewContextDependentEscape()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER_9 && !DOUBLE_PRESS_KEY_ACTIVE)
     {
-        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}9")
+        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}{f5}9")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER_8
         DOUBLE_PRESS_KEY_ACTIVE := 1
@@ -322,7 +322,7 @@ mloNewContextDependentEscape()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER_8 && !DOUBLE_PRESS_KEY_ACTIVE)
     {
-        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}8")
+        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}{f5}8")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER_7
         DOUBLE_PRESS_KEY_ACTIVE := 1
@@ -330,7 +330,7 @@ mloNewContextDependentEscape()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER_7 && !DOUBLE_PRESS_KEY_ACTIVE)
     {
-        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}7")
+        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}{f5}7")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER_6
         DOUBLE_PRESS_KEY_ACTIVE := 1
@@ -338,7 +338,7 @@ mloNewContextDependentEscape()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER_6 && !DOUBLE_PRESS_KEY_ACTIVE)
     {
-        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}6")
+        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}{f5}6")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER_5
         DOUBLE_PRESS_KEY_ACTIVE := 1
@@ -346,13 +346,13 @@ mloNewContextDependentEscape()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER_5 && !DOUBLE_PRESS_KEY_ACTIVE)
     {
-        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}5")
+        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}{f5}5")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER_4
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER_4 && !DOUBLE_PRESS_KEY_ACTIVE)
     {
-        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}4")
+        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}{f5}4")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER_3
         DOUBLE_PRESS_KEY_ACTIVE := 1
@@ -360,7 +360,7 @@ mloNewContextDependentEscape()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER_3 && !DOUBLE_PRESS_KEY_ACTIVE)
     {
-        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}3")
+        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}{f5}3")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER_2
         DOUBLE_PRESS_KEY_ACTIVE := 1
@@ -368,7 +368,7 @@ mloNewContextDependentEscape()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER_2 && !DOUBLE_PRESS_KEY_ACTIVE)
     {
-        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}2")
+        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}{f5}2")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER_1
         DOUBLE_PRESS_KEY_ACTIVE := 1
@@ -376,7 +376,7 @@ mloNewContextDependentEscape()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER_1 && !DOUBLE_PRESS_KEY_ACTIVE)
     {
-        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}1")
+        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}{f5}1")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER_0
         DOUBLE_PRESS_KEY_ACTIVE := 1
@@ -384,7 +384,11 @@ mloNewContextDependentEscape()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER_0 && !DOUBLE_PRESS_KEY_ACTIVE)
     {
-        sendKeyCombinationIndependentActiveModifiers("{ENTER}")
+        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}{f5}0")
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK
+        DOUBLE_PRESS_KEY_ACTIVE := 1
+        setTimer TimerDoubleKeyPressInterval, 2500
     }
     else
     {

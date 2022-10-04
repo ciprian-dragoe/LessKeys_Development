@@ -7,14 +7,23 @@ processConceptsEnhancements()
     {
         if (!IS_SCREEN_ROTATED && A_ComputerName = ACTIVE_COMPUTER_X1_EXTREME)
         {
+            SetTimer, TimerLessKeysManagementBasedOnActiveApp, 0
             IS_SCREEN_ROTATED := 1
+            showtooltip("SCREEN FLIPPED")
             sendKeyCombinationIndependentActiveModifiers("^!{down}") ; change screen orientation 180 degrees
+            SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
+            SetTimer, TimerLessKeysManagementBasedOnActiveApp, 500
         }
     }
     else if (IS_SCREEN_ROTATED)
     {
         IS_SCREEN_ROTATED := 0
+        SetTimer, TimerLessKeysManagementBasedOnActiveApp, 0
+        SetTimer TimerStickyFailBack, off
+        showtooltip("SCREEN NORMAL")
         sendKeyCombinationIndependentActiveModifiers("^!{up}") ; change screen orientation 0 degrees
+        SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
+        SetTimer, TimerLessKeysManagementBasedOnActiveApp, 500
     }
 }
 

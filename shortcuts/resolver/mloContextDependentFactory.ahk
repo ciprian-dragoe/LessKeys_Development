@@ -1,6 +1,5 @@
 ﻿global MLO_ENTER_MODE := 0
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH := 1
-global MLO_ENTER_MODE_SET_AS_JOURNAL_NEW_TOPIC := 2
 global MLO_ENTER_MODE_SET_AS_NEW_TASK := 3
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_FOR_DAY_REVIEW := 4
 global MLO_ENTER_MODE_SET_AS_DAY_REVIEW_GOOD := 5
@@ -40,11 +39,7 @@ mloContextDependentKeyFactory(originalAction)
 
 mloContextDependentEnter()
 {
-    if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL_NEW_TOPIC)
-    {
-        mloAddJournalDelimiterSubTask()
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH)
+    if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH)
     {
         newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
@@ -127,8 +122,7 @@ mloNewContextDependentSubTask(currentTask)
 {
     if (inStr(currentTask, "<JOURNAL_NEW_TOPIC>", true))
     {
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNAL_NEW_TOPIC
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        mloAddJournalDelimiterSubTask()
     }
     else if (inStr(currentTask, "<NEW_TASK_WITH_AUTO_ADVANCE>", true))
     {

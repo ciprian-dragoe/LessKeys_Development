@@ -12,6 +12,8 @@ global MLO_DARK_MODE_LEFT_WIDTH := 0
 
 global MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK := "!e" 
 global MLO_KEYBOARD_SHORTCUT_NEW_TASK := "!w" 
+global MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_EXCEPT_SELECTION := "^{F11}" 
+global MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS := "{F12}" 
 
 global MLO_POSITION_Y_RAPID_TASK_ENTRY := 0
 
@@ -276,19 +278,13 @@ goToTaskAndWriteNotes(key)
     {
         taskNumber := taskNumber + 2
     }
-    taskNumber := taskNumber + 2 ; because bookmarks start from 3, not 1
-    bookmark := "+{F" . taskNumber . "}"   
-    send %bookmark% ; go to bookmark associated with task number
-    send ^{F11} ; collapse other subtasks
-    sleep 50
-    send !q ; open sub-tasks if any
-    sleep 50
-    taskNumber := taskNumber + 1
-    bookmark := "+{F" . taskNumber . "}"
-    send %bookmark% ; go to bookmark associated with task number
-    sleep 50
-    send {up}
-    sendKeyCombinationIndependentActiveModifiers("!w")
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
+    sleep 150
+    nextTask := taskNumber + 1 
+    send %nextTask%
+    sendKeyCombinationIndependentActiveModifiers("{UP}")
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_EXCEPT_SELECTION)
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
 }
 
 changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + # 
@@ -304,18 +300,29 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     {
         extraInstructions := ["{home}", "{F12}"]
     }
-    else if (number = 7 && modifiers = "^+")
-    {
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ADD_SPACES
-    }
     else if (number = 7 && modifiers = "^")
     {
         extraInstructions := ["{home}", "{F12}"]
     }
-    else if (number = 1 || number = 2 || number = 3)
+    else if (number = 3)
     {
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
+        number := 5
+        if (A_WDay = 1) ; sunday
+        {
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ADD_SPACES
+            modifiers := "^+"
+        } 
+        else if (Mod(A_WDay, 2) = 0)
+        {
+            modifiers := "^!"
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
+        }
+        else
+        {
+            modifiers := "+!"
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
+        }
     }
-
+    
     changeViewMlo(modifiers . number, extraInstructions)
 }

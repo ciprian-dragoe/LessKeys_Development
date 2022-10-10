@@ -80,7 +80,7 @@ mloContextDependentEnter()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_LET_GO)
     {
-        sendKeyCombinationIndependentActiveModifiers("{escape}3{down}")
+        sendKeyCombinationIndependentActiveModifiers("{escape}{end}")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         sendKeyCombinationIndependentActiveModifiers("DAU{SPACE}DRUMUL:{space}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DO

@@ -256,7 +256,9 @@ mloNewContextDependentEscape()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER && !DOUBLE_PRESS_KEY_ACTIVE)
     {
-        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}{f5}" . NEW_TASK_GO_AFTER_TO)
+        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}{f5}")
+        sleep 150
+        sendKeyCombinationIndependentActiveModifiers(NEW_TASK_GO_AFTER_TO)
         nextTaskToGoAfter := getCurrentTask()
         if (inStr(nextTaskToGoAfter, "<NEW_TASK_GO_AFTER", true))
         {
@@ -282,8 +284,9 @@ mloNewContextDependentEscape()
 extractDestinationAfter(input)
 {
     needle := "<NEW_TASK_GO_AFTER"
-    position := InStr(input, "<NEW_TASK_GO_AFTER_")
-    result := SubStr(input, position + StrLen(needle) + 1, 1)
+    positionStart := InStr(input, "<NEW_TASK_GO_AFTER_") + StrLen(needle) + 1
+    positionEnd := InStr(input, ">")
+    result := SubStr(input, positionStart, positionEnd - positionStart)
     return result 
 }
 
@@ -296,8 +299,7 @@ newBrainStormTask(originalAction)
 mloAddJournalDelimiterSubTask()
 {
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-    sendKeyCombinationIndependentActiveModifiers("========={space}{space}")
-    newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    sendKeyCombinationIndependentActiveModifiers("======{space}{space}======{space}{space}{left 9}")
     MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
 }
 

@@ -296,11 +296,11 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     {
         extraInstructions := []
     }
-    else if (number = 8)
+    else if (number = 1)
     {
         extraInstructions := ["{home}", "{F12}"]
     }
-    else if (number = 7 && modifiers = "^")
+    else if (number = 2 && modifiers = "^")
     {
         extraInstructions := ["{home}", "{F12}"]
     }

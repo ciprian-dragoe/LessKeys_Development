@@ -256,22 +256,14 @@ mloNewContextDependentEscape()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER && !DOUBLE_PRESS_KEY_ACTIVE)
     {
+        DOUBLE_PRESS_KEY_ACTIVE := 1
+        setTimer TimerDoubleKeyPressInterval, 2500
         sendKeyCombinationIndependentActiveModifiers("{enter}{escape}{f5}")
         sleep 150
         sendKeyCombinationIndependentActiveModifiers(NEW_TASK_GO_AFTER_TO)
+        
         nextTaskToGoAfter := getCurrentTask()
-        if (inStr(nextTaskToGoAfter, "<NEW_TASK_GO_AFTER", true))
-        {
-            NEW_TASK_GO_AFTER_TO := extractDestinationAfter(nextTaskToGoAfter) 
-        }
-        else
-        {
-            NEW_TASK_GO_AFTER_TO := ""
-            MLO_ENTER_MODE := 0
-        }
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-        DOUBLE_PRESS_KEY_ACTIVE := 1
-        setTimer TimerDoubleKeyPressInterval, 2500
+        mloNewContextDependentSubTask(nextTaskToGoAfter)
     }
     else
     {

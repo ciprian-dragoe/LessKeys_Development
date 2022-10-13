@@ -14,6 +14,8 @@ global MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_AUTO_ADVANCE := 9
 global MLO_ENTER_MODE_SET_AS_ADD_SPACES := 10
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER := 30
 global NEW_TASK_GO_AFTER_TO := ""
+global PREVIOUS_TASK := ""
+global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 40
 
 
 mloContextDependentKeyFactory(originalAction)
@@ -192,6 +194,11 @@ mloNewContextDependentSubTask(currentTask)
         NEW_TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
+    else if (inStr(currentTask, "<ESCAPE_AS_ENTER>", true))
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    }
     else
     {
         MLO_ENTER_MODE := 0
@@ -254,23 +261,38 @@ mloNewContextDependentEscape()
         sendKeyCombinationIndependentActiveModifiers("APRECIEZ:{space}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DAY_REVIEW_BAD    
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER && !DOUBLE_PRESS_KEY_ACTIVE)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER)
     {
-        DOUBLE_PRESS_KEY_ACTIVE := 1
-        setTimer TimerDoubleKeyPressInterval, 2500
-        sendKeyCombinationIndependentActiveModifiers("{enter}{escape}{f5}")
-        sleep 150
-        sendKeyCombinationIndependentActiveModifiers(NEW_TASK_GO_AFTER_TO)
-        
-        nextTaskToGoAfter := getCurrentTask()
-        mloNewContextDependentSubTask(nextTaskToGoAfter)
+        sendKeyCombinationIndependentActiveModifiers("{ENTER}")
+        resetEscapeMode()    
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER)
+    {
+        if (DOUBLE_PRESS_KEY_ACTIVE)
+        {
+            DOUBLE_PRESS_KEY_ACTIVE := 0
+            setTimer TimerNewMloTaskOnEscape, off
+            resetEscapeMode()
+        }
+        else
+        {
+            DOUBLE_PRESS_KEY_ACTIVE := 1
+            setTimer TimerDoubleKeyPressInterval, 600        
+            setTimer TimerNewMloTaskOnEscape, 500
+        }
     }
     else
     {
-        MLO_ENTER_MODE := 0
-        NEW_TASK_GO_AFTER_TO := ""
-        send {blind}{escape}
+        resetEscapeMode()
     }
+}
+
+resetEscapeMode()
+{
+    MLO_ENTER_MODE := 0
+    NEW_TASK_GO_AFTER_TO := ""
+    PREVIOUS_TASK := ""
+    send {blind}{escape}
 }
 
 extractDestinationAfter(input)
@@ -293,6 +315,27 @@ mloAddJournalDelimiterSubTask()
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     sendKeyCombinationIndependentActiveModifiers("======{space}{space}======{space}{space}{left 9}")
     MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
+}
+
+timerNewMloTaskOnEscape()
+{
+    setTimer TimerNewMloTaskOnEscape, off
+    sendKeyCombinationIndependentActiveModifiers("^a^c")
+    sleep 150
+    if (Clipboard = "New Task")
+    {
+        send %PREVIOUS_TASK%
+    }
+    else
+    {
+        PREVIOUS_TASK := Clipboard
+    }
+    sendKeyCombinationIndependentActiveModifiers("{enter}{f5}")
+    
+    sleep 150
+    sendKeyCombinationIndependentActiveModifiers(NEW_TASK_GO_AFTER_TO)
+    nextTaskToGoAfter := getCurrentTask()
+    mloNewContextDependentSubTask(nextTaskToGoAfter)
 }
 
 getCurrentTask()

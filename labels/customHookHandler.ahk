@@ -6,6 +6,10 @@ TimerCheckAfterSyncReminders:
     timerCheckAfterSyncReminders()
 return
 
+TimerNewMloTaskOnEscape:
+    timerNewMloTaskOnEscape()
+return
+
 TimerSyncMloStep2_readPing:
     timerSyncMloStep2_readPing()
 return

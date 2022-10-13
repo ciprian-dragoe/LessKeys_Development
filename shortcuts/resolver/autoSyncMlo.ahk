@@ -44,6 +44,7 @@ timerSyncMloStep2_readPing()
     {
         INTERNET_ACCESS := 1
         ControlSend, , {F9}, ahk_class %MLO_CLASS_NAME%
+        
         SetTimer TimerSyncMloStep3_syncCalendar, OFF
         SetTimer TimerSyncMloStep3_syncCalendar, 100000
     }

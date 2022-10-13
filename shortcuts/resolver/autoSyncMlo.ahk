@@ -67,4 +67,5 @@ timerSyncMloStep3_syncCalendar()
 resetTimerSyncMlo()
 {
     SetTimer TimerSyncMloStep2_readPing, OFF
+    SetTimer TimerSyncMloStep3_syncCalendar, OFF
 }

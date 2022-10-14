@@ -271,14 +271,18 @@ mloNewContextDependentEscape()
         if (DOUBLE_PRESS_KEY_ACTIVE)
         {
             DOUBLE_PRESS_KEY_ACTIVE := 0
-            setTimer TimerNewMloTaskOnEscape, off
+            setTimer TimerNewMloTaskOnEscapePhase1, off
+            setTimer TimerNewMloTaskOnEscapePhase2, off
+            setTimer TimerNewMloTaskOnEscapePhase3, off
+            setTimer TimerNewMloTaskOnEscapeClear, off
             resetEscapeMode()
         }
         else
         {
             DOUBLE_PRESS_KEY_ACTIVE := 1
-            setTimer TimerDoubleKeyPressInterval, 600        
-            setTimer TimerNewMloTaskOnEscape, 500
+            setTimer TimerDoubleKeyPressInterval, 700        
+            setTimer TimerNewMloTaskOnEscapePhase1, 200
+            setTimer TimerNewMloTaskOnEscapeClear, 2000
         }
     }
     else
@@ -317,25 +321,50 @@ mloAddJournalDelimiterSubTask()
     MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
 }
 
-timerNewMloTaskOnEscape()
+TimerNewMloTaskOnEscapeClear()
 {
-    setTimer TimerNewMloTaskOnEscape, off
-    sendKeyCombinationIndependentActiveModifiers("^a^c")
-    sleep 150
-    if (Clipboard = "New Task")
+    setTimer TimerNewMloTaskOnEscapeClear, off
+    PREVIOUS_TASK := ""
+}
+
+timerNewMloTaskOnEscapePhase1()
+{
+    setTimer TimerNewMloTaskOnEscapePhase1, off
+    if (DOUBLE_PRESS_KEY_ACTIVE)
     {
-        send %PREVIOUS_TASK%
+        setTimer TimerNewMloTaskOnEscapePhase2, 200
+        sendKeyCombinationIndependentActiveModifiers("^a^c")
     }
-    else
+}
+
+timerNewMloTaskOnEscapePhase2()
+{
+    setTimer TimerNewMloTaskOnEscapePhase2, off
+    if (DOUBLE_PRESS_KEY_ACTIVE)
     {
-        PREVIOUS_TASK := Clipboard
+        setTimer TimerNewMloTaskOnEscapePhase3, 200
+        if (Clipboard = "New Task")
+        {
+            send %PREVIOUS_TASK%
+        }
+        else
+        {
+            PREVIOUS_TASK := Clipboard
+        }
+        sendKeyCombinationIndependentActiveModifiers("{enter}{f5}")
     }
-    sendKeyCombinationIndependentActiveModifiers("{enter}{f5}")
-    
-    sleep 150
-    sendKeyCombinationIndependentActiveModifiers(NEW_TASK_GO_AFTER_TO)
-    nextTaskToGoAfter := getCurrentTask()
-    mloNewContextDependentSubTask(nextTaskToGoAfter)
+}
+
+timerNewMloTaskOnEscapePhase3()
+{
+    setTimer TimerNewMloTaskOnEscapePhase3, off
+    if (DOUBLE_PRESS_KEY_ACTIVE)
+    {
+        sendKeyCombinationIndependentActiveModifiers(NEW_TASK_GO_AFTER_TO)
+        nextTaskToGoAfter := getCurrentTask()
+        mloNewContextDependentSubTask(nextTaskToGoAfter)
+        setTimer TimerNewMloTaskOnEscapeClear, 2000
+    }
 }
 
 getCurrentTask()

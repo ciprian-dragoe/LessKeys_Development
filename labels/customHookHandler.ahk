@@ -6,20 +6,24 @@ TimerCheckAfterSyncReminders:
     timerCheckAfterSyncReminders()
 return
 
-TimerNewMloTaskOnEscapePhase1:
-    timerNewMloTaskOnEscapePhase1()
+TimerCopyMloTaskPhase1:
+    TimerCopyMloTaskPhase1()
 return
 
-TimerNewMloTaskOnEscapePhase2:
-    timerNewMloTaskOnEscapePhase2()
+TimerCopyMloTaskPhase2:
+    TimerCopyMloTaskPhase2()
 return
 
-TimerNewMloTaskOnEscapePhase3:
-    timerNewMloTaskOnEscapePhase3()
+TimerCopyMloTaskPhase3:
+    TimerCopyMloTaskPhase3()
 return
 
-TimerNewMloTaskOnEscapeClear:
-    TimerNewMloTaskOnEscapeClear()
+TimerGoToMloTask:
+    TimerGoToMloTask()
+return
+
+TimerCopyMloTaskClear:
+    TimerCopyMloTaskClear()
 return
 
 TimerSyncMloStep2_readPing:

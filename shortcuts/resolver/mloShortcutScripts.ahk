@@ -37,7 +37,8 @@ else if (A_ComputerName = ACTIVE_COMPUTER_X1_EXTREME) {
     MLO_POSITION_Y_RAPID_TASK_ENTRY := 105
     MLO_DARK_MODE_TOP_HEIGHT := 115
     MLO_DARK_MODE_RIGHT_WIDTH := 72
-    MLO_DARK_MODE_BOTTOM_HEIGHT := 100
+    MLO_DARK_MODE_BOTTOM_HEIGHT := 215 ; when taskbar not hidden
+    ;MLO_DARK_MODE_BOTTOM_HEIGHT := 100 ; when taskbar hidden
     MLO_DARK_MODE_LEFT_WIDTH := 13
 }
 
@@ -319,11 +320,6 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         {
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ADD_SPACES
             modifiers := "^+"
-        } 
-        else if (Mod(A_WDay, 2) = 0)
-        {
-            modifiers := "^!"
-            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
         }
         else
         {

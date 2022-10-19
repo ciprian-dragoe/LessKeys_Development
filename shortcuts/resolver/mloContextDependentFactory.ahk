@@ -414,7 +414,7 @@ TimerCopyMloTaskPhase2()
 {
     setTimer TimerCopyMloTaskPhase2, off
     setTimer TimerCopyMloTaskPhase3, 200
-    if (Clipboard = "New Task")
+    if (Clipboard = "New Task" || Clipboard = "Clipboard")
     {
         send %PREVIOUS_TASK%
         setTimer TimerCopyMloTaskPhase3, 500 

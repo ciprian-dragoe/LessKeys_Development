@@ -1,6 +1,7 @@
 global CONCEPTS_WINDOW_NAME := "Concepts"
 global IS_SCREEN_ROTATED := 0
 
+
 processConceptsEnhancements()
 {
     return

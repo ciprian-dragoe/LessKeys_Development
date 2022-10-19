@@ -12,6 +12,7 @@ global MLO_ENTER_MODE_SET_AS_APPRECIATE := 21
 global MLO_ENTER_MODE_SET_AS_THANK_YOU := 22
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_AUTO_ADVANCE := 9
 global MLO_ENTER_MODE_SET_AS_ADD_SPACES := 10
+global MLO_SKIP_NEXT_ENTER_MODE_ACTION := 0
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER := 30
 global MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER := 31
 global NEW_TASK_GO_AFTER_TO := ""
@@ -45,7 +46,15 @@ mloContextDependentEnter()
 {
     if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH)
     {
-        newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        if (MLO_SKIP_NEXT_ENTER_MODE_ACTION)
+        {
+            MLO_SKIP_NEXT_ENTER_MODE_ACTION := 0
+            sendKeyCombinationIndependentActiveModifiers("{ENTER}")
+        }
+        else
+        {
+            newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ADD_SPACES && A_CaretX)
     {
@@ -247,7 +256,8 @@ mloNewContextDependentTask(currentTask = "")
         sendKeyCombinationIndependentActiveModifiers("^d")
         sendKeyCombinationIndependentActiveModifiers("{down}")
         sendKeyCombinationIndependentActiveModifiers("{F2}")
-        sendKeyCombinationIndependentActiveModifiers("{space}{space}[*]{left 5}")
+        sendKeyCombinationIndependentActiveModifiers("1{space}{space}{space}[*]{left 5}")
+        MLO_SKIP_NEXT_ENTER_MODE_ACTION := 1
     }
     else if (MLO_ENTER_MODE > 0)
     {
@@ -272,6 +282,10 @@ mloNewContextDependentEscape()
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         DOUBLE_PRESS_KEY_ACTIVE := 1
         setTimer TimerDoubleKeyPressInterval, 2500
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK)
+    {
+        send {blind}{enter}{escape}
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH)
     {
@@ -319,10 +333,10 @@ mloNewContextDependentEscape()
         else
         {
             DOUBLE_PRESS_KEY_ACTIVE := 1
-            setTimer TimerDoubleKeyPressInterval, off        
+            setTimer TimerDoubleKeyPressInterval, off
             setTimer TimerDoubleKeyPressInterval, 800
             setTimer TimerGoToMloTask, off
-            setTimer TimerGoToMloTask, 600        
+            setTimer TimerGoToMloTask, 600
             sendKeyCombinationIndependentActiveModifiers("{enter}{f5}{escape}")
         }
     }
@@ -360,6 +374,7 @@ resetEscapeMode()
     MLO_ENTER_MODE := 0
     NEW_TASK_GO_AFTER_TO := ""
     PREVIOUS_TASK := ""
+    MLO_SKIP_NEXT_ENTER_MODE_ACTION := 0
     send {blind}{escape}
 }
 
@@ -407,14 +422,14 @@ TimerCopyMloTaskPhase1()
 {
     setTimer TimerCopyMloTaskPhase1, off
     setTimer TimerCopyMloTaskPhase2, 200
-    sendKeyCombinationIndependentActiveModifiers("^a^c")
+    sendKeyCombinationIndependentActiveModifiers("{right}{space}^a^c")
 }
 
 TimerCopyMloTaskPhase2()
 {
     setTimer TimerCopyMloTaskPhase2, off
     setTimer TimerCopyMloTaskPhase3, 200
-    if (Clipboard = "New Task" || Clipboard = "Clipboard")
+    if (Clipboard = "New Task " || Clipboard = " ")
     {
         send %PREVIOUS_TASK%
         setTimer TimerCopyMloTaskPhase3, 500 

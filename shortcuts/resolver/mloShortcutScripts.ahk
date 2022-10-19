@@ -302,6 +302,10 @@ addToOneVisibleTask(key)
 
 addTaskToEndOf(key)
 {
+    if (A_CaretX)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{enter}")
+    }
     if (MLO_LAST_VIEW = 8)
     {
         addToAllVisibleTasks(key)
@@ -354,11 +358,8 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     extraInstructions := ["{home}", "{F11}"]
     MLO_ENTER_MODE := 0
     MLO_LAST_VIEW := number
-    if (number = 9)
-    {
-        extraInstructions := []
-    }
-    else if (number = 1)
+    ;showtooltip(number)
+    if (number = 1)
     {
         extraInstructions := ["{home}", "{F12}"]
     }
@@ -366,17 +367,22 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     {
         extraInstructions := ["{home}", "{F12}"]
     }
-    else if (number = 5 )
+    else if (number = 9)
     {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ADD_SPACES
         extraInstructions := ["{home}", "{F12}"]
+    }
+    else if (number = 5)
+    {
+        extraInstructions := ["{F12}"]
     }
     else if (number = 7)
     {
-        if (A_WDay = 1) ; sunday
+        if (A_WDay = 8) ; sunday
         {
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ADD_SPACES
             modifiers := "^"
-            number = 5
+            number = 9
             extraInstructions := ["{home}", "{F12}"]
         }
         else
@@ -386,11 +392,11 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     }
     else if (number = 8)
     {
-        if (A_WDay = 1) ; sunday
+        if (A_WDay = 8) ; sunday
         {
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ADD_SPACES
             modifiers := "^"
-            number = 5
+            number = 9
             extraInstructions := ["{home}", "{F12}"]
         }
         else

@@ -28,7 +28,8 @@ mloContextDependentKeyFactory(originalAction)
     }
     else if (originalAction = MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     {
-        mloNewContextDependentTask()
+        currentTask := getCurrentTask()
+        mloNewContextDependentTask(currentTask)
     } 
     else if (originalAction = "enter")
     {
@@ -231,7 +232,7 @@ mloNewContextDependentSubTask(currentTask)
     }
 }
 
-mloNewContextDependentTask()
+mloNewContextDependentTask(currentTask = "")
 {
     if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ADD_SPACES)
     {
@@ -240,6 +241,13 @@ mloNewContextDependentTask()
             sendKeyCombinationIndependentActiveModifiers("{end}{space}{space}{enter}")
         }
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    }
+    else if (inStr(currentTask, "<NEW_EXPLORE_TOPIC>", true))
+    {
+        sendKeyCombinationIndependentActiveModifiers("^d")
+        sendKeyCombinationIndependentActiveModifiers("{down}")
+        sendKeyCombinationIndependentActiveModifiers("{F2}")
+        sendKeyCombinationIndependentActiveModifiers("{space}{space}[*]{left 5}")
     }
     else if (MLO_ENTER_MODE > 0)
     {

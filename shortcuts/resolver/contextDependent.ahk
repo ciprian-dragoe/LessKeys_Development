@@ -15,11 +15,6 @@ processCtrlE()
 {
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
-        if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH)
-        {
-            return newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-        }
-        
         return mloContextDependentKeyFactory(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
     
@@ -176,7 +171,7 @@ processFunctionKey(key)
 {
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
-        return goToTaskAndWriteNotes(key)
+        return addTaskToEndOf(key)
     }
 
     IfInString, lastActiveAppName, %SIMPLEMIND_WINDOW_NAME%

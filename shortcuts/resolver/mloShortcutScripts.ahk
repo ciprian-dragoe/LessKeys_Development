@@ -1,3 +1,4 @@
+global MLO_LAST_VIEW := ""
 global MLO_CLASS_NAME := "TfrmMyLifeMain"
 global MLO_TASK_WINDOWS_NAME :="TVirtualStringTree5_"
 global MLO_FILTER_WINDOWS_NAME :="TEdit2_"
@@ -10,13 +11,16 @@ global MLO_DARK_MODE_BOTTOM_HEIGHT := 0
 global MLO_DARK_MODE_RIGHT_WIDTH := 0
 global MLO_DARK_MODE_LEFT_WIDTH := 0
 global MLO_LAST_TIME_FOREGROUND := 0
+global MLO_POSITION_Y_RAPID_TASK_ENTRY := 0
 
 global MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK := "!e" 
 global MLO_KEYBOARD_SHORTCUT_NEW_TASK := "!w" 
 global MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_EXCEPT_SELECTION := "^{F11}" 
 global MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS := "{F12}" 
+global MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_FIRST_LEVEL := "^+;" 
+global MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_COLLAPSE_ALL_CHILDREN := "!q" 
 
-global MLO_POSITION_Y_RAPID_TASK_ENTRY := 0
+
 
 if (A_ComputerName = ACTIVE_COMPUTER_X230) {
     MLO_MOVE_UP_PIXELS := -115
@@ -276,7 +280,7 @@ setMloDarkMode(enabled)
     }
 }
 
-goToTaskAndWriteNotes(key)
+addToOneVisibleTask(key)
 {
     taskNumber := SubStr(key, 2, StrLen(key))
     if (taskNumber > 4)
@@ -296,11 +300,60 @@ goToTaskAndWriteNotes(key)
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
 }
 
+addTaskToEndOf(key)
+{
+    if (MLO_LAST_VIEW = 8)
+    {
+        addToAllVisibleTasks(key)
+    }
+    else if (MLO_LAST_VIEW = 7)
+    {
+        addToOneVisibleTask(key)
+    }
+}
+
+addToAllVisibleTasks(key)
+{
+    taskNumber := SubStr(key, 2, StrLen(key))
+    if (taskNumber > 4)
+    {
+        taskNumber := taskNumber - 4
+    } 
+    else
+    {
+        taskNumber := taskNumber + 2
+    }
+    send %taskNumber%
+    sleep 150
+    currentTask := getCurrentTask()
+    lines := StrSplit(currentTask, "`n")
+    if (lines.MaxIndex() = 2) ; because last line in empty string based on how split works 
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    }
+    else
+    {
+        lastSubtaskPosition := 0
+        for key, val in lines
+        {
+            if (val && SubStr(val, 3, 1) != " ")
+            {
+                lastSubtaskPosition := key
+            }
+            
+        }
+        lastSubtaskPosition := lastSubtaskPosition - 1 ; because the parent is also considered in the split
+        sendKeyCombinationIndependentActiveModifiers("{DOWN " . lastSubtaskPosition . "}")
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    }
+}
+
 changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + # 
 {
     sendKeyCombinationIndependentActiveModifiers("{escape}")
     extraInstructions := ["{home}", "{F11}"]
     MLO_ENTER_MODE := 0
+    MLO_LAST_VIEW := number
     if (number = 9)
     {
         extraInstructions := []
@@ -313,17 +366,36 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     {
         extraInstructions := ["{home}", "{F12}"]
     }
-    else if (number = 3)
+    else if (number = 5 )
     {
-        number := 5
+        extraInstructions := ["{home}", "{F12}"]
+    }
+    else if (number = 7)
+    {
         if (A_WDay = 1) ; sunday
         {
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ADD_SPACES
-            modifiers := "^+"
+            modifiers := "^"
+            number = 5
+            extraInstructions := ["{home}", "{F12}"]
         }
         else
         {
-            modifiers := "+!"
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
+        }
+    }
+    else if (number = 8)
+    {
+        if (A_WDay = 1) ; sunday
+        {
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ADD_SPACES
+            modifiers := "^"
+            number = 5
+            extraInstructions := ["{home}", "{F12}"]
+        }
+        else
+        {
+            extraInstructions := ["{home}", "{F12}"]
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
         }
     }

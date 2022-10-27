@@ -128,12 +128,25 @@ mloContextDependentEnter()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER)
     {
-        DOUBLE_PRESS_KEY_ACTIVE := 1
-        setTimer TimerCopyMloTaskClear, off
-        setTimer TimerCopyMloTaskClear, 10000
-        setTimer TimerDoubleKeyPressInterval, off
-        setTimer TimerDoubleKeyPressInterval, 1000
-        TimerCopyMloTaskPhase1()
+        if (DOUBLE_PRESS_KEY_ACTIVE)
+        {
+            DOUBLE_PRESS_KEY_ACTIVE := 0
+            setTimer TimerCopyMloTaskPhase1, off
+            setTimer TimerCopyMloTaskPhase2, off
+            setTimer TimerCopyMloTaskPhase3, off
+            setTimer TimerCopyMloTaskClear, off
+            setTimer TimerDoubleKeyPressInterval, off
+            resetEscapeMode()
+        }
+        else
+        {
+            DOUBLE_PRESS_KEY_ACTIVE := 1
+            setTimer TimerCopyMloTaskClear, off
+            setTimer TimerCopyMloTaskClear, 10000
+            setTimer TimerDoubleKeyPressInterval, off
+            setTimer TimerDoubleKeyPressInterval, 1000
+            TimerCopyMloTaskPhase1()
+        }
     }
     else
     {
@@ -355,10 +368,11 @@ mloNewContextDependentEscape()
         else
         {
             DOUBLE_PRESS_KEY_ACTIVE := 1
+            Clipboard := "DO NOT COPY PREVIOUS TASK"
             setTimer TimerDoubleKeyPressInterval, off
             setTimer TimerDoubleKeyPressInterval, 700
-            setTimer TimerCopyMloTaskPhase1, off
-            setTimer TimerCopyMloTaskPhase1, 200
+            setTimer TimerCopyMloTaskPhase2, off
+            setTimer TimerCopyMloTaskPhase2, 200
             setTimer TimerCopyMloTaskClear, off
             setTimer TimerCopyMloTaskClear, 10000
         }

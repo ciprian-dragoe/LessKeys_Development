@@ -96,13 +96,13 @@ mloContextDependentEnter()
     {
         sendKeyCombinationIndependentActiveModifiers("{escape}{end}")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-        sendKeyCombinationIndependentActiveModifiers("DAU{SPACE}DRUMUL:{space}")
+        sendKeyCombinationIndependentActiveModifiers("NU{SPACE}MA{SPACE}MAI{SPACE}REGASESC:{space}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DO
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DO)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
-        sendKeyCombinationIndependentActiveModifiers("REGASESC:{space}")
+        sendKeyCombinationIndependentActiveModifiers("MA{SPACE}SIMT{SPACE}IMPACAT{SPACE}SA:{space}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_LET_GO
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_FOR_APPRECIATE)
@@ -190,7 +190,7 @@ mloNewContextDependentSubTask(currentTask)
     else if (inStr(currentTask, "<LET_GO>", true))
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)    
-        sendKeyCombinationIndependentActiveModifiers("DAU{SPACE}DRUMUL:{space}")    
+        sendKeyCombinationIndependentActiveModifiers("NU{SPACE}MA{SPACE}MAI{SPACE}REGASESC:{space}")    
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DO
     }
     else if (inStr(currentTask, "<NEW_TASK_FOR_DAY_REVIEW>", true))
@@ -421,7 +421,7 @@ TimerGoToMloTask()
 TimerCopyMloTaskPhase1()
 {
     setTimer TimerCopyMloTaskPhase1, off
-    setTimer TimerCopyMloTaskPhase2, 200
+    setTimer TimerCopyMloTaskPhase2, 250
     sendKeyCombinationIndependentActiveModifiers("{right}{space}^a^c")
 }
 

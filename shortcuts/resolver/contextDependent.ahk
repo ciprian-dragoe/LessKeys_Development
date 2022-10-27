@@ -132,11 +132,6 @@ processShiftF1()
         conceptsTemplate(1)
         return
     }
-    IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
-    {
-        synthesisTemplateMLO()
-        return
-    }
     IfInString, lastActiveAppName, %FREEPLANE_WINDOW_NAME%
     {
         freeplaneTemplate(1)
@@ -151,11 +146,6 @@ processShiftF2()
     IfInString, lastActiveAppName, %CONCEPTS_WINDOW_NAME%
     {
         conceptsTemplate(2)
-        return
-    }
-    IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
-    {
-        journalTemplateMLO()
         return
     }
     IfInString, lastActiveAppName, %FREEPLANE_WINDOW_NAME%

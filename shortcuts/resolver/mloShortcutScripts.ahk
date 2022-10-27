@@ -173,43 +173,6 @@ hideNotesAndFocusTasks()
     sendKeyCombinationIndependentActiveModifiers("!{F2}") ; shortcut MLO hide properties window
 }
 
-synthesisTemplateMLO()
-{
-    openNotesAssociatedWithTask()
-    sendKeyCombinationIndependentActiveModifiers("^a")
-    sendKeyCombinationIndependentActiveModifiers("+{left}")
-    sendKeyCombinationIndependentActiveModifiers("^c")
-    hideNotesAndFocusTasks()
-    sendKeyCombinationIndependentActiveModifiers("!w")
-    sleep 100
-    sendKeyCombinationIndependentActiveModifiers("%A_DD%.%A_MM%.%A_YYYY% [%A_Hour%]-[%A_Min%] | ^v")
-    sendKeyCombinationIndependentActiveModifiers("{enter}")
-    sleep 100
-}
-
-journalTemplateMLO()
-{
-    time = 100
-    openNotesAssociatedWithTask()
-    sendKeyCombinationIndependentActiveModifiers("^a")
-    sendKeyCombinationIndependentActiveModifiers("+{left 2}")
-    sendKeyCombinationIndependentActiveModifiers("^c")
-    hideNotesAndFocusTasks()
-    sleep %time%
-    sendKeyCombinationIndependentActiveModifiers("^d")
-    sleep %time%
-    sendKeyCombinationIndependentActiveModifiers("{down}")
-    sleep %time%
-    sendKeyCombinationIndependentActiveModifiers("{enter}")
-    sleep %time%
-    sendKeyCombinationIndependentActiveModifiers("%A_DD%.%A_MM%.%A_YYYY% [%A_Hour%]-[%A_Min%] | ^v")
-    sendKeyCombinationIndependentActiveModifiers("{enter}")
-    sleep %time%
-    sendKeyCombinationIndependentActiveModifiers("^+a") ; toggle folder
-    sleep %time%
-    sendKeyCombinationIndependentActiveModifiers("{right}")
-}
-
 rapidTaskEntry()
 {
     sendKeyCombinationIndependentActiveModifiers("#!]") ; shortcut MLO for rapid task entry
@@ -282,6 +245,16 @@ setMloDarkMode(enabled)
 
 addToOneVisibleTask(key)
 {
+    
+}
+
+addTaskToEndOf(key)
+{
+    if (A_CaretX)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{enter}")
+    }
+    
     taskNumber := SubStr(key, 2, StrLen(key))
     if (taskNumber > 4)
     {
@@ -296,60 +269,11 @@ addToOneVisibleTask(key)
     nextTask := taskNumber + 1 
     send %nextTask%
     sendKeyCombinationIndependentActiveModifiers("{UP}")
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_EXCEPT_SELECTION)
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-}
-
-addTaskToEndOf(key)
-{
-    if (A_CaretX)
-    {
-        sendKeyCombinationIndependentActiveModifiers("{enter}")
-    }
     if (MLO_LAST_VIEW = 8)
     {
-        addToAllVisibleTasks(key)
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_EXCEPT_SELECTION)
     }
-    else if (MLO_LAST_VIEW = 7)
-    {
-        addToOneVisibleTask(key)
-    }
-}
-
-addToAllVisibleTasks(key)
-{
-    taskNumber := SubStr(key, 2, StrLen(key))
-    if (taskNumber > 4)
-    {
-        taskNumber := taskNumber - 4
-    } 
-    else
-    {
-        taskNumber := taskNumber + 2
-    }
-    send %taskNumber%
-    sleep 150
-    currentTask := getCurrentTask()
-    lines := StrSplit(currentTask, "`n")
-    if (lines.MaxIndex() = 2) ; because last line in empty string based on how split works 
-    {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-    }
-    else
-    {
-        lastSubtaskPosition := 0
-        for key, val in lines
-        {
-            if (val && SubStr(val, 3, 1) != " ")
-            {
-                lastSubtaskPosition := key
-            }
-            
-        }
-        lastSubtaskPosition := lastSubtaskPosition - 1 ; because the parent is also considered in the split
-        sendKeyCombinationIndependentActiveModifiers("{DOWN " . lastSubtaskPosition . "}")
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-    }
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
 }
 
 changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + # 
@@ -358,7 +282,6 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     extraInstructions := ["{home}", "{F11}"]
     MLO_ENTER_MODE := 0
     MLO_LAST_VIEW := number
-    ;showtooltip(number)
     if (number = 1)
     {
         extraInstructions := ["{home}", "{F12}"]
@@ -387,6 +310,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         }
         else
         {
+            extraInstructions := ["{home}", "{F12}"]
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
         }
     }
@@ -401,7 +325,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         }
         else
         {
-            extraInstructions := ["{home}", "{F12}"]
+            number = 7
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
         }
     }

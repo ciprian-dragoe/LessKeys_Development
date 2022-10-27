@@ -57,10 +57,11 @@ mloNewContextDependentSubTask(currentTask)
     {
         newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
-    else if (inStr(currentTask, "<LET_GO>", true))
+    else if (inStr(currentTask, "<LET_GO", true))
     {
+        NEW_TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)    
-        sendKeyCombinationIndependentActiveModifiers("NU{SPACE}MA{SPACE}MAI{SPACE}REGASESC:{space}")    
+        sendKeyCombinationIndependentActiveModifiers("DAU{SPACE}DRUMUL:{space}")    
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DO
     }
     else if (inStr(currentTask, "<NEW_TASK_GO_AFTER", true))
@@ -125,15 +126,16 @@ mloContextDependentEnter()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_LET_GO)
     {
-        sendKeyCombinationIndependentActiveModifiers("{escape}{end}")
+        sendKeyCombinationIndependentActiveModifiers("{escape}")
+        sendKeyCombinationIndependentActiveModifiers(NEW_TASK_GO_AFTER_TO)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-        sendKeyCombinationIndependentActiveModifiers("NU{SPACE}MA{SPACE}MAI{SPACE}REGASESC:{space}")
+        sendKeyCombinationIndependentActiveModifiers("DAU{SPACE}DRUMUL:{space}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DO
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DO)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
-        sendKeyCombinationIndependentActiveModifiers("MA{SPACE}SIMT{SPACE}IMPACAT{SPACE}SA:{space}")
+        sendKeyCombinationIndependentActiveModifiers("CRESC{SPACE}SA:{space}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_LET_GO
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER)

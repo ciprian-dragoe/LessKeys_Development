@@ -243,11 +243,6 @@ setMloDarkMode(enabled)
     }
 }
 
-addToOneVisibleTask(key)
-{
-    
-}
-
 addTaskToEndOf(key)
 {
     if (A_CaretX)
@@ -293,7 +288,6 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     else if (number = 9)
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ADD_SPACES
-        extraInstructions := ["{home}", "{F12}"]
     }
     else if (number = 5)
     {
@@ -310,7 +304,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         }
         else
         {
-            extraInstructions := ["{home}", "{F12}"]
+            extraInstructions := ["{home}", "{F11}"]
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
         }
     }
@@ -321,7 +315,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ADD_SPACES
             modifiers := "^"
             number = 9
-            extraInstructions := ["{home}", "{F12}"]
+            extraInstructions := ["{home}", "{F11}"]
         }
         else
         {

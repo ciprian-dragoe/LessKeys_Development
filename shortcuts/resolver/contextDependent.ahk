@@ -81,6 +81,7 @@ processCtrlW()
 {
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
+        MLO_ENTER_MODE := 0
         hideShowMLOnotes()
         return 
     }

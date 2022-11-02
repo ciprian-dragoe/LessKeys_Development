@@ -300,12 +300,10 @@ TimerCopyMloTaskPhase2()
     if (Clipboard = "New Task " || Clipboard = " ")
     {
         send %PREVIOUS_TASK%
-        setTimer TimerCopyMloTaskPhase3, 500 
     }
     else
     {
         PREVIOUS_TASK := Clipboard
-        setTimer TimerCopyMloTaskPhase3, 200
     }
     sendKeyCombinationIndependentActiveModifiers("{enter}{f5}")
 }
@@ -315,17 +313,17 @@ TimerCopyMloTaskPhase3()
     setTimer TimerCopyMloTaskPhase3, off
     sendKeyCombinationIndependentActiveModifiers(NEW_TASK_GO_AFTER_TO)
     sleep 250
-    nextTaskToGoAfter := getCurrentTask()
-    mloNewContextDependentSubTask(nextTaskToGoAfter)
+    goAfter := getCurrentTask(600)
+    mloNewContextDependentSubTask(goAfter)
 }
 
-getCurrentTask()
+getCurrentTask(waitTimeAfterCopy = 150)
 {
     ; copy current task so that it can be parsed without loosing clipboard
+    SetTimer TimerStickyFailBack, off
     temp := Clipboard
     sendKeyCombinationIndependentActiveModifiers("^c")
-    SetTimer TimerStickyFailBack, off
-    sleep 150 ; wait for the os to register the command, smaller time causes mlo process errors
+    sleep %waitTimeAfterCopy% ; wait for the os to register the command, smaller time causes mlo process errors
     currentTask := Clipboard
     Clipboard := temp
     SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%

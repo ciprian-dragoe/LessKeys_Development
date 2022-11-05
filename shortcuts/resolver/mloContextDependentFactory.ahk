@@ -189,6 +189,12 @@ mloNewContextDependentEscape()
         sendKeyCombinationIndependentActiveModifiers("{ENTER}")
         resetEscapeMode()    
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DO || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_LET_GO)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{escape}{down}")
+        goAfter := getCurrentTask()
+        mloNewContextDependentSubTask(goAfter)        
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER)
     {
         if (DOUBLE_PRESS_KEY_ACTIVE)

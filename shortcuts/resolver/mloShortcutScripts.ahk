@@ -264,10 +264,7 @@ addTaskToEndOf(key)
     nextTask := taskNumber + 1 
     send %nextTask%
     sendKeyCombinationIndependentActiveModifiers("{UP}")
-    if (MLO_LAST_VIEW = 8)
-    {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_EXCEPT_SELECTION)
-    }
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_EXCEPT_SELECTION)
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
 }
 
@@ -277,52 +274,43 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     extraInstructions := ["{home}", "{F11}"]
     MLO_ENTER_MODE := 0
     MLO_LAST_VIEW := number
-    if (number = 1)
+    if (number = 1 && modifiers = "^")
     {
         extraInstructions := ["{home}", "{F12}"]
+        if (A_WDay = 1) ; sunday
+        {
+            modifiers := "!+"
+            extraInstructions := ["{home}", "{F11}"]
+        }
+        else if (A_Hour > 17)
+        {
+            modifiers := "!^"
+        }
+        else
+        {
+            modifiers := "^+"
+        }
     }
     else if (number = 2 && modifiers = "^")
     {
-        extraInstructions := ["{home}", "{F12}"]
-    }
-    else if (number = 9)
-    {
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ADD_SPACES
+        if (A_WDay = 1) ; sunday
+        {
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ADD_SPACES
+            modifiers := "!^"
+            extraInstructions := ["{home}", "{F12}"]
+        }
+        else
+        {
+            modifiers := "!+"
+            extraInstructions := ["{home}", "{F11}"]
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
+        }
     }
     else if (number = 5)
     {
         extraInstructions := ["{F12}"]
     }
-    else if (number = 7)
-    {
-        if (A_WDay = 8) ; sunday
-        {
-            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ADD_SPACES
-            modifiers := "^"
-            number = 9
-            extraInstructions := ["{home}", "{F12}"]
-        }
-        else
-        {
-            extraInstructions := ["{home}", "{F11}"]
-            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
-        }
-    }
-    else if (number = 8)
-    {
-        if (A_WDay = 8) ; sunday
-        {
-            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ADD_SPACES
-            modifiers := "^"
-            number = 9
-            extraInstructions := ["{home}", "{F11}"]
-        }
-        else
-        {
-            number = 7
-            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
-        }
-    }
+    
     
     changeViewMlo(modifiers . number, extraInstructions)
 }

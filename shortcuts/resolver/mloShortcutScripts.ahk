@@ -301,7 +301,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         }
         else
         {
-            modifiers := "!+"
+            modifiers := "^+"
             extraInstructions := ["{home}", "{F11}"]
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
         }

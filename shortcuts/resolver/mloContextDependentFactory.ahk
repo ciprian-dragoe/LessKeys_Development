@@ -191,7 +191,9 @@ mloNewContextDependentEscape()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DO || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_LET_GO)
     {
-        sendKeyCombinationIndependentActiveModifiers("{escape}{down}")
+        sendKeyCombinationIndependentActiveModifiers("{escape}")
+        sendKeyCombinationIndependentActiveModifiers(NEW_TASK_GO_AFTER_TO)
+        sendKeyCombinationIndependentActiveModifiers("{down}")
         goAfter := getCurrentTask()
         mloNewContextDependentSubTask(goAfter)        
     }

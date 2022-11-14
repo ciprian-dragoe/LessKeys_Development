@@ -51,6 +51,16 @@ processEnter()
     send {blind}{enter}
 }
 
+processAltShiftDirection(combination, index)
+{
+    if (IS_DAY_SORTING_VIEW_ACTIVE)
+    {
+        IS_SET_MLO_ORDER_ACTIVE := 1
+    }
+    key := subStr(combination, 3)
+    send {blind}{%key%}
+}
+
 processCtrlF()
 {
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%

@@ -12,6 +12,9 @@ global MLO_DARK_MODE_RIGHT_WIDTH := 0
 global MLO_DARK_MODE_LEFT_WIDTH := 0
 global MLO_LAST_TIME_FOREGROUND := 0
 global MLO_POSITION_Y_RAPID_TASK_ENTRY := 0
+global IS_DAY_SORTING_VIEW_ACTIVE := 0
+global IS_SET_MLO_ORDER_ACTIVE := 0 
+global LAST_DAY_VIEW_PLAN_ACTIVE := A_WDay
 
 global MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK := "!e" 
 global MLO_KEYBOARD_SHORTCUT_NEW_TASK := "!w" 
@@ -19,6 +22,7 @@ global MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_EXCEPT_SELECTION := "^{F11}"
 global MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS := "{F12}" 
 global MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_FIRST_LEVEL := "^+;" 
 global MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_COLLAPSE_ALL_CHILDREN := "!q" 
+global MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING := "^;" 
 
 
 
@@ -274,6 +278,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     extraInstructions := ["{home}", "{F11}"]
     MLO_ENTER_MODE := 0
     MLO_LAST_VIEW := number
+    IS_DAY_SORTING_VIEW_ACTIVE := 0
     if (number = 1 && modifiers = "^")
     {
         extraInstructions := ["{home}", "{F12}"]
@@ -282,13 +287,20 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
             modifiers := "!+"
             extraInstructions := ["{home}", "{F11}"]
         }
-        else if (A_Hour > 17)
+        else if (A_Hour > 20)
         {
             modifiers := "!^"
         }
         else
         {
+            if (IS_SET_MLO_ORDER_ACTIVE || A_WDay - LAST_DAY_VIEW_PLAN_ACTIVE != 0)
+            {
+                sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING)
+                IS_SET_MLO_ORDER_ACTIVE := 0
+            }
             modifiers := "^+"
+            LAST_DAY_VIEW_PLAN_ACTIVE := A_WDay
+            IS_DAY_SORTING_VIEW_ACTIVE := 1
         }
     }
     else if (number = 2 && modifiers = "^")

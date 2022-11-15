@@ -14,7 +14,6 @@ global MLO_LAST_TIME_FOREGROUND := 0
 global MLO_POSITION_Y_RAPID_TASK_ENTRY := 0
 global IS_DAY_SORTING_VIEW_ACTIVE := 0
 global IS_SET_MLO_ORDER_ACTIVE := 0 
-global LAST_DAY_VIEW_PLAN_ACTIVE := A_WDay
 
 global MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK := "!e" 
 global MLO_KEYBOARD_SHORTCUT_NEW_TASK := "!w" 
@@ -36,7 +35,7 @@ else if (A_ComputerName = ACTIVE_COMPUTER_X1_YOGA_G3) {
     MLO_MOVE_UP_PIXELS := -115
     MLO_POSITION_Y_RAPID_TASK_ENTRY := 70
     MLO_DARK_MODE_TOP_HEIGHT := 120
-    MLO_DARK_MODE_RIGHT_WIDTH := 45
+    MLO_DARK_MODE_RIGHT_WIDTH := 40
     MLO_DARK_MODE_LEFT_WIDTH := 14
     MLO_DARK_MODE_BOTTOM_HEIGHT := 230
 }
@@ -44,7 +43,7 @@ else if (A_ComputerName = ACTIVE_COMPUTER_X1_EXTREME) {
     MLO_MOVE_UP_PIXELS := -90
     MLO_POSITION_Y_RAPID_TASK_ENTRY := 105
     MLO_DARK_MODE_TOP_HEIGHT := 115
-    MLO_DARK_MODE_RIGHT_WIDTH := 72
+    MLO_DARK_MODE_RIGHT_WIDTH := 38
     MLO_DARK_MODE_BOTTOM_HEIGHT := 215 ; when taskbar not hidden
     ;MLO_DARK_MODE_BOTTOM_HEIGHT := 100 ; when taskbar hidden
     MLO_DARK_MODE_LEFT_WIDTH := 13
@@ -272,6 +271,12 @@ addTaskToEndOf(key)
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
 }
 
+timerChangeMloTaskOrder()
+{
+    SetTimer TimerChangeMloTaskOrder, off
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING)
+}
+
 changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + # 
 {
     sendKeyCombinationIndependentActiveModifiers("{escape}")
@@ -280,30 +285,6 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     MLO_LAST_VIEW := number
     IS_DAY_SORTING_VIEW_ACTIVE := 0
     if (number = 1 && modifiers = "^")
-    {
-        extraInstructions := ["{home}", "{F12}"]
-        if (A_WDay = 1) ; sunday
-        {
-            modifiers := "!+"
-            extraInstructions := ["{home}", "{F11}"]
-        }
-        else if (A_Hour > 20)
-        {
-            modifiers := "!^"
-        }
-        else
-        {
-            if (IS_SET_MLO_ORDER_ACTIVE || A_WDay - LAST_DAY_VIEW_PLAN_ACTIVE != 0)
-            {
-                sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING)
-                IS_SET_MLO_ORDER_ACTIVE := 0
-            }
-            modifiers := "^+"
-            LAST_DAY_VIEW_PLAN_ACTIVE := A_WDay
-            IS_DAY_SORTING_VIEW_ACTIVE := 1
-        }
-    }
-    else if (number = 2 && modifiers = "^")
     {
         if (A_WDay = 1) ; sunday
         {
@@ -318,11 +299,41 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
         }
     }
+    else if (number = 2 && modifiers = "^")
+    {
+        if (A_Hour < 10) ; sunday
+        {
+            modifiers := "^+"
+        }
+        else
+        {
+            modifiers := "!^"
+        }
+    }
+    else if (number = 3 && modifiers = "^")
+    {
+        extraInstructions := ["{home}", "{F12}"]
+        if (A_WDay = 1) ; sunday
+        {
+            modifiers := "!^"
+            extraInstructions := ["{home}", "{F11}"]
+        }
+        else
+        {
+            if (IS_SET_MLO_ORDER_ACTIVE)
+            {
+                SetTimer TimerChangeMloTaskOrder, off
+                SetTimer TimerChangeMloTaskOrder, 400
+                IS_SET_MLO_ORDER_ACTIVE := 0
+            }
+            modifiers := "^+"
+            IS_DAY_SORTING_VIEW_ACTIVE := 1
+        }
+    }
     else if (number = 5)
     {
         extraInstructions := ["{F12}"]
     }
-    
     
     changeViewMlo(modifiers . number, extraInstructions)
 }

@@ -1,13 +1,19 @@
 ﻿global MLO_ENTER_MODE := 0
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH := 1
 global MLO_ENTER_MODE_SET_AS_NEW_TASK := 3
-global MLO_ENTER_MODE_SET_AS_LET_GO := 7
-global MLO_ENTER_MODE_SET_AS_DO := 8
-global MLO_ENTER_MODE_SET_AS_THANK_YOU := 22
 global MLO_ENTER_MODE_SET_AS_ADD_SPACES := 10
+global MLO_ENTER_MODE_SET_AS_THANK_YOU := 22
+
+global MLO_ENTER_MODE_SET_JURNAL := 25
+global MLO_ENTER_MODE_SET_DEZVOLT_JURNAL := 26
+global INTREBARI_JURNAL := {}
+INTREBARI_JURNAL.DISTRAGE := ["DAU DRUMUL:{SPACE}", "CRESC{SPACE}{SPACE}{SPACE}SA:{SPACE}"]
+INTREBARI_JURNAL.VULNERABIL := ["SEMNIFICATIE VULNERABILITATE:{SPACE}", "MENTINE ACEASTA SITUATIE:{SPACE}", "ACCEPT NU E IN CONTROLUL MEU:{SPACE}", "REDUC DIN SUFERINTA PRIN:{SPACE}"]
+global INTREBARI_JURNAL_INDEX := 1
+   
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER := 30
 global MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER := 31
-global NEW_TASK_GO_AFTER_TO := ""
+global TASK_GO_AFTER_TO := ""
 global PREVIOUS_TASK := ""
 global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 40
 
@@ -57,23 +63,24 @@ mloNewContextDependentSubTask(currentTask)
     {
         newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
-    else if (inStr(currentTask, "<LET_GO", true))
+    else if (inStr(currentTask, "<JURNAL_", true))
     {
-        NEW_TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
+        PREVIOUS_TASK := extractDestinationAfter(currentTask, 1)
+        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)    
-        sendKeyCombinationIndependentActiveModifiers("DAU{SPACE}DRUMUL:{space}")    
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DO
+        sendKeyCombinationIndependentActiveModifiers("<" . PREVIOUS_TASK . ">{space}")    
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_JURNAL
     }
     else if (inStr(currentTask, "<NEW_TASK_GO_AFTER", true))
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER
-        NEW_TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
+        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
     else if (inStr(currentTask, "<COPY_GO_AFTER", true))
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER
-        NEW_TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
+        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
     else if (inStr(currentTask, "<ESCAPE_AS_ENTER>", true))
@@ -115,6 +122,16 @@ mloContextDependentEnter()
     {
         newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_JURNAL)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        sendKeyCombinationIndependentActiveModifiers("<" . PREVIOUS_TASK . ">{space}")
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_DEZVOLT_JURNAL)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        writeNextQuestion()
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ADD_SPACES && A_CaretX)
     {
         sendKeyCombinationIndependentActiveModifiers("{end}{space}{space}{enter}{F5}")
@@ -123,20 +140,6 @@ mloContextDependentEnter()
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_LET_GO)
-    {
-        sendKeyCombinationIndependentActiveModifiers("{escape}")
-        sendKeyCombinationIndependentActiveModifiers(NEW_TASK_GO_AFTER_TO)
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-        sendKeyCombinationIndependentActiveModifiers("DAU{SPACE}DRUMUL:{space}")
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DO
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DO)
-    {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
-        sendKeyCombinationIndependentActiveModifiers("CRESC{SPACE}SA:{space}")
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_LET_GO
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER)
     {
@@ -176,6 +179,26 @@ mloNewContextDependentEscape()
     {
         send {blind}{enter}{escape}
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_JURNAL || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_DEZVOLT_JURNAL)
+    {
+        if (DOUBLE_PRESS_KEY_ACTIVE)
+        {
+            DOUBLE_PRESS_KEY_ACTIVE := 0
+            setTimer TimerDoubleKeyPressInterval, off
+            setTimer TimerGoToNextQuestion, off
+            resetEscapeMode()
+        }
+        else
+        {
+            DOUBLE_PRESS_KEY_ACTIVE := 1
+            setTimer TimerDoubleKeyPressInterval, off
+            setTimer TimerDoubleKeyPressInterval, 800
+            setTimer TimerGoToNextQuestion, off
+            setTimer TimerGoToNextQuestion, 600
+            sendKeyCombinationIndependentActiveModifiers("{ENTER}")
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_DEZVOLT_JURNAL
+        }
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH)
     {
         send {blind}{escape}
@@ -188,14 +211,6 @@ mloNewContextDependentEscape()
     {
         sendKeyCombinationIndependentActiveModifiers("{ENTER}")
         resetEscapeMode()    
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DO || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_LET_GO)
-    {
-        sendKeyCombinationIndependentActiveModifiers("{escape}")
-        sendKeyCombinationIndependentActiveModifiers(NEW_TASK_GO_AFTER_TO)
-        sendKeyCombinationIndependentActiveModifiers("{down}")
-        goAfter := getCurrentTask()
-        mloNewContextDependentSubTask(goAfter)        
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER)
     {
@@ -249,19 +264,19 @@ mloNewContextDependentEscape()
 resetEscapeMode()
 {
     MLO_ENTER_MODE := 0
-    NEW_TASK_GO_AFTER_TO := ""
+    TASK_GO_AFTER_TO := ""
+    INTREBARI_JURNAL_INDEX := 1
     PREVIOUS_TASK := ""
     send {blind}{escape}
 }
 
-extractDestinationAfter(input)
+extractDestinationAfter(input, indexPositionFromRigth = 0)
 {
-    needle := "<NEW_TASK_GO_AFTER"
     positionStart := InStr(input, "<") + 1
     positionEnd := InStr(input, ">")
     result := SubStr(input, positionStart, positionEnd - positionStart)
     splits := StrSplit(result, "_")
-    return splits[splits.Count()]
+    return splits[splits.Count() - indexPositionFromRigth]
 }
 
 newBrainStormTask(originalAction)
@@ -288,10 +303,30 @@ TimerGoToMloTask()
     setTimer TimerGoToMloTask, off
     if (DOUBLE_PRESS_KEY_ACTIVE)
     {
-        sendKeyCombinationIndependentActiveModifiers(NEW_TASK_GO_AFTER_TO)
+        sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
         nextTaskToGoAfter := getCurrentTask()
         mloNewContextDependentSubTask(nextTaskToGoAfter)
     }
+}
+
+writeNextQuestion()
+{
+    questions := INTREBARI_JURNAL[PREVIOUS_TASK]
+    if (!questions)
+    {
+        showtooltip("INVALID JOURNAL TOPIC")
+        return
+    }
+    if (INTREBARI_JURNAL_INDEX > questions.length())
+    {
+        INTREBARI_JURNAL_INDEX := 1
+        setTimer TimerGoToNextQuestion, off
+        setTimer TimerGoToNextQuestion, 600
+        sendKeyCombinationIndependentActiveModifiers("{enter}")    
+        return
+    }
+    sendKeyCombinationIndependentActiveModifiers(questions[INTREBARI_JURNAL_INDEX])
+    INTREBARI_JURNAL_INDEX += 1
 }
 
 TimerCopyMloTaskPhase1()
@@ -319,10 +354,24 @@ TimerCopyMloTaskPhase2()
 TimerCopyMloTaskPhase3()
 {
     setTimer TimerCopyMloTaskPhase3, off
-    sendKeyCombinationIndependentActiveModifiers(NEW_TASK_GO_AFTER_TO)
+    sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
     sleep 250
     goAfter := getCurrentTask(600)
     mloNewContextDependentSubTask(goAfter)
+}
+
+TimerGoToNextQuestion()
+{
+    setTimer TimerGoToNextQuestion, off
+    sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO . "{down}{F5}")
+    currentTask := getCurrentTask()
+    if (inStr(currentTask, "<JURNAL_", true))
+    {
+        resetEscapeMode()
+        return
+    }
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    writeNextQuestion()
 }
 
 getCurrentTask(waitTimeAfterCopy = 150)

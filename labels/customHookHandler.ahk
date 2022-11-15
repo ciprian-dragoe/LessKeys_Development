@@ -18,6 +18,14 @@ TimerCopyMloTaskPhase3:
     TimerCopyMloTaskPhase3()
 return
 
+TimerGoToNextQuestion:
+    TimerGoToNextQuestion()
+return
+
+TimerChangeMloTaskOrder:
+    timerChangeMloTaskOrder()
+return
+
 TimerGoToMloTask:
     TimerGoToMloTask()
 return

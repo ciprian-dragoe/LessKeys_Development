@@ -172,7 +172,7 @@ processFunctionKey(key)
 {
     IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
     {
-        return addTaskToEndOf(key)
+        return goToTask(key)
     }
 
     IfInString, lastActiveAppName, %SIMPLEMIND_WINDOW_NAME%

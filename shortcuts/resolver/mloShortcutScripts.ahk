@@ -19,19 +19,19 @@ global MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK := "!e"
 global MLO_KEYBOARD_SHORTCUT_NEW_TASK := "!w" 
 global MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_EXCEPT_SELECTION := "^{F11}" 
 global MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS := "{F12}" 
+global MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS := "{F11}" 
 global MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_FIRST_LEVEL := "^+;" 
-global MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_COLLAPSE_ALL_CHILDREN := "!q" 
+global MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_TOGGLE_COLLAPSE_ALL_CHILDREN := "!q" 
 global MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING := "^;" 
 
 
 
-if (A_ComputerName = ACTIVE_COMPUTER_X230) {
+if (A_ComputerName = ACTIVE_COMPUTER_X230)
+{
     MLO_MOVE_UP_PIXELS := -115
 }
-else if (A_ComputerName = ACTIVE_COMPUTER_ASUS_ROG) {
-    MLO_MOVE_UP_PIXELS := -115
-}
-else if (A_ComputerName = ACTIVE_COMPUTER_X1_YOGA_G3) {
+else if (A_ComputerName = ACTIVE_COMPUTER_X1_YOGA_G3)
+{
     MLO_MOVE_UP_PIXELS := -115
     MLO_POSITION_Y_RAPID_TASK_ENTRY := 70
     MLO_DARK_MODE_TOP_HEIGHT := 120
@@ -39,11 +39,12 @@ else if (A_ComputerName = ACTIVE_COMPUTER_X1_YOGA_G3) {
     MLO_DARK_MODE_LEFT_WIDTH := 14
     MLO_DARK_MODE_BOTTOM_HEIGHT := 230
 }
-else if (A_ComputerName = ACTIVE_COMPUTER_X1_EXTREME) {
+else if (A_ComputerName = ACTIVE_COMPUTER_X1_EXTREME)
+{
     MLO_MOVE_UP_PIXELS := -90
     MLO_POSITION_Y_RAPID_TASK_ENTRY := 105
     MLO_DARK_MODE_TOP_HEIGHT := 115
-    MLO_DARK_MODE_RIGHT_WIDTH := 38
+    MLO_DARK_MODE_RIGHT_WIDTH := 72
     MLO_DARK_MODE_BOTTOM_HEIGHT := 215 ; when taskbar not hidden
     ;MLO_DARK_MODE_BOTTOM_HEIGHT := 100 ; when taskbar hidden
     MLO_DARK_MODE_LEFT_WIDTH := 13
@@ -246,13 +247,8 @@ setMloDarkMode(enabled)
     }
 }
 
-addTaskToEndOf(key)
+getTaskNumber(key)
 {
-    if (A_CaretX)
-    {
-        sendKeyCombinationIndependentActiveModifiers("{enter}")
-    }
-    
     taskNumber := SubStr(key, 2, StrLen(key))
     if (taskNumber > 4)
     {
@@ -262,6 +258,16 @@ addTaskToEndOf(key)
     {
         taskNumber := taskNumber + 2
     }
+    return taskNumber
+}
+
+addTaskToEndOf(taskNumber)
+{
+    if (A_CaretX)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{enter}")
+    }
+    
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
     sleep 150
     nextTask := taskNumber + 1 
@@ -269,6 +275,35 @@ addTaskToEndOf(key)
     sendKeyCombinationIndependentActiveModifiers("{UP}")
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_EXCEPT_SELECTION)
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+}
+
+goToTaskAndOpenNotes(taskNumber)
+{
+    if (!isTaskWindowInFocus())
+    {
+        hideNotesAndFocusTasks()
+    }
+    
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
+    sendKeyCombinationIndependentActiveModifiers(taskNumber)
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_TOGGLE_COLLAPSE_ALL_CHILDREN)
+    sendKeyCombinationIndependentActiveModifiers("{DOWN}")
+    sleep 150
+    openNotesAssociatedWithTask()
+}
+
+goToTask(key)
+{
+    taskNumber := getTaskNumber(key)
+    if (MLO_LAST_VIEW = "!^1")
+    {
+        addTaskToEndOf(taskNumber)
+    } 
+    else if (MLO_LAST_VIEW = "^+1")
+    {
+        goToTaskAndOpenNotes(taskNumber)
+    }
+    
 }
 
 timerChangeMloTaskOrder()
@@ -280,22 +315,21 @@ timerChangeMloTaskOrder()
 changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + # 
 {
     sendKeyCombinationIndependentActiveModifiers("{escape}")
-    extraInstructions := ["{home}", "{F11}"]
+    extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
     MLO_ENTER_MODE := 0
-    MLO_LAST_VIEW := number
     IS_DAY_SORTING_VIEW_ACTIVE := 0
     if (number = 1 && modifiers = "^")
     {
         if (A_WDay = 1) ; sunday
         {
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ADD_SPACES
-            modifiers := "!^"
+            modifiers := "!+"
             extraInstructions := ["{home}", "{F12}"]
         }
         else
         {
-            modifiers := "^+"
-            extraInstructions := ["{home}", "{F11}"]
+            modifiers := "!^"
+            extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
         }
     }
@@ -316,7 +350,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         if (A_WDay = 1) ; sunday
         {
             modifiers := "!^"
-            extraInstructions := ["{home}", "{F11}"]
+            extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
         }
         else
         {
@@ -335,5 +369,6 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         extraInstructions := ["{F12}"]
     }
     
+    MLO_LAST_VIEW := modifiers . number
     changeViewMlo(modifiers . number, extraInstructions)
 }

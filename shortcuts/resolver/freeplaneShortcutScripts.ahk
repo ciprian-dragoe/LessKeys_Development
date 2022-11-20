@@ -10,11 +10,6 @@ if (A_ComputerName = ACTIVE_COMPUTER_X230) ; lenovo-x230
     FREEPLANE_MOVE_UP_PIXELS := -133
     FREEPLANE_MOVE_LEFT_PIXELS := -11
 }
-else if (A_ComputerName = ACTIVE_COMPUTER_ASUS_ROG) ; CIPI-ASUS-ROG
-{
-    FREEPLANE_MOVE_UP_PIXELS := -158
-    FREEPLANE_MOVE_LEFT_PIXELS := -14
-}
 else if (A_ComputerName = ACTIVE_COMPUTER_X1_YOGA_G3) ; yoga-cipi
 {
     FREEPLANE_MOVE_UP_PIXELS := -220 ; 2560resolution_150scale_14screen

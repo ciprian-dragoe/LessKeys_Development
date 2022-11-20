@@ -1,6 +1,7 @@
 ﻿global MLO_ENTER_MODE := 0
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH := 1
 global MLO_ENTER_MODE_SET_AS_NEW_TASK := 3
+global MLO_ENTER_MODE_SET_OPEN_NOTES := 4
 global MLO_ENTER_MODE_SET_AS_ADD_SPACES := 10
 global MLO_ENTER_MODE_SET_AS_THANK_YOU := 22
 
@@ -8,7 +9,8 @@ global MLO_ENTER_MODE_SET_JURNAL := 25
 global MLO_ENTER_MODE_SET_DEZVOLT_JURNAL := 26
 global INTREBARI_JURNAL := {}
 INTREBARI_JURNAL.DISTRAGE := ["DAU DRUMUL:{SPACE}", "CRESC{SPACE}{SPACE}{SPACE}SA:{SPACE}"]
-INTREBARI_JURNAL.VULNERABIL := ["SEMNIFICATIE VULNERABILITATE:{SPACE}", "MENTINE ACEASTA SITUATIE:{SPACE}", "ACCEPT NU E IN CONTROLUL MEU:{SPACE}", "REDUC DIN SUFERINTA PRIN:{SPACE}"]
+INTREBARI_JURNAL.VULNERABIL := ["MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}"]
+INTREBARI_JURNAL.LIMITA := ["NEVOIE COMUNIC:{SPACE}", "MA INCARCA SA FIU PREZENT SITUATIE:{SPACE}"]
 global INTREBARI_JURNAL_INDEX := 1
    
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER := 30
@@ -53,6 +55,11 @@ mloNewContextDependentSubTask(currentTask)
             sendKeyCombinationIndependentActiveModifiers("{end}{space}{space}{enter}")
         }
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    }
+    else if (inStr(currentTask, "<TOPIC_DELIMITER>", true))
+    {
+        mloAddJournalDelimiterSubTask()
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_OPEN_NOTES
     }
     else if (inStr(currentTask, "<NEW_TASK>", true))
     {
@@ -126,6 +133,12 @@ mloContextDependentEnter()
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
         sendKeyCombinationIndependentActiveModifiers("<" . PREVIOUS_TASK . ">{space}")
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_OPEN_NOTES)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{ENTER}")
+        openNotesAssociatedWithTask()
+        MLO_ENTER_MODE := 0
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_DEZVOLT_JURNAL)
     {

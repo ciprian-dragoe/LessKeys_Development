@@ -2,8 +2,12 @@
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH := 1
 global MLO_ENTER_MODE_SET_AS_NEW_TASK := 3
 global MLO_ENTER_MODE_SET_OPEN_NOTES := 4
+global MLO_ENTER_MODE_SET_NEW_TASK_CHANGE_VIEW := 5
 global MLO_ENTER_MODE_SET_AS_ADD_SPACES := 10
 global MLO_ENTER_MODE_SET_AS_THANK_YOU := 22
+global MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER := 30
+global MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER := 31
+global MLO_ENTER_MODE_SET_AS_ESCAPE := 40
 
 global MLO_ENTER_MODE_SET_JURNAL := 25
 global MLO_ENTER_MODE_SET_DEZVOLT_JURNAL := 26
@@ -12,9 +16,6 @@ INTREBARI_JURNAL.DISTRAGE := ["DAU DRUMUL:{SPACE}", "CRESC{SPACE}{SPACE}{SPACE}S
 INTREBARI_JURNAL.VULNERABIL := ["MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}"]
 INTREBARI_JURNAL.LIMITA := ["NEVOIE COMUNIC:{SPACE}", "MA INCARCA SA FIU PREZENT SITUATIE:{SPACE}"]
    
-global MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER := 30
-global MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER := 31
-global MLO_ENTER_MODE_SET_AS_ESCAPE := 40
 
 global INTREBARI_JURNAL_INDEX := 1
 global MLO_JOURNAL := ""
@@ -61,6 +62,12 @@ mloNewContextDependentSubTask(currentTask)
     {
         mloAddJournalDelimiterSubTask()
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_OPEN_NOTES
+    }
+    else if (inStr(currentTask, "<NEW_TASK_CHANGE_VIEW_", true))
+    {
+        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
+        newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_NEW_TASK_CHANGE_VIEW
     }
     else if (inStr(currentTask, "<ESCAPE>", true))
     {
@@ -160,6 +167,10 @@ mloContextDependentEnter()
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_NEW_TASK_CHANGE_VIEW)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
@@ -223,6 +234,13 @@ mloNewContextDependentEscape()
     {
         send {blind}{escape}
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_NEW_TASK_CHANGE_VIEW)
+    {
+        number := SubStr(TASK_GO_AFTER_TO, 0, 1)
+        modifiers := SubStr(TASK_GO_AFTER_TO, 1, StrLen(combination)-1)
+        resetEscapeMode()
+        changeViewMloFactory(number, modifiers)
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ADD_SPACES)
     {
         send {blind}{escape}
@@ -230,7 +248,7 @@ mloNewContextDependentEscape()
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER)
     {
         sendKeyCombinationIndependentActiveModifiers("{ENTER}")
-        resetEscapeMode()    
+        resetEscapeMode()   
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER)
     {

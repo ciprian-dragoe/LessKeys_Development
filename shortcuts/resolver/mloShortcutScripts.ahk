@@ -268,13 +268,31 @@ addTaskToEndOf(taskNumber)
         sendKeyCombinationIndependentActiveModifiers("{enter}")
     }
     
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
+    send %taskNumber%
     sleep 150
-    nextTask := taskNumber + 1 
-    send %nextTask%
-    sendKeyCombinationIndependentActiveModifiers("{UP}")
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_EXCEPT_SELECTION)
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    currentTask := getCurrentTask()
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_TOGGLE_COLLAPSE_ALL_CHILDREN)
+    lines := StrSplit(currentTask, "`n")
+    if (lines.MaxIndex() = 2) ; because last line in empty string based on how split works 
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    }
+    else
+    {
+        lastSubtaskPosition := 0
+        for key, val in lines
+        {
+            if (val && SubStr(val, 3, 1) != " ")
+            {
+                lastSubtaskPosition := key
+            }
+            
+        }
+        lastSubtaskPosition := lastSubtaskPosition - 1 ; because the parent is also considered in the split
+        sendKeyCombinationIndependentActiveModifiers("{DOWN " . lastSubtaskPosition . "}")
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    }
 }
 
 goToTaskAndOpenNotes(taskNumber)

@@ -11,14 +11,15 @@ global INTREBARI_JURNAL := {}
 INTREBARI_JURNAL.DISTRAGE := ["DAU DRUMUL:{SPACE}", "CRESC{SPACE}{SPACE}{SPACE}SA:{SPACE}"]
 INTREBARI_JURNAL.VULNERABIL := ["MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}"]
 INTREBARI_JURNAL.LIMITA := ["NEVOIE COMUNIC:{SPACE}", "MA INCARCA SA FIU PREZENT SITUATIE:{SPACE}"]
-global INTREBARI_JURNAL_INDEX := 1
    
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER := 30
 global MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER := 31
+global MLO_ENTER_MODE_SET_AS_ESCAPE := 40
+
+global INTREBARI_JURNAL_INDEX := 1
+global MLO_JOURNAL := ""
 global TASK_GO_AFTER_TO := ""
 global PREVIOUS_TASK := ""
-global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 40
-
 
 mloContextDependentKeyFactory(originalAction)
 {
@@ -61,6 +62,10 @@ mloNewContextDependentSubTask(currentTask)
         mloAddJournalDelimiterSubTask()
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_OPEN_NOTES
     }
+    else if (inStr(currentTask, "<ESCAPE>", true))
+    {
+        resetEscapeMode()
+    }
     else if (inStr(currentTask, "<NEW_TASK>", true))
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK
@@ -72,10 +77,11 @@ mloNewContextDependentSubTask(currentTask)
     }
     else if (inStr(currentTask, "<JURNAL_", true))
     {
+        MLO_JOURNAL := extractDestinationAfter(currentTask, 2)
         PREVIOUS_TASK := extractDestinationAfter(currentTask, 1)
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)    
-        sendKeyCombinationIndependentActiveModifiers("<" . PREVIOUS_TASK . ">{space}")    
+        sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")    
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_JURNAL
     }
     else if (inStr(currentTask, "<NEW_TASK_GO_AFTER", true))
@@ -132,18 +138,18 @@ mloContextDependentEnter()
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_JURNAL)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-        sendKeyCombinationIndependentActiveModifiers("<" . PREVIOUS_TASK . ">{space}")
+        sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_DEZVOLT_JURNAL)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        writeNextQuestion()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_OPEN_NOTES)
     {
         sendKeyCombinationIndependentActiveModifiers("{ENTER}")
         openNotesAssociatedWithTask()
         MLO_ENTER_MODE := 0
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_DEZVOLT_JURNAL)
-    {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-        writeNextQuestion()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ADD_SPACES && A_CaretX)
     {
@@ -191,6 +197,7 @@ mloNewContextDependentEscape()
     if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK)
     {
         send {blind}{enter}{escape}
+        MLO_ENTER_MODE := 0
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_JURNAL || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_DEZVOLT_JURNAL)
     {
@@ -324,10 +331,10 @@ TimerGoToMloTask()
 
 writeNextQuestion()
 {
-    questions := INTREBARI_JURNAL[PREVIOUS_TASK]
+    questions := INTREBARI_JURNAL[MLO_JOURNAL]
     if (!questions)
     {
-        showtooltip("INVALID JOURNAL TOPIC")
+        showtooltip("INVALID JOURNAL TOPIC", 1000)
         return
     }
     if (INTREBARI_JURNAL_INDEX > questions.length())
@@ -376,11 +383,15 @@ TimerCopyMloTaskPhase3()
 TimerGoToNextQuestion()
 {
     setTimer TimerGoToNextQuestion, off
-    sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO . "{down}{F5}")
+    sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK . "{down}{F5}")
     currentTask := getCurrentTask()
-    if (inStr(currentTask, "<JURNAL_", true))
+    if (!inStr(currentTask, "<" . MLO_JOURNAL . ">", true))
     {
         resetEscapeMode()
+        sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
+        sleep 200
+        currentTask := getCurrentTask()
+        mloNewContextDependentSubTask(currentTask)
         return
     }
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)

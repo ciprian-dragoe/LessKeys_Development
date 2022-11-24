@@ -22,6 +22,10 @@ TimerGoToNextQuestion:
     TimerGoToNextQuestion()
 return
 
+TimerGoToNextDialoguePhase:
+    timerGoToNextDialoguePhase()
+return
+
 TimerChangeMloTaskOrder:
     timerChangeMloTaskOrder()
 return

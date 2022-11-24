@@ -1,8 +1,11 @@
 ﻿global MLO_ENTER_MODE := 0
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH := 1
 global MLO_ENTER_MODE_SET_AS_NEW_TASK := 3
-global MLO_ENTER_MODE_SET_OPEN_NOTES := 4
-global MLO_ENTER_MODE_SET_NEW_TASK_CHANGE_VIEW := 5
+global MLO_ENTER_MODE_SET_AS_OPEN_NOTES := 4
+global MLO_ENTER_MODE_SET_AS_NEW_TASK_CHANGE_VIEW := 5
+global MLO_ENTER_MODE_SET_AS_PARTE := 6
+global MLO_ENTER_MODE_SET_AS_PARTE_FINISH := 7
+global MLO_ENTER_MODE_SET_AS_DIALOG := 8
 global MLO_ENTER_MODE_SET_AS_ADD_SPACES := 10
 global MLO_ENTER_MODE_SET_AS_THANK_YOU := 22
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER := 30
@@ -61,13 +64,21 @@ mloNewContextDependentSubTask(currentTask)
     else if (inStr(currentTask, "<TOPIC_DELIMITER>", true))
     {
         mloAddJournalDelimiterSubTask()
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_OPEN_NOTES
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_OPEN_NOTES
+    }
+    else if (inStr(currentTask, "<PARTE>", true))
+    {
+        TASK_GO_AFTER_TO := 1
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("<DIALOG_0>{SPACE}")
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE
     }
     else if (inStr(currentTask, "<NEW_TASK_CHANGE_VIEW_", true))
     {
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
         newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_NEW_TASK_CHANGE_VIEW
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_CHANGE_VIEW
     }
     else if (inStr(currentTask, "<ESCAPE>", true))
     {
@@ -125,6 +136,12 @@ mloNewContextDependentTask(currentTask = "")
         }
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
+    else if (inStr(currentTask, "<DIALOG_", true))
+    {
+        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DIALOG
+    }
     else if (MLO_ENTER_MODE > 0)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
@@ -152,7 +169,7 @@ mloContextDependentEnter()
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
         writeNextQuestion()
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_OPEN_NOTES)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_OPEN_NOTES)
     {
         sendKeyCombinationIndependentActiveModifiers("{ENTER}")
         openNotesAssociatedWithTask()
@@ -167,7 +184,32 @@ mloContextDependentEnter()
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_NEW_TASK_CHANGE_VIEW)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_PARTE)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_FOLDER)    
+        sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("<DIALOG_1>{SPACE}")
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE_FINISH
+        TASK_GO_AFTER_TO := 0
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_PARTE_FINISH)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_FOLDER)    
+        sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO . "{DOWN}")
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DIALOG
+        TASK_GO_AFTER_TO := 0
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DIALOG)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}")
+        sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
+        sendKeyCombinationIndependentActiveModifiers("{DOWN}")
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_CHANGE_VIEW)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
     }
@@ -230,11 +272,30 @@ mloNewContextDependentEscape()
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_DEZVOLT_JURNAL
         }
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DIALOG)
+    {
+        if (DOUBLE_PRESS_KEY_ACTIVE)
+        {
+            DOUBLE_PRESS_KEY_ACTIVE := 0
+            setTimer TimerDoubleKeyPressInterval, off
+            setTimer TimerGoToNextDialoguePhase, off
+            resetEscapeMode()
+        }
+        else
+        {
+            DOUBLE_PRESS_KEY_ACTIVE := 1
+            setTimer TimerDoubleKeyPressInterval, off
+            setTimer TimerDoubleKeyPressInterval, 800
+            setTimer TimerGoToNextDialoguePhase, off
+            setTimer TimerGoToNextDialoguePhase, 600
+            sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}")
+        }
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH)
     {
         send {blind}{escape}
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_NEW_TASK_CHANGE_VIEW)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_CHANGE_VIEW)
     {
         number := SubStr(TASK_GO_AFTER_TO, 0, 1)
         modifiers := SubStr(TASK_GO_AFTER_TO, 1, StrLen(combination)-1)
@@ -288,7 +349,7 @@ mloNewContextDependentEscape()
             setTimer TimerDoubleKeyPressInterval, off
             setTimer TimerDoubleKeyPressInterval, 700
             setTimer TimerCopyMloTaskPhase2, off
-            setTimer TimerCopyMloTaskPhase2, 200
+            setTimer TimerCopyMloTaskPhase2, 250
             setTimer TimerCopyMloTaskClear, off
             setTimer TimerCopyMloTaskClear, 10000
         }
@@ -377,7 +438,7 @@ TimerCopyMloTaskPhase1()
 TimerCopyMloTaskPhase2()
 {
     setTimer TimerCopyMloTaskPhase2, off
-    setTimer TimerCopyMloTaskPhase3, 200
+    setTimer TimerCopyMloTaskPhase3, 250
     if (Clipboard = "New Task " || Clipboard = " ")
     {
         send %PREVIOUS_TASK%
@@ -407,13 +468,22 @@ TimerGoToNextQuestion()
     {
         resetEscapeMode()
         sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
-        sleep 200
+        sleep 250
         currentTask := getCurrentTask()
         mloNewContextDependentSubTask(currentTask)
         return
     }
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     writeNextQuestion()
+}
+
+timerGoToNextDialoguePhase()
+{
+    SetTimer TimerGoToNextDialoguePhase, off
+    TASK_GO_AFTER_TO := Mod(TASK_GO_AFTER_TO + 1, 2)
+    sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
+    sendKeyCombinationIndependentActiveModifiers("{DOWN}")
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
 }
 
 getCurrentTask(waitTimeAfterCopy = 150)

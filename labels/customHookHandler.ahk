@@ -1,7 +1,3 @@
-TimerCheckKeyPress:
-    timerCheckKeyPress()
-return
-
 TimerCheckAfterSyncReminders:
     timerCheckAfterSyncReminders()
 return

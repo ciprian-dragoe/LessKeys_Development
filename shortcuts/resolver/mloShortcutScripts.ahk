@@ -337,18 +337,18 @@ goToTask(key)
     
 }
 
-timerChangeMloTaskOrder()
-{
-    SetTimer TimerChangeMloTaskOrder, off
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING)
-}
-
 changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + # 
 {
     sendKeyCombinationIndependentActiveModifiers("{escape}")
     extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
     MLO_ENTER_MODE := 0
     IS_DAY_SORTING_VIEW_ACTIVE := 0
+    if (IS_SET_MLO_ORDER_ACTIVE)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING)
+        IS_SET_MLO_ORDER_ACTIVE := 0
+    }
+
     if (number = 1 && modifiers = "^")
     {
         if (A_WDay = 1) ; sunday
@@ -385,12 +385,6 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         }
         else
         {
-            if (IS_SET_MLO_ORDER_ACTIVE)
-            {
-                SetTimer TimerChangeMloTaskOrder, off
-                SetTimer TimerChangeMloTaskOrder, 400
-                IS_SET_MLO_ORDER_ACTIVE := 0
-            }
             modifiers := "^+"
             IS_DAY_SORTING_VIEW_ACTIVE := 1
         }

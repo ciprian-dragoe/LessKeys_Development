@@ -22,10 +22,6 @@ TimerGoToNextDialoguePhase:
     timerGoToNextDialoguePhase()
 return
 
-TimerChangeMloTaskOrder:
-    timerChangeMloTaskOrder()
-return
-
 TimerGoToMloTask:
     TimerGoToMloTask()
 return

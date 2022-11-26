@@ -272,9 +272,20 @@ addTaskToEndOf(taskNumber)
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
     send %taskNumber%
     sleep 150
-    currentTask := getCurrentTask()
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_TOGGLE_COLLAPSE_ALL_CHILDREN)
+    currentTask := getCurrentTask()
     lines := StrSplit(currentTask, "`n")
+    if (InStr(lines[2], "===", true) > 0)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{down}")
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    }
+    else
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    }
+    
+    /*
     if (lines.MaxIndex() = 2) ; because last line in empty string based on how split works 
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
@@ -294,6 +305,7 @@ addTaskToEndOf(taskNumber)
         sendKeyCombinationIndependentActiveModifiers("{DOWN " . lastSubtaskPosition . "}")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
+    */
 }
 
 goToTaskAndOpenNotes(taskNumber)

@@ -15,10 +15,9 @@ global MLO_ENTER_MODE_SET_AS_ESCAPE := 40
 global MLO_ENTER_MODE_SET_JURNAL := 25
 global MLO_ENTER_MODE_SET_DEZVOLT_JURNAL := 26
 global INTREBARI_JURNAL := {}
-INTREBARI_JURNAL.DISTRAGE := ["DAU DRUMUL:{SPACE}", "CRESC{SPACE}{SPACE}{SPACE}SA:{SPACE}"]
-INTREBARI_JURNAL.VULNERABIL := ["MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}", "MI-E FRICA:{SPACE}", "CER AJUTOR:{SPACE}"]
-INTREBARI_JURNAL.LIMITA := ["NEVOIE COMUNIC:{SPACE}", "MA INCARCA SA FIU PREZENT SITUATIE:{SPACE}"]
-INTREBARI_JURNAL.NEVOIE := ["INGRIJESC CU CEEA CE AM:{SPACE}"]
+INTREBARI_JURNAL.DAUǀDRUMUL := ["NU MA MAI REGASESC:{SPACE}", "CRESC SA:{SPACE}"]
+INTREBARI_JURNAL.NEVOIEǀACUMULAT := ["INGRIJESC CU CEEA CE AM:{space}"]
+INTREBARI_JURNAL.LIMITA := ["EFECT TERMEN LUNG CONTINUI IGNOR NEVOIE:{SPACE}", "E IN CONTROLUL MEU:{SPACE}"]
    
 
 global INTREBARI_JURNAL_INDEX := 1
@@ -60,7 +59,7 @@ mloNewContextDependentSubTask(currentTask)
         {
             sendKeyCombinationIndependentActiveModifiers("{end}{space}{space}{enter}")
         }
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
     else if (inStr(currentTask, "<TOPIC_DELIMITER>", true))
     {
@@ -145,8 +144,7 @@ mloNewContextDependentTask(currentTask = "")
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH)
     {
-        newBrainStormTask("{enter}{f5}{escape}{up}")
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
     else if (MLO_ENTER_MODE > 0)
     {
@@ -163,7 +161,6 @@ mloContextDependentEnter()
 {
     if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH)
     {
-        newBrainStormTask("{enter}{f5}{escape}{up}")
         newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_JURNAL)
@@ -185,7 +182,6 @@ mloContextDependentEnter()
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ADD_SPACES && A_CaretX)
     {
         sendKeyCombinationIndependentActiveModifiers("{end}{space}{space}{enter}{F5}")
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK)
     {

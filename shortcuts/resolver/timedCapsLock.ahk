@@ -18,7 +18,7 @@ timedCapsLock()
     SetCapsLockState, On
     appNameWhereTimedCapsActive := lastActiveAppName
     otherKeyPressedWhileWobblyKeyDown := 0
-    SetTimer, TimerDisableCapsLock, 2000
+    SetTimer, TimerDisableCapsLock, 600
 }
 
 TimerDisableCapsLock()

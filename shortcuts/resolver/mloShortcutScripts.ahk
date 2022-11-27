@@ -3,7 +3,6 @@ global MLO_CLASS_NAME := "TfrmMyLifeMain"
 global MLO_TASK_WINDOWS_NAME :="TVirtualStringTree5_"
 global MLO_FILTER_WINDOWS_NAME :="TEdit2_"
 global MLO_NAME := "MyLifeOrganized"
-global MLO_MOVE_UP_PIXELS
 global MLO_WINDOW_NAME := "01-MY-LIST"
 global MLO_WINDOW_ACTIVE := 0
 global MLO_DARK_MODE_TOP_HEIGHT := 0
@@ -29,11 +28,9 @@ global MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING := "^;"
 
 if (A_ComputerName = ACTIVE_COMPUTER_X230)
 {
-    MLO_MOVE_UP_PIXELS := -115
 }
 else if (A_ComputerName = ACTIVE_COMPUTER_X1_YOGA_G3)
 {
-    MLO_MOVE_UP_PIXELS := -115
     MLO_POSITION_Y_RAPID_TASK_ENTRY := 70
     MLO_DARK_MODE_TOP_HEIGHT := 120
     MLO_DARK_MODE_RIGHT_WIDTH := 40
@@ -42,11 +39,10 @@ else if (A_ComputerName = ACTIVE_COMPUTER_X1_YOGA_G3)
 }
 else if (A_ComputerName = ACTIVE_COMPUTER_X1_EXTREME)
 {
-    MLO_MOVE_UP_PIXELS := -90
-    MLO_POSITION_Y_RAPID_TASK_ENTRY := 105
-    MLO_DARK_MODE_TOP_HEIGHT := 115
+    MLO_POSITION_Y_RAPID_TASK_ENTRY := 111
+    MLO_DARK_MODE_TOP_HEIGHT := 116
     MLO_DARK_MODE_RIGHT_WIDTH := 73
-    MLO_DARK_MODE_BOTTOM_HEIGHT := 215 ; when taskbar not hidden
+    MLO_DARK_MODE_BOTTOM_HEIGHT := 214 ; when taskbar not hidden
     ;MLO_DARK_MODE_BOTTOM_HEIGHT := 100 ; when taskbar hidden
     MLO_DARK_MODE_LEFT_WIDTH := 13
 }
@@ -272,20 +268,9 @@ addTaskToEndOf(taskNumber)
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
     send %taskNumber%
     sleep 150
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_TOGGLE_COLLAPSE_ALL_CHILDREN)
     currentTask := getCurrentTask()
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_TOGGLE_COLLAPSE_ALL_CHILDREN)
     lines := StrSplit(currentTask, "`n")
-    if (InStr(lines[2], "===", true) > 0)
-    {
-        sendKeyCombinationIndependentActiveModifiers("{down}")
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-    }
-    else
-    {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-    }
-    
-    /*
     if (lines.MaxIndex() = 2) ; because last line in empty string based on how split works 
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
@@ -305,7 +290,6 @@ addTaskToEndOf(taskNumber)
         sendKeyCombinationIndependentActiveModifiers("{DOWN " . lastSubtaskPosition . "}")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
-    */
 }
 
 goToTaskAndOpenNotes(taskNumber)
@@ -326,7 +310,7 @@ goToTaskAndOpenNotes(taskNumber)
 goToTask(key)
 {
     taskNumber := getTaskNumber(key)
-    if (MLO_LAST_VIEW = "!^1")
+    if (MLO_LAST_VIEW = "^!1")
     {
         addTaskToEndOf(taskNumber)
     } 
@@ -349,7 +333,12 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         IS_SET_MLO_ORDER_ACTIVE := 0
     }
 
-    if (number = 1 && modifiers = "^")
+    if (number = 1 && modifiers = "^!")
+    {
+        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
+    }
+    else if (number = 1 && modifiers = "^")
     {
         if (A_WDay = 1) ; sunday
         {

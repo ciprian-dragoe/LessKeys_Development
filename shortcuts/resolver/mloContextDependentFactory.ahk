@@ -24,6 +24,7 @@ global INTREBARI_JURNAL_INDEX := 1
 global MLO_JOURNAL := ""
 global TASK_GO_AFTER_TO := ""
 global PREVIOUS_TASK := ""
+global BUFFER := ""
 
 mloContextDependentKeyFactory(originalAction)
 {
@@ -74,9 +75,10 @@ mloNewContextDependentSubTask(currentTask)
         sendKeyCombinationIndependentActiveModifiers("<DIALOG_0>{SPACE}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE
     }
-    else if (inStr(currentTask, "<NEW_TASK_CHANGE_VIEW_", true))
+    else if (inStr(currentTask, "<NEW_TASK_DO_AFTER_", true))
     {
-        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
+        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask, 1)
+        BUFFER := StrSplit(extractDestinationAfter(currentTask), "ǀ")
         newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_CHANGE_VIEW
     }
@@ -300,10 +302,12 @@ mloNewContextDependentEscape()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_CHANGE_VIEW)
     {
+        sendKeyCombinationIndependentActiveModifiers("{ENTER}")
         number := SubStr(TASK_GO_AFTER_TO, 0, 1)
         modifiers := SubStr(TASK_GO_AFTER_TO, 1, StrLen(combination)-1)
         resetEscapeMode()
         changeViewMloFactory(number, modifiers)
+        changeViewMlo("", BUFFER)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ADD_SPACES)
     {

@@ -310,7 +310,7 @@ goToTaskAndOpenNotes(taskNumber)
 goToTask(key)
 {
     taskNumber := getTaskNumber(key)
-    if (MLO_LAST_VIEW = "^!1")
+    if (MLO_LAST_VIEW = "!^1")
     {
         addTaskToEndOf(taskNumber)
     } 
@@ -338,6 +338,10 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
     }
+    if (number = 1 && modifiers = "^+")
+    {
+        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS, "{left}", "{down 2}"]
+    }
     else if (number = 1 && modifiers = "^")
     {
         if (A_WDay = 1) ; sunday
@@ -355,7 +359,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     }
     else if (number = 2 && modifiers = "^")
     {
-        if (A_Hour < 10) ; sunday
+        if (A_Hour < 10 && A_Hour > 4)
         {
             modifiers := "^+"
         }

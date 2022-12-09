@@ -490,7 +490,7 @@ TimerGoToNextQuestion()
 {
     setTimer TimerGoToNextQuestion, off
     sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK . "{down}{F5}")
-    currentTask := getCurrentTask()
+    currentTask := getCurrentTask(500)
     if (!inStr(currentTask, "<" . MLO_JOURNAL . ">", true))
     {
         resetEscapeMode()

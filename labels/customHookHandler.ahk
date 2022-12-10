@@ -34,6 +34,10 @@ TimerSyncMloStep2_readPing:
     timerSyncMloStep2_readPing()
 return
 
+TimerSyncMloStep4_clickOkNoInternet:
+    timerSyncMloStep4_clickOkNoInternet()
+return
+
 TimerCheckReminder:
     timerCheckReminder()
 return

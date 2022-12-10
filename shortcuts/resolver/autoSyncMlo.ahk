@@ -46,7 +46,7 @@ timerSyncMloStep2_readPing()
         ControlSend, , {F9}, ahk_class %MLO_CLASS_NAME%
         
         SetTimer TimerSyncMloStep3_syncCalendar, OFF
-        SetTimer TimerSyncMloStep3_syncCalendar, 100000
+        SetTimer TimerSyncMloStep3_syncCalendar, 10000
     }
     else
     {
@@ -61,6 +61,19 @@ timerSyncMloStep3_syncCalendar()
     if (!inStr(lastActiveAppName, ".ml - MyLifeOrganized", true))
     {
         ControlSend, , {F10}, ahk_class %MLO_CLASS_NAME%
+        SetTimer TimerSyncMloStep4_clickOkNoInternet, OFF
+        SetTimer TimerSyncMloStep4_clickOkNoInternet, 6000
+    }
+}
+
+timerSyncMloStep4_clickOkNoInternet()
+{
+    SetTimer TimerSyncMloStep4_clickOkNoInternet, OFF
+    isErrorPresentNoInternet := WinExist("ahk_class #32770")
+    if (isErrorPresentNoInternet)
+    {
+        ControlSend, , {enter}, A
+        ;showtooltip("de ce nu merge :(")
     }
 }
 

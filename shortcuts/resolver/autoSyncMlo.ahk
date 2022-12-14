@@ -61,8 +61,8 @@ timerSyncMloStep3_syncCalendar()
     if (!inStr(lastActiveAppName, ".ml - MyLifeOrganized", true))
     {
         ControlSend, , {F10}, ahk_class %MLO_CLASS_NAME%
-        SetTimer TimerSyncMloStep4_clickOkNoInternet, OFF
-        SetTimer TimerSyncMloStep4_clickOkNoInternet, 6000
+        ;SetTimer TimerSyncMloStep4_clickOkNoInternet, OFF
+        ;SetTimer TimerSyncMloStep4_clickOkNoInternet, 6000 ; todo: should delete if not working with other apps
     }
 }
 
@@ -72,7 +72,7 @@ timerSyncMloStep4_clickOkNoInternet()
     isErrorPresentNoInternet := WinExist("ahk_class #32770")
     if (isErrorPresentNoInternet)
     {
-        ControlSend, , {enter}, A
+        ;ControlSend, , {enter}, A
         ;showtooltip("de ce nu merge :(")
     }
 }

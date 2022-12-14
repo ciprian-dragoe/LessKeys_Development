@@ -7,6 +7,7 @@ global MLO_ENTER_MODE_SET_AS_PARTE := 6
 global MLO_ENTER_MODE_SET_AS_PARTE_FINISH := 7
 global MLO_ENTER_MODE_SET_AS_DIALOG := 8
 global MLO_ENTER_MODE_SET_AS_ADD_SPACES := 10
+global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ := 11
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER := 30
 global MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER := 31
 global MLO_ENTER_MODE_SET_AS_ESCAPE := 40
@@ -14,10 +15,11 @@ global MLO_ENTER_MODE_SET_AS_ESCAPE := 40
 global MLO_ENTER_MODE_SET_JURNAL := 25
 global MLO_ENTER_MODE_SET_DEZVOLT_JURNAL := 26
 global INTREBARI_JURNAL := {}
-INTREBARI_JURNAL.SITUATIEǀRAMASǀPRINSǀGANDURI := ["SEMNIFICATIE GANDURI ACEA SITUATIE:{SPACE}", "ACCEPT NE E IN CONTROLUL MEU:{SPACE}", "DIRECTIE REGASESC IN ASTFEL DE MOMENTE:{SPACE}", "MA INCARCA SA FIU ALINIAT ASTFEL DE MOMENTE:"]
+INTREBARI_JURNAL.VULNERABIL := ["SEMNIFICA ACEST GAND:{SPACE}", "AM TENDINTA SA MA DISTRAG PRIN:{SPACE}", "POT SA FAC CAND RECUNOSC ASTFEL DE GANDURI:{SPACE}"]
 INTREBARI_JURNAL.DAUǀDRUMUL := ["NU MA MAI REGASESC:{SPACE}", "DIRECTIE IN CARE MA REGASESC:{SPACE}"]
-INTREBARI_JURNAL.NEVOIEǀACUMULAT := ["INGRIJESC CU CEEA CE AM:{space}"]
-INTREBARI_JURNAL.LIMITA := ["EFECT TERMEN LUNG CONTINUI IGNOR LIMITA:{SPACE}", "MA REGASESC SA ACTIONEZ:{SPACE}"]
+INTREBARI_JURNAL.INCARCA := ["INGRIJESC CU CEEA CE AM:{SPACE}"]
+INTREBARI_JURNAL.FRICA := ["SEMNIFICATIE SUFERINTA:{SPACE}", "ACCEPT NU E IN CONTROLUL MEU:{SPACE}", "CER AJUTOR:{SPACE}"]
+
    
 
 global INTREBARI_JURNAL_INDEX := 1
@@ -50,7 +52,7 @@ mloContextDependentKeyFactory(originalAction)
 
 mloNewContextDependentSubTask(currentTask)
 {
-    if (inStr(currentTask, "<JOURNAL_NEW_TOPIC>", true))
+    if (inStr(currentTask, "<JOURNAL_NEW_TOPIC>", true)) ; todo: should delete? 
     {
         mloAddJournalDelimiterSubTask()
     }
@@ -62,13 +64,14 @@ mloNewContextDependentSubTask(currentTask)
         }
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
-    else if (inStr(currentTask, "<TOPIC_DELIMITER>", true))
+    else if (inStr(currentTask, "<TOPIC_DELIMITER>", true)) ; todo: should delete and also in mlo?
     {
         mloAddJournalDelimiterSubTask()
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_OPEN_NOTES
     }
-    else if (inStr(currentTask, "<PARTE>", true))
+    else if (inStr(currentTask, " >", true))
     {
+        INTREBARI_JURNAL_INDEX := 1
         TASK_GO_AFTER_TO := 1
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         sleep 100
@@ -90,7 +93,7 @@ mloNewContextDependentSubTask(currentTask)
     }
     else if (inStr(currentTask, "<ESCAPE>", true))
     {
-        resetEscapeMode()
+        resetMloEnterMode()
     }
     else if (inStr(currentTask, "<NEW_TASK>", true))
     {
@@ -151,6 +154,15 @@ mloNewContextDependentTask(currentTask = "")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DIALOG
     }
+    else if (inStr(currentTask, "<GANDURI_EXPLOREZ>", true))
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
+        sendKeyCombinationIndependentActiveModifiers("{DOWN}")
+        sendKeyCombinationIndependentActiveModifiers("{F2}")
+        sleep 50
+        sendKeyCombinationIndependentActiveModifiers("" . INTREBARI_JURNAL_INDEX . "{SPACE}")
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH)
     {
         newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
@@ -176,6 +188,17 @@ mloContextDependentEnter()
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
         sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ)
+    {
+        INTREBARI_JURNAL_INDEX := INTREBARI_JURNAL_INDEX + 1 
+        sendKeyCombinationIndependentActiveModifiers("{enter}")
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
+        sleep 50
+        sendKeyCombinationIndependentActiveModifiers("{DOWN}")
+        sendKeyCombinationIndependentActiveModifiers("{F2}")
+        sleep 50
+        sendKeyCombinationIndependentActiveModifiers("" . INTREBARI_JURNAL_INDEX . "{SPACE}")
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_DEZVOLT_JURNAL)
     {
@@ -239,7 +262,7 @@ mloContextDependentEnter()
             setTimer TimerCopyMloTaskPhase3, off
             setTimer TimerCopyMloTaskClear, off
             setTimer TimerDoubleKeyPressInterval, off
-            resetEscapeMode()
+            resetMloEnterMode()
         }
         else
         {
@@ -271,7 +294,7 @@ mloNewContextDependentEscape()
             DOUBLE_PRESS_KEY_ACTIVE := 0
             setTimer TimerDoubleKeyPressInterval, off
             setTimer TimerGoToNextQuestion, off
-            resetEscapeMode()
+            resetMloEnterMode()
         }
         else
         {
@@ -286,39 +309,39 @@ mloNewContextDependentEscape()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DIALOG)
     {
-;        if (DOUBLE_PRESS_KEY_ACTIVE)
-;        {
-;            DOUBLE_PRESS_KEY_ACTIVE := 0
-;            setTimer TimerDoubleKeyPressInterval, off
-;            setTimer TimerGoToNextDialoguePhase, off
-;            resetEscapeMode()
-;        }
-;        else
-;        {
-;            DOUBLE_PRESS_KEY_ACTIVE := 1
-;            setTimer TimerDoubleKeyPressInterval, off
-;            setTimer TimerDoubleKeyPressInterval, 800
-;            setTimer TimerGoToNextDialoguePhase, off
-;            setTimer TimerGoToNextDialoguePhase, 200
-;            sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}")
-;        }
-            sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}")
-            sleep 100
-            TASK_GO_AFTER_TO := Mod(TASK_GO_AFTER_TO + 1, 2)
-            sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
-            sendKeyCombinationIndependentActiveModifiers("{DOWN}")
-            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        if (DOUBLE_PRESS_KEY_ACTIVE)
+        {
+            setTimer TimerDoubleKeyPressInterval, off
+            DOUBLE_PRESS_KEY_ACTIVE := 0
+            resetMloEnterMode()
+            return
+        }
+        setTimer TimerDoubleKeyPressInterval, 600
+        DOUBLE_PRESS_KEY_ACTIVE := 1
+        sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}")
+        sleep 100
+        TASK_GO_AFTER_TO := Mod(TASK_GO_AFTER_TO + 1, 2)
+        sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
+        sendKeyCombinationIndependentActiveModifiers("{DOWN}")
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH)
     {
         send {blind}{escape}
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}9 ==================================================")
+        sendKeyCombinationIndependentActiveModifiers("{enter}")
+        sleep 50
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH 
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_CHANGE_VIEW)
     {
         sendKeyCombinationIndependentActiveModifiers("{ENTER}")
         number := SubStr(TASK_GO_AFTER_TO, 0, 1)
         modifiers := SubStr(TASK_GO_AFTER_TO, 1, StrLen(combination)-1)
-        resetEscapeMode()
+        resetMloEnterMode()
         changeViewMloFactory(number, modifiers)
         if (BUFFER)
         {
@@ -336,7 +359,7 @@ mloNewContextDependentEscape()
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER)
     {
         sendKeyCombinationIndependentActiveModifiers("{ENTER}")
-        resetEscapeMode()   
+        resetMloEnterMode()   
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER)
     {
@@ -345,7 +368,7 @@ mloNewContextDependentEscape()
             DOUBLE_PRESS_KEY_ACTIVE := 0
             setTimer TimerDoubleKeyPressInterval, off
             setTimer TimerGoToMloTask, off
-            resetEscapeMode()
+            resetMloEnterMode()
         }
         else
         {
@@ -367,7 +390,7 @@ mloNewContextDependentEscape()
             setTimer TimerCopyMloTaskPhase3, off
             setTimer TimerCopyMloTaskClear, off
             setTimer TimerDoubleKeyPressInterval, off
-            resetEscapeMode()
+            resetMloEnterMode()
         }
         else
         {
@@ -383,11 +406,11 @@ mloNewContextDependentEscape()
     }
     else
     {
-        resetEscapeMode()
+        resetMloEnterMode()
     }
 }
 
-resetEscapeMode()
+resetMloEnterMode()
 {
     MLO_ENTER_MODE := 0
     TASK_GO_AFTER_TO := ""
@@ -493,7 +516,7 @@ TimerGoToNextQuestion()
     currentTask := getCurrentTask(500)
     if (!inStr(currentTask, "<" . MLO_JOURNAL . ">", true))
     {
-        resetEscapeMode()
+        resetMloEnterMode()
         sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
         sleep 150
         currentTask := getCurrentTask()

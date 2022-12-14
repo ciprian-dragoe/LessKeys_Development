@@ -27,11 +27,12 @@ TimerDisableCapsLock()
     {
         return
     }
+    
     if (appNameWhereTimedCapsActive != lastActiveAppName || !otherKeyPressedWhileWobblyKeyDown)
     {
         SetTimer, TimerDisableCapsLock, OFF
         SetCapsLockState, OFF
-        tooltip
+        tooltip 
     }
     otherKeyPressedWhileWobblyKeyDown := 0
 }

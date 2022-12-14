@@ -14,6 +14,7 @@ global MLO_POSITION_Y_RAPID_TASK_ENTRY := 0
 global IS_DAY_SORTING_VIEW_ACTIVE := 0
 global IS_SET_MLO_ORDER_ACTIVE := 0
 
+global MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK := "^d" 
 global MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK := "!e" 
 global MLO_KEYBOARD_SHORTCUT_NEW_TASK := "!w" 
 global MLO_KEYBOARD_SHORTCUT_FOLDER := "^+a" 
@@ -325,7 +326,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
 {
     sendKeyCombinationIndependentActiveModifiers("{escape}")
     extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
-    MLO_ENTER_MODE := 0
+    resetMloEnterMode()
     IS_DAY_SORTING_VIEW_ACTIVE := 0
     if (IS_SET_MLO_ORDER_ACTIVE)
     {

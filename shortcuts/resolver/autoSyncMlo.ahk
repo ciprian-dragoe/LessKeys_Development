@@ -43,7 +43,7 @@ timerSyncMloStep2_readPing()
     ifinstring, TempArr%TempArr0%, ms
     {
         INTERNET_ACCESS := 1
-        ControlSend, , {F9}, ahk_class %MLO_CLASS_NAME%
+        ControlSend, , {^F9}, ahk_class %MLO_CLASS_NAME%
         
         SetTimer TimerSyncMloStep3_syncCalendar, OFF
         SetTimer TimerSyncMloStep3_syncCalendar, 10000
@@ -60,7 +60,7 @@ timerSyncMloStep3_syncCalendar()
     SetTimer TimerSyncMloStep3_syncCalendar, OFF
     if (!inStr(lastActiveAppName, ".ml - MyLifeOrganized", true))
     {
-        ControlSend, , {F10}, ahk_class %MLO_CLASS_NAME%
+        ControlSend, , {^F10}, ahk_class %MLO_CLASS_NAME%
         ;SetTimer TimerSyncMloStep4_clickOkNoInternet, OFF
         ;SetTimer TimerSyncMloStep4_clickOkNoInternet, 6000 ; todo: should delete if not working with other apps
     }

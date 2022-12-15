@@ -17,10 +17,10 @@ global IS_SET_MLO_ORDER_ACTIVE := 0
 global MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK := "^d" 
 global MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK := "!e" 
 global MLO_KEYBOARD_SHORTCUT_NEW_TASK := "!w" 
-global MLO_KEYBOARD_SHORTCUT_FOLDER := "^+a" 
-global MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_EXCEPT_SELECTION := "^{F11}" 
-global MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS := "{F12}" 
-global MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS := "{F11}" 
+global MLO_KEYBOARD_SHORTCUT_FOLDER := "^+a"
+global MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_EXCEPT_SELECTION := "^+{F12}" 
+global MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS := "^{F12}" 
+global MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS := "^{F11}" 
 global MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_FIRST_LEVEL := "^+;" 
 global MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_TOGGLE_COLLAPSE_ALL_CHILDREN := "!q" 
 global MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING := "^;" 
@@ -87,7 +87,6 @@ changeViewMlo(viewCombination, extraInstructions)
     sendKeyCombinationIndependentActiveModifiers(viewCombination)
     for index , instruction in extraInstructions
     {
-        sleep 50
         sendKeyCombinationIndependentActiveModifiers(instruction)
     }
 }
@@ -103,14 +102,14 @@ mloShowFind()
     sendKeyCombinationIndependentActiveModifiers("^+!=") ; schimb workspace all tasks
     sendKeyCombinationIndependentActiveModifiers("^+=") ; schimb view search
     sleep 500
-    sendKeyCombinationIndependentActiveModifiers("{home}") ; unfold all tasks
+    sendKeyCombinationIndependentActiveModifiers("{home}")
     ControlClick, TEdit3, A,,,, NA
     ControlClick, TEdit2, A,,,, NA
     sendKeyCombinationIndependentActiveModifiers("^a")
     sendKeyCombinationIndependentActiveModifiers("{backspace}")
-    sendKeyCombinationIndependentActiveModifiers("{F12}") ; unfold all tasks
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
     sleep 700
-    sendKeyCombinationIndependentActiveModifiers("{F12}") ; unfold all tasks
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
     SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
 }
 
@@ -269,28 +268,29 @@ addTaskToEndOf(taskNumber)
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
     send %taskNumber%
     sleep 150
-    currentTask := getCurrentTask()
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_TOGGLE_COLLAPSE_ALL_CHILDREN)
-    lines := StrSplit(currentTask, "`n")
-    if (lines.MaxIndex() = 2) ; because last line in empty string based on how split works 
-    {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-    }
-    else
-    {
-        lastSubtaskPosition := 0
-        for key, val in lines
-        {
-            if (val && SubStr(val, 3, 1) != " ")
-            {
-                lastSubtaskPosition := key
-            }
-            
-        }
-        lastSubtaskPosition := lastSubtaskPosition - 1 ; because the parent is also considered in the split
-        sendKeyCombinationIndependentActiveModifiers("{DOWN " . lastSubtaskPosition . "}")
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-    }
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+;    currentTask := getCurrentTask()
+;    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_TOGGLE_COLLAPSE_ALL_CHILDREN)
+;    lines := StrSplit(currentTask, "`n")
+;    if (lines.MaxIndex() = 2) ; because last line in empty string based on how split works 
+;    {
+;        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+;    }
+;    else
+;    {
+;        lastSubtaskPosition := 0
+;        for key, val in lines
+;        {
+;            if (val && SubStr(val, 3, 1) != " ")
+;            {
+;                lastSubtaskPosition := key
+;            }
+;            
+;        }
+;        lastSubtaskPosition := lastSubtaskPosition - 1 ; because the parent is also considered in the split
+;        sendKeyCombinationIndependentActiveModifiers("{DOWN " . lastSubtaskPosition . "}")
+;        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+;    }
 }
 
 goToTaskAndOpenNotes(taskNumber)
@@ -311,7 +311,7 @@ goToTaskAndOpenNotes(taskNumber)
 goToTask(key)
 {
     taskNumber := getTaskNumber(key)
-    if (MLO_LAST_VIEW = "!^1")
+    if (MLO_LAST_VIEW = "^!1")
     {
         addTaskToEndOf(taskNumber)
     } 
@@ -326,10 +326,11 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
 {
     sendKeyCombinationIndependentActiveModifiers("{escape}")
     extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
-    resetMloEnterMode()
+    resetMloEnterMode(0)
     IS_DAY_SORTING_VIEW_ACTIVE := 0
     if (IS_SET_MLO_ORDER_ACTIVE)
     {
+        showtooltip("IS_SET_MLO_ORDER_ACTIVE")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING)
         IS_SET_MLO_ORDER_ACTIVE := 0
     }
@@ -339,7 +340,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
     }
-    if (number = 1 && modifiers = "^+")
+    else if (number = 1 && modifiers = "^+")
     {
         extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS, "{left}", "{down 2}"]
     }
@@ -349,7 +350,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         {
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ADD_SPACES
             modifiers := "!+"
-            extraInstructions := ["{home}", "{F12}"]
+            extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS]
         }
         else
         {
@@ -371,7 +372,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     }
     else if (number = 3 && modifiers = "^")
     {
-        extraInstructions := ["{home}", "{F12}"]
+        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS]
         if (A_WDay = 1) ; sunday
         {
             modifiers := "!^"

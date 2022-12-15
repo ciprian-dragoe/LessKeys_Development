@@ -15,7 +15,7 @@ global MLO_ENTER_MODE_SET_AS_ESCAPE := 40
 global MLO_ENTER_MODE_SET_JURNAL := 25
 global MLO_ENTER_MODE_SET_DEZVOLT_JURNAL := 26
 global INTREBARI_JURNAL := {}
-INTREBARI_JURNAL.VULNERABIL := ["SEMNIFICA ACEST GAND:{SPACE}", "AM TENDINTA SA MA DISTRAG PRIN:{SPACE}", "POT SA FAC CAND RECUNOSC ASTFEL DE GANDURI:{SPACE}"]
+INTREBARI_JURNAL.EVENIMENTǀZI := ["DIRECTIE IMPACAT SITUAIE:{SPACE}"]
 INTREBARI_JURNAL.DAUǀDRUMUL := ["NU MA MAI REGASESC:{SPACE}", "DIRECTIE IN CARE MA REGASESC:{SPACE}"]
 INTREBARI_JURNAL.INCARCA := ["INGRIJESC CU CEEA CE AM:{SPACE}"]
 INTREBARI_JURNAL.FRICA := ["SEMNIFICATIE SUFERINTA:{SPACE}", "ACCEPT NU E IN CONTROLUL MEU:{SPACE}", "CER AJUTOR:{SPACE}"]
@@ -78,6 +78,10 @@ mloNewContextDependentSubTask(currentTask)
         sendKeyCombinationIndependentActiveModifiers("<DIALOG_0>{SPACE}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE
     }
+    else if (inStr(currentTask, "<S>", true))
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    }
     else if (inStr(currentTask, "<NEW_TASK_DO_AFTER_", true))
     {
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask, 1)
@@ -102,7 +106,7 @@ mloNewContextDependentSubTask(currentTask)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH)
     {
-        newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
     else if (inStr(currentTask, "<JURNAL_", true))
     {
@@ -148,6 +152,10 @@ mloNewContextDependentTask(currentTask = "")
         }
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
+    else if (inStr(currentTask, "<S>", true))
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    }
     else if (inStr(currentTask, "<DIALOG_", true))
     {
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
@@ -160,12 +168,12 @@ mloNewContextDependentTask(currentTask = "")
         sendKeyCombinationIndependentActiveModifiers("{DOWN}")
         sendKeyCombinationIndependentActiveModifiers("{F2}")
         sleep 50
-        sendKeyCombinationIndependentActiveModifiers("" . INTREBARI_JURNAL_INDEX . "{SPACE}")
+        sendKeyCombinationIndependentActiveModifiers("" . INTREBARI_JURNAL_INDEX . " <S>{SPACE}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH)
     {
-        newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
     else if (MLO_ENTER_MODE > 0)
     {
@@ -182,7 +190,7 @@ mloContextDependentEnter()
 {
     if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH)
     {
-        newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_JURNAL)
     {
@@ -198,7 +206,7 @@ mloContextDependentEnter()
         sendKeyCombinationIndependentActiveModifiers("{DOWN}")
         sendKeyCombinationIndependentActiveModifiers("{F2}")
         sleep 50
-        sendKeyCombinationIndependentActiveModifiers("" . INTREBARI_JURNAL_INDEX . "{SPACE}")
+        sendKeyCombinationIndependentActiveModifiers("" . INTREBARI_JURNAL_INDEX . " <S>{SPACE}")
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_DEZVOLT_JURNAL)
     {
@@ -331,9 +339,24 @@ mloNewContextDependentEscape()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ)
     {
-        sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}9 ==================================================")
-        sendKeyCombinationIndependentActiveModifiers("{enter}")
-        sleep 50
+        sendKeyCombinationIndependentActiveModifiers("^a")
+        currentTask := getCurrentTask()
+        if (SubStr(currentTask,0,1) = " ")
+        {
+            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}9 ================================================{enter}")
+        }
+        else
+        {
+            sendKeyCombinationIndependentActiveModifiers("{enter}")
+            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
+            sleep 100
+            sendKeyCombinationIndependentActiveModifiers("{F2}{down}")
+            sleep 100
+            sendKeyCombinationIndependentActiveModifiers("^a")
+            sleep 250
+            sendKeyCombinationIndependentActiveModifiers("9 ================================================{enter}")
+        }
+        
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH 
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_CHANGE_VIEW)
@@ -410,13 +433,16 @@ mloNewContextDependentEscape()
     }
 }
 
-resetMloEnterMode()
+resetMloEnterMode(alsoPressEscape = 1)
 {
     MLO_ENTER_MODE := 0
     TASK_GO_AFTER_TO := ""
     INTREBARI_JURNAL_INDEX := 1
     PREVIOUS_TASK := ""
-    send {blind}{escape}
+    if (alsoPressEscape)
+    {
+        send {blind}{escape}
+    }
 }
 
 extractDestinationAfter(input, indexPositionFromRigth = 0)
@@ -430,7 +456,7 @@ extractDestinationAfter(input, indexPositionFromRigth = 0)
 
 newBrainStormTask(originalAction)
 {
-    sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
+    sendKeyCombinationIndependentActiveModifiers("{enter}{F5}{LEFT}")
     sendKeyCombinationIndependentActiveModifiers(originalAction)
 }
 

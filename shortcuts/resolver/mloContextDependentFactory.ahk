@@ -9,12 +9,12 @@ global MLO_ENTER_MODE_SET_AS_PARTE_INCARCA := 12
 global MLO_ENTER_MODE_SET_AS_PARTE_CONSUMA := 13
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER := 30
 global MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER := 31
-global MLO_ENTER_MODE_SET_AS_ESCAPE := 40
+global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 40
 
 global MLO_ENTER_MODE_SET_JURNAL := 25
 global MLO_ENTER_MODE_SET_DEZVOLT_JURNAL := 26
 global INTREBARI_JURNAL := {}
-INTREBARI_JURNAL.EVENIMENTǀZI := ["LIMITA RESPECT: "]
+INTREBARI_JURNAL.INTENTIE := ["LIMITA MENTIN: "]
 INTREBARI_JURNAL.DAUǀDRUMUL := ["NU MA MAI REGASESC:{SPACE}", "CRESC SA:{SPACE}"]
 INTREBARI_JURNAL.APRECIEZ := ["APRECIEZ IN ACEST MOMENT:{SPACE}", "MA INCARCA SA FIU PREZENT"]
 INTREBARI_JURNAL.FRICA := ["SEMNIFICATIE SUFERINTA:{SPACE}", "SPRIJIN CU CEEA CE AM:{SPACE}"]
@@ -61,10 +61,7 @@ mloNewContextDependentSubTask(currentTask)
     }
     else if (inStr(currentTask, "<PARTE>", true))
     {
-        TASK_GO_AFTER_TO := SubStr(currentTask, 1, 1)
-        INTREBARI_JURNAL_INDEX := SubStr(currentTask, 2, 1)
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DIALOG
+        newPart(currentTask)
     }
     else if (inStr(currentTask, "<TOPIC_DELIMITER>", true))
     {
@@ -91,6 +88,10 @@ mloNewContextDependentSubTask(currentTask)
     else if (inStr(currentTask, "<ESCAPE>", true))
     {
         resetMloEnterMode()
+    }
+    else if (inStr(currentTask, "<GANDURI_EXPLOREZ>", true))
+    {
+        newBucla()
     }
     else if (inStr(currentTask, "<NEW_TASK>", true))
     {
@@ -145,15 +146,13 @@ mloNewContextDependentTask(currentTask = "")
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
+    else if (inStr(currentTask, "<PARTE>", true))
+    {
+        newPart(currentTask)
+    }
     else if (inStr(currentTask, "<GANDURI_EXPLOREZ>", true))
     {
-        INTREBARI_JURNAL_INDEX := 1
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
-        sendKeyCombinationIndependentActiveModifiers("{DOWN}")
-        sendKeyCombinationIndependentActiveModifiers("{F2}")
-        sleep 50
-        sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . "_BUCLA>" . "{SPACE}")
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ
+        newBucla()
     }
     else if (MLO_ENTER_MODE > 0)
     {
@@ -184,6 +183,10 @@ mloContextDependentEnter()
         sendKeyCombinationIndependentActiveModifiers("{F2}")
         sleep 50
         sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . "_BUCLA>{SPACE}")
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_DEZVOLT_JURNAL)
     {
@@ -280,7 +283,10 @@ mloNewContextDependentEscape()
             DOUBLE_PRESS_KEY_ACTIVE := 0
             setTimer TimerDoubleKeyPressInterval, off
             setTimer TimerGoToNextQuestion, off
-            resetMloEnterMode()
+            sendKeyCombinationIndependentActiveModifiers("{ESCAPE}")
+            sleep 100
+            sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK)
+            resetMloEnterMode(0)
         }
         else
         {
@@ -536,6 +542,25 @@ timerGoToNextDialoguePhase()
     sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
     sendKeyCombinationIndependentActiveModifiers("{DOWN}")
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+}
+
+newBucla()
+{
+    INTREBARI_JURNAL_INDEX := 1
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
+    sendKeyCombinationIndependentActiveModifiers("{DOWN}")
+    sendKeyCombinationIndependentActiveModifiers("{F2}")
+    sleep 50
+    sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . "_BUCLA>" . "{SPACE}")
+    MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ
+}
+
+newPart(currentTask)
+{
+    TASK_GO_AFTER_TO := SubStr(currentTask, 1, 1)
+    INTREBARI_JURNAL_INDEX := SubStr(currentTask, 2, 1)
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DIALOG
 }
 
 getCurrentTask(waitTimeAfterCopy = 200)

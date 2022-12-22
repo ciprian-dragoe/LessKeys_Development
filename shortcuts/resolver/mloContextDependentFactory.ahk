@@ -79,9 +79,10 @@ mloNewContextDependentSubTask(currentTask)
     {
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask, 1)
         INTREBARI_JURNAL_INDEX := 0
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}{SPACE}")
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_FIRST_LEVEL)
+        sendKeyCombinationIndependentActiveModifiers("{DOWN}{F2}")
+        sleep 150
+        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}{SPACE}CONSUMA^+{LEFT}")
         INTREBARI_JURNAL_INDEX := 1
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE_INCARCA
     }
@@ -141,6 +142,15 @@ mloNewContextDependentTask(currentTask = "")
             sendKeyCombinationIndependentActiveModifiers("{end}{space}{space}{enter}")
         }
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    }
+    else if (inStr(currentTask, "<JURNAL_", true))
+    {
+        MLO_JOURNAL := extractDestinationAfter(currentTask, 2)
+        PREVIOUS_TASK := extractDestinationAfter(currentTask, 1)
+        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)    
+        sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")    
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_JURNAL
     }
     else if (inStr(currentTask, "<S>", true))
     {
@@ -209,17 +219,18 @@ mloContextDependentEnter()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_PARTE_INCARCA)
     {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_FOLDER)
-        sendKeyCombinationIndependentActiveModifiers("{F5}")
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}{SPACE}")
+        sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}")
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
+        sleep 150
+        sendKeyCombinationIndependentActiveModifiers("{DOWN}{F2}")
+        sleep 150
+        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}{SPACE}RESURSA^+{LEFT}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE_CONSUMA
         INTREBARI_JURNAL_INDEX := 1
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_PARTE_CONSUMA)
     {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_FOLDER)
+        sendKeyCombinationIndependentActiveModifiers("{ENTER}")
         INTREBARI_JURNAL_INDEX := Mod(INTREBARI_JURNAL_INDEX + 1, 2)
         sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX)
         sendKeyCombinationIndependentActiveModifiers("{F5}")
@@ -304,6 +315,9 @@ mloNewContextDependentEscape()
         if (DOUBLE_PRESS_KEY_ACTIVE)
         {
             setTimer TimerDoubleKeyPressInterval, off
+            sendKeyCombinationIndependentActiveModifiers("{escape}")
+            INTREBARI_JURNAL_INDEX := Mod(INTREBARI_JURNAL_INDEX + 1, 2)
+            sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . "" . INTREBARI_JURNAL_INDEX)
             DOUBLE_PRESS_KEY_ACTIVE := 0
             resetMloEnterMode()
             return
@@ -355,6 +369,10 @@ mloNewContextDependentEscape()
             currentTask := getCurrentTask()
             mloNewContextDependentSubTask(currentTask)
         }        
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_PARTE_INCARCA)
+    {
+        resetMloEnterMode()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ADD_SPACES)
     {
@@ -520,7 +538,7 @@ TimerGoToNextQuestion()
 {
     setTimer TimerGoToNextQuestion, off
     sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK . "{down}{F5}")
-    currentTask := getCurrentTask(200) 
+    currentTask := getCurrentTask(300) 
     if (!inStr(currentTask, "<" . MLO_JOURNAL . ">", true))
     {
         sleep 1000

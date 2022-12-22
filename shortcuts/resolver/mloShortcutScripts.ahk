@@ -271,7 +271,7 @@ addTaskToEndOf(taskNumber)
     send %taskNumber%
     sleep 150
     currentTask := getCurrentTask()
-    if (StrSplit(currentTask, "`n").MaxIndex() = 2) ; doesn't have subtasks so create them 
+    if (StrSplit(currentTask, "`n").MaxIndex() = 3) ; has only the template 
     {
         mloNewContextDependentSubTask(currentTask)    
     }

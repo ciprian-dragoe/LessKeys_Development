@@ -15,6 +15,7 @@ global MLO_ENTER_MODE_SET_JURNAL := 25
 global MLO_ENTER_MODE_SET_DEZVOLT_JURNAL := 26
 global INTREBARI_JURNAL := {}
 INTREBARI_JURNAL.INTENTIE := ["LIMITA MENTIN: "]
+INTREBARI_JURNAL.CERǀAJUTOR := ["POT SA FAC CU CEEA CE AM:{SPACE}", "DISTRAGE SA FAC ASTA:{SPACE}"]
 INTREBARI_JURNAL.DAUǀDRUMUL := ["NU MA MAI REGASESC:{SPACE}", "CRESC SA:{SPACE}"]
 INTREBARI_JURNAL.APRECIEZ := ["APRECIEZ IN ACEST MOMENT:{SPACE}", "MA INCARCA SA FIU PREZENT"]
 INTREBARI_JURNAL.FRICA := ["SEMNIFICATIE SUFERINTA:{SPACE}", "SPRIJIN CU CEEA CE AM:{SPACE}"]
@@ -101,9 +102,23 @@ mloNewContextDependentSubTask(currentTask)
     }
     else if (inStr(currentTask, "<JURNAL_", true))
     {
-        MLO_JOURNAL := extractDestinationAfter(currentTask, 2)
-        PREVIOUS_TASK := extractDestinationAfter(currentTask, 1)
-        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
+        positionStart := InStr(currentTask, "<") + 1
+        positionEnd := InStr(currentTask, ">")
+        result := SubStr(currentTask, positionStart, positionEnd - positionStart)
+        splits := StrSplit(result, "_")
+        if (splits.Count() = 4)
+        {
+            MLO_JOURNAL := extractDestinationAfter(currentTask, 2)
+            PREVIOUS_TASK := extractDestinationAfter(currentTask, 1)
+            TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)    
+        }
+        else
+        {
+            MLO_JOURNAL := extractDestinationAfter(currentTask, 1)
+            PREVIOUS_TASK := extractDestinationAfter(currentTask)
+            TASK_GO_AFTER_TO := "{DOWN}"
+        }
+        
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)    
         sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")    
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_JURNAL
@@ -351,7 +366,7 @@ mloNewContextDependentEscape()
         }
         
         sendKeyCombinationIndependentActiveModifiers("1")
-        sleep 500
+        sleep 650
         mloNewContextDependentSubTask("1_BUCLA>")
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_CHANGE_VIEW)
@@ -541,12 +556,19 @@ TimerGoToNextQuestion()
     currentTask := getCurrentTask(300) 
     if (!inStr(currentTask, "<" . MLO_JOURNAL . ">", true))
     {
-        sleep 1000
-        sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
-        sleep 150
-        currentTask := getCurrentTask()
-        resetMloEnterMode(0)
-        mloNewContextDependentSubTask(currentTask)
+        if (TASK_GO_AFTER_TO = "{DOWN}")
+        {
+            mloNewContextDependentSubTask(currentTask)
+        }
+        else
+        {
+            sleep 1000
+            sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
+            sleep 150
+            currentTask := getCurrentTask()
+            resetMloEnterMode(0)
+            mloNewContextDependentSubTask(currentTask)
+        }
         return
     }
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)

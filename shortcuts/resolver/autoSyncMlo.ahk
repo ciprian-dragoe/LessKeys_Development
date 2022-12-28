@@ -45,7 +45,7 @@ timerSyncMloStep2_readPing()
         INTERNET_ACCESS := 1
         ControlSend, , %MLO_KEYBOARD_SHORTCUT_SYNC_MLO_TASKS%, ahk_class %MLO_CLASS_NAME%
         SetTimer TimerSyncMloStep3_syncCalendar, OFF
-        SetTimer TimerSyncMloStep3_syncCalendar, 14000
+        SetTimer TimerSyncMloStep3_syncCalendar, 16000
     }
     else
     {

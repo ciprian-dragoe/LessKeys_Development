@@ -298,75 +298,38 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     IS_DAY_SORTING_VIEW_ACTIVE := 0
     if (IS_SET_MLO_ORDER_ACTIVE)
     {
-        showtooltip("IS_SET_MLO_ORDER_ACTIVE")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING)
         IS_SET_MLO_ORDER_ACTIVE := 0
     }
 
-    if (number = 1 && modifiers = "^!")
-    {
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
-    }
-    else if (number = 1 && modifiers = "^+")
-    {
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS, "{left}", "{down 2}"]
-    }
-    else if (number = 1 && modifiers = "^")
-    {
-        if (A_WDay = 1) ; sunday
-        {
-            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ADD_SPACES
-            modifiers := "!^"
-            extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS]
-        }
-        else
-        {
-            modifiers := "^+"
-            extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
-        }
-    }
-    else if (number = 2 && modifiers = "^")
-    {
-        if (A_Hour < 10 && A_Hour > 4)
-        {
-            modifiers := "^+"
-        }
-        else
-        {
-            modifiers := "!^"
-        }
-    }
-    else if (number = 3 && modifiers = "^")
-    {
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS]
-        if (A_WDay = 1) ; sunday
-        {
-            modifiers := "!^"
-            extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
-        }
-        else
-        {
-            modifiers := "^+"
-            IS_DAY_SORTING_VIEW_ACTIVE := 1
-        }
-    }
-    else if (number = 4 && modifiers = "^")
+    if (number = 1 && modifiers = "^")
     {
         if (A_Hour < 9)
         {
             modifiers := "^+"
-            number := 3
+            number := 1
+            extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS, "401"]
         }
         else if (A_Hour >= 9 && A_Hour < 19)
         {
-            modifiers := "^+"
-            number := 4
+            modifiers := "!^"
+            number := 1
         }
         else if (A_Hour > 18)
         {
-            modifiers := "!^"
-            number := 2
+            modifiers := "!+"
+            number := 1
         }
+        
+        if (A_WDay = 1) ; sunday
+        {
+            modifiers := "^+"
+            number := "["
+        }
+    }
+    else if (number = 1 && modifiers = "^+")
+    {
+        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS, "401"]
     }
     else if (number = 5)
     {

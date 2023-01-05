@@ -21,8 +21,8 @@ global MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK := "!e"
 global MLO_KEYBOARD_SHORTCUT_NEW_TASK := "!w" 
 global MLO_KEYBOARD_SHORTCUT_FOLDER := "^+a"
 global MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_EXCEPT_SELECTION := "^+{F12}" 
-global MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS := "^{F12}" 
-global MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS := "^{F11}" 
+global MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS := "^o" 
+global MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS := "^+o" 
 global MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_FIRST_LEVEL := "^+;" 
 global MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_TOGGLE_COLLAPSE_ALL_CHILDREN := "!q" 
 global MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING := "^;" 
@@ -308,7 +308,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         {
             modifiers := "^+"
             number := 1
-            extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS, "401"]
+            extraInstructions := ["{home}"]
         }
         else if (A_Hour >= 9 && A_Hour < 19)
         {
@@ -329,7 +329,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     }
     else if (number = 1 && modifiers = "^+")
     {
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS, "401"]
+        extraInstructions := ["{home}"]
     }
     else if (number = 5)
     {

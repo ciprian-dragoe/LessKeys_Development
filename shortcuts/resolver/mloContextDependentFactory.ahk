@@ -16,7 +16,7 @@ global MLO_ENTER_MODE_SET_DEZVOLT_JURNAL := 26
 global INTREBARI_JURNAL := {}
 INTREBARI_JURNAL.INTENTIE := ["LIMITA MENTIN: "]
 INTREBARI_JURNAL.CERǀAJUTOR := ["POT SA FAC CU CEEA CE AM:{SPACE}", "DISTRAGE SA FAC ASTA:{SPACE}"]
-INTREBARI_JURNAL.DAUǀDRUMUL := ["NU MA MAI REGASESC:{SPACE}", "CRESC SA:{SPACE}"]
+INTREBARI_JURNAL.DAUǀDRUMUL := ["NU MA MAI REGASESC PENTRU CA:{SPACE}"]
 INTREBARI_JURNAL.APRECIEZ := ["APRECIEZ IN ACEST MOMENT:{SPACE}", "MA INCARCA SA FIU PREZENT"]
 INTREBARI_JURNAL.FRICA := ["SEMNIFICATIE SUFERINTA:{SPACE}", "SPRIJIN CU CEEA CE AM:{SPACE}"]
 
@@ -83,7 +83,7 @@ mloNewContextDependentSubTask(currentTask)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_FIRST_LEVEL)
         sendKeyCombinationIndependentActiveModifiers("{DOWN}{F2}")
         sleep 150
-        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}{SPACE}CONSUMA^+{LEFT}")
+        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}{SPACE}CONFUZA^+{LEFT}")
         INTREBARI_JURNAL_INDEX := 1
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE_INCARCA
     }
@@ -351,7 +351,7 @@ mloNewContextDependentEscape()
         currentTask := getCurrentTask()
         if (SubStr(currentTask,0,1) = " ")
         {
-            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}9 ================================================{enter}")
+            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}8 ================================================{enter}")
         }
         else
         {
@@ -362,7 +362,7 @@ mloNewContextDependentEscape()
             sleep 100
             sendKeyCombinationIndependentActiveModifiers("^a")
             sleep 250
-            sendKeyCombinationIndependentActiveModifiers("9 ================================================{enter}")
+            sendKeyCombinationIndependentActiveModifiers("8 ================================================{enter}")
         }
         
         sendKeyCombinationIndependentActiveModifiers("1")

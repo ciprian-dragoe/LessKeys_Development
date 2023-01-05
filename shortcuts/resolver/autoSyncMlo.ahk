@@ -42,6 +42,11 @@ timerSyncMloStep2_readPing()
     stringsplit , TempArr, StrTemp, =
     ifinstring, TempArr%TempArr0%, ms
     {
+        IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
+        {
+            return
+        }
+        
         INTERNET_ACCESS := 1
         ControlSend, , %MLO_KEYBOARD_SHORTCUT_SYNC_MLO_TASKS%, ahk_class %MLO_CLASS_NAME%
         SetTimer TimerSyncMloStep3_syncCalendar, OFF

@@ -249,14 +249,9 @@ setMloDarkMode(enabled)
 getTaskNumber(key)
 {
     taskNumber := SubStr(key, 2, StrLen(key))
-    if (taskNumber > 4)
-    {
-        taskNumber := taskNumber - 4
-    } 
-    else
-    {
-        taskNumber := taskNumber + 2
-    }
+    taskNumber := taskNumber - 4
+    taskNumber := 8 - taskNumber + 1
+    
     return taskNumber
 }
 

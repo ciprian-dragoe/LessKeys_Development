@@ -249,14 +249,9 @@ setMloDarkMode(enabled)
 getTaskNumber(key)
 {
     taskNumber := SubStr(key, 2, StrLen(key))
-    if (taskNumber > 4)
-    {
-        taskNumber := taskNumber - 4
-    } 
-    else
-    {
-        taskNumber := taskNumber + 2
-    }
+    taskNumber := taskNumber - 4
+    taskNumber := 8 - taskNumber + 1
+    
     return taskNumber
 }
 
@@ -308,7 +303,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         {
             modifiers := "^+"
             number := 1
-            extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS, "401"]
+            extraInstructions := ["{home}"]
         }
         else if (A_Hour >= 9 && A_Hour < 19)
         {
@@ -329,7 +324,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     }
     else if (number = 1 && modifiers = "^+")
     {
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS, "401"]
+        extraInstructions := ["{home}"]
     }
     else if (number = 5)
     {

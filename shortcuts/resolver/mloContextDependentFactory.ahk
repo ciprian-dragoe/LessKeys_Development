@@ -351,7 +351,7 @@ mloNewContextDependentEscape()
         currentTask := getCurrentTask()
         if (SubStr(currentTask,0,1) = " ")
         {
-            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}0 ====== CER AJUTOR <NEW_TASK_GO_AFTER_401> ======={enter}")
+            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}0 ================================================={enter}")
         }
         else
         {
@@ -362,7 +362,7 @@ mloNewContextDependentEscape()
             sleep 100
             sendKeyCombinationIndependentActiveModifiers("^a")
             sleep 250
-            sendKeyCombinationIndependentActiveModifiers("0 ====== CER AJUTOR <NEW_TASK_GO_AFTER_401> ======={enter}")
+            sendKeyCombinationIndependentActiveModifiers("0 ================================================={enter}")
         }
         
         sendKeyCombinationIndependentActiveModifiers("8")

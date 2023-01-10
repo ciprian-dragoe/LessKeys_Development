@@ -4,7 +4,6 @@ global IS_SCREEN_ROTATED := 0
 
 processConceptsEnhancements()
 {
-    return
     If (inStr(lastActiveAppName, CONCEPTS_WINDOW_NAME, true))
     {
         if (!IS_SCREEN_ROTATED && A_ComputerName = ACTIVE_COMPUTER_X1_EXTREME)

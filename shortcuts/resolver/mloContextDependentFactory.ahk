@@ -7,6 +7,7 @@ global MLO_ENTER_MODE_SET_AS_ADD_SPACES := 10
 global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ := 11
 global MLO_ENTER_MODE_SET_AS_PARTE_INCARCA := 12
 global MLO_ENTER_MODE_SET_AS_PARTE_CONSUMA := 13
+global MLO_ENTER_MODE_SET_AS_DOUBLE_ESCAPE_GO_TO := 14
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER := 30
 global MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER := 31
 global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 40
@@ -63,6 +64,12 @@ mloNewContextDependentSubTask(currentTask)
     else if (inStr(currentTask, "<PARTE>", true))
     {
         newPart(currentTask)
+    }
+    else if (inStr(currentTask, "<CER_AJUTOR_", true))
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DOUBLE_ESCAPE_GO_TO
+        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
+        newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
     else if (inStr(currentTask, "<TOPIC_DELIMITER>", true))
     {
@@ -209,7 +216,7 @@ mloContextDependentEnter()
         sleep 50
         sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . "_BUCLA>{SPACE}")
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DOUBLE_ESCAPE_GO_TO)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
@@ -325,6 +332,29 @@ mloNewContextDependentEscape()
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_DEZVOLT_JURNAL
         }
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DOUBLE_ESCAPE_GO_TO)
+    {
+        if (DOUBLE_PRESS_KEY_ACTIVE)
+        {
+            DOUBLE_PRESS_KEY_ACTIVE := 0
+            setTimer TimerDoubleKeyPressInterval, off
+            setTimer TimerGoToNextQuestion, off
+            sendKeyCombinationIndependentActiveModifiers("{ESCAPE}")
+            sleep 100
+            sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
+            sleep 300
+            resetMloEnterMode(0)
+            currentTask := getCurrentTask()
+            mloNewContextDependentSubTask(currentTask)
+        }
+        else
+        {
+            DOUBLE_PRESS_KEY_ACTIVE := 1
+            setTimer TimerDoubleKeyPressInterval, off
+            setTimer TimerDoubleKeyPressInterval, 800
+            sendKeyCombinationIndependentActiveModifiers("{ENTER}")
+        }
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DIALOG)
     {
         if (DOUBLE_PRESS_KEY_ACTIVE)
@@ -351,7 +381,7 @@ mloNewContextDependentEscape()
         currentTask := getCurrentTask()
         if (SubStr(currentTask,0,1) = " ")
         {
-            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}0 ================================================={enter}")
+            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}0 =============== <CER_AJUTOR_401> ================{enter}")
         }
         else
         {
@@ -362,7 +392,7 @@ mloNewContextDependentEscape()
             sleep 100
             sendKeyCombinationIndependentActiveModifiers("^a")
             sleep 250
-            sendKeyCombinationIndependentActiveModifiers("0 ================================================={enter}")
+            sendKeyCombinationIndependentActiveModifiers("0 =============== <CER_AJUTOR_401> ================{enter}")
         }
         
         sendKeyCombinationIndependentActiveModifiers("8")

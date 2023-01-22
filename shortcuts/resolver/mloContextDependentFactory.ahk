@@ -381,10 +381,11 @@ mloNewContextDependentEscape()
         }
         setTimer TimerDoubleKeyPressInterval, 600
         DOUBLE_PRESS_KEY_ACTIVE := 1
-        sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}")
+        sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}^+.")
         sleep 100
         INTREBARI_JURNAL_INDEX := Mod(INTREBARI_JURNAL_INDEX + 1, 2)
         sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . "" . INTREBARI_JURNAL_INDEX)
+        
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ)
@@ -393,7 +394,7 @@ mloNewContextDependentEscape()
         currentTask := getCurrentTask()
         if (SubStr(currentTask,0,1) = " ")
         {
-            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}0 =============== <CER_AJUTOR_401> ================{enter}")
+            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}0 ========================================== <CER_AJUTOR_401> ==========================================={enter}")
         }
         else
         {
@@ -404,7 +405,7 @@ mloNewContextDependentEscape()
             sleep 100
             sendKeyCombinationIndependentActiveModifiers("^a")
             sleep 250
-            sendKeyCombinationIndependentActiveModifiers("0 =============== <CER_AJUTOR_401> ================{enter}")
+            sendKeyCombinationIndependentActiveModifiers("0 ========================================== <CER_AJUTOR_401> ==========================================={enter}")
         }
         
         sendKeyCombinationIndependentActiveModifiers("8")

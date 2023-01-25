@@ -268,13 +268,13 @@ addTaskToEndOf(taskNumber)
     currentTask := getCurrentTask()
     if (StrSplit(currentTask, "`n").MaxIndex() = 3) ; has only the template 
     {
-        mloNewContextDependentSubTask(currentTask)    
+        mloNewContextDependentSubTask(currentTask)
     }
     else
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_TOGGLE_COLLAPSE_ALL_CHILDREN)
         sendKeyCombinationIndependentActiveModifiers("{DOWN}")
-        currentTask := getCurrentTask()f
+        currentTask := getCurrentTask()
         mloNewContextDependentSubTask(currentTask)
     }
 }
@@ -303,7 +303,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         {
             modifiers := "^+"
             number := 1
-            extraInstructions := ["{home}"]
+            extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
         }
         else if (A_Hour >= 9 && A_Hour < 19)
         {
@@ -324,7 +324,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     }
     else if (number = 1 && modifiers = "^+")
     {
-        extraInstructions := ["{home}"]
+        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
     }
     else if (number = 5)
     {

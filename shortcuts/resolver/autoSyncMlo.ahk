@@ -51,7 +51,7 @@ timerSyncMloStep2_readPing()
         ControlSend, , %MLO_KEYBOARD_SHORTCUT_SYNC_MLO_CALENDAR%, ahk_class %MLO_CLASS_NAME%
         
         SetTimer TimerSyncMloStep3_syncCalendar, OFF
-        SetTimer TimerSyncMloStep3_syncCalendar, 8000
+        SetTimer TimerSyncMloStep3_syncCalendar, 14000
     }
     else
     {

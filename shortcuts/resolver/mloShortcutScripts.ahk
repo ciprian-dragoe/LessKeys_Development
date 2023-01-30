@@ -250,7 +250,6 @@ getTaskNumber(key)
 {
     taskNumber := SubStr(key, 2, StrLen(key))
     taskNumber := taskNumber - 4
-    taskNumber := 8 - taskNumber + 1
     
     return taskNumber
 }
@@ -299,32 +298,25 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
 
     if (number = 1 && modifiers = "^")
     {
-        if (A_Hour < 9)
+        if (A_Hour < 20)
         {
             modifiers := "^+"
-            number := 1
-            extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
         }
-        else if (A_Hour >= 9 && A_Hour < 19)
+        else if (A_Hour > 19)
         {
             modifiers := "!^"
-            number := 1
-        }
-        else if (A_Hour > 18)
-        {
-            modifiers := "!+"
-            number := 1
-        }
-        
-        if (A_WDay = 1) ; sunday
-        {
-            modifiers := "^+"
-            number := "["
         }
     }
-    else if (number = 1 && modifiers = "^+")
+    else if (number = 3 && modifiers = "^")
     {
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
+        if (A_WDay = 1) ; sunday
+        {
+            modifiers := "!^"
+        }
+        else
+        {
+            modifiers := "^+"
+        }
     }
     else if (number = 5)
     {

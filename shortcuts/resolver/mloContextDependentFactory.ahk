@@ -66,6 +66,17 @@ mloNewContextDependentSubTask(currentTask)
     {
         newPart(currentTask)
     }
+    else if (inStr(currentTask, "<GO_TO_", true))
+    {
+        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
+        if (MLO_ENTER_MODE != 0)
+        {
+            sleep 800
+        }
+        sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
+        currentTask := getCurrentTask()
+        mloNewContextDependentSubTask(currentTask)
+    }
     else if (inStr(currentTask, "<CER_AJUTOR_", true))
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DOUBLE_ESCAPE_GO_TO
@@ -177,8 +188,9 @@ mloNewContextDependentTask(currentTask = "")
     }
     else if (inStr(currentTask, "_BUCLA>", true))
     {
-        INTREBARI_JURNAL_INDEX := SubStr(currentTask, 1, 1) - 1
+        INTREBARI_JURNAL_INDEX := SubStr(currentTask, 1, 1) + 1
         PREVIOUS_TASK := INTREBARI_JURNAL_INDEX
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
         sendKeyCombinationIndependentActiveModifiers("{DOWN}")
         sendKeyCombinationIndependentActiveModifiers("{F2}")
@@ -218,7 +230,7 @@ mloContextDependentEnter()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE)
     {
-        INTREBARI_JURNAL_INDEX := INTREBARI_JURNAL_INDEX - 1
+        INTREBARI_JURNAL_INDEX := INTREBARI_JURNAL_INDEX + 1
         sendKeyCombinationIndependentActiveModifiers("{enter}")
         sendKeyCombinationIndependentActiveModifiers("{F5}")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
@@ -394,7 +406,7 @@ mloNewContextDependentEscape()
         currentTask := getCurrentTask()
         if (SubStr(currentTask,0,1) = " ")
         {
-            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}0 ========================================== <CER_AJUTOR_401> ==========================================={enter}")
+            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}9 ==============================================================================================={enter}")
         }
         else
         {
@@ -405,12 +417,12 @@ mloNewContextDependentEscape()
             sleep 100
             sendKeyCombinationIndependentActiveModifiers("^a")
             sleep 250
-            sendKeyCombinationIndependentActiveModifiers("0 ========================================== <CER_AJUTOR_401> ==========================================={enter}")
+            sendKeyCombinationIndependentActiveModifiers("9 ==============================================================================================={enter}")
         }
         
-        sendKeyCombinationIndependentActiveModifiers("8")
+        sendKeyCombinationIndependentActiveModifiers("1")
         sleep 650
-        mloNewContextDependentSubTask("8_BUCLA>")
+        mloNewContextDependentSubTask("1_BUCLA>")
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE)
     {
@@ -418,7 +430,7 @@ mloNewContextDependentEscape()
         currentTask := getCurrentTask()
         if (SubStr(currentTask,0,1) = " ")
         {
-            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}\/{enter}")
+            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}9 ==============================================================================================={enter}")
         }
         else
         {
@@ -429,7 +441,7 @@ mloNewContextDependentEscape()
             sleep 100
             sendKeyCombinationIndependentActiveModifiers("^a")
             sleep 250
-            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}\/{enter}")
+            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}9 ==============================================================================================={enter}")
         }
         
         sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK)
@@ -653,7 +665,7 @@ timerGoToNextDialoguePhase()
 
 newBucla()
 {
-    INTREBARI_JURNAL_INDEX := 8
+    INTREBARI_JURNAL_INDEX := 1
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
     sendKeyCombinationIndependentActiveModifiers("{DOWN}")
     sendKeyCombinationIndependentActiveModifiers("{F2}")

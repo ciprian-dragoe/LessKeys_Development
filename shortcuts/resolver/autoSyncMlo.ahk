@@ -48,8 +48,8 @@ timerSyncMloStep2_readPing()
         }
         
         INTERNET_ACCESS := 1
-        ControlSend, , %MLO_KEYBOARD_SHORTCUT_SYNC_MLO_CALENDAR%, ahk_class %MLO_CLASS_NAME%
         
+        ControlSend, , %MLO_KEYBOARD_SHORTCUT_SYNC_MLO_TASKS%, ahk_class %MLO_CLASS_NAME%
         SetTimer TimerSyncMloStep3_syncCalendar, OFF
         SetTimer TimerSyncMloStep3_syncCalendar, 14000
     }
@@ -65,7 +65,7 @@ timerSyncMloStep3_syncCalendar()
     SetTimer TimerSyncMloStep3_syncCalendar, OFF
     if (!inStr(lastActiveAppName, ".ml - MyLifeOrganized", true))
     {
-        ControlSend, , %MLO_KEYBOARD_SHORTCUT_SYNC_MLO_TASKS%, ahk_class %MLO_CLASS_NAME%
+        ControlSend, , %MLO_KEYBOARD_SHORTCUT_SYNC_MLO_CALENDAR%, ahk_class %MLO_CLASS_NAME%
         ;SetTimer TimerSyncMloStep4_clickOkNoInternet, OFF
         ;SetTimer TimerSyncMloStep4_clickOkNoInternet, 6000 ; todo: should delete if not working with other apps
     }

@@ -386,7 +386,7 @@ mloNewContextDependentEscape()
             setTimer TimerDoubleKeyPressInterval, off
             sendKeyCombinationIndependentActiveModifiers("{escape}")
             INTREBARI_JURNAL_INDEX := Mod(INTREBARI_JURNAL_INDEX + 1, 2)
-            sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . "" . INTREBARI_JURNAL_INDEX)
+            sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . "" . INTREBARI_JURNAL_INDEX . "{DOWN}")
             DOUBLE_PRESS_KEY_ACTIVE := 0
             resetMloEnterMode()
             return
@@ -406,7 +406,7 @@ mloNewContextDependentEscape()
         currentTask := getCurrentTask()
         if (SubStr(currentTask,0,1) = " ")
         {
-            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}9 ==============================================================================================={enter}")
+            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}9 ..........................................................................................................................................{enter}")
         }
         else
         {
@@ -417,7 +417,7 @@ mloNewContextDependentEscape()
             sleep 100
             sendKeyCombinationIndependentActiveModifiers("^a")
             sleep 250
-            sendKeyCombinationIndependentActiveModifiers("9 ==============================================================================================={enter}")
+            sendKeyCombinationIndependentActiveModifiers("9 ..........................................................................................................................................{enter}")
         }
         
         sendKeyCombinationIndependentActiveModifiers("1")
@@ -430,7 +430,7 @@ mloNewContextDependentEscape()
         currentTask := getCurrentTask()
         if (SubStr(currentTask,0,1) = " ")
         {
-            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}9 ==============================================================================================={enter}")
+            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}l{enter}")
         }
         else
         {
@@ -441,7 +441,7 @@ mloNewContextDependentEscape()
             sleep 100
             sendKeyCombinationIndependentActiveModifiers("^a")
             sleep 250
-            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}9 ==============================================================================================={enter}")
+            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}l{enter}")
         }
         
         sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK)

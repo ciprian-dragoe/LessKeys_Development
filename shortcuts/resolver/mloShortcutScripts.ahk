@@ -296,27 +296,15 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         IS_SET_MLO_ORDER_ACTIVE := 0
     }
 
+;   if (A_Hour > 19)
+;   if (A_WDay = 1) ; sunday 
     if (number = 1 && modifiers = "^")
     {
-        if (A_Hour < 20)
-        {
-            modifiers := "^+"
-        }
-        else if (A_Hour > 19)
-        {
-            modifiers := "!^"
-        }
+        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS, "{DOWN}"]
     }
-    else if (number = 3 && modifiers = "^")
+    else if (number = 2 && modifiers = "^")
     {
-        if (A_WDay = 1) ; sunday
-        {
-            modifiers := "!^"
-        }
-        else
-        {
-            modifiers := "^+"
-        }
+        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{DOWN}"]
     }
     else if (number = 5)
     {

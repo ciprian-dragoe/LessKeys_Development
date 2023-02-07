@@ -191,6 +191,7 @@ mloNewContextDependentTask(currentTask = "")
         INTREBARI_JURNAL_INDEX := SubStr(currentTask, 1, 1) + 1
         PREVIOUS_TASK := INTREBARI_JURNAL_INDEX
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
+        sendKeyCombinationIndependentActiveModifiers("{HOME}{DOWN}")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
         sendKeyCombinationIndependentActiveModifiers("{DOWN}")
         sendKeyCombinationIndependentActiveModifiers("{F2}")
@@ -228,17 +229,13 @@ mloContextDependentEnter()
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
         sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ)
     {
-        INTREBARI_JURNAL_INDEX := INTREBARI_JURNAL_INDEX + 1
-        sendKeyCombinationIndependentActiveModifiers("{enter}")
-        sendKeyCombinationIndependentActiveModifiers("{F5}")
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
-        sleep 50
-        sendKeyCombinationIndependentActiveModifiers("{DOWN}")
-        sendKeyCombinationIndependentActiveModifiers("{F2}")
-        sleep 50
-        sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . "_BUCLA>{SPACE}")
+        mloNewJournalTask()
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE)
+    {
+        mloNewJournalTask("{HOME}{DOWN}")
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DOUBLE_ESCAPE_GO_TO)
     {
@@ -326,6 +323,24 @@ mloContextDependentEnter()
     }
 }
 
+mloNewJournalTask(newTemplateKeys = "")
+{
+    INTREBARI_JURNAL_INDEX := INTREBARI_JURNAL_INDEX + 1
+    sendKeyCombinationIndependentActiveModifiers("{enter}")
+    sendKeyCombinationIndependentActiveModifiers("{F5}")
+    if (newTemplateKeys)
+    {
+        sendKeyCombinationIndependentActiveModifiers(newTemplateKeys)
+    }
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
+    sleep 50
+    sendKeyCombinationIndependentActiveModifiers("{DOWN}")
+    sendKeyCombinationIndependentActiveModifiers("{F2}")
+    sleep 50
+    sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . "_BUCLA>{SPACE}")
+}
+
+
 mloNewContextDependentEscape()
 {
     if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK)
@@ -406,7 +421,7 @@ mloNewContextDependentEscape()
         currentTask := getCurrentTask()
         if (SubStr(currentTask,0,1) = " ")
         {
-            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}9 .....................................................................................................................................................{enter}")
+            sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}9 ....................................................................................................................................................{enter}")
         }
         else
         {
@@ -417,7 +432,7 @@ mloNewContextDependentEscape()
             sleep 100
             sendKeyCombinationIndependentActiveModifiers("^a")
             sleep 250
-            sendKeyCombinationIndependentActiveModifiers("9 .....................................................................................................................................................{enter}")
+            sendKeyCombinationIndependentActiveModifiers("9 ....................................................................................................................................................{enter}")
         }
         
         sendKeyCombinationIndependentActiveModifiers("1")

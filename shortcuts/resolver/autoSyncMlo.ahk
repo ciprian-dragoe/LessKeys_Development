@@ -8,8 +8,9 @@ timerCancelTooltip()
 
 timerCheckReminder()
 {
+    SetTimer TimerCheckReminder, OFF
     timerSyncMloStep1_launchPing()
-    SetTimer TimerCheckAfterSyncReminders, 8000    
+    SetTimer TimerCheckAfterSyncReminders, 20000    
 }
 
 timerCheckAfterSyncReminders()
@@ -23,13 +24,15 @@ timerCheckAfterSyncReminders()
         SetTimer TimerCancelTooltip, OFF
         SetTimer TimerCancelTooltip, 1000
     }
+    SetTimer TimerCheckReminder, %TimeoutCheckReminder%
 }
 
 timerSyncMloStep1_launchPing()
 {
+    resetTimerSyncMlo()
     Run,%comspec% /c ping -n 2 -w 200 bing.com > %A_Temp%\ping.log,,hide
     SetTimer TimerSyncMloStep2_readPing, OFF
-    SetTimer TimerSyncMloStep2_readPing, 4000
+    SetTimer TimerSyncMloStep2_readPing, 3000
 }
 
 timerSyncMloStep2_readPing()
@@ -50,8 +53,8 @@ timerSyncMloStep2_readPing()
         INTERNET_ACCESS := 1
         
         ControlSend, , %MLO_KEYBOARD_SHORTCUT_SYNC_MLO_TASKS%, ahk_class %MLO_CLASS_NAME%
-        SetTimer TimerSyncMloStep3_syncCalendar, OFF
-        SetTimer TimerSyncMloStep3_syncCalendar, 14000
+        SetTimer TimerSyncMloStep3_recheckInternet, OFF
+        SetTimer TimerSyncMloStep3_recheckInternet, 10000
     }
     else
     {
@@ -60,30 +63,35 @@ timerSyncMloStep2_readPing()
     }
 }
 
-timerSyncMloStep3_syncCalendar()
+TimerSyncMloStep3_recheckInternet()
 {
-    SetTimer TimerSyncMloStep3_syncCalendar, OFF
-    if (!inStr(lastActiveAppName, ".ml - MyLifeOrganized", true))
-    {
-        ControlSend, , %MLO_KEYBOARD_SHORTCUT_SYNC_MLO_CALENDAR%, ahk_class %MLO_CLASS_NAME%
-        ;SetTimer TimerSyncMloStep4_clickOkNoInternet, OFF
-        ;SetTimer TimerSyncMloStep4_clickOkNoInternet, 6000 ; todo: should delete if not working with other apps
-    }
+    Run,%comspec% /c ping -n 2 -w 200 bing.com > %A_Temp%\ping.log,,hide
+    SetTimer TimerSyncMloStep4_syncCalendar, OFF
+    SetTimer TimerSyncMloStep4_syncCalendar, 3000
 }
 
-timerSyncMloStep4_clickOkNoInternet()
+TimerSyncMloStep4_syncCalendar()
 {
-    SetTimer TimerSyncMloStep4_clickOkNoInternet, OFF
-    isErrorPresentNoInternet := WinExist("ahk_class #32770")
-    if (isErrorPresentNoInternet)
+    SetTimer TimerSyncMloStep4_syncCalendar, OFF
+    SYNC_MLO := 0
+
+    fileread , StrTemp, %A_Temp%\ping.log
+    StrTemp := trim(StrTemp)
+    stringsplit , TempArr, StrTemp, =
+    ifinstring, TempArr%TempArr0%, ms
     {
-        ;ControlSend, , {enter}, A
-        ;showtooltip("de ce nu merge :(")
+        IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
+        {
+            return
+        }
+        
+        ControlSend, , %MLO_KEYBOARD_SHORTCUT_SYNC_MLO_CALENDAR%, ahk_class %MLO_CLASS_NAME%
     }
 }
 
 resetTimerSyncMlo()
 {
     SetTimer TimerSyncMloStep2_readPing, OFF
-    SetTimer TimerSyncMloStep3_syncCalendar, OFF
+    SetTimer TimerSyncMloStep3_recheckInternet, OFF
+    SetTimer TimerSyncMloStep4_syncCalendar, OFF
 }

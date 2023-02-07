@@ -56,7 +56,6 @@ processMloEnhancements()
     {
         if (!MLO_WINDOW_ACTIVE && A_TickCount - MLO_LAST_TIME_FOREGROUND > 6000000)
         {
-            resetTimerSyncMlo()
             timerSyncMloStep1_launchPing()
         }
         
@@ -74,7 +73,6 @@ processMloEnhancements()
         setMloDarkMode(0)
         if (SYNC_MLO)
         {
-            resetTimerSyncMlo()
             SYNC_MLO := 0
             timerSyncMloStep1_launchPing()
         }

@@ -1,4 +1,5 @@
-SetTimer TimerCheckReminder, 600000
+global TimeoutCheckReminder := 600000 ; 600000 ms = 10 minutes 
+SetTimer TimerCheckReminder, %TimeoutCheckReminder% ; 10 minutes
 
 processCustomAppNameRules()
 {

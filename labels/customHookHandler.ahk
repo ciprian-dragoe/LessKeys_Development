@@ -34,8 +34,8 @@ TimerSyncMloStep2_readPing:
     timerSyncMloStep2_readPing()
 return
 
-TimerSyncMloStep4_clickOkNoInternet:
-    timerSyncMloStep4_clickOkNoInternet()
+TimerSyncMloStep4_syncCalendar:
+    TimerSyncMloStep4_syncCalendar()
 return
 
 TimerCheckReminder:
@@ -54,6 +54,6 @@ TimerCancelTooltip:
     timerCancelTooltip()
 return
 
-TimerSyncMloStep3_syncCalendar:
-    timerSyncMloStep3_syncCalendar()
+TimerSyncMloStep3_recheckInternet:
+    TimerSyncMloStep3_recheckInternet()
 return

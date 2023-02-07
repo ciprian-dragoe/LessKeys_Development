@@ -1,9 +1,18 @@
-global SYNC_MLO := 0
+global IS_CONDITION_FOR_MLO_SYNC_FULFILLED := 0
 global INTERNET_ACCESS := 1
 
 timerCancelTooltip()
 {
     tooltip
+}
+
+TimerSyncMloBecauseLongTimeSinceLastSync()
+{
+    If (!inStr(lastActiveAppName, MLO_WINDOW_NAME, true) && )
+    {
+        showtooltip("TimerSyncMloBecauseLongTimeSinceLastSync")
+        timerSyncMloStep1_launchPing()
+    }
 }
 
 timerCheckReminder()
@@ -37,8 +46,8 @@ timerSyncMloStep1_launchPing()
 
 timerSyncMloStep2_readPing()
 {
-    SYNC_MLO := 0
     SetTimer TimerSyncMloStep2_readPing, OFF
+    MLO_LAST_TIME_SYNC := A_TickCount
 
     fileread , StrTemp, %A_Temp%\ping.log
     StrTemp := trim(StrTemp)
@@ -52,7 +61,7 @@ timerSyncMloStep2_readPing()
         
         INTERNET_ACCESS := 1
         
-        ControlSend, , %MLO_KEYBOARD_SHORTCUT_SYNC_MLO_TASKS%, ahk_class %MLO_CLASS_NAME%
+        ControlSend, , %MLO_KEYBOARD_SHORTCUT_MLO_SYNC%, ahk_class %MLO_CLASS_NAME%
         SetTimer TimerSyncMloStep3_recheckInternet, OFF
         SetTimer TimerSyncMloStep3_recheckInternet, 10000
     }
@@ -73,7 +82,6 @@ TimerSyncMloStep3_recheckInternet()
 TimerSyncMloStep4_syncCalendar()
 {
     SetTimer TimerSyncMloStep4_syncCalendar, OFF
-    SYNC_MLO := 0
 
     fileread , StrTemp, %A_Temp%\ping.log
     StrTemp := trim(StrTemp)

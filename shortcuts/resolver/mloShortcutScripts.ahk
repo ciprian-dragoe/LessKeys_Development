@@ -4,17 +4,17 @@ global MLO_TASK_WINDOWS_NAME :="TVirtualStringTree5_"
 global MLO_FILTER_WINDOWS_NAME :="TEdit2_"
 global MLO_NAME := "MyLifeOrganized"
 global MLO_WINDOW_NAME := "01-MY-LIST"
-global MLO_WINDOW_ACTIVE := 0
+global SHOULD_SYNC_AFTER_MLO_MINIMIZED := 0
 global MLO_DARK_MODE_TOP_HEIGHT := 0
 global MLO_DARK_MODE_BOTTOM_HEIGHT := 0
 global MLO_DARK_MODE_RIGHT_WIDTH := 0
 global MLO_DARK_MODE_LEFT_WIDTH := 0
-global MLO_LAST_TIME_FOREGROUND := 0
+global MLO_LAST_TIME_SYNC := 0
 global MLO_POSITION_Y_RAPID_TASK_ENTRY := 0
 global IS_DAY_SORTING_VIEW_ACTIVE := 0
 global IS_SET_MLO_ORDER_ACTIVE := 0
 
-global MLO_KEYBOARD_SHORTCUT_SYNC_MLO_TASKS := "^{F9}" 
+global MLO_KEYBOARD_SHORTCUT_MLO_SYNC := "^{F9}" 
 global MLO_KEYBOARD_SHORTCUT_SYNC_MLO_CALENDAR := "^{F10}" 
 global MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK := "^d" 
 global MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK := "!e" 
@@ -54,28 +54,26 @@ processMloEnhancements()
 {
     If (inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
     {
-        if (!MLO_WINDOW_ACTIVE && A_TickCount - MLO_LAST_TIME_FOREGROUND > 6000000)
-        {
-            timerSyncMloStep1_launchPing()
-        }
-        
-        MLO_WINDOW_ACTIVE := 1
+        SHOULD_SYNC_AFTER_MLO_MINIMIZED := 1
         if (inStr(lastActiveAppName, " *", true) || inStr(lastActiveAppName, "Rapid Task Entry", true) || inStr(lastActiveAppName, "MyLifeOrganized - Reminders", true))
         {
-            SYNC_MLO := 1
+            IS_CONDITION_FOR_MLO_SYNC_FULFILLED := 1
             resetTimerSyncMlo()
         }
     }
-    else if (MLO_WINDOW_ACTIVE)
+    else if (SHOULD_SYNC_AFTER_MLO_MINIMIZED)
     {
-        MLO_LAST_TIME_FOREGROUND := A_TickCount
-        MLO_WINDOW_ACTIVE := 0
+        SHOULD_SYNC_AFTER_MLO_MINIMIZED := 0
         setMloDarkMode(0)
-        if (SYNC_MLO)
+        if (IS_CONDITION_FOR_MLO_SYNC_FULFILLED)
         {
-            SYNC_MLO := 0
+            IS_CONDITION_FOR_MLO_SYNC_FULFILLED := 0
             timerSyncMloStep1_launchPing()
         }
+    }
+    else if (A_TickCount - MLO_LAST_TIME_SYNC > 6000000)
+    {
+        timerSyncMloStep1_launchPing()
     }
 }
 

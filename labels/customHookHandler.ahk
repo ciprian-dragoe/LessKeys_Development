@@ -23,11 +23,11 @@ TimerGoToNextDialoguePhase:
 return
 
 TimerGoToMloTask:
-    TimerGoToMloTask()
+    timerGoToMloTask()
 return
 
 TimerCopyMloTaskClear:
-    TimerCopyMloTaskClear()
+    timerCopyMloTaskClear()
 return
 
 TimerSyncMloStep2_readPing:
@@ -35,7 +35,7 @@ TimerSyncMloStep2_readPing:
 return
 
 TimerSyncMloStep4_syncCalendar:
-    TimerSyncMloStep4_syncCalendar()
+    timerSyncMloStep4_syncCalendar()
 return
 
 TimerCheckReminder:

@@ -54,6 +54,10 @@ TimerCancelTooltip:
     timerCancelTooltip()
 return
 
+TimerActivateSleepOnLidClose:
+    timerActivateSleepOnLidClose()
+return
+
 TimerSyncMloStep3_recheckInternet:
     TimerSyncMloStep3_recheckInternet()
 return

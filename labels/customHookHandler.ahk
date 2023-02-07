@@ -34,6 +34,10 @@ TimerSyncMloStep2_readPing:
     timerSyncMloStep2_readPing()
 return
 
+TimerSyncMloStep3_recheckInternet:
+    TimerSyncMloStep3_recheckInternet()
+return
+
 TimerSyncMloStep4_syncCalendar:
     timerSyncMloStep4_syncCalendar()
 return
@@ -54,10 +58,22 @@ TimerCancelTooltip:
     timerCancelTooltip()
 return
 
-TimerActivateSleepOnLidClose:
-    timerActivateSleepOnLidClose()
+TimerActivateSleepOnLidClose_step1():
+    timerActivateSleepOnLidClose_step1()
 return
 
-TimerSyncMloStep3_recheckInternet:
-    TimerSyncMloStep3_recheckInternet()
+TimerActivateSleepOnLidClose_step2():
+    timerActivateSleepOnLidClose_step2()
+return
+
+TimerActivateSleepOnLidClose_step3():
+    timerActivateSleepOnLidClose_step3()
+return
+
+TimerActivateSleepOnLidClose_step4():
+    timerActivateSleepOnLidClose_step4()
+return
+
+TimerActivateSleepOnLidClose_step5():
+    timerActivateSleepOnLidClose_step5()
 return

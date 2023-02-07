@@ -3,6 +3,13 @@ activateWin1()
     otherKeyPressedWhileWobblyKeyDown := 2
     send {blind}^{left}
 
+    DetectHiddenWindows Off
+    if (WinExist("MyLifeOrganized - Reminders"))
+    {
+        DetectHiddenWindows On
+        send {blind}1
+        return
+    }
     mloActive := WinActive(MLO_WINDOW_NAME)
     if (!mloActive)
     {

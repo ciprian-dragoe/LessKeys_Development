@@ -4,6 +4,7 @@
 
 global LAPTOP_LID_STATE := "opened"
 global HAS_LAPTOP_STARTED_ENTERING_SLEEP := 0
+global LAST_LAPTOP_LID_CLOSE_TIME := 0
 
 hookId := Start_LidWatcher()
 LidStateChange(newstate) ; opened / closed
@@ -22,7 +23,8 @@ proceLidCloseEnhancements()
             SetTimer, timerActivateSleepOnLidClose_step3, off
             SetTimer, timerActivateSleepOnLidClose_step4, off
             SetTimer, timerActivateSleepOnLidClose_step5, off
-            SetTimer, timerActivateSleepOnLidClose_step1, 5000
+            SetTimer, timerActivateSleepOnLidClose_step1, 10000 ; 10s
+            LAST_LAPTOP_LID_CLOSE_TIME := A_TickCount
             HAS_LAPTOP_STARTED_ENTERING_SLEEP := 1
         }
     }
@@ -35,7 +37,7 @@ proceLidCloseEnhancements()
 timerActivateSleepOnLidClose_step1()
 {
     SetTimer, timerActivateSleepOnLidClose_step1, off
-    if (LAPTOP_LID_STATE != "closed")
+    if (LAPTOP_LID_STATE != "closed" || LAST_LAPTOP_LID_CLOSE_TIME - A_TickCount < 10000)
         return
     send #d ; show desktop
     SetTimer, timerActivateSleepOnLidClose_step2, off

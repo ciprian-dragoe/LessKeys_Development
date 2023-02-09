@@ -62,10 +62,6 @@ mloNewContextDependentSubTask(currentTask)
         }
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
-    else if (inStr(currentTask, "<PARTE>", true))
-    {
-        newPart(currentTask)
-    }
     else if (inStr(currentTask, "<GO_TO_", true))
     {
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
@@ -97,6 +93,8 @@ mloNewContextDependentSubTask(currentTask)
     }
     else if (inStr(currentTask, "_BUCLA>", true))
     {
+        currentTask := SubStr(currentTask, 1, InStr(currentTask, "_BUCLA>") + 7)
+        
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask, 1)
         INTREBARI_JURNAL_INDEX := 0
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_FIRST_LEVEL)
@@ -105,6 +103,10 @@ mloNewContextDependentSubTask(currentTask)
         sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}{SPACE}CONFUZA^+{LEFT}")
         INTREBARI_JURNAL_INDEX := 1
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE_INCARCA
+    }
+    else if (inStr(currentTask, "<PARTE>", true))
+    {
+        newPart(currentTask)
     }
     else if (inStr(currentTask, "<ESCAPE>", true))
     {
@@ -273,13 +275,7 @@ mloContextDependentEnter()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_PARTE_CONSUMA)
     {
-        sendKeyCombinationIndependentActiveModifiers("{ENTER}")
-        INTREBARI_JURNAL_INDEX := Mod(INTREBARI_JURNAL_INDEX + 1, 2)
-        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX)
-        sendKeyCombinationIndependentActiveModifiers("{F5}")
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DIALOG
+        createConsuma()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DIALOG)
     {
@@ -340,6 +336,16 @@ mloNewJournalTask(newTemplateKeys = "")
     sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . "_BUCLA>{SPACE}")
 }
 
+createConsuma()
+{
+    sendKeyCombinationIndependentActiveModifiers("{ENTER}")
+    INTREBARI_JURNAL_INDEX := Mod(INTREBARI_JURNAL_INDEX + 1, 2)
+    sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX)
+    sendKeyCombinationIndependentActiveModifiers("{F5}")
+    sleep 100
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DIALOG
+}
 
 mloNewContextDependentEscape()
 {
@@ -482,6 +488,10 @@ mloNewContextDependentEscape()
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_PARTE_INCARCA)
     {
         resetMloEnterMode()
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_PARTE_CONSUMA)
+    {
+        createConsuma()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ADD_SPACES)
     {

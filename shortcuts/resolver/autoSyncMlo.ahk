@@ -6,12 +6,17 @@ timerCancelTooltip()
     tooltip
 }
 
+debugMloSync(label)
+{
+    syncLog = %A_Hour%-%A_Min%-%A_Sec%-%A_MSec%-%label%`n
+    FileAppend, %syncLog%, %A_Desktop%\syncLog.txt
+}
+
 timerCheckReminder()
 {
     SetTimer TimerCheckReminder, OFF
+    debugMloSync("timerCheckReminder")
     syncMloStep1_launchPing()
-    syncLog = %A_Hour%-%A_Min%-%A_Sec%-%A_MSec%-timerCheckReminder`n
-    FileAppend, %syncLog%, %A_Desktop%\syncLog.txt
     SetTimer TimerCheckAfterSyncReminders, 20000    
 }
 
@@ -19,8 +24,6 @@ timerCheckAfterSyncReminders()
 {
     SetTimer TimerCheckAfterSyncReminders, OFF
     DetectHiddenWindows Off
-    syncLog = %A_Hour%-%A_Min%-%A_Sec%-%A_MSec%-timerCheckAfterSyncReminders`n
-    FileAppend, %syncLog%, %A_Desktop%\syncLog.txt
     if (WinExist("MyLifeOrganized - Reminders"))
     {
         DetectHiddenWindows On
@@ -34,8 +37,7 @@ timerCheckAfterSyncReminders()
 syncMloStep1_launchPing()
 {
     resetTimerSyncMlo()
-    syncLog = %A_Hour%-%A_Min%-%A_Sec%-%A_MSec%-ping-started`n
-    FileAppend, %syncLog%, %A_Desktop%\syncLog.txt
+    debugMloSync("ping-started")
     Run,%comspec% /c ping -n 2 -w 200 bing.com > %A_Temp%\ping.log,,hide
     SetTimer TimerSyncMloStep2_readPing, OFF
     SetTimer TimerSyncMloStep2_readPing, 3000
@@ -52,24 +54,21 @@ timerSyncMloStep2_readPing()
     {
         IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
         {
-            syncLog = %A_Hour%-%A_Min%-%A_Sec%-%A_MSec%-mlo-forground-not-task-sync`n
-            FileAppend, %syncLog%, %A_Desktop%\syncLog.txt
+            debugMloSync("mlo-forground-not-task-sync")
             return
         }
         
         INTERNET_ACCESS := 1
         
         ControlSend, , %MLO_KEYBOARD_SHORTCUT_MLO_SYNC%, ahk_class %MLO_CLASS_NAME%
-        syncLog = %A_Hour%-%A_Min%-%A_Sec%-%A_MSec%-tasks-synced`n
-        FileAppend, %syncLog%, %A_Desktop%\syncLog.txt
+        debugMloSync("tasks-synced")
         SetTimer TimerSyncMloStep3_recheckInternet, OFF
         SetTimer TimerSyncMloStep3_recheckInternet, 10000
     }
     else
     {
         INTERNET_ACCESS := 0
-        syncLog = %A_Hour%-%A_Min%-%A_Sec%-%A_MSec%-no-internet-no-task-sync`n
-        FileAppend, %syncLog%, %A_Desktop%\syncLog.txt
+        debugMloSync("no-internet-no-task-sync")
         ControlSend, , ^s, ahk_class %MLO_CLASS_NAME%
     }
 }
@@ -93,14 +92,12 @@ TimerSyncMloStep4_syncCalendar()
     {
         IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
         {
-            syncLog = %A_Hour%-%A_Min%-%A_Sec%-%A_MSec%-mlo-forground-not-calendar-sync`n
-            FileAppend, %syncLog%, %A_Desktop%\syncLog.txt
+            debugMloSync("mlo-forground-not-calendar-sync")
             return
         }
         
         ControlSend, , %MLO_KEYBOARD_SHORTCUT_SYNC_MLO_CALENDAR%, ahk_class %MLO_CLASS_NAME%
-        syncLog = %A_Hour%-%A_Min%-%A_Sec%-%A_MSec%-calendar-synced`n
-        FileAppend, %syncLog%, %A_Desktop%\syncLog.txt
+        debugMloSync("calendar-synced")
         return
     }
     syncLog = %A_Hour%-%A_Min%-%A_Sec%-%A_MSec%-no-internet-no-calendar-sync`n

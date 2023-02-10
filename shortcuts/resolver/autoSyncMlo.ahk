@@ -63,7 +63,7 @@ timerSyncMloStep2_readPing()
         ControlSend, , %MLO_KEYBOARD_SHORTCUT_MLO_SYNC%, ahk_class %MLO_CLASS_NAME%
         debugMloSync("tasks-synced")
         SetTimer TimerSyncMloStep3_recheckInternet, OFF
-        SetTimer TimerSyncMloStep3_recheckInternet, 10000
+        SetTimer TimerSyncMloStep3_recheckInternet, 15000
     }
     else
     {

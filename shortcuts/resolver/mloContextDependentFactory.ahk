@@ -100,7 +100,7 @@ mloNewContextDependentSubTask(currentTask)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_FIRST_LEVEL)
         sendKeyCombinationIndependentActiveModifiers("{DOWN}{F2}")
         sleep 150
-        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}{SPACE}CONFUZA^+{LEFT}")
+        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}CONFUZA^+{LEFT}")
         INTREBARI_JURNAL_INDEX := 1
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE_INCARCA
     }
@@ -270,7 +270,7 @@ mloContextDependentEnter()
         sleep 150
         sendKeyCombinationIndependentActiveModifiers("{DOWN}{F2}")
         sleep 150
-        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}{SPACE}RESURSA^+{LEFT}")
+        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}RESURSA^+{LEFT}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE_CONSUMA
         INTREBARI_JURNAL_INDEX := 1
     }

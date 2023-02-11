@@ -16,7 +16,7 @@ timerCheckReminder()
 {
     SetTimer TimerCheckReminder, OFF
     debugMloSync("timerCheckReminder")
-    syncMloStep1_launchPing()
+    TimerSyncMloStep1_launchPing()
     SetTimer TimerCheckAfterSyncReminders, 20000    
 }
 
@@ -34,7 +34,7 @@ timerCheckAfterSyncReminders()
     SetTimer TimerCheckReminder, %TimeoutCheckReminder%
 }
 
-syncMloStep1_launchPing()
+TimerSyncMloStep1_launchPing()
 {
     resetTimerSyncMlo()
     debugMloSync("ping-started")
@@ -107,6 +107,7 @@ TimerSyncMloStep4_syncCalendar()
 
 resetTimerSyncMlo()
 {
+    SetTimer TimerSyncMloStep1_launchPing, OFF
     SetTimer TimerSyncMloStep2_readPing, OFF
     SetTimer TimerSyncMloStep3_recheckInternet, OFF
     SetTimer TimerSyncMloStep4_syncCalendar, OFF

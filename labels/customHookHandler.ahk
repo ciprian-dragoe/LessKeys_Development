@@ -77,3 +77,7 @@ return
 TimerActivateSleepOnLidClose_step5():
     timerActivateSleepOnLidClose_step5()
 return
+
+TimerSyncMloStep1_launchPing():
+    TimerSyncMloStep1_launchPing()
+return

@@ -69,14 +69,14 @@ processMloEnhancements()
         {
             IS_CONDITION_FOR_MLO_SYNC_FULFILLED := 0
             debugMloSync("IS_CONDITION_FOR_MLO_SYNC_FULFILLED")
-            syncMloStep1_launchPing()
+            TimerSyncMloStep1_launchPing()
         }
     }
     else if (A_TickCount - MLO_LAST_TIME_SYNC > 6000000)
     {
         MLO_LAST_TIME_SYNC := A_TickCount
         debugMloSync("MLO_LAST_TIME_SYNC")
-        syncMloStep1_launchPing()
+        SetTimer TimerSyncMloStep1_launchPing, 10000
     }
 }
 
@@ -183,6 +183,7 @@ rapidTaskEntry()
 
 timerActivateMloRapidTaskWindow()
 {
+    resetMloEnterMode()
     If WinExist("Rapid Task Entry")
     {
         SetTimer TimerActivateMloRapidTaskWindow, OFF

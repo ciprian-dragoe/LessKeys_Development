@@ -192,6 +192,7 @@ mloNewContextDependentTask(currentTask = "")
     {
         INTREBARI_JURNAL_INDEX := SubStr(currentTask, 1, 1) + 1
         PREVIOUS_TASK := INTREBARI_JURNAL_INDEX
+        BUFFER := PREVIOUS_TASK
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
         sendKeyCombinationIndependentActiveModifiers("{HOME}{DOWN}")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
@@ -464,10 +465,12 @@ mloNewContextDependentEscape()
             sleep 250
             sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}l{enter}")
         }
-        
-        sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK)
-        sleep 650
-        mloNewContextDependentSubTask("" . PREVIOUS_TASK . "_BUCLA>")
+        if (PREVIOUS_TASK != BUFFER)
+        {
+            sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK)
+            sleep 650
+            mloNewContextDependentSubTask("" . PREVIOUS_TASK . "_BUCLA>")
+        }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_CHANGE_VIEW)
     {

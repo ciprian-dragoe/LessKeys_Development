@@ -183,7 +183,7 @@ rapidTaskEntry()
 
 timerActivateMloRapidTaskWindow()
 {
-    resetMloEnterMode()
+    resetMloEnterMode(0)
     If WinExist("Rapid Task Entry")
     {
         SetTimer TimerActivateMloRapidTaskWindow, OFF

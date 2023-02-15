@@ -16,6 +16,7 @@ proceLidCloseEnhancements()
 {
     if (LAPTOP_LID_STATE = "closed")
     {
+        debugMloSync("proceLidCloseEnhancements HAS_LAPTOP_STARTED_ENTERING_SLEEP=" . HAS_LAPTOP_STARTED_ENTERING_SLEEP)
         if (!HAS_LAPTOP_STARTED_ENTERING_SLEEP)
         {
             SetTimer, timerActivateSleepOnLidClose_step1, off
@@ -37,7 +38,8 @@ proceLidCloseEnhancements()
 timerActivateSleepOnLidClose_step1()
 {
     SetTimer, timerActivateSleepOnLidClose_step1, off
-    if (LAPTOP_LID_STATE != "closed" || LAST_LAPTOP_LID_CLOSE_TIME - A_TickCount < 10000)
+    debugMloSync("timerActivateSleepOnLidClose_step1 A_TickCount - LAST_LAPTOP_LID_CLOSE_TIME=" . A_TickCount - LAST_LAPTOP_LID_CLOSE_TIME . " LAPTOP_LID_STATE=" . LAPTOP_LID_STATE)
+    if (LAPTOP_LID_STATE != "closed" || A_TickCount - LAST_LAPTOP_LID_CLOSE_TIME > 15000)
         return
     send #d ; show desktop
     SetTimer, timerActivateSleepOnLidClose_step2, off
@@ -47,6 +49,7 @@ timerActivateSleepOnLidClose_step1()
 timerActivateSleepOnLidClose_step2()
 {
     SetTimer, timerActivateSleepOnLidClose_step2, off
+    debugMloSync("timerActivateSleepOnLidClose_step2 LAPTOP_LID_STATE=" . LAPTOP_LID_STATE)
     if (LAPTOP_LID_STATE != "closed")
         return
     
@@ -58,6 +61,7 @@ timerActivateSleepOnLidClose_step2()
 timerActivateSleepOnLidClose_step3()
 {
     SetTimer, timerActivateSleepOnLidClose_step3, off
+    debugMloSync("timerActivateSleepOnLidClose_step3 LAPTOP_LID_STATE=" . LAPTOP_LID_STATE)
     if (LAPTOP_LID_STATE != "closed")
         return
     
@@ -69,6 +73,7 @@ timerActivateSleepOnLidClose_step3()
 timerActivateSleepOnLidClose_step4()
 {
     SetTimer, timerActivateSleepOnLidClose_step4, off
+    debugMloSync("timerActivateSleepOnLidClose_step4 LAPTOP_LID_STATE=" . LAPTOP_LID_STATE)
     if (LAPTOP_LID_STATE != "closed")
         return
     
@@ -80,6 +85,7 @@ timerActivateSleepOnLidClose_step4()
 timerActivateSleepOnLidClose_step5()
 {
     SetTimer, timerActivateSleepOnLidClose_step5, off
+    debugMloSync("timerActivateSleepOnLidClose_step5 LAPTOP_LID_STATE=" . LAPTOP_LID_STATE)
     if (LAPTOP_LID_STATE != "closed")
         return
     

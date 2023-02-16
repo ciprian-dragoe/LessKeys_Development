@@ -39,7 +39,7 @@ timerActivateSleepOnLidClose_step1()
 {
     SetTimer, timerActivateSleepOnLidClose_step1, off
     debugMloSync("timerActivateSleepOnLidClose_step1 A_TickCount - LAST_LAPTOP_LID_CLOSE_TIME=" . A_TickCount - LAST_LAPTOP_LID_CLOSE_TIME . " LAPTOP_LID_STATE=" . LAPTOP_LID_STATE)
-    if (LAPTOP_LID_STATE != "closed" || A_TickCount - LAST_LAPTOP_LID_CLOSE_TIME < 10000)
+    if (LAPTOP_LID_STATE != "closed" || A_TickCount - LAST_LAPTOP_LID_CLOSE_TIME > 15000)
         return
     send #d ; show desktop
     SetTimer, timerActivateSleepOnLidClose_step2, off

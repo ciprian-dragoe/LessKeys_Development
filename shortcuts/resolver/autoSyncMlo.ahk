@@ -16,8 +16,8 @@ timerCheckReminder()
 {
     SetTimer TimerCheckReminder, OFF
     debugMloSync("timerCheckReminder")
-    TimerSyncMloStep1_launchPing()
-    SetTimer TimerCheckAfterSyncReminders, 20000    
+    SetTimer TimerSyncMloStep1_launchPing, 10000
+    SetTimer TimerCheckAfterSyncReminders, 30000    
 }
 
 timerCheckAfterSyncReminders()

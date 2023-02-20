@@ -16,8 +16,18 @@ timerCheckReminder()
 {
     SetTimer TimerCheckReminder, OFF
     debugMloSync("timerCheckReminder")
-    SetTimer TimerSyncMloStep1_launchPing, 10000
-    SetTimer TimerCheckAfterSyncReminders, 30000    
+    DetectHiddenWindows Off
+    if (WinExist("MyLifeOrganized - Reminders"))
+    {
+        debugMloSync("timerCheckReminder - reminder window on")
+        SetTimer TimerSyncMloStep1_launchPing, 10000
+        SetTimer TimerCheckAfterSyncReminders, 30000
+    }
+    else
+    {
+        debugMloSync("timerCheckReminder - reminder window off")
+        SetTimer TimerCheckReminder, %TimeoutCheckReminder%
+    }    
 }
 
 timerCheckAfterSyncReminders()

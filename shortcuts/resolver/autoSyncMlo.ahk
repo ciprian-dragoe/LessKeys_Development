@@ -70,7 +70,10 @@ timerSyncMloStep2_readPing()
         
         INTERNET_ACCESS := 1
         
-        ControlSend, , %MLO_KEYBOARD_SHORTCUT_MLO_SYNC%, ahk_class %MLO_CLASS_NAME%
+        if (MONITOR_STATUS)
+        {
+            ControlSend, , %MLO_KEYBOARD_SHORTCUT_MLO_SYNC%, ahk_class %MLO_CLASS_NAME%
+        }
         debugMloSync("tasks-synced")
         SetTimer TimerSyncMloStep3_recheckInternet, OFF
         SetTimer TimerSyncMloStep3_recheckInternet, 15000
@@ -106,7 +109,10 @@ TimerSyncMloStep4_syncCalendar()
             return
         }
         
-        ControlSend, , %MLO_KEYBOARD_SHORTCUT_SYNC_MLO_CALENDAR%, ahk_class %MLO_CLASS_NAME%
+        if (MONITOR_STATUS)
+        {
+            ControlSend, , %MLO_KEYBOARD_SHORTCUT_SYNC_MLO_CALENDAR%, ahk_class %MLO_CLASS_NAME%
+        }
         debugMloSync("calendar-synced")
         return
     }

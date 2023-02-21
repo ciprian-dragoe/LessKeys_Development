@@ -8,6 +8,7 @@ if (A_ScriptName = "LessKeys.exe")
     SCREEN_SLEEP_PATH := A_ScriptDir .  "\externalResources\nircmd"
 }
 
+#include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\monitorState.ahk
 #include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\modifierClick.ahk
 #include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\mloShortcutScripts.ahk
 #include %A_ScriptDir%\..\environmentDependent\_development\shortcuts\resolver\freeplaneShortcutScripts.ahk

@@ -26,6 +26,7 @@ global MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS := "^+o"
 global MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_FIRST_LEVEL := "^+;" 
 global MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_TOGGLE_COLLAPSE_ALL_CHILDREN := "!q" 
 global MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING := "^;" 
+global MLO_KEYBOARD_SHORTCUT_RAPID_TASK_ENTRY := "^+m" 
 
 
 
@@ -103,13 +104,10 @@ mloShowFind()
     sendKeyCombinationIndependentActiveModifiers("^+!=") ; schimb workspace all tasks
     sendKeyCombinationIndependentActiveModifiers("^+=") ; schimb view search
     sleep 500
-    sendKeyCombinationIndependentActiveModifiers("{home}")
-    ControlClick, TEdit3, A,,,, NA
-    ControlClick, TEdit2, A,,,, NA
-    sendKeyCombinationIndependentActiveModifiers("^a")
-    sendKeyCombinationIndependentActiveModifiers("{backspace}")
+    sendKeyCombinationIndependentActiveModifiers("^+l") ; clear previous filter
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
-    sleep 700
+    sleep 400
+    ControlClick, TEdit1, A,,,, NA
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
     SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
 }
@@ -177,7 +175,7 @@ hideNotesAndFocusTasks()
 
 rapidTaskEntry()
 {
-    sendKeyCombinationIndependentActiveModifiers("#!]") ; shortcut MLO for rapid task entry
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_RAPID_TASK_ENTRY) ; shortcut MLO for rapid task entry
     SetTimer TimerActivateMloRapidTaskWindow, 200
 }
 

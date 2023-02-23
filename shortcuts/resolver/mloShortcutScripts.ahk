@@ -176,20 +176,30 @@ hideNotesAndFocusTasks()
 rapidTaskEntry()
 {
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_RAPID_TASK_ENTRY) ; shortcut MLO for rapid task entry
-    SetTimer TimerActivateMloRapidTaskWindow, 200
+    SetTimer TimerActivateMloRapidTaskWindow, 100
 }
 
+global TimeoutRapidTaskWindow := 0
 timerActivateMloRapidTaskWindow()
 {
     resetMloEnterMode(0)
+    if (TimeoutRapidTaskWindow > 1000)
+    {
+        SetTimer TimerActivateMloRapidTaskWindow, OFF
+        TimeoutRapidTaskWindow := 0
+        return
+    }
     If WinExist("Rapid Task Entry")
     {
         SetTimer TimerActivateMloRapidTaskWindow, OFF
         WinActivate ahk_class TfrmQuickAddMLOTask, , 2
-
+        TimeoutRapidTaskWindow := 0
         WinMove, A,, 0, %MLO_POSITION_Y_RAPID_TASK_ENTRY%, (A_ScreenWidth), 500
     }
-    resetModifierWithoutTriggerUpState("lwin", winActive)
+    else
+    {
+        TimeoutRapidTaskWindow := TimeoutRapidTaskWindow + 200
+    }
 }
 
 ; reduce scroll bar width in windows https://www.thewindowsclub.com/windows-8-scroll-bar-hard-see-change-windows-8-scrollbar-width

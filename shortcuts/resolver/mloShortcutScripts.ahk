@@ -108,6 +108,7 @@ mloShowFind()
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
     sleep 400
     ControlClick, TEdit1, A,,,, NA
+    ControlClick, TEdit2, A,,,, NA
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
     SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
 }

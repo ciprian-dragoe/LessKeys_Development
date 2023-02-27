@@ -46,7 +46,7 @@ else if (A_ComputerName = ACTIVE_COMPUTER_X1_EXTREME)
     MLO_POSITION_Y_RAPID_TASK_ENTRY := 111
     MLO_DARK_MODE_TOP_HEIGHT := 114
     MLO_DARK_MODE_RIGHT_WIDTH := 73
-    MLO_DARK_MODE_BOTTOM_HEIGHT := 214 ; when taskbar not hidden
+    MLO_DARK_MODE_BOTTOM_HEIGHT := 208 ; when taskbar not hidden
     ;MLO_DARK_MODE_BOTTOM_HEIGHT := 100 ; when taskbar hidden
     MLO_DARK_MODE_LEFT_WIDTH := 13
 }

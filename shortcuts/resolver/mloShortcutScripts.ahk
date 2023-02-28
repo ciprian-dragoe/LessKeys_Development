@@ -105,10 +105,12 @@ mloShowFind()
     sendKeyCombinationIndependentActiveModifiers("^+=") ; schimb view search
     sleep 500
     sendKeyCombinationIndependentActiveModifiers("^+l") ; clear previous filter
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
-    sleep 400
+    sleep 100
     ControlClick, TEdit1, A,,,, NA
-    ControlClick, TEdit2, A,,,, NA
+    if (!A_CaretX)
+    {
+        ControlClick, TEdit2, A,,,, NA
+    }
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
     SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
 }

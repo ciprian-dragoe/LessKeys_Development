@@ -194,7 +194,7 @@ mloNewContextDependentTask(currentTask = "")
         PREVIOUS_TASK := INTREBARI_JURNAL_INDEX
         BUFFER := PREVIOUS_TASK
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
-        sendKeyCombinationIndependentActiveModifiers("{HOME}{DOWN}")
+        sendKeyCombinationIndependentActiveModifiers("{HOME}")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
         sendKeyCombinationIndependentActiveModifiers("{DOWN}")
         sendKeyCombinationIndependentActiveModifiers("{F2}")

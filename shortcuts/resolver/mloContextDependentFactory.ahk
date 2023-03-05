@@ -18,7 +18,7 @@ global MLO_ENTER_MODE_SET_DEZVOLT_JURNAL := 26
 global INTREBARI_JURNAL := {}
 INTREBARI_JURNAL.INTENTIE := ["LIMITA MENTIN: "]
 INTREBARI_JURNAL.CERǀAJUTOR := ["POT SA FAC CU CEEA CE AM:{SPACE}", "DISTRAGE SA FAC ASTA:{SPACE}"]
-INTREBARI_JURNAL.DAUǀDRUMUL := ["NU MA MAI REGASESC PENTRU CA:{SPACE}"]
+INTREBARI_JURNAL.DAUǀDRUMUL := ["DIRECTIE CRESC:{SPACE}"]
 INTREBARI_JURNAL.APRECIEZ := ["APRECIEZ IN ACEST MOMENT:{SPACE}", "MA INCARCA SA FIU PREZENT"]
 INTREBARI_JURNAL.FRICA := ["SEMNIFICATIE SUFERINTA:{SPACE}", "SPRIJIN CU CEEA CE AM:{SPACE}"]
 
@@ -70,8 +70,14 @@ mloNewContextDependentSubTask(currentTask)
             sleep 800
         }
         sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
-        currentTask := getCurrentTask()
-        mloNewContextDependentSubTask(currentTask)
+        sleep 200
+        nextTask := getCurrentTask()
+        if (nextTask = currentTask)
+        {
+            sleep 1000
+            showtooltip("<GO_TO_ infinite loop")
+        }
+        mloNewContextDependentSubTask(nextTask)
     }
     else if (inStr(currentTask, "<CER_AJUTOR_", true))
     {
@@ -617,7 +623,7 @@ writeNextQuestion()
     {
         INTREBARI_JURNAL_INDEX := 1
         setTimer TimerGoToNextQuestion, off
-        setTimer TimerGoToNextQuestion, 600
+        setTimer TimerGoToNextQuestion, 800
         sendKeyCombinationIndependentActiveModifiers("{enter}")    
         return
     }

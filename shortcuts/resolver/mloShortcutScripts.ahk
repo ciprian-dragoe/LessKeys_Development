@@ -1,6 +1,6 @@
 global MLO_LAST_VIEW := ""
 global MLO_CLASS_NAME := "TfrmMyLifeMain"
-global MLO_TASK_WINDOWS_NAME :="TVirtualStringTree5_"
+global MLO_TASK_WINDOWS_NAME :="TVirtualStringTree4_"
 global MLO_FILTER_WINDOWS_NAME :="TEdit2_"
 global MLO_NAME := "MyLifeOrganized"
 global MLO_WINDOW_NAME := "01-MY-LIST"
@@ -27,6 +27,7 @@ global MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_FIRST_LEVEL := "^+;"
 global MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_TOGGLE_COLLAPSE_ALL_CHILDREN := "!q" 
 global MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING := "^;" 
 global MLO_KEYBOARD_SHORTCUT_RAPID_TASK_ENTRY := "^+m" 
+global MLO_KEYBOARD_SHORTCUT_TOGGLE_TASK_PROPERTIES_VIEW := "!1" 
 
 
 
@@ -158,7 +159,7 @@ isTaskWindowInFocus()
 openNotesAssociatedWithTask()
 {
     failSafeCounter := 20
-    sendKeyCombinationIndependentActiveModifiers("!1")
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_TOGGLE_TASK_PROPERTIES_VIEW)
     Loop, %failSafeCounter%
     {
         failSafeCounter--

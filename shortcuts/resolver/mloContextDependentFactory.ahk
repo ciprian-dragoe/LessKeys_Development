@@ -67,15 +67,15 @@ mloNewContextDependentSubTask(currentTask)
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
         if (MLO_ENTER_MODE != 0)
         {
-            sleep 800
+            sleep 1200
         }
         sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
-        sleep 200
+        sleep 100
         nextTask := getCurrentTask()
         if (nextTask = currentTask)
         {
+            showtooltip("match")
             sleep 1000
-            showtooltip("<GO_TO_ infinite loop")
         }
         mloNewContextDependentSubTask(nextTask)
     }

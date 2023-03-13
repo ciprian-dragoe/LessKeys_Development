@@ -13,7 +13,7 @@ processModifierWithNumber(combination, index)
 
 processCtrlE()
 {
-    IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
+    If (inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
     {
         return mloContextDependentKeyFactory(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
@@ -38,7 +38,7 @@ processCtrlShiftF()
 
 processEnter()
 {
-    if (inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
+    If (inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
     {
         return mloContextDependentKeyFactory("enter")    
     }
@@ -79,7 +79,7 @@ processCtrlF()
 
 processCtrlR()
 {
-    if (inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
+    If (inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
     {
         return mloContextDependentKeyFactory(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
@@ -215,7 +215,7 @@ processF2()
 
 processEscape()
 {
-    if (inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
+    If (inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
     {
         return mloContextDependentKeyFactory("escape")    
     }

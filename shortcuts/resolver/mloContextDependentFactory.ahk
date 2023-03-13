@@ -9,6 +9,7 @@ global MLO_ENTER_MODE_SET_AS_PARTE_INCARCA := 12
 global MLO_ENTER_MODE_SET_AS_PARTE_CONSUMA := 13
 global MLO_ENTER_MODE_SET_AS_DOUBLE_ESCAPE_GO_TO := 14
 global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE := 15
+global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL := 16
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER := 30
 global MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER := 31
 global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 40
@@ -120,7 +121,7 @@ mloNewContextDependentSubTask(currentTask)
     }
     else if (inStr(currentTask, "<GANDURI_EXPLOREZ>", true))
     {
-        newBucla()
+        newBucla(MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ)
     }
     else if (inStr(currentTask, "<NEW_TASK>", true))
     {
@@ -185,6 +186,10 @@ mloNewContextDependentTask(currentTask = "")
         }
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
+    else if (inStr(currentTask, "<JURNAL_DUAL>", true))
+    {
+        newBucla(MLO_ENTER_MODE_SET_AS_JURNAL_DUAL)
+    }
     else if (inStr(currentTask, "<JURNAL_", true))
     {
         MLO_JOURNAL := extractDestinationAfter(currentTask, 2)
@@ -218,7 +223,7 @@ mloNewContextDependentTask(currentTask = "")
     }
     else if (inStr(currentTask, "<GANDURI_EXPLOREZ>", true))
     {
-        newBucla()
+        newBucla(MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ)
     }
     else if (MLO_ENTER_MODE > 0)
     {
@@ -237,6 +242,10 @@ mloContextDependentEnter()
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
         sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_DUAL)
+    {
+        mloNewJournalTask()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ)
     {
@@ -697,7 +706,7 @@ timerGoToNextDialoguePhase()
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
 }
 
-newBucla()
+newBucla(enterMode)
 {
     INTREBARI_JURNAL_INDEX := 1
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
@@ -705,7 +714,7 @@ newBucla()
     sendKeyCombinationIndependentActiveModifiers("{F2}")
     sleep 50
     sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . "_BUCLA>" . "{SPACE}")
-    MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ
+    MLO_ENTER_MODE := enterMode
 }
 
 newPart(currentTask)

@@ -79,7 +79,7 @@ processMloEnhancements()
     {
         MLO_LAST_TIME_SYNC := A_TickCount
         debugMloSync("MLO_LAST_TIME_SYNC")
-        SetTimer TimerSyncMloStep1_launchPing, 10000
+        SetTimer TimerSyncMloStep1_launchPing, 20000
     }
 }
 

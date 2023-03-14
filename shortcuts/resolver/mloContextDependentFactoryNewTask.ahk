@@ -26,10 +26,13 @@
         INTREBARI_JURNAL_INDEX := SubStr(currentTask, 1, 1) + 1
         PREVIOUS_TASK := INTREBARI_JURNAL_INDEX
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
-        sendKeyCombinationIndependentActiveModifiers("{HOME}")
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
-        sendKeyCombinationIndependentActiveModifiers("{DOWN}")
         sleep 100
+        sendKeyCombinationIndependentActiveModifiers("{HOME}")
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("{DOWN}")
+        sleep 200
         Loop %INTREBARI_JURNAL_INDEX%
         {
             sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEXT_DAY_START_DATE)

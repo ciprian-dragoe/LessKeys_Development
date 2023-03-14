@@ -203,11 +203,15 @@ mloNewContextDependentTask(currentTask = "")
     {
         INTREBARI_JURNAL_INDEX := SubStr(currentTask, 1, 1) + 1
         PREVIOUS_TASK := INTREBARI_JURNAL_INDEX
-        BUFFER := PREVIOUS_TASK
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
         sendKeyCombinationIndependentActiveModifiers("{HOME}")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
         sendKeyCombinationIndependentActiveModifiers("{DOWN}")
+        sleep 100
+        Loop %INTREBARI_JURNAL_INDEX%
+        {
+            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEXT_DAY_START_DATE)
+        }
         sendKeyCombinationIndependentActiveModifiers("{F2}")
         sleep 50
         sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . "_BUCLA>" . "{SPACE}")
@@ -253,7 +257,7 @@ mloContextDependentEnter()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE)
     {
-        mloNewJournalTask("{HOME}{DOWN}")
+        mloNewJournalTask("{END}{UP}")
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DOUBLE_ESCAPE_GO_TO)
     {
@@ -337,9 +341,11 @@ mloContextDependentEnter()
 
 mloNewJournalTask(newTemplateKeys = "")
 {
-    INTREBARI_JURNAL_INDEX := INTREBARI_JURNAL_INDEX + 1
     sendKeyCombinationIndependentActiveModifiers("{enter}")
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEXT_DAY_START_DATE)
+    INTREBARI_JURNAL_INDEX := INTREBARI_JURNAL_INDEX + 1
     sendKeyCombinationIndependentActiveModifiers("{F5}")
+    sleep 100
     if (newTemplateKeys)
     {
         sendKeyCombinationIndependentActiveModifiers(newTemplateKeys)
@@ -448,6 +454,7 @@ mloNewContextDependentEscape()
         else
         {
             sendKeyCombinationIndependentActiveModifiers("{enter}")
+            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEXT_DAY_START_DATE)
             sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
             sleep 100
             sendKeyCombinationIndependentActiveModifiers("{F2}{down}")
@@ -472,6 +479,7 @@ mloNewContextDependentEscape()
         else
         {
             sendKeyCombinationIndependentActiveModifiers("{enter}")
+            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEXT_DAY_START_DATE)
             sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
             sleep 100
             sendKeyCombinationIndependentActiveModifiers("{F2}{down}")
@@ -480,12 +488,16 @@ mloNewContextDependentEscape()
             sleep 250
             sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}l{enter}")
         }
-        if (PREVIOUS_TASK != BUFFER)
+        if (PREVIOUS_TASK != INTREBARI_JURNAL_INDEX)
         {
             sleep 500
             sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK)
             sleep 1000
             mloNewContextDependentSubTask("" . PREVIOUS_TASK . "_BUCLA>")
+        }
+        else
+        {
+            sendKeyCombinationIndependentActiveModifiers("{HOME}")
         }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_CHANGE_VIEW)

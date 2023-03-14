@@ -313,7 +313,15 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
 ;   if (A_WDay = 1) ; sunday 
     if (number = 1 && modifiers = "^")
     {
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS, "{DOWN}"]
+        if (A_Hour < 20)
+        {
+            modifiers := "^+" ; view dimineata jurnal
+            extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS, "{DOWN}"]
+        }
+        else
+        {
+            modifiers := "!^" ; view seara jurnal
+        }
     }
     else if (number = 2 && modifiers = "^")
     {

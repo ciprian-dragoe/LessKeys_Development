@@ -456,9 +456,9 @@ mloNewContextDependentEscape()
             sleep 250
             sendKeyCombinationIndependentActiveModifiers("9 ....................................................................................................................................................{enter}")
         }
-        
+        sleep 500
         sendKeyCombinationIndependentActiveModifiers("1")
-        sleep 650
+        sleep 1000
         mloNewContextDependentSubTask("1_BUCLA>")
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE)
@@ -482,8 +482,9 @@ mloNewContextDependentEscape()
         }
         if (PREVIOUS_TASK != BUFFER)
         {
+            sleep 500
             sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK)
-            sleep 650
+            sleep 1000
             mloNewContextDependentSubTask("" . PREVIOUS_TASK . "_BUCLA>")
         }
     }

@@ -32,10 +32,7 @@
         openNotesAssociatedWithTask()
         MLO_ENTER_MODE := 0
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ADD_SPACES && A_CaretX)
-    {
-        sendKeyCombinationIndependentActiveModifiers("{end}{space}{space}{enter}{F5}")
-    }
+    
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    

@@ -120,10 +120,6 @@
     {
         createConsuma()
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ADD_SPACES)
-    {
-        send {blind}{escape}
-    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER)
     {
         sendKeyCombinationIndependentActiveModifiers("{ENTER}")

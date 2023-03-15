@@ -8,7 +8,6 @@ global MLO_ENTER_MODE_SET_AS_NEW_TASK := 3
 global MLO_ENTER_MODE_SET_AS_OPEN_NOTES := 4
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_CHANGE_VIEW := 5
 global MLO_ENTER_MODE_SET_AS_DIALOG := 8
-global MLO_ENTER_MODE_SET_AS_ADD_SPACES := 10
 global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ := 11
 global MLO_ENTER_MODE_SET_AS_PARTE_INCARCA := 12
 global MLO_ENTER_MODE_SET_AS_PARTE_CONSUMA := 13
@@ -256,4 +255,22 @@ getCurrentTask(waitTimeAfterCopy = 200)
     Clipboard := temp
     SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
     return currentTask
+}
+
+
+getFocusArea(input)
+{
+    positionSpace := InStr(input, " ")
+    if (positionSpace = 0) {
+        return 0
+    }
+    
+    focusArea := SubStr(input, 1, positionSpace)
+    allowedFocusAreas := ["11", "111", "12", "121", "13", "131", "22", "221", "23", "231", "24", "241", "33", "331", "34", "341", "35", "351", "44", "441", "45", "451", "46", "461", "55", "551", "56", "561", "57", "571", "66", "661", "67", "671", "77"]
+    for key, allowedArea in allowedFocusAreas
+    {
+        if (focusArea = allowedArea) {
+            return allowedArea
+        }
+    } 
 }

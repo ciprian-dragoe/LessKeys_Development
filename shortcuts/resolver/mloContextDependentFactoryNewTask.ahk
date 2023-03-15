@@ -1,12 +1,12 @@
 ﻿mloNewContextDependentTask(currentTask = "")
 {
-    if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ADD_SPACES)
+    focusArea := getFocusArea(currentTask)
+    if (focusArea)
     {
-        if (A_CaretX)
-        {
-            sendKeyCombinationIndependentActiveModifiers("{end}{space}{space}{enter}")
-        }
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers(focusArea . " ")
+        return
     }
     else if (inStr(currentTask, "<JURNAL_DUAL>", true))
     {

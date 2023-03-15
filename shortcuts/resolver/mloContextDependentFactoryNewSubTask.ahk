@@ -1,14 +1,6 @@
 ﻿mloNewContextDependentSubTask(currentTask)
 {
-    if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ADD_SPACES)
-    {
-        if (A_CaretX)
-        {
-            sendKeyCombinationIndependentActiveModifiers("{end}{space}{space}{enter}")
-        }
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-    }
-    else if (inStr(currentTask, "<GO_TO_", true))
+    if (inStr(currentTask, "<GO_TO_", true))
     {
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
         if (MLO_ENTER_MODE != 0)

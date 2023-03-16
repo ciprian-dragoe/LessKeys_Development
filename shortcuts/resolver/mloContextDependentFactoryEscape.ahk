@@ -80,6 +80,12 @@
         sleep 1000
         mloNewContextDependentSubTask("1_BUCLA>")
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_DUAL || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_CONTINUE)
+    {
+        lastJournalTask("l")
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("{enter}")
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE)
     {
         lastJournalTask("{BackSpace}{BackSpace}{BackSpace}l{enter}")
@@ -180,7 +186,9 @@ lastJournalTask(lastTaskName)
     currentTask := getCurrentTask()
     if (SubStr(currentTask,0,1) = " ")
     {
-        sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}l{enter}")
+        sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}l")
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("{enter}")
     }
     else
     {

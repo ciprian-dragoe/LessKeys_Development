@@ -48,6 +48,21 @@
         INTREBARI_JURNAL_INDEX := 1
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE_INCARCA
     }
+    else if (inStr(currentTask, "_DIALOG>", true))
+    {
+        index := SubStr(currentTask, 1, 1) + 4
+        sendKeyCombinationIndependentActiveModifiers("^+{F" . index . "}")
+        sleep 1000
+        sendKeyCombinationIndependentActiveModifiers("{home}")
+;        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask, 1)
+;        INTREBARI_JURNAL_INDEX := 0
+;        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_FIRST_LEVEL)
+;        sendKeyCombinationIndependentActiveModifiers("{DOWN}{F2}")
+;        sleep 150
+;        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}CONFUZA^+{LEFT}")
+;        INTREBARI_JURNAL_INDEX := 1
+;        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE_INCARCA
+    }
     else if (inStr(currentTask, "<PARTE>", true))
     {
         newPart(currentTask)
@@ -56,9 +71,17 @@
     {
         resetMloEnterMode()
     }
+    else if (inStr(currentTask, "<DIALOG_GANDURI>", true))
+    {
+        INTREBARI_JURNAL_INDEX := 1
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL
+        createJournalTask("_DIALOG>")
+    }
     else if (inStr(currentTask, "<GANDURI_EXPLOREZ>", true))
     {
-        startJournalTask(MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ)
+        INTREBARI_JURNAL_INDEX := 1
+        createJournalTask("_BUCLA>")
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ
     }
     else if (inStr(currentTask, "<NEW_TASK>", true))
     {

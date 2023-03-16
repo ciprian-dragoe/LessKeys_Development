@@ -14,6 +14,7 @@ global MLO_ENTER_MODE_SET_AS_PARTE_CONSUMA := 13
 global MLO_ENTER_MODE_SET_AS_DOUBLE_ESCAPE_GO_TO := 14
 global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE := 15
 global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL := 16
+global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_CONTINUE := 17
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER := 30
 global MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER := 31
 global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 40
@@ -57,7 +58,7 @@ mloContextDependentKeyFactory(originalAction)
     }
 }
 
-continueJournalTask(selectDifferentTemplateKeys = "")
+continueJournalTask(template, selectDifferentTemplateKeys = "")
 {
     sendKeyCombinationIndependentActiveModifiers("{enter}")
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEXT_DAY_START_DATE)
@@ -68,12 +69,7 @@ continueJournalTask(selectDifferentTemplateKeys = "")
     {
         sendKeyCombinationIndependentActiveModifiers(selectDifferentTemplateKeys)
     }
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
-    sleep 50
-    sendKeyCombinationIndependentActiveModifiers("{DOWN}")
-    sendKeyCombinationIndependentActiveModifiers("{F2}")
-    sleep 50
-    sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . "_BUCLA>{SPACE}")
+    createJournalTask(template)
 }
 
 createConsuma()
@@ -224,15 +220,13 @@ timerGoToNextDialoguePhase()
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
 }
 
-startJournalTask(enterMode)
+createJournalTask(template)
 {
-    INTREBARI_JURNAL_INDEX := 1
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
     sendKeyCombinationIndependentActiveModifiers("{DOWN}")
     sendKeyCombinationIndependentActiveModifiers("{F2}")
     sleep 50
-    sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . "_BUCLA>" . "{SPACE}")
-    MLO_ENTER_MODE := enterMode
+    sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . template . "{SPACE}")
 }
 
 newPart(currentTask)

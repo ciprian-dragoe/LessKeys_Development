@@ -13,7 +13,7 @@ activateWin1()
     mloActive := WinActive(MLO_WINDOW_NAME)
     if (!mloActive)
     {
-        setMloDarkMode(1)
+        setMloDarkMode(1, MLO_CLASS_NAME)
     }
     else
     {

@@ -72,9 +72,30 @@
         
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE)
+    {
+        if (DOUBLE_PRESS_KEY_ACTIVE)
+        {
+            setTimer TimerDoubleKeyPressInterval, off
+            sendKeyCombinationIndependentActiveModifiers("{escape}")
+            DOUBLE_PRESS_KEY_ACTIVE := 0
+            resetMloEnterMode()
+            sleep 100
+            sendKeyCombinationIndependentActiveModifiers("{tab}")
+            return
+        }
+        setTimer TimerDoubleKeyPressInterval, 600
+        DOUBLE_PRESS_KEY_ACTIVE := 1
+        sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}{tab}")
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("{end}")
+        sleep 100
+        currentTask := getCurrentTask()
+        initiateDualJournal()
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ)
     {
-        lastJournalTask("9 ....................................................................................................................................................{enter}")
+        lastJournalTask("l")
         sleep 500
         sendKeyCombinationIndependentActiveModifiers("1")
         sleep 1000
@@ -83,8 +104,9 @@
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_DUAL || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_CONTINUE)
     {
         lastJournalTask("l")
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers("{enter}")
+        resetMloEnterMode()
+        sleep 400
+        sendKeyCombinationIndependentActiveModifiers("{home}{end}")
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE)
     {
@@ -150,6 +172,24 @@
             sendKeyCombinationIndependentActiveModifiers("{enter}{f5}{escape}")
         }
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER)
+    {
+        if (A_CaretX)
+        {
+            sendKeyCombinationIndependentActiveModifiers("{enter}")
+        }
+        keys := StrSplit(TASK_GO_AFTER_TO, "|")
+        for index, key in keys
+        {
+            if (StrLen(key) > 1)
+            {
+                key := "{" . key . "}"
+            }
+            sendKeyCombinationIndependentActiveModifiers(key)
+            sleep 100
+        }
+        resetMloEnterMode()
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER)
     {
         if (DOUBLE_PRESS_KEY_ACTIVE)
@@ -178,28 +218,4 @@
     {
         resetMloEnterMode()
     }
-}
-
-lastJournalTask(lastTaskName)
-{
-    sendKeyCombinationIndependentActiveModifiers("^a")
-    currentTask := getCurrentTask()
-    if (SubStr(currentTask,0,1) = " ")
-    {
-        sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}l")
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers("{enter}")
-    }
-    else
-    {
-        sendKeyCombinationIndependentActiveModifiers("{enter}")
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEXT_DAY_START_DATE)
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers("{F2}{down}")
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers("^a")
-        sleep 250
-        sendKeyCombinationIndependentActiveModifiers(lastTaskName)
-    }    
 }

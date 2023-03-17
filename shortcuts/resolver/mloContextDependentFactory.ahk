@@ -15,6 +15,8 @@ global MLO_ENTER_MODE_SET_AS_DOUBLE_ESCAPE_GO_TO := 14
 global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE := 15
 global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL := 16
 global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_CONTINUE := 17
+global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE := 18
+global MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER := 19
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER := 30
 global MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER := 31
 global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 40
@@ -240,17 +242,14 @@ newPart(currentTask)
 getCurrentTask(waitTimeAfterCopy = 200)
 {
     ; copy current task so that it can be parsed without loosing clipboard
-    SetTimer TimerStickyFailBack, off
     temp := Clipboard
     sendKeyCombinationIndependentActiveModifiers("^c")
     sleep %waitTimeAfterCopy% ; wait for the os to register the command, smaller time causes mlo process errors
     currentTask := Clipboard
     debug("=== getCurrentTask: " . currentTask)
     Clipboard := temp
-    SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
     return currentTask
 }
-
 
 getFocusArea(input)
 {
@@ -267,4 +266,53 @@ getFocusArea(input)
             return allowedArea
         }
     } 
+}
+
+lastJournalTask(lastTaskName)
+{
+    sendKeyCombinationIndependentActiveModifiers("^a")
+    currentTask := getCurrentTask()
+    if (SubStr(currentTask,0,1) = " ")
+    {
+        sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}l")
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("{enter}")
+    }
+    else
+    {
+        sendKeyCombinationIndependentActiveModifiers("{enter}")
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEXT_DAY_START_DATE)
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("{F2}{down}")
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("^a")
+        sleep 250
+        sendKeyCombinationIndependentActiveModifiers(lastTaskName)
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
+    }
+}
+
+initiateDualJournal()
+{
+    if (inStr(currentTask, "<GANDURI_1> CONFUZIE", true) || inStr(currentTask, "<GANDURI_2> RESURSA", true))
+    {
+        sendKeyCombinationIndependentActiveModifiers("{F2}")
+        sleep 200
+        sendKeyCombinationIndependentActiveModifiers("{end}^+{left}")
+        resetMloEnterMode()
+    }
+    else if (inStr(currentTask, "<GANDURI_>", true))
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE   
+    }
+    else
+    {
+        sendKeyCombinationIndependentActiveModifiers("{left}")
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE
+    }
 }

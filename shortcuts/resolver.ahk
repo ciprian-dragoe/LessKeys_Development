@@ -104,5 +104,7 @@ resolverAction[530] := func("processEscape")
 processShortcut(index, combination)
 {
     debug("shortcut: " . combination)
+    SetTimer TimerStickyFailBack, off
     resolverAction[index].call(combination, index)
+    SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
 }

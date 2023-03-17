@@ -51,17 +51,20 @@
     else if (inStr(currentTask, "_DIALOG>", true))
     {
         index := SubStr(currentTask, 1, 1) + 4
+        setMloDarkMode(0)
+        setLaptopDependentMloVariables("dashboardActive")
         sendKeyCombinationIndependentActiveModifiers("^+{F" . index . "}")
-        sleep 1000
+        WinWaitActive, %MLO_WINDOW_JOURNAL_NAME%, ,2
+        setMloDarkMode(1, MLO_DASHBOARD_CLASS_NAME)
         sendKeyCombinationIndependentActiveModifiers("{home}")
-;        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask, 1)
-;        INTREBARI_JURNAL_INDEX := 0
-;        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_FIRST_LEVEL)
-;        sendKeyCombinationIndependentActiveModifiers("{DOWN}{F2}")
-;        sleep 150
-;        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}CONFUZA^+{LEFT}")
-;        INTREBARI_JURNAL_INDEX := 1
-;        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE_INCARCA
+        sleep 200
+        currentTask := getCurrentTask()
+        initiateDualJournal()
+    }
+    else if (inStr(currentTask, "<GANDURI_", true))
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE
     }
     else if (inStr(currentTask, "<PARTE>", true))
     {
@@ -114,6 +117,12 @@
     else if (inStr(currentTask, "<NEW_TASK_GO_AFTER", true))
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER
+        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    }
+    else if (inStr(currentTask, "<NEW_TASK_KEYS_AFTER_", true))
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }

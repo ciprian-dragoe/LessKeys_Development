@@ -1,9 +1,13 @@
 global MLO_LAST_VIEW := ""
 global MLO_CLASS_NAME := "TfrmMyLifeMain"
+global MLO_DASHBOARD_CLASS_NAME := "TfrmMLODashboard"
 global MLO_TASK_WINDOWS_NAME :="TVirtualStringTree4_"
 global MLO_FILTER_WINDOWS_NAME :="TEdit2_"
 global MLO_NAME := "MyLifeOrganized"
 global MLO_WINDOW_NAME := "MLO_"
+global MLO_WINDOW_TASK_NAME := "MLO_TASKS"
+global MLO_WINDOW_JOURNAL_NAME := "MLO_JURNAL"
+global MLO_WINDOW_PLAN_MORNING_NAME := "MLO_PLANIFIC_DIMINEATA"
 global SHOULD_SYNC_AFTER_MLO_MINIMIZED := 0
 global MLO_DARK_MODE_TOP_HEIGHT := 0
 global MLO_DARK_MODE_BOTTOM_HEIGHT := 0
@@ -17,8 +21,8 @@ global IS_SET_MLO_ORDER_ACTIVE := 0
 global MLO_KEYBOARD_SHORTCUT_MLO_SYNC := "^{F9}" 
 global MLO_KEYBOARD_SHORTCUT_SYNC_MLO_CALENDAR := "^{F10}" 
 global MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK := "^d" 
-global MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK := "!e" 
-global MLO_KEYBOARD_SHORTCUT_NEW_TASK := "!w" 
+global MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK := "^+n" 
+global MLO_KEYBOARD_SHORTCUT_NEW_TASK := "^n" 
 global MLO_KEYBOARD_SHORTCUT_FOLDER := "^+a"
 global MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_EXCEPT_SELECTION := "^+{F12}" 
 global MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS := "^o" 
@@ -32,26 +36,35 @@ global MLO_KEYBOARD_SHORTCUT_NEXT_DAY_START_DATE := "^+/"
 
 
 
-if (A_ComputerName = ACTIVE_COMPUTER_X230)
+setLaptopDependentMloVariables(isMloDashoardActive = 0)
 {
+    if (A_ComputerName = ACTIVE_COMPUTER_X230)
+    {
+    }
+    else if (A_ComputerName = ACTIVE_COMPUTER_X1_YOGA_G3)
+    {
+        MLO_POSITION_Y_RAPID_TASK_ENTRY := 70
+        MLO_DARK_MODE_TOP_HEIGHT := 120
+        MLO_DARK_MODE_RIGHT_WIDTH := 45
+        MLO_DARK_MODE_LEFT_WIDTH := 14
+        MLO_DARK_MODE_BOTTOM_HEIGHT := 130
+    }
+    else if (A_ComputerName = ACTIVE_COMPUTER_X1_EXTREME)
+    {
+        MLO_POSITION_Y_RAPID_TASK_ENTRY := 111
+        MLO_DARK_MODE_TOP_HEIGHT := 114
+        if (isMloDashoardActive)
+        {
+            MLO_DARK_MODE_TOP_HEIGHT := 60
+        }
+        MLO_DARK_MODE_RIGHT_WIDTH := 73
+        MLO_DARK_MODE_BOTTOM_HEIGHT := 208 ; when taskbar not hidden
+        ;MLO_DARK_MODE_BOTTOM_HEIGHT := 100 ; when taskbar hidden
+        MLO_DARK_MODE_LEFT_WIDTH := 13
+    }
 }
-else if (A_ComputerName = ACTIVE_COMPUTER_X1_YOGA_G3)
-{
-    MLO_POSITION_Y_RAPID_TASK_ENTRY := 70
-    MLO_DARK_MODE_TOP_HEIGHT := 120
-    MLO_DARK_MODE_RIGHT_WIDTH := 45
-    MLO_DARK_MODE_LEFT_WIDTH := 14
-    MLO_DARK_MODE_BOTTOM_HEIGHT := 130
-}
-else if (A_ComputerName = ACTIVE_COMPUTER_X1_EXTREME)
-{
-    MLO_POSITION_Y_RAPID_TASK_ENTRY := 111
-    MLO_DARK_MODE_TOP_HEIGHT := 114
-    MLO_DARK_MODE_RIGHT_WIDTH := 73
-    MLO_DARK_MODE_BOTTOM_HEIGHT := 208 ; when taskbar not hidden
-    ;MLO_DARK_MODE_BOTTOM_HEIGHT := 100 ; when taskbar hidden
-    MLO_DARK_MODE_LEFT_WIDTH := 13
-}
+
+setLaptopDependentMloVariables()
 
 processMloEnhancements()
 {
@@ -102,7 +115,6 @@ mloCloseFind()
 
 mloShowFind()
 {
-    SetTimer TimerStickyFailBack, off
     sendKeyCombinationIndependentActiveModifiers("^+!=") ; schimb workspace all tasks
     sendKeyCombinationIndependentActiveModifiers("^+=") ; schimb view search
     sleep 500
@@ -114,7 +126,6 @@ mloShowFind()
         ControlClick, TEdit2, A,,,, NA
     }
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
-    SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
 }
 
 moveNoteWindowAndSetCursorEnd(direction)
@@ -208,7 +219,7 @@ timerActivateMloRapidTaskWindow()
 }
 
 ; reduce scroll bar width in windows https://www.thewindowsclub.com/windows-8-scroll-bar-hard-see-change-windows-8-scrollbar-width
-setMloDarkMode(enabled)
+setMloDarkMode(enabled, setFocusToClassName = 0)
 {
     if (enabled)
     {
@@ -248,7 +259,7 @@ setMloDarkMode(enabled)
         Gui, color , 000000  ; set color value RGB
         Gui, right:show, w%rightWidth% h%rightHeight% x%rightX% y%rightY%
 
-        WinActivate ahk_class TfrmMyLifeMain, , 2 ; reselect mlo because overlay is not selected
+        WinActivate ahk_class %setFocusToClassName%, , 2 ; reselect mlo because overlay is not selected
     }
     else
     {
@@ -315,8 +326,14 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     {
         if (A_Hour < 20)
         {
-            modifiers := "^+" ; view dimineata jurnal
-            extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS, "{DOWN}"]
+            sendKeyCombinationIndependentActiveModifiers("^+{F4}")
+            setMloDarkMode(0)
+            setLaptopDependentMloVariables("dashboardActive")
+            WinWaitActive, %MLO_WINDOW_PLAN_MORNING_NAME%, ,2
+            extraInstructions := ["{home}"]
+            setMloDarkMode(1, MLO_DASHBOARD_CLASS_NAME)
+            modifiers := ""
+            number := ""
         }
         else
         {
@@ -325,11 +342,23 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     }
     else if (number = 2 && modifiers = "^")
     {
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{DOWN}"]
+        ;extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{DOWN}"] ; old
     }
     else if (number = 5)
     {
         extraInstructions := ["{F12}"]
+    }
+    
+    ; close dashboard windows if navigating away from it 
+    if (number && modifiers)
+    {
+        setMloDarkMode(0)
+        if (!inStr(lastActiveAppName, MLO_WINDOW_TASK_NAME, true))
+        {
+            WinClose A
+        }
+        setLaptopDependentMloVariables()
+        setMloDarkMode(1, MLO_CLASS_NAME)
     }
     
     MLO_LAST_VIEW := modifiers . number

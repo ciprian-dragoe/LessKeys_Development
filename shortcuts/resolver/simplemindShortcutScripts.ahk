@@ -7,8 +7,6 @@ global SIMPLEMIND_COUNTER_BRAINSTORM_MAX_IDEAS := 9
 
 setSimplemindFocusTopic(key, focusCount := 9)
 {
-    SetTimer TimerStickyFailBack, off
-
     IfNotInString, activeWindowNow, %SIMPLEMIND_CLASSNN_MIND_MAP_EDITOR%
     {
         sendKeyCombinationIndependentActiveModifiers("{escape}")
@@ -30,7 +28,6 @@ setSimplemindFocusTopic(key, focusCount := 9)
         sendKeyCombinationIndependentActiveModifiers("^y")
         sleep 100
     }
-    SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
 }
 
 navigateAndCenter(key)
@@ -41,8 +38,6 @@ navigateAndCenter(key)
 
 centerBrainstorm()
 {
-    SetTimer TimerStickyFailBack, off
-
     ;setSimplemindOverlay(1)
     sendKeyCombinationIndependentActiveModifiers("^!u") ; unfocus selected topic
     sendKeyCombinationIndependentActiveModifiers("^q") ; brainstorm
@@ -53,13 +48,10 @@ centerBrainstorm()
     {
         sendKeyCombinationIndependentActiveModifiers("{escape}{tab}")
     }
-
-    SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
 }
 
 simplemindClearIdeas()
 {
-    SetTimer TimerStickyFailBack, off
     send {enter}
 
     ControlGetFocus, activeWindowNow, A
@@ -77,8 +69,6 @@ simplemindClearIdeas()
             ;setSimplemindOverlay(1)
         }
     }
-
-    SetTimer TimerStickyFailBack, %timerTimeoutStickyKeys%
 }
 
 setSimplemindOverlay(enabled)

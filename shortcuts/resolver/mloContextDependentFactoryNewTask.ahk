@@ -65,9 +65,9 @@
         sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . "_DIALOG>" . "{SPACE}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_CONTINUE
     }
-    else if (inStr(currentTask, "<S>", true))
+    else if (inStr(currentTask, "<|>", true))
     {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        definePartsDualJournal(currentTask)
     }
     else if (inStr(currentTask, "<PARTE>", true))
     {

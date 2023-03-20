@@ -56,15 +56,22 @@
         sendKeyCombinationIndependentActiveModifiers("^+{F" . index . "}")
         WinWaitActive, %MLO_WINDOW_JOURNAL_NAME%, ,2
         setMloDarkMode(1, MLO_DASHBOARD_CLASS_NAME)
-        sendKeyCombinationIndependentActiveModifiers("{home}")
+        sendKeyCombinationIndependentActiveModifiers("{home}{down}")
         sleep 200
         currentTask := getCurrentTask()
-        initiateDualJournal()
+        if (inStr(currentTask, "<|>", true))
+        {
+            definePartsDualJournal(currentTask)
+        }
+        else
+        {
+            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE
+        }
     }
-    else if (inStr(currentTask, "<GANDURI_", true))
+    else if (inStr(currentTask, "<|>"))
     {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE
+        definePartsDualJournal(currentTask)
     }
     else if (inStr(currentTask, "<PARTE>", true))
     {

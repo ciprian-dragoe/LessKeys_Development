@@ -77,21 +77,20 @@
         if (DOUBLE_PRESS_KEY_ACTIVE)
         {
             setTimer TimerDoubleKeyPressInterval, off
-            sendKeyCombinationIndependentActiveModifiers("{escape}")
+            sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
+            sleep 100
             DOUBLE_PRESS_KEY_ACTIVE := 0
             resetMloEnterMode()
-            sleep 100
-            sendKeyCombinationIndependentActiveModifiers("{tab}")
+            sendKeyCombinationIndependentActiveModifiers("{home}{down}")
             return
         }
         setTimer TimerDoubleKeyPressInterval, 600
         DOUBLE_PRESS_KEY_ACTIVE := 1
         sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}{tab}")
         sleep 100
-        sendKeyCombinationIndependentActiveModifiers("{end}")
+        sendKeyCombinationIndependentActiveModifiers("{home}{down}")
         sleep 100
-        currentTask := getCurrentTask()
-        initiateDualJournal()
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ)
     {

@@ -44,7 +44,7 @@ setLaptopDependentMloVariables(isMloDashoardActive = 0)
     else if (A_ComputerName = ACTIVE_COMPUTER_X1_YOGA_G3)
     {
         MLO_POSITION_Y_RAPID_TASK_ENTRY := 70
-        MLO_DARK_MODE_TOP_HEIGHT := 120
+        MLO_DARK_MODE_TOP_HEIGHT := 115
         if (isMloDashoardActive)
         {
             MLO_DARK_MODE_TOP_HEIGHT := 63

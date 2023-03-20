@@ -17,6 +17,7 @@ global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL := 16
 global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_CONTINUE := 17
 global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE := 18
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER := 19
+global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_PARTI_DEFINESC := 20
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER := 30
 global MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER := 31
 global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 40
@@ -294,25 +295,17 @@ lastJournalTask(lastTaskName)
     }
 }
 
-initiateDualJournal()
+definePartsDualJournal(currentTask)
 {
-    if (inStr(currentTask, "<GANDURI_1> CONFUZIE", true) || inStr(currentTask, "<GANDURI_2> RESURSA", true))
+    if (StrLen(currentTask) = StrLen("<|>")+2)
     {
-        sendKeyCombinationIndependentActiveModifiers("{F2}")
-        sleep 200
-        sendKeyCombinationIndependentActiveModifiers("{end}^+{left}")
-        resetMloEnterMode()
-    }
-    else if (inStr(currentTask, "<GANDURI_>", true))
-    {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE   
+        
+        sendKeyCombinationIndependentActiveModifiers("{F2}{right}")
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_PARTI_DEFINESC
     }
     else
     {
-        sendKeyCombinationIndependentActiveModifiers("{left}")
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE            
     }
 }

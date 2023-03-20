@@ -13,8 +13,8 @@
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
         sleep 100
-        sendKeyCombinationIndependentActiveModifiers("{left}")
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        sendKeyCombinationIndependentActiveModifiers("{home}{down}")
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ)
     {
@@ -62,6 +62,23 @@
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_PARTE_CONSUMA)
     {
         createConsuma()
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_PARTI_DEFINESC)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{ENTER}{TAB}")
+        sleep 200
+        sendKeyCombinationIndependentActiveModifiers("{home}{down}")
+        sleep 200
+        currentTask := getCurrentTask()
+        if (inStr(currentTask, "<|>"))
+        {
+            mloNewContextDependentTask(currentTask)    
+        }
+        else
+        {
+            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE
+        }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DIALOG)
     {

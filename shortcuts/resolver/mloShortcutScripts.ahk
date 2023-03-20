@@ -45,6 +45,10 @@ setLaptopDependentMloVariables(isMloDashoardActive = 0)
     {
         MLO_POSITION_Y_RAPID_TASK_ENTRY := 70
         MLO_DARK_MODE_TOP_HEIGHT := 120
+        if (isMloDashoardActive)
+        {
+            MLO_DARK_MODE_TOP_HEIGHT := 63
+        }
         MLO_DARK_MODE_RIGHT_WIDTH := 45
         MLO_DARK_MODE_LEFT_WIDTH := 14
         MLO_DARK_MODE_BOTTOM_HEIGHT := 130

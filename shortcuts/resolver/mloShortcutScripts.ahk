@@ -72,7 +72,7 @@ setLaptopDependentMloVariables()
 
 processMloEnhancements()
 {
-    If (inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
+    If (inStr(lastActiveAppName, MLO_WINDOW_NAME, true) || inStr(lastActiveAppName, A_ScriptName, true)) ; needed because of overlay dark mode appearing 
     {
         SHOULD_SYNC_AFTER_MLO_MINIMIZED := 1
         if (inStr(lastActiveAppName, " *", true) || inStr(lastActiveAppName, "Rapid Task Entry", true) || inStr(lastActiveAppName, "MyLifeOrganized - Reminders", true))
@@ -262,8 +262,12 @@ setMloDarkMode(enabled, setFocusToClassName = 0)
         Gui, +toolwindow -caption +alwaysontop
         Gui, color , 000000  ; set color value RGB
         Gui, right:show, w%rightWidth% h%rightHeight% x%rightX% y%rightY%
-
-        WinActivate ahk_class %setFocusToClassName%, , 2 ; reselect mlo because overlay is not selected
+        
+        ; reselect mlo because overlay is not selected
+        WinActivate ahk_class %setFocusToClassName%, , 1 
+        WinWaitActive %setFocusToClassName%, , 1
+        ;WinGetTitle, lastActiveAppName, A
+        ;showtooltip(MLO_WINDOW_JOURNAL_NAME . "|" . lastActiveAppName, 2000)
     }
     else
     {
@@ -346,7 +350,11 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     }
     else if (number = 2 && modifiers = "^")
     {
-        ;extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{DOWN}"] ; old
+        extraInstructions := ["{home}", "{DOWN}"]
+    }
+    else if (number = 2 && modifiers = "^+")
+    {
+        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{DOWN}"]
     }
     else if (number = 5)
     {

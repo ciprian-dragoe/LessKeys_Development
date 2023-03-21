@@ -77,11 +77,12 @@
         if (DOUBLE_PRESS_KEY_ACTIVE)
         {
             setTimer TimerDoubleKeyPressInterval, off
-            sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
+            sendKeyCombinationIndependentActiveModifiers("{enter}{F5}{tab}")
             sleep 100
             DOUBLE_PRESS_KEY_ACTIVE := 0
-            resetMloEnterMode()
+            sleep 100
             sendKeyCombinationIndependentActiveModifiers("{home}{down}")
+            resetMloEnterMode()
             return
         }
         setTimer TimerDoubleKeyPressInterval, 600

@@ -223,7 +223,7 @@ timerActivateMloRapidTaskWindow()
 }
 
 ; reduce scroll bar width in windows https://www.thewindowsclub.com/windows-8-scroll-bar-hard-see-change-windows-8-scrollbar-width
-setMloDarkMode(enabled, setFocusToClassName = 0)
+setMloDarkMode(enabled)
 {
     if (enabled)
     {
@@ -264,10 +264,10 @@ setMloDarkMode(enabled, setFocusToClassName = 0)
         Gui, right:show, w%rightWidth% h%rightHeight% x%rightX% y%rightY%
         
         ; reselect mlo because overlay is not selected
-        WinActivate ahk_class %setFocusToClassName%, , 1 
-        WinWaitActive %setFocusToClassName%, , 1
-        ;WinGetTitle, lastActiveAppName, A
-        ;showtooltip(MLO_WINDOW_JOURNAL_NAME . "|" . lastActiveAppName, 2000)
+        WinActivate ahk_class %MLO_CLASS_NAME%, , 1 
+        WinWaitActive %MLO_CLASS_NAME%, , 1
+;        WinGetTitle, lastActiveAppName, A
+;        showtooltip(setFocusToClassName . "|" . lastActiveAppName, 2000)
     }
     else
     {
@@ -337,9 +337,10 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
             sendKeyCombinationIndependentActiveModifiers("^+{F4}")
             setMloDarkMode(0)
             setLaptopDependentMloVariables("dashboardActive")
+            sleep 200
+            setMloDarkMode(1)
             WinWaitActive, %MLO_WINDOW_PLAN_MORNING_NAME%, ,2
             extraInstructions := ["{home}"]
-            setMloDarkMode(1, MLO_DASHBOARD_CLASS_NAME)
             modifiers := ""
             number := ""
         }
@@ -350,11 +351,11 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     }
     else if (number = 2 && modifiers = "^")
     {
-        extraInstructions := ["{home}", "{DOWN}"]
+        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{DOWN}"]
     }
     else if (number = 2 && modifiers = "^+")
     {
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{DOWN}"]
+        extraInstructions := ["{home}", "{DOWN}"]
     }
     else if (number = 5)
     {
@@ -370,7 +371,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
             WinClose A
         }
         setLaptopDependentMloVariables()
-        setMloDarkMode(1, MLO_CLASS_NAME)
+        setMloDarkMode(1)
     }
     
     MLO_LAST_VIEW := modifiers . number

@@ -53,10 +53,10 @@
         index := SubStr(currentTask, 1, 1) + 4
         setMloDarkMode(0)
         setLaptopDependentMloVariables("dashboardActive")
+        sleep 200
+        setMloDarkMode(1)
         sendKeyCombinationIndependentActiveModifiers("^+{F" . index . "}")
         WinWaitActive, %MLO_WINDOW_JOURNAL_NAME%, ,3
-        sleep 500
-        setMloDarkMode(1, MLO_DASHBOARD_CLASS_NAME)
         sleep 200
         sendKeyCombinationIndependentActiveModifiers("{home}{down}")
         currentTask := getCurrentTask()

@@ -51,7 +51,7 @@ setLaptopDependentMloVariables(isMloDashoardActive = 0)
         }
         MLO_DARK_MODE_RIGHT_WIDTH := 45
         MLO_DARK_MODE_LEFT_WIDTH := 14
-        MLO_DARK_MODE_BOTTOM_HEIGHT := 130
+        MLO_DARK_MODE_BOTTOM_HEIGHT := 123
     }
     else if (A_ComputerName = ACTIVE_COMPUTER_X1_EXTREME)
     {

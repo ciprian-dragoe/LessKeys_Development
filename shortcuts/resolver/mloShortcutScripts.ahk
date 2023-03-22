@@ -334,11 +334,11 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     {
         if (A_Hour < 20)
         {
-            sendKeyCombinationIndependentActiveModifiers("^+{F4}")
             setMloDarkMode(0)
             setLaptopDependentMloVariables("dashboardActive")
             sleep 200
             setMloDarkMode(1)
+            sendKeyCombinationIndependentActiveModifiers("^+{F4}")
             WinWaitActive, %MLO_WINDOW_PLAN_MORNING_NAME%, ,2
             extraInstructions := ["{home}"]
             modifiers := ""

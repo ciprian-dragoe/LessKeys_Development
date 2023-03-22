@@ -55,6 +55,7 @@
         setLaptopDependentMloVariables("dashboardActive")
         sleep 200
         setMloDarkMode(1)
+        sleep 200
         sendKeyCombinationIndependentActiveModifiers("^+{F" . index . "}")
         WinWaitActive, %MLO_WINDOW_JOURNAL_NAME%, ,3
         sleep 200

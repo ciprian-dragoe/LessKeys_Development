@@ -265,9 +265,6 @@ setMloDarkMode(enabled)
         
         ; reselect mlo because overlay is not selected
         WinActivate ahk_class %MLO_CLASS_NAME%, , 1 
-        WinWaitActive %MLO_CLASS_NAME%, , 1
-;        WinGetTitle, lastActiveAppName, A
-;        showtooltip(setFocusToClassName . "|" . lastActiveAppName, 2000)
     }
     else
     {

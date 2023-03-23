@@ -181,14 +181,25 @@
         keys := StrSplit(TASK_GO_AFTER_TO, "|")
         for index, key in keys
         {
-            if (StrLen(key) > 1)
+            index := keyboardShortcuts[key]
+            if (index)
             {
-                key := "{" . key . "}"
+                processShortcut(index, combination)
             }
-            sendKeyCombinationIndependentActiveModifiers(key)
+            else 
+            {
+                if (StrLen(key) > 1)
+                {
+                    key := "{" . key . "}"
+                }
+                sendKeyCombinationIndependentActiveModifiers(key)
+            }
             sleep 100
         }
-        resetMloEnterMode()
+        if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER)
+        {
+            resetMloEnterMode(0)    
+        }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER)
     {

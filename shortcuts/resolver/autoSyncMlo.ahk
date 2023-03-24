@@ -9,7 +9,7 @@ timerCancelTooltip()
 debugMloSync(label)
 {
     syncLog = %A_Hour%-%A_Min%-%A_Sec%-%A_MSec%-%label%`n
-    FileAppend, %syncLog%, %A_Desktop%\syncLog.txt
+    FileAppend, %syncLog%, D:\syncLog.txt
 }
 
 timerCheckReminder()

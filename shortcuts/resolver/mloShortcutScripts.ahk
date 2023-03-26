@@ -108,7 +108,15 @@ changeViewMlo(viewCombination, extraInstructions)
     sendKeyCombinationIndependentActiveModifiers(viewCombination)
     for index , instruction in extraInstructions
     {
-        sendKeyCombinationIndependentActiveModifiers(instruction)
+        index := keyboardShortcuts[instruction]
+        if (index)
+        {
+            processShortcut(index, instruction)
+        }
+        else 
+        {
+            sendKeyCombinationIndependentActiveModifiers(instruction)
+        } 
     }
 }
 
@@ -337,7 +345,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
             setMloDarkMode(1)
             sendKeyCombinationIndependentActiveModifiers("^+{F4}")
             WinWaitActive, %MLO_WINDOW_PLAN_MORNING_NAME%, ,2
-            extraInstructions := ["{home}"]
+            extraInstructions := ["{home}", "^r"]
             modifiers := ""
             number := ""
         }

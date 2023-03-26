@@ -10,6 +10,10 @@ activateWin1()
         send {blind}1
         return
     }
+    if (WinExist("ahk_class " . MLO_DASHBOARD_CLASS_NAME))
+    {
+        WinClose        
+    }
     mloActive := WinActive(MLO_WINDOW_NAME)
     if (!mloActive)
     {

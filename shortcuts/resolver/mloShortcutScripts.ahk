@@ -129,15 +129,17 @@ mloShowFind()
 {
     sendKeyCombinationIndependentActiveModifiers("^+!=") ; schimb workspace all tasks
     sendKeyCombinationIndependentActiveModifiers("^+=") ; schimb view search
-    sleep 500
+    sleep 1000
     sendKeyCombinationIndependentActiveModifiers("^+l") ; clear previous filter
-    sleep 100
+    sleep 500
     ControlClick, TEdit1, A,,,, NA
+    sleep 400
     if (!A_CaretX)
     {
         ControlClick, TEdit2, A,,,, NA
     }
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
+    sendKeyCombinationIndependentActiveModifiers("{space}{space}")
 }
 
 moveNoteWindowAndSetCursorEnd(direction)

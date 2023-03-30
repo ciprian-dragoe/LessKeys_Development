@@ -26,10 +26,10 @@ global MLO_ENTER_MODE_SET_JURNAL := 25
 global MLO_ENTER_MODE_SET_DEZVOLT_JURNAL := 26
 global INTREBARI_JURNAL := {}
 INTREBARI_JURNAL.NEVOIEǀACUMULAT := ["POT SA INGRIJESC PRIN: "]
-INTREBARI_JURNAL.CERǀAJUTOR := ["POT SA FAC CU CEEA CE AM: ", "DISTRAGE SA FAC ASTA: "]
+INTREBARI_JURNAL.CERǀAJUTOR := ["ACCEPT NU E IN CONTROLUL MEU: "]
 INTREBARI_JURNAL.DAUǀDRUMUL := ["DIRECTIE CRESC: "]
-INTREBARI_JURNAL.APRECIEZ := ["APRECIEZ IN ACEST MOMENT: ", "MA INCARCA SA FIU PREZENT: "]
-INTREBARI_JURNAL.FRICA := ["SEMNIFICATIE SUFERINTA: ", "SPRIJIN CU CEEA CE AM: "]
+INTREBARI_JURNAL.PUNǀLIMITA := ["CRESC SA: "]
+INTREBARI_JURNAL.CONTEAZAǀAZI := []
 
    
 
@@ -145,6 +145,12 @@ writeNextQuestion()
         showtooltip("INVALID JOURNAL TOPIC", 1000)
         return
     }
+    if (questions.length() = 0)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{escape}")
+        finishQuestions()
+        return
+    }
     if (INTREBARI_JURNAL_INDEX > questions.length())
     {
         INTREBARI_JURNAL_INDEX := 1
@@ -201,12 +207,7 @@ TimerGoToNextQuestion()
         }
         else
         {
-            sleep 1000
-            sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
-            sleep 150
-            currentTask := getCurrentTask()
-            resetMloEnterMode(0)
-            mloNewContextDependentSubTask(currentTask)
+            finishQuestions()
         }
         return
     }
@@ -308,4 +309,14 @@ definePartsDualJournal(currentTask)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE            
     }
+}
+
+finishQuestions()
+{
+    sleep 1000
+    sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
+    sleep 150
+    currentTask := getCurrentTask()
+    resetMloEnterMode(0)
+    mloNewContextDependentSubTask(currentTask)
 }

@@ -108,9 +108,8 @@ TimerSyncMloStep4_syncCalendar()
         debugMloSync("calendar-synced")
         return
     }
-    syncLog = %A_Hour%-%A_Min%-%A_Sec%-%A_MSec%-no-internet-no-calendar-sync`n
-    FileAppend, %syncLog%, %A_Desktop%\syncLog.txt
-    
+    message = %A_Hour%-%A_Min%-%A_Sec%-%A_MSec%-no-internet-no-calendar-sync`n
+    debugMloSync(message)    
 }
 
 resetTimerSyncMlo()

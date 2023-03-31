@@ -12,7 +12,8 @@ activateWin1()
     }
     if (WinExist("ahk_class " . MLO_DASHBOARD_CLASS_NAME))
     {
-        WinClose        
+        setLaptopDependentMloVariables()
+        WinClose
     }
     mloActive := WinActive(MLO_WINDOW_NAME)
     if (!mloActive)

@@ -59,7 +59,7 @@
         sendKeyCombinationIndependentActiveModifiers("^+{F" . index . "}")
         WinWaitActive, %MLO_WINDOW_JOURNAL_NAME%, ,3
         sleep 200
-        sendKeyCombinationIndependentActiveModifiers("{home}{down}")
+        sendKeyCombinationIndependentActiveModifiers("{home}")
         currentTask := getCurrentTask()
         if (inStr(currentTask, "<|>", true))
         {

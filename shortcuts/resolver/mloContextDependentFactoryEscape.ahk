@@ -81,15 +81,15 @@
             sleep 100
             DOUBLE_PRESS_KEY_ACTIVE := 0
             sleep 100
-            sendKeyCombinationIndependentActiveModifiers("{home}{down}")
+            sendKeyCombinationIndependentActiveModifiers("{home}")
             resetMloEnterMode()
             return
         }
         setTimer TimerDoubleKeyPressInterval, 600
         DOUBLE_PRESS_KEY_ACTIVE := 1
-        sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}{tab}")
+        sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}{home}{tab}")
         sleep 100
-        sendKeyCombinationIndependentActiveModifiers("{home}{down}")
+        sendKeyCombinationIndependentActiveModifiers("{home}")
         sleep 100
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }

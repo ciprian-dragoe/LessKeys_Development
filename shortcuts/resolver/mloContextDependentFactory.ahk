@@ -26,7 +26,7 @@ global MLO_ENTER_MODE_SET_JURNAL := 25
 global MLO_ENTER_MODE_SET_DEZVOLT_JURNAL := 26
 global INTREBARI_JURNAL := {}
 INTREBARI_JURNAL.NEVOIEǀACUMULAT := ["POT SA INGRIJESC PRIN: "]
-INTREBARI_JURNAL.CERǀAJUTOR := ["ACCEPT NU E IN CONTROLUL MEU: "]
+INTREBARI_JURNAL.CERǀAJUTOR := []
 INTREBARI_JURNAL.DAUǀDRUMUL := ["DIRECTIE CRESC: "]
 INTREBARI_JURNAL.PUNǀLIMITA := ["CRESC SA: "]
 INTREBARI_JURNAL.CONTEAZAǀAZI := []
@@ -298,10 +298,12 @@ lastJournalTask(lastTaskName)
 
 definePartsDualJournal(currentTask)
 {
-    if (StrLen(currentTask) = StrLen("<|>")+2)
+    if (inStr(currentTask, "<|> PARTE", true))
     {
         
-        sendKeyCombinationIndependentActiveModifiers("{F2}{right}")
+        sendKeyCombinationIndependentActiveModifiers("{F2}")
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("{end}^+{left 2}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_PARTI_DEFINESC
     }
     else

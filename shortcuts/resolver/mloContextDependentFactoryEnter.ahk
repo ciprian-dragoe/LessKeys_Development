@@ -13,7 +13,7 @@
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
         sleep 100
-        sendKeyCombinationIndependentActiveModifiers("{home}{down}")
+        sendKeyCombinationIndependentActiveModifiers("{home}")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ)
@@ -22,11 +22,11 @@
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE)
     {
-        continueJournalTask("_BUCLA>", "{END}{UP}")
+        continueJournalTask("_BUCLA>", "{END}")
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_CONTINUE)
     {
-        continueJournalTask("_DIALOG>", "{END}{UP}")
+        continueJournalTask("_DIALOG>", "{END}")
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DOUBLE_ESCAPE_GO_TO)
     {
@@ -65,11 +65,17 @@
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_PARTI_DEFINESC)
     {
-        sendKeyCombinationIndependentActiveModifiers("{ENTER}{TAB}")
-        sleep 200
-        sendKeyCombinationIndependentActiveModifiers("{home}{down}")
+        sendKeyCombinationIndependentActiveModifiers("{ENTER}")
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("{tab}")
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("{home}")
         sleep 200
         currentTask := getCurrentTask()
+        if (!currentTask)
+        {
+            currentTask := "<|> PARTE" ; strange bug in MLO where sometimes view is not changed
+        }
         if (inStr(currentTask, "<|>"))
         {
             mloNewContextDependentTask(currentTask)    

@@ -358,11 +358,11 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     }
     else if (number = 2 && modifiers = "^")
     {
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{DOWN}"]
+        extraInstructions := ["{home}", "{DOWN}"]
     }
     else if (number = 2 && modifiers = "^+")
     {
-        extraInstructions := ["{home}", "{DOWN}"]
+        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{DOWN}"]
     }
     else if (number = 5)
     {

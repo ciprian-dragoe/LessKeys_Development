@@ -77,19 +77,22 @@
         if (DOUBLE_PRESS_KEY_ACTIVE)
         {
             setTimer TimerDoubleKeyPressInterval, off
-            sendKeyCombinationIndependentActiveModifiers("{enter}{F5}{tab}")
-            sleep 100
             DOUBLE_PRESS_KEY_ACTIVE := 0
+            sendKeyCombinationIndependentActiveModifiers("{backspace}{enter}")
             sleep 100
-            sendKeyCombinationIndependentActiveModifiers("{home}")
+            sendKeyCombinationIndependentActiveModifiers("{tab}")
+            sleep 200
+            sendKeyCombinationIndependentActiveModifiers("{down}{home}{F5}")
             resetMloEnterMode()
             return
         }
         setTimer TimerDoubleKeyPressInterval, 600
         DOUBLE_PRESS_KEY_ACTIVE := 1
-        sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}{home}{tab}")
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
         sleep 100
-        sendKeyCombinationIndependentActiveModifiers("{home}")
+        sendKeyCombinationIndependentActiveModifiers("{backspace}{enter}{tab}")
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("{home}{F5}")
         sleep 100
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }

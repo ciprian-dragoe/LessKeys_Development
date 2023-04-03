@@ -303,7 +303,7 @@ definePartsDualJournal(currentTask)
         
         sendKeyCombinationIndependentActiveModifiers("{F2}")
         sleep 100
-        sendKeyCombinationIndependentActiveModifiers("{end}^+{left 2}")
+        sendKeyCombinationIndependentActiveModifiers("{end} ================================^{left 3} ================================^+{right 2}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_PARTI_DEFINESC
     }
     else

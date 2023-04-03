@@ -230,7 +230,7 @@ createJournalTask(template)
     sendKeyCombinationIndependentActiveModifiers("{DOWN}")
     sendKeyCombinationIndependentActiveModifiers("{F2}")
     sleep 50
-    sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . template . "{SPACE}")
+    sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . template . "{space}")
 }
 
 newPart(currentTask)

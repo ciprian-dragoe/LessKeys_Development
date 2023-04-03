@@ -87,12 +87,12 @@
     {
         INTREBARI_JURNAL_INDEX := 1
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL
-        createJournalTask("_DIALOG>")
+        createJournalTask("_DIALOG> =====================")
     }
     else if (inStr(currentTask, "<GANDURI_EXPLOREZ>", true))
     {
         INTREBARI_JURNAL_INDEX := 1
-        createJournalTask("_BUCLA>")
+        createJournalTask("_BUCLA> =====================")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ
     }
     else if (inStr(currentTask, "<NEW_TASK>", true))

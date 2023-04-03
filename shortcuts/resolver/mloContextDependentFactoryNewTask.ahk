@@ -12,7 +12,7 @@
     {
         INTREBARI_JURNAL_INDEX := 1
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL
-        createJournalTask("_DIALOG>")
+        createJournalTask("_DIALOG> =====================")
     }
     else if (inStr(currentTask, "<JURNAL_", true))
     {
@@ -41,7 +41,7 @@
         }
         sendKeyCombinationIndependentActiveModifiers("{F2}")
         sleep 50
-        sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . "_BUCLA>" . "{SPACE}")
+        sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . "_BUCLA> ====================={space}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE
     }
     else if (inStr(currentTask, "_DIALOG>", true))
@@ -62,7 +62,7 @@
         }
         sendKeyCombinationIndependentActiveModifiers("{F2}")
         sleep 50
-        sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . "_DIALOG>" . "{SPACE}")
+        sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . "_DIALOG> ====================={space}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_CONTINUE
     }
     else if (inStr(currentTask, "<|>", true))
@@ -76,7 +76,7 @@
     else if (inStr(currentTask, "<GANDURI_EXPLOREZ>", true))
     {
         INTREBARI_JURNAL_INDEX := 1
-        createJournalTask("_BUCLA>")
+        createJournalTask("_BUCLA> =====================")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ
     }
     else if (MLO_ENTER_MODE > 0)

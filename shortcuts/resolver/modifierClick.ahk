@@ -19,10 +19,6 @@ activateWin1()
     if (!mloActive)
     {
         setMloDarkMode(1)
-        sleep 50
-        setMloDarkMode(0)
-        sleep 50
-        setMloDarkMode(1)
     }
     else
     {

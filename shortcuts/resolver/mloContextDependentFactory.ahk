@@ -25,11 +25,11 @@ global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 40
 global MLO_ENTER_MODE_SET_JURNAL := 25
 global MLO_ENTER_MODE_SET_DEZVOLT_JURNAL := 26
 global INTREBARI_JURNAL := {}
-INTREBARI_JURNAL.NEVOIEǀACUMULAT := ["POT SA INGRIJESC PRIN: "]
+INTREBARI_JURNAL.NEVOIEǀACUMULAT := ["POT SA INGRIJESC CU CEEA CE AM: "]
 INTREBARI_JURNAL.CERǀAJUTOR := []
-INTREBARI_JURNAL.DAUǀDRUMUL := ["DIRECTIE CRESC: "]
-INTREBARI_JURNAL.PUNǀLIMITA := ["CRESC SA: "]
-INTREBARI_JURNAL.CONTEAZAǀAZI := []
+INTREBARI_JURNAL.DAUǀDRUMUL := ["CRESC SA: "]
+INTREBARI_JURNAL.SITUATIEǀCALCAǀLIMITA := ["E IN CONTROLUL MEU: "]
+INTREBARI_JURNAL.CONTEAZAǀAZI := ["CONTEXT IN CARE POT SA FAC ASTA: "]
 
    
 
@@ -197,7 +197,10 @@ TimerCopyMloTaskPhase3()
 TimerGoToNextQuestion()
 {
     setTimer TimerGoToNextQuestion, off
-    sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK . "{down}{F5}")
+    sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK)
+    sleep 100
+    sendKeyCombinationIndependentActiveModifiers("{down}{F5}")
+    sleep 600
     currentTask := getCurrentTask(300) 
     if (!inStr(currentTask, "<" . MLO_JOURNAL . ">", true))
     {

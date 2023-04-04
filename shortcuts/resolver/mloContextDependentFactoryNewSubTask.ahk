@@ -12,7 +12,6 @@
         nextTask := getCurrentTask()
         if (nextTask = currentTask)
         {
-            showtooltip("match")
             sleep 1000
         }
         mloNewContextDependentSubTask(nextTask)

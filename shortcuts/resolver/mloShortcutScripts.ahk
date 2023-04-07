@@ -353,7 +353,15 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         }
         else
         {
-            modifiers := "!^" ; view seara jurnal
+            setMloDarkMode(0)
+            setLaptopDependentMloVariables("dashboardActive")
+            sleep 200
+            setMloDarkMode(1)
+            sendKeyCombinationIndependentActiveModifiers("^+{F3}")
+            WinWaitActive, %MLO_WINDOW_PLAN_MORNING_NAME%, ,2
+            extraInstructions := ["{home}"]
+            modifiers := ""
+            number := ""
         }
     }
     else if (number = 2 && modifiers = "^")

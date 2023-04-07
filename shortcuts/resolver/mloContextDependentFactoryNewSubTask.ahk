@@ -16,23 +16,10 @@
         }
         mloNewContextDependentSubTask(nextTask)
     }
-    else if (inStr(currentTask, "<CER_AJUTOR_", true))
-    {
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DOUBLE_ESCAPE_GO_TO
-        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
-        newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-    }
     else if (inStr(currentTask, "<TOPIC_DELIMITER>", true))
     {
         mloAddJournalDelimiterSubTask()
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_OPEN_NOTES
-    }
-    else if (inStr(currentTask, "<NEW_TASK_DO_AFTER_", true))
-    {
-        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask, 1)
-        BUFFER := extractDestinationAfter(currentTask)
-        newBrainStormTask(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_CHANGE_VIEW
     }
     else if (inStr(currentTask, "_BUCLA>", true))
     {

@@ -28,29 +28,6 @@
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_DEZVOLT_JURNAL
         }
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DOUBLE_ESCAPE_GO_TO)
-    {
-        if (DOUBLE_PRESS_KEY_ACTIVE)
-        {
-            DOUBLE_PRESS_KEY_ACTIVE := 0
-            setTimer TimerDoubleKeyPressInterval, off
-            setTimer TimerGoToNextQuestion, off
-            sendKeyCombinationIndependentActiveModifiers("{ESCAPE}")
-            sleep 100
-            sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
-            sleep 300
-            resetMloEnterMode(0)
-            currentTask := getCurrentTask()
-            mloNewContextDependentSubTask(currentTask)
-        }
-        else
-        {
-            DOUBLE_PRESS_KEY_ACTIVE := 1
-            setTimer TimerDoubleKeyPressInterval, off
-            setTimer TimerDoubleKeyPressInterval, 800
-            sendKeyCombinationIndependentActiveModifiers("{ENTER}")
-        }
-    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DIALOG)
     {
         if (DOUBLE_PRESS_KEY_ACTIVE)
@@ -126,22 +103,6 @@
         {
             sendKeyCombinationIndependentActiveModifiers("{HOME}")
         }
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_CHANGE_VIEW)
-    {
-        sendKeyCombinationIndependentActiveModifiers("{ENTER}")
-        number := SubStr(TASK_GO_AFTER_TO, 0, 1)
-        modifiers := SubStr(TASK_GO_AFTER_TO, 1, StrLen(combination)-1)
-        resetMloEnterMode()
-        changeViewMloFactory(number, modifiers)
-        if (BUFFER)
-        {
-            sleep 800
-            sendKeyCombinationIndependentActiveModifiers(BUFFER)
-            sleep 200
-            currentTask := getCurrentTask()
-            mloNewContextDependentSubTask(currentTask)
-        }        
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_PARTE_INCARCA)
     {

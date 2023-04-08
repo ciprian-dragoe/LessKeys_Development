@@ -36,7 +36,7 @@ global MLO_KEYBOARD_SHORTCUT_NEXT_DAY_START_DATE := "^+/"
 
 
 
-setLaptopDependentMloVariables(isMloDashoardActive = 0)
+setLaptopDependentMloVariables(isMloDashboardActive = 0)
 {
     if (A_ComputerName = ACTIVE_COMPUTER_X230)
     {
@@ -45,19 +45,19 @@ setLaptopDependentMloVariables(isMloDashoardActive = 0)
     {
         MLO_POSITION_Y_RAPID_TASK_ENTRY := 70
         MLO_DARK_MODE_TOP_HEIGHT := 115
-        if (isMloDashoardActive)
+        if (isMloDashboardActive)
         {
             MLO_DARK_MODE_TOP_HEIGHT := 63
         }
         MLO_DARK_MODE_RIGHT_WIDTH := 45
         MLO_DARK_MODE_LEFT_WIDTH := 14
-        MLO_DARK_MODE_BOTTOM_HEIGHT := 124
+        MLO_DARK_MODE_BOTTOM_HEIGHT := 113
     }
     else if (A_ComputerName = ACTIVE_COMPUTER_X1_EXTREME)
     {
         MLO_POSITION_Y_RAPID_TASK_ENTRY := 111
         MLO_DARK_MODE_TOP_HEIGHT := 114
-        if (isMloDashoardActive)
+        if (isMloDashboardActive)
         {
             MLO_DARK_MODE_TOP_HEIGHT := 60
         }

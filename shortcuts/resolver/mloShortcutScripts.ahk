@@ -56,15 +56,20 @@ setLaptopDependentMloVariables(isMloDashboardActive = 0)
     else if (A_ComputerName = ACTIVE_COMPUTER_X1_EXTREME)
     {
         MLO_POSITION_Y_RAPID_TASK_ENTRY := 111
-        MLO_DARK_MODE_TOP_HEIGHT := 114
+        MLO_DARK_MODE_TOP_HEIGHT := 115
+        MLO_DARK_MODE_RIGHT_WIDTH := 73
+        
+        ;MLO_DARK_MODE_BOTTOM_HEIGHT := 208 ; when taskbar not hidden 4k
+        MLO_DARK_MODE_BOTTOM_HEIGHT := 72 ; when taskbar not hidden 2560
+        ;MLO_DARK_MODE_BOTTOM_HEIGHT := 100 ; when taskbar hidden
+        
+        MLO_DARK_MODE_LEFT_WIDTH := 13
+        
         if (isMloDashboardActive)
         {
-            MLO_DARK_MODE_TOP_HEIGHT := 60
+            MLO_DARK_MODE_TOP_HEIGHT := 62
+            MLO_DARK_MODE_BOTTOM_HEIGHT := 122 ; resolution 2560
         }
-        MLO_DARK_MODE_RIGHT_WIDTH := 73
-        MLO_DARK_MODE_BOTTOM_HEIGHT := 208 ; when taskbar not hidden
-        ;MLO_DARK_MODE_BOTTOM_HEIGHT := 100 ; when taskbar hidden
-        MLO_DARK_MODE_LEFT_WIDTH := 13
     }
 }
 

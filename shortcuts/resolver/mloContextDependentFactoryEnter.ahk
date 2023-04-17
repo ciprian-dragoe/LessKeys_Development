@@ -5,6 +5,14 @@
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
         sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ENTER_GO_AFTER)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
+        sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
+        sleep 400
+        currentTask := getCurrentTask()
+        mloNewContextDependentSubTask(currentTask)
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_DUAL)
     {
         continueJournalTask("_DIALOG> =====================")

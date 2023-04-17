@@ -8,6 +8,12 @@
         sendKeyCombinationIndependentActiveModifiers(focusArea . " ")
         return
     }
+    else if (inStr(currentTask, "<ENTER_GO_AFTER_", true))
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ENTER_GO_AFTER
+    }
     else if (inStr(currentTask, "<DIALOG_GANDURI>", true))
     {
         INTREBARI_JURNAL_INDEX := 1

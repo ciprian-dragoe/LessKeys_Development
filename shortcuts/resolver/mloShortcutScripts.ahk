@@ -8,6 +8,7 @@ global MLO_WINDOW_NAME := "MLO_"
 global MLO_WINDOW_TASK_NAME := "MLO_TASKS"
 global MLO_WINDOW_JOURNAL_NAME := "MLO_JURNAL"
 global MLO_WINDOW_PLAN_MORNING_NAME := "MLO_PLANIFIC_DIMINEATA"
+global MLO_WINDOW_PLAN_EVENING_NAME := "MLO_PLANIFIC_SEARA"
 global SHOULD_SYNC_AFTER_MLO_MINIMIZED := 0
 global MLO_DARK_MODE_TOP_HEIGHT := 0
 global MLO_DARK_MODE_BOTTOM_HEIGHT := 0
@@ -363,7 +364,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
             sleep 200
             setMloDarkMode(1)
             sendKeyCombinationIndependentActiveModifiers("^+{F3}")
-            WinWaitActive, %MLO_WINDOW_PLAN_MORNING_NAME%, ,8
+            WinWaitActive, %MLO_WINDOW_PLAN_EVENING_NAME%, ,8
             extraInstructions := ["{home}"]
             modifiers := ""
             number := ""

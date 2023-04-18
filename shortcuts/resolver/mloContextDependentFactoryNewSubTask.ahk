@@ -49,7 +49,8 @@
         setMloDarkMode(1)
         sleep 200
         sendKeyCombinationIndependentActiveModifiers("^+{F" . index . "}")
-        WinWaitActive, %MLO_WINDOW_JOURNAL_NAME%, ,3
+        WinWaitActive, %MLO_WINDOW_JOURNAL_NAME%, ,8
+        WinMaximize, %MLO_WINDOW_JOURNAL_NAME%
         sleep 200
         sendKeyCombinationIndependentActiveModifiers("{home}")
         currentTask := getCurrentTask()

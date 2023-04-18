@@ -46,13 +46,14 @@ setLaptopDependentMloVariables(isMloDashboardActive = 0)
     {
         MLO_POSITION_Y_RAPID_TASK_ENTRY := 70
         MLO_DARK_MODE_TOP_HEIGHT := 115
-        if (isMloDashboardActive)
-        {
-            MLO_DARK_MODE_TOP_HEIGHT := 63
-        }
         MLO_DARK_MODE_RIGHT_WIDTH := 45
         MLO_DARK_MODE_LEFT_WIDTH := 14
         MLO_DARK_MODE_BOTTOM_HEIGHT := 113
+        
+        if (isMloDashboardActive)
+        {
+            MLO_DARK_MODE_TOP_HEIGHT := 55
+        }
     }
     else if (A_ComputerName = ACTIVE_COMPUTER_X1_EXTREME)
     {
@@ -353,6 +354,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
             setMloDarkMode(1)
             sendKeyCombinationIndependentActiveModifiers("^+{F4}")
             WinWaitActive, %MLO_WINDOW_PLAN_MORNING_NAME%, ,8
+            WinMaximize, %MLO_WINDOW_PLAN_MORNING_NAME%
             extraInstructions := ["{home}", "^r"]
             modifiers := ""
             number := ""
@@ -365,6 +367,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
             setMloDarkMode(1)
             sendKeyCombinationIndependentActiveModifiers("^+{F3}")
             WinWaitActive, %MLO_WINDOW_PLAN_EVENING_NAME%, ,8
+            WinMaximize, %MLO_WINDOW_PLAN_EVENING_NAME%
             extraInstructions := ["{home}"]
             modifiers := ""
             number := ""

@@ -69,7 +69,7 @@ setLaptopDependentMloVariables(isMloDashboardActive = 0)
         
         if (isMloDashboardActive)
         {
-            MLO_DARK_MODE_TOP_HEIGHT := 62
+            MLO_DARK_MODE_TOP_HEIGHT := 56
             MLO_DARK_MODE_BOTTOM_HEIGHT := 122 ; resolution 2560
         }
     }

@@ -48,11 +48,12 @@ setLaptopDependentMloVariables(isMloDashboardActive = 0)
         MLO_DARK_MODE_TOP_HEIGHT := 115
         MLO_DARK_MODE_RIGHT_WIDTH := 45
         MLO_DARK_MODE_LEFT_WIDTH := 14
-        MLO_DARK_MODE_BOTTOM_HEIGHT := 113
+        MLO_DARK_MODE_BOTTOM_HEIGHT := 125
         
         if (isMloDashboardActive)
         {
             MLO_DARK_MODE_TOP_HEIGHT := 55
+            MLO_DARK_MODE_BOTTOM_HEIGHT := 113
         }
     }
     else if (A_ComputerName = ACTIVE_COMPUTER_X1_EXTREME)

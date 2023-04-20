@@ -30,7 +30,7 @@ INTREBARI_JURNAL.IMPACTᵒVIATA := ["POT SA SPRIJIN PRIN: "]
 INTREBARI_JURNAL.DAUᵒᵒDRUMUL := ["EFECT TERMEN LUNG CONTINUI IGNOR LIMITA: "]
 INTREBARI_JURNAL.DAUᵒDRUMUL := ["CRESC SA: "]
 INTREBARI_JURNAL.LIMITA := ["E IN CONTROLUL MEU: "]
-INTREBARI_JURNAL.ACTIUNIᵒSPRIJINA := ["MA DISTRAG PRIN: "]
+INTREBARI_JURNAL.ACTIUNIᵒSPRIJINA := []
 INTREBARI_JURNAL.SPATIUᵒINCARC := []
 INTREBARI_JURNAL.ASUMᵒAZI := ["SPATIU POT SA FAC ASTA AZI: "]
 
@@ -201,7 +201,7 @@ TimerGoToNextQuestion()
     sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK)
     sleep 100
     sendKeyCombinationIndependentActiveModifiers("{down}{F5}")
-    sleep 600
+    sleep 800
     currentTask := getCurrentTask(300) 
     if (!inStr(currentTask, "<" . MLO_JOURNAL . ">", true))
     {

@@ -26,6 +26,7 @@ global MLO_ENTER_MODE_SET_JURNAL := 80
 global MLO_ENTER_MODE_SET_DEZVOLT_JURNAL := 81
 global INTREBARI_JURNAL := {}
 INTREBARI_JURNAL.NEVOIEǀACUMULAT := []
+INTREBARI_JURNAL.PROVOACA := ["IMI SPORESC SUFERINTA PRIN: ", "CRESC SA: "]
 INTREBARI_JURNAL.IMPACTᵒVIATA := ["POT SA SPRIJIN PRIN: "]
 INTREBARI_JURNAL.DAUᵒᵒDRUMUL := ["EFECT TERMEN LUNG CONTINUI IGNOR LIMITA: "]
 INTREBARI_JURNAL.DAUᵒDRUMUL := ["CRESC SA: "]
@@ -304,7 +305,6 @@ definePartsDualJournal(currentTask)
 {
     if (inStr(currentTask, "<|> PARTE", true))
     {
-        
         sendKeyCombinationIndependentActiveModifiers("{F2}")
         sleep 100
         sendKeyCombinationIndependentActiveModifiers("{end}{space}==================^{left 3}=================={space}^+{right 2}+{left}")

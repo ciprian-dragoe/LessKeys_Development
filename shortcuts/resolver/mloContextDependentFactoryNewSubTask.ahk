@@ -72,9 +72,17 @@
     {
         newPart(currentTask)
     }
-    else if (inStr(currentTask, "<ESCAPE>", true))
+    else if (inStr(currentTask, "<CANCEL>", true))
     {
-        resetMloEnterMode()
+        if (MLO_ENTER_MODE > 0) 
+        {
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_CANCEL
+            resetMloEnterMode()    
+        }
+        else
+        {
+            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        }
     }
     else if (inStr(currentTask, "<DIALOG_GANDURI>", true))
     {

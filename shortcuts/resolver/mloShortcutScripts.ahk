@@ -63,7 +63,7 @@ setLaptopDependentMloVariables(isMloDashboardActive = 0)
         MLO_DARK_MODE_RIGHT_WIDTH := 73
         
         ;MLO_DARK_MODE_BOTTOM_HEIGHT := 208 ; when taskbar not hidden 4k
-        MLO_DARK_MODE_BOTTOM_HEIGHT := 72 ; when taskbar not hidden 2560
+        MLO_DARK_MODE_BOTTOM_HEIGHT := 123 ; when taskbar not hidden 2560
         ;MLO_DARK_MODE_BOTTOM_HEIGHT := 100 ; when taskbar hidden
         
         MLO_DARK_MODE_LEFT_WIDTH := 13

@@ -28,7 +28,7 @@ global MLO_ENTER_MODE_SET_DEZVOLT_JURNAL := 81
 global INTREBARI_JURNAL := {}
 INTREBARI_JURNAL.NEVOIEǀACUMULAT := []
 INTREBARI_JURNAL.CALCATᵒLIMITA := ["EFECT TERMEN LUNG CONTINUI ACEST DRUM: ", "CRESC SA: "]
-INTREBARI_JURNAL.NEVOIE := []
+INTREBARI_JURNAL.NEVOIE := ["POT SA INGRIJESC CU CEEA CE AM: "]
 INTREBARI_JURNAL.DAUᵒᵒDRUMUL := ["EFECT TERMEN LUNG CONTINUI IGNOR LIMITA: "]
 INTREBARI_JURNAL.DAUᵒDRUMUL := ["CRESC SA: "]
 INTREBARI_JURNAL.SUFERINTA := ["SPRIJIN REDUC DIN SUFERINTA: "]
@@ -325,5 +325,6 @@ finishQuestions()
     sleep 150
     currentTask := getCurrentTask()
     resetMloEnterMode(0)
+    MLO_ENTER_MODE := 99999 ; a value that for sure is not linked to task but might trigger a <CANCEL> action 
     mloNewContextDependentSubTask(currentTask)
 }

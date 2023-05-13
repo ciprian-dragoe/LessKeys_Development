@@ -12,6 +12,7 @@ global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 5
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER := 6
 global MLO_ENTER_MODE_SET_AS_ENTER_GO_AFTER := 7
 global MLO_ENTER_MODE_SET_AS_CANCEL := 8
+global MLO_ENTER_MODE_SET_SEND_KEYS := 9
 
 global MLO_ENTER_MODE_SET_AS_DIALOG := 50
 global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ := 51
@@ -324,4 +325,30 @@ finishQuestions()
     resetMloEnterMode(0)
     MLO_ENTER_MODE := 99999 ; a value that for sure is not linked to task but might trigger a <CANCEL> action 
     mloNewContextDependentSubTask(currentTask)
+}
+
+processKeysAfter(keys)
+{
+    keys := StrSplit(keys, "|")
+    for index, key in keys
+    {
+        index := keyboardShortcuts[key]
+        if (index)
+        {
+            processShortcut(index, combination)
+        }
+        else 
+        {
+            if (StrLen(key) > 1)
+            {
+                key := "{" . key . "}"
+            }
+            sendKeyCombinationIndependentActiveModifiers(key)
+        }
+        sleep 100
+    }
+    if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER)
+    {
+        resetMloEnterMode(0)    
+    }
 }

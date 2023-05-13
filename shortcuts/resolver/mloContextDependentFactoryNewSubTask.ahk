@@ -136,6 +136,12 @@
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
+    else if (inStr(currentTask, "<SEND_KEYS_", true))
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_SEND_KEYS
+        keys := extractDestinationAfter(currentTask)
+        processKeysAfter(keys)
+    }
     else if (inStr(currentTask, "<COPY_GO_AFTER", true))
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER

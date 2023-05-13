@@ -130,9 +130,9 @@
         {
             DOUBLE_PRESS_KEY_ACTIVE := 1
             setTimer TimerDoubleKeyPressInterval, off
-            setTimer TimerDoubleKeyPressInterval, 800
+            setTimer TimerDoubleKeyPressInterval, 900
             setTimer TimerGoToMloTask, off
-            setTimer TimerGoToMloTask, 600
+            setTimer TimerGoToMloTask, 800
             sendKeyCombinationIndependentActiveModifiers("{enter}{f5}{escape}")
         }
     }
@@ -142,28 +142,7 @@
         {
             sendKeyCombinationIndependentActiveModifiers("{enter}")
         }
-        keys := StrSplit(TASK_GO_AFTER_TO, "|")
-        for index, key in keys
-        {
-            index := keyboardShortcuts[key]
-            if (index)
-            {
-                processShortcut(index, combination)
-            }
-            else 
-            {
-                if (StrLen(key) > 1)
-                {
-                    key := "{" . key . "}"
-                }
-                sendKeyCombinationIndependentActiveModifiers(key)
-            }
-            sleep 100
-        }
-        if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER)
-        {
-            resetMloEnterMode(0)    
-        }
+        processKeysAfter(TASK_GO_AFTER_TO)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER)
     {

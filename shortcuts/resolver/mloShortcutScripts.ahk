@@ -369,7 +369,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
             sendKeyCombinationIndependentActiveModifiers("^+{F3}")
             WinWaitActive, %MLO_WINDOW_PLAN_EVENING_NAME%, ,8
             WinMaximize, %MLO_WINDOW_PLAN_EVENING_NAME%
-            extraInstructions := ["{home}"]
+            extraInstructions := ["{end}", "^r"] ; needs the new_sub_task shortcut set in the keyboard shortcuts
             modifiers := ""
             number := ""
         }

@@ -44,6 +44,8 @@ setLaptopDependentMloVariables(isMloDashboardActive = 0)
     }
     else if (A_ComputerName = ACTIVE_COMPUTER_X1_YOGA_G3)
     {
+        wobblyKeyTimeout := 300
+        
         MLO_POSITION_Y_RAPID_TASK_ENTRY := 70
         MLO_DARK_MODE_TOP_HEIGHT := 115
         MLO_DARK_MODE_RIGHT_WIDTH := 45

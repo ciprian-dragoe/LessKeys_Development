@@ -2,11 +2,13 @@
 {
     if (inStr(currentTask, "<GO_TO_", true))
     {
+        
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
         if (MLO_ENTER_MODE != 0)
         {
             sleep 1200
         }
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_GO_TO
         sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
         sleep 100
         nextTask := getCurrentTask()

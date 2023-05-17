@@ -24,55 +24,26 @@
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ENTER_GO_AFTER
     }
-    else if (inStr(currentTask, "<TOPIC_DELIMITER>", true))
-    {
-        mloAddJournalDelimiterSubTask()
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_OPEN_NOTES
-    }
     else if (inStr(currentTask, "_BUCLA>", true))
     {
+        StringGetPos, newLinePosition, currentTask, `r
+        topic := SubStr(currentTask, InStr(currentTask, "_BUCLA>") + 8, newLinePosition-9)
         currentTask := SubStr(currentTask, 1, InStr(currentTask, "_BUCLA>") + 7)
-        
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask, 1)
         INTREBARI_JURNAL_INDEX := 0
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_FIRST_LEVEL)
         sendKeyCombinationIndependentActiveModifiers("{DOWN}{F2}")
         sleep 150
-        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}CONFUZA^+{LEFT}")
+        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}" . topic . "{HOME}^{RIGHT 2}+{END}")
         INTREBARI_JURNAL_INDEX := 1
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE_INCARCA
     }
-    else if (inStr(currentTask, "_DIALOG>", true))
-    {
-        index := SubStr(currentTask, 1, 1) + 4
-        setMloDarkMode(0)
-        setLaptopDependentMloVariables("dashboardActive")
-        sleep 200
-        setMloDarkMode(1)
-        sleep 200
-        sendKeyCombinationIndependentActiveModifiers("^+{F" . index . "}")
-        WinWaitActive, %MLO_WINDOW_JOURNAL_NAME%, ,8
-        WinMaximize, %MLO_WINDOW_JOURNAL_NAME%
-        sleep 200
-        sendKeyCombinationIndependentActiveModifiers("{home}")
-        currentTask := getCurrentTask()
-        if (inStr(currentTask, "<|>", true))
-        {
-            definePartsDualJournal(currentTask)
-        }
-        else
-        {
-            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE
-        }
-    }
-    else if (inStr(currentTask, "<|>"))
-    {
-        definePartsDualJournal(currentTask)
-    }
     else if (inStr(currentTask, "<PARTE>", true))
     {
-        newPart(currentTask)
+        TASK_GO_AFTER_TO := SubStr(currentTask, 1, 1)
+        INTREBARI_JURNAL_INDEX := SubStr(currentTask, 2, 1)
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DIALOG
     }
     else if (inStr(currentTask, "<CANCEL>", true))
     {
@@ -86,16 +57,10 @@
             sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         }
     }
-    else if (inStr(currentTask, "<DIALOG_GANDURI>", true))
-    {
-        INTREBARI_JURNAL_INDEX := 1
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL
-        createJournalTask("_DIALOG> =====================")
-    }
     else if (inStr(currentTask, "<GANDURI_EXPLOREZ>", true))
     {
         INTREBARI_JURNAL_INDEX := 1
-        createJournalTask("_BUCLA> =====================")
+        createJournalTask("_BUCLA> ")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ
     }
     else if (inStr(currentTask, "<NEW_TASK>", true))

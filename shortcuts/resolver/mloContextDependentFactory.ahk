@@ -5,7 +5,6 @@
 
 global MLO_ENTER_MODE := 0
 global MLO_ENTER_MODE_SET_AS_NEW_TASK := 1
-global MLO_ENTER_MODE_SET_AS_OPEN_NOTES := 2
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER := 3
 global MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER := 4
 global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 5
@@ -17,13 +16,9 @@ global MLO_ENTER_MODE_SET_GO_TO := 10
 
 global MLO_ENTER_MODE_SET_AS_DIALOG := 50
 global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ := 51
-global MLO_ENTER_MODE_SET_AS_PARTE_INCARCA := 52
 global MLO_ENTER_MODE_SET_AS_PARTE_CONSUMA := 53
 global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE := 54
-global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL := 55
-global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_CONTINUE := 56
 global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE := 57
-global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_PARTI_DEFINESC := 58
 
 global MLO_ENTER_MODE_SET_JURNAL := 80
 global MLO_ENTER_MODE_SET_DEZVOLT_JURNAL := 81
@@ -238,14 +233,6 @@ createJournalTask(template)
     sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . template . "{space}")
 }
 
-newPart(currentTask)
-{
-    TASK_GO_AFTER_TO := SubStr(currentTask, 1, 1)
-    INTREBARI_JURNAL_INDEX := SubStr(currentTask, 2, 1)
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-    MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DIALOG
-}
-
 getCurrentTask(waitTimeAfterCopy = 200)
 {
     ; copy current task so that it can be parsed without loosing clipboard
@@ -298,22 +285,6 @@ lastJournalTask(lastTaskName)
         sendKeyCombinationIndependentActiveModifiers(lastTaskName)
         sleep 100
         sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
-    }
-}
-
-definePartsDualJournal(currentTask)
-{
-    if (inStr(currentTask, "<|> PARTE", true))
-    {
-        sendKeyCombinationIndependentActiveModifiers("{F2}")
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers("{end}{space}==================^{left 3}=================={space}^+{right 2}+{left}")
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_PARTI_DEFINESC
-    }
-    else
-    {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE            
     }
 }
 

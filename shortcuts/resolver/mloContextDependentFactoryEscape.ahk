@@ -71,37 +71,34 @@
         sleep 100
         sendKeyCombinationIndependentActiveModifiers("{home}{F5}")
         sleep 100
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ)
     {
-        lastJournalTask("l")
+        sendKeyCombinationIndependentActiveModifiers("{enter}")
         sleep 500
         sendKeyCombinationIndependentActiveModifiers("1")
         sleep 1000
-        mloNewContextDependentSubTask("1_BUCLA>")
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_DUAL || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_CONTINUE)
-    {
-        lastJournalTask("l")
-        resetMloEnterMode()
-        sleep 400
-        sendKeyCombinationIndependentActiveModifiers("{home}{end}")
+        currentTask := getCurrentTask()
+        mloNewContextDependentSubTask(currentTask)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE)
     {
-        lastJournalTask("{BackSpace}{BackSpace}{BackSpace}l{enter}")
+        sendKeyCombinationIndependentActiveModifiers("{enter}")
+        sleep 500
         
         if (PREVIOUS_TASK != INTREBARI_JURNAL_INDEX)
         {
             sleep 500
             sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK)
             sleep 1000
-            mloNewContextDependentSubTask("" . PREVIOUS_TASK . "_BUCLA>")
+            currentTask := getCurrentTask()
+            mloNewContextDependentSubTask(currentTask)
         }
         else
         {
-            sendKeyCombinationIndependentActiveModifiers("{HOME}")
+            sendKeyCombinationIndependentActiveModifiers("{END}")
+            resetMloEnterMode()    
         }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_PARTE_INCARCA)

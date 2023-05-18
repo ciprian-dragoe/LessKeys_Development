@@ -37,6 +37,17 @@
     }
     else if (inStr(currentTask, "<PARTE>", true))
     {
+        index := SubStr(currentTask, 1, 1) + 4
+        setMloDarkMode(0)
+        setLaptopDependentMloVariables("dashboardActive")
+        sleep 200
+        setMloDarkMode(1)
+        sleep 200
+        sendKeyCombinationIndependentActiveModifiers("^+{F" . index . "}")
+        WinWaitActive, %MLO_WINDOW_JOURNAL_NAME%, ,8
+        WinMaximize, %MLO_WINDOW_JOURNAL_NAME%
+        sleep 200
+        sendKeyCombinationIndependentActiveModifiers("{home}")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE
     }

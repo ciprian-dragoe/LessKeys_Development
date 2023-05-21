@@ -215,7 +215,10 @@ hideNotesAndFocusTasks()
 
 rapidTaskEntry()
 {
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_RAPID_TASK_ENTRY) ; shortcut MLO for rapid task entry
+    send {ctrl down}
+    setWinState(0)
+    send {ctrl up}
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_RAPID_TASK_ENTRY)
     SetTimer TimerActivateMloRapidTaskWindow, 100
 }
 

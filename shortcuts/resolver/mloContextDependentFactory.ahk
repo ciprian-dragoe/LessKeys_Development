@@ -13,13 +13,13 @@ global MLO_ENTER_MODE_SET_AS_ENTER_GO_AFTER := 7
 global MLO_ENTER_MODE_SET_AS_CANCEL := 8
 global MLO_ENTER_MODE_SET_SEND_KEYS := 9
 global MLO_ENTER_MODE_SET_GO_TO := 10
+global MLO_ENTER_MODE_SET_ENTER_ESCAPES_SENDS_KEYS := 11
 
 global MLO_ENTER_MODE_SET_AS_DIALOG := 50
 global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ := 51
 global MLO_ENTER_MODE_SET_AS_PARTE_CONSUMA := 53
 global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE := 54
 global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE := 57
-
 global MLO_ENTER_MODE_SET_JURNAL := 80
 global MLO_ENTER_MODE_SET_DEZVOLT_JURNAL := 81
 global INTREBARI_JURNAL := {}
@@ -36,6 +36,7 @@ global MLO_JOURNAL := ""
 global TASK_GO_AFTER_TO := ""
 global PREVIOUS_TASK := ""
 global BUFFER := ""
+global TIMEOUT_KEYS_TO_SEND := ""
 
 mloContextDependentKeyFactory(originalAction)
 {
@@ -89,7 +90,8 @@ resetMloEnterMode(alsoPressEscape = 1)
     MLO_ENTER_MODE := 0
     TASK_GO_AFTER_TO := ""
     INTREBARI_JURNAL_INDEX := 1
-    PREVIOUS_TASK := ""
+    PREVIOUS_TASK := "" 
+    setTimer TimerMloSendKeys, OFF
     if (alsoPressEscape)
     {
         send {blind}{escape}
@@ -102,13 +104,13 @@ newBrainStormTask(originalAction)
     sendKeyCombinationIndependentActiveModifiers(originalAction)
 }
 
-extractDestinationAfter(input, indexPositionFromRigth = 0)
+extractDestinationAfter(input, indexPositionFromRight = 0)
 {
     positionStart := InStr(input, "<") + 1
     positionEnd := InStr(input, ">")
     result := SubStr(input, positionStart, positionEnd - positionStart)
     splits := StrSplit(result, "_")
-    return splits[splits.Count() - indexPositionFromRigth]
+    return splits[splits.Count() - indexPositionFromRight]
 }
 
 mloAddJournalDelimiterSubTask()
@@ -308,7 +310,7 @@ processKeysAfter(keys)
         index := keyboardShortcuts[key]
         if (index)
         {
-            processShortcut(index, combination)
+            processShortcut(index, key)
         }
         else 
         {
@@ -322,6 +324,13 @@ processKeysAfter(keys)
     }
     if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER)
     {
-        resetMloEnterMode(0)    
+        resetMloEnterMode(0)
     }
+}
+
+timerMloSendKeys()
+{
+    setTimer TimerMloSendKeys, OFF
+    MLO_ENTER_MODE := MLO_ENTER_MODE_SET_ENTER_ESCAPES_SENDS_KEYS            
+    showtooltip("======== TIMER EXPIRED =========", 1500)
 }

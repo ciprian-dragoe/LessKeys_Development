@@ -94,6 +94,7 @@ processMloEnhancements()
     else if (SHOULD_SYNC_AFTER_MLO_MINIMIZED)
     {
         SHOULD_SYNC_AFTER_MLO_MINIMIZED := 0
+        setTimer TimerMloSendKeys, OFF
         setMloDarkMode(0)
         if (IS_CONDITION_FOR_MLO_SYNC_FULFILLED)
         {
@@ -116,6 +117,7 @@ changeViewMlo(viewCombination, extraInstructions)
     sendKeyCombinationIndependentActiveModifiers("^+!-") ; schimb workspace taskuri focus
     sleep 50
     sendKeyCombinationIndependentActiveModifiers(viewCombination)
+    sleep 400
     for index , instruction in extraInstructions
     {
         index := keyboardShortcuts[instruction]
@@ -351,6 +353,21 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
 ;   if (A_Hour > 19)
 ;   if (A_WDay = 1) ; sunday 
     if (number = 1 && modifiers = "^")
+    {
+        if (A_Hour < 20)
+        {
+            extraInstructions := ["{home}", "^r"] ; needs the new_sub_task shortcut set in the keyboard shortcuts
+            modifiers := "!+"
+            number := "1"
+        }
+        else
+        {
+            modifiers := "^!"
+            number := "1"
+            extraInstructions := ["{end}", "^r"] ; needs the new_sub_task shortcut set in the keyboard shortcuts
+        }
+    }
+    if (number = 6 && modifiers = "!+")
     {
         if (A_Hour < 20)
         {

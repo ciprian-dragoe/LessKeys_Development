@@ -1,6 +1,21 @@
 ﻿mloNewContextDependentSubTask(currentTask)
 {
-    if (inStr(currentTask, "<GO_TO_", true))
+    if (inStr(currentTask, "<TIMER_SEND_KEYS_", true))
+    {
+        timerTimeout := extractDestinationAfter(currentTask, 1) * 1000
+        TIMEOUT_KEYS_TO_SEND := extractDestinationAfter(currentTask)
+        SetTimer TimerMloSendKeys, %timerTimeout%
+        
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
+        sleep 150
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_TOGGLE_COLLAPSE_ALL_CHILDREN)
+        sleep 150
+        sendKeyCombinationIndependentActiveModifiers("{DOWN}")
+        sleep 300
+        currentTask := getCurrentTask()
+        mloNewContextDependentSubTask(currentTask)
+    }
+    else if (inStr(currentTask, "<GO_TO_", true))
     {
         
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)

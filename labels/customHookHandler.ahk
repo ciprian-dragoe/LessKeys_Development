@@ -81,3 +81,7 @@ return
 TimerSyncMloStep1_launchPing():
     TimerSyncMloStep1_launchPing()
 return
+
+TimerMloSendKeys():
+    timerMloSendKeys()
+return

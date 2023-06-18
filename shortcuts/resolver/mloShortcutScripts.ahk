@@ -128,7 +128,8 @@ changeViewMlo(viewCombination, extraInstructions)
         else 
         {
             sendKeyCombinationIndependentActiveModifiers(instruction)
-        } 
+        }
+        sleep 100
     }
 }
 
@@ -378,7 +379,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
             sendKeyCombinationIndependentActiveModifiers("^+{F4}")
             WinWaitActive, %MLO_WINDOW_PLAN_MORNING_NAME%, ,8
             WinMaximize, %MLO_WINDOW_PLAN_MORNING_NAME%
-            extraInstructions := ["+{TAB}", "109", "^r"]
+            extraInstructions := ["+{TAB}", "{end}", "{end}", "{home}", "^r"]
             modifiers := ""
             number := ""
         }

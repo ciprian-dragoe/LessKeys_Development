@@ -4,6 +4,7 @@
     {
         timerTimeout := extractDestinationAfter(currentTask, 1) * 1000
         TIMEOUT_KEYS_TO_SEND := extractDestinationAfter(currentTask)
+        SetTimer TimerMloSendKeys, OFF
         SetTimer TimerMloSendKeys, %timerTimeout%
         
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)

@@ -94,7 +94,6 @@ processMloEnhancements()
     else if (SHOULD_SYNC_AFTER_MLO_MINIMIZED)
     {
         SHOULD_SYNC_AFTER_MLO_MINIMIZED := 0
-        setTimer TimerMloSendKeys, OFF
         setMloDarkMode(0)
         if (IS_CONDITION_FOR_MLO_SYNC_FULFILLED)
         {
@@ -127,6 +126,7 @@ changeViewMlo(viewCombination, extraInstructions)
         }
         else 
         {
+            
             sendKeyCombinationIndependentActiveModifiers(instruction)
         }
         sleep 100
@@ -344,6 +344,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     sendKeyCombinationIndependentActiveModifiers("{escape}")
     extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
     resetMloEnterMode(0)
+    setTimer TimerMloSendKeys, OFF
     IS_DAY_SORTING_VIEW_ACTIVE := 0
     if (IS_SET_MLO_ORDER_ACTIVE)
     {
@@ -357,9 +358,16 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     {
         if (A_Hour < 20)
         {
-            extraInstructions := ["{home}", "^r"] ; needs the new_sub_task shortcut set in the keyboard shortcuts
-            modifiers := "!+"
-            number := "1"
+            setMloDarkMode(0)
+            setLaptopDependentMloVariables("dashboardActive")
+            sleep 200
+            setMloDarkMode(1)
+            sendKeyCombinationIndependentActiveModifiers("^+{F4}")
+            WinWaitActive, %MLO_WINDOW_PLAN_MORNING_NAME%, ,8
+            WinMaximize, %MLO_WINDOW_PLAN_MORNING_NAME%
+            extraInstructions := ["+{TAB}", "{end}", "{end}", "{home}", "^r"]
+            modifiers := ""
+            number := ""
         }
         else
         {
@@ -367,8 +375,8 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
             number := "1"
             extraInstructions := ["{end}", "^r"] ; needs the new_sub_task shortcut set in the keyboard shortcuts
         }
-    }
-    if (number = 6 && modifiers = "!+")
+    } 
+    else if (number = 6 && modifiers = "!+")
     {
         if (A_Hour < 20)
         {
@@ -392,11 +400,11 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     }
     else if (number = 2 && modifiers = "^")
     {
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{DOWN}"]
+        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{DOWN}", "{DOWN}"]
     }
     else if (number = 2 && modifiers = "^+")
     {
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{DOWN}"]
+        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{DOWN}", "{DOWN}"]
     }
     else if (number = 5)
     {

@@ -91,7 +91,6 @@ resetMloEnterMode(alsoPressEscape = 1)
     TASK_GO_AFTER_TO := ""
     INTREBARI_JURNAL_INDEX := 1
     PREVIOUS_TASK := "" 
-    setTimer TimerMloSendKeys, OFF
     if (alsoPressEscape)
     {
         send {blind}{escape}
@@ -332,5 +331,8 @@ timerMloSendKeys()
 {
     setTimer TimerMloSendKeys, OFF
     MLO_ENTER_MODE := MLO_ENTER_MODE_SET_ENTER_ESCAPES_SENDS_KEYS            
-    showtooltip("======== TIMER EXPIRED =========", 1500)
+    If (inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
+    {
+        showtooltip("======== TIMER EXPIRED =========", 1500)
+    }
 }

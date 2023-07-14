@@ -58,6 +58,9 @@ setLaptopDependentMloVariables(isMloDashboardActive = 0)
             MLO_DARK_MODE_BOTTOM_HEIGHT := 113
         }
     }
+    else if (A_ComputerName = ACTIVE_COMPUTER_IRIS_T15)
+    {
+    }
     else if (A_ComputerName = ACTIVE_COMPUTER_X1_EXTREME)
     {
         MLO_POSITION_Y_RAPID_TASK_ENTRY := 111

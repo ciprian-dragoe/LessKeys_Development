@@ -86,7 +86,7 @@ TimerSyncMloStep3_recheckInternet()
 {
     SetTimer TimerSyncMloStep3_recheckInternet, OFF
     Run,%comspec% /c ping -n 2 -w 200 bing.com > %A_Temp%\ping.log,,hide
-    if (A_ComputerName != ACTIVE_COMPUTER_X1_EXTREME)
+    if (A_ComputerName = ACTIVE_COMPUTER_IRIS_T15)
     {
         SetTimer TimerSyncMloStep4_syncCalendar, OFF
         SetTimer TimerSyncMloStep4_syncCalendar, 3000

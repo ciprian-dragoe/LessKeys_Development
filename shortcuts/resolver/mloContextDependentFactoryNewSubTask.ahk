@@ -47,7 +47,7 @@
         currentTask := SubStr(currentTask, 1, InStr(currentTask, "_BUCLA>") + 7)
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask, 1)
         INTREBARI_JURNAL_INDEX := 0
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_FIRST_LEVEL)
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1)
         sendKeyCombinationIndependentActiveModifiers("{DOWN}{F2}")
         sleep 150
         sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}" . topic . "{HOME}^{RIGHT 2}+{END}")

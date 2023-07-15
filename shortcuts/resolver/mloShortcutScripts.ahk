@@ -28,7 +28,8 @@ global MLO_KEYBOARD_SHORTCUT_FOLDER := "^+a"
 global MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_EXCEPT_SELECTION := "^+{F12}"
 global MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS := "^o"
 global MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS := "^+o"
-global MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_FIRST_LEVEL := "^+;"
+global MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1 := "^+;"
+global MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_2 := "^+'"
 global MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_TOGGLE_COLLAPSE_ALL_CHILDREN := "!q"
 global MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING := "^;" 
 global MLO_KEYBOARD_SHORTCUT_RAPID_TASK_ENTRY := "^+!m"
@@ -361,16 +362,21 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     {
         if (A_Hour < 20)
         {
-            setMloDarkMode(0)
-            setLaptopDependentMloVariables("dashboardActive")
-            sleep 200
-            setMloDarkMode(1)
-            sendKeyCombinationIndependentActiveModifiers("^+{F4}")
-            WinWaitActive, %MLO_WINDOW_PLAN_MORNING_NAME%, ,8
-            WinMaximize, %MLO_WINDOW_PLAN_MORNING_NAME%
-            extraInstructions := ["+{TAB}", "{end}", "{end}", "{home}", "^r"]
-            modifiers := ""
-            number := ""
+            ;setMloDarkMode(0)
+            ;send %MLO_KEYBOARD_SHORTCUT_MLO_SYNC%
+            ;setLaptopDependentMloVariables("dashboardActive")
+            ;sleep 200
+            ;setMloDarkMode(1)
+            ;sendKeyCombinationIndependentActiveModifiers("^+{F4}")
+            ;WinWaitActive, %MLO_WINDOW_PLAN_MORNING_NAME%, ,8
+            ;WinMaximize, %MLO_WINDOW_PLAN_MORNING_NAME%
+            ;extraInstructions := ["+{TAB}", "{end}", "{end}", "{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
+            ;modifiers := ""
+            ;number := ""
+            
+            number := 1
+            modifiers := "^+"
+            extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING, MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
         }
         else
         {
@@ -379,27 +385,9 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
             extraInstructions := ["{end}", "^r"] ; needs the new_sub_task shortcut set in the keyboard shortcuts
         }
     } 
-    else if (number = 6 && modifiers = "!+")
+    else if (number = 1 && modifiers = "^+")
     {
-        if (A_Hour < 20)
-        {
-            setMloDarkMode(0)
-            setLaptopDependentMloVariables("dashboardActive")
-            sleep 200
-            setMloDarkMode(1)
-            sendKeyCombinationIndependentActiveModifiers("^+{F4}")
-            WinWaitActive, %MLO_WINDOW_PLAN_MORNING_NAME%, ,8
-            WinMaximize, %MLO_WINDOW_PLAN_MORNING_NAME%
-            extraInstructions := ["+{TAB}", "{end}", "{end}", "{home}", "^r"]
-            modifiers := ""
-            number := ""
-        }
-        else
-        {
-            modifiers := "!^"
-            number := "1"
-            extraInstructions := ["{end}", "^r"] ; needs the new_sub_task shortcut set in the keyboard shortcuts
-        }
+        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING, MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
     }
     else if (number = 2 && modifiers = "^")
     {
@@ -408,6 +396,10 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     else if (number = 2 && modifiers = "^+")
     {
         extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{DOWN}", "{DOWN}"]
+    }
+    else if (number = 3 && modifiers = "^")
+    {
+        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", "^a", MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1, "{end}"]
     }
     else if (number = 5)
     {

@@ -16,7 +16,7 @@ global MLO_DARK_MODE_RIGHT_WIDTH := 0
 global MLO_DARK_MODE_LEFT_WIDTH := 0
 global MLO_LAST_TIME_SYNC := 0
 global MLO_POSITION_Y_RAPID_TASK_ENTRY := 0
-global IS_DAY_SORTING_VIEW_ACTIVE := 0
+global IS_SORTING_VIEW_ACTIVE := 0
 global IS_SET_MLO_ORDER_ACTIVE := 0
 
 global MLO_KEYBOARD_SHORTCUT_MLO_SYNC := "^{F9}"
@@ -130,8 +130,15 @@ changeViewMlo(viewCombination, extraInstructions)
         }
         else 
         {
-            
-            sendKeyCombinationIndependentActiveModifiers(instruction)
+            If InStr(instruction, "sleep")
+            {
+                time := StrSplit(instruction, "_")[2]
+                sleep %time%
+            }
+            else
+            {
+                sendKeyCombinationIndependentActiveModifiers(instruction)
+            }
         }
         sleep 100
     }
@@ -349,7 +356,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
     resetMloEnterMode(0)
     setTimer TimerMloSendKeys, OFF
-    IS_DAY_SORTING_VIEW_ACTIVE := 0
+    IS_SORTING_VIEW_ACTIVE := 0
     if (IS_SET_MLO_ORDER_ACTIVE)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING)
@@ -376,7 +383,8 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
             
             number := 1
             modifiers := "^+"
-            extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING, MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
+            IS_SORTING_VIEW_ACTIVE := 1
+            extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
         }
         else
         {
@@ -387,7 +395,8 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     } 
     else if (number = 1 && modifiers = "^+")
     {
-        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING, MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
+        IS_SORTING_VIEW_ACTIVE := 1
+        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
     }
     else if (number = 2 && modifiers = "^")
     {

@@ -53,7 +53,7 @@ processEnter()
 
 processAltShiftDirection(combination, index)
 {
-    if (IS_DAY_SORTING_VIEW_ACTIVE)
+    if (IS_SORTING_VIEW_ACTIVE)
     {
         IS_SET_MLO_ORDER_ACTIVE := 1
     }

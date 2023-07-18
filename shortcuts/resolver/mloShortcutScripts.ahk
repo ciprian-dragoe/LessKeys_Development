@@ -367,48 +367,24 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
 ;   if (A_WDay = 1) ; sunday 
     if (number = 1 && modifiers = "^")
     {
-        if (A_Hour < 20)
-        {
-            ;setMloDarkMode(0)
-            ;send %MLO_KEYBOARD_SHORTCUT_MLO_SYNC%
-            ;setLaptopDependentMloVariables("dashboardActive")
-            ;sleep 200
-            ;setMloDarkMode(1)
-            ;sendKeyCombinationIndependentActiveModifiers("^+{F4}")
-            ;WinWaitActive, %MLO_WINDOW_PLAN_MORNING_NAME%, ,8
-            ;WinMaximize, %MLO_WINDOW_PLAN_MORNING_NAME%
-            ;extraInstructions := ["+{TAB}", "{end}", "{end}", "{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
-            ;modifiers := ""
-            ;number := ""
-            
-            number := 1
-            modifiers := "^+"
-            IS_SORTING_VIEW_ACTIVE := 1
-            extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
-        }
-        else
-        {
-            modifiers := "^!"
-            number := "1"
-            extraInstructions := ["{end}", "^r"] ; needs the new_sub_task shortcut set in the keyboard shortcuts
-        }
+        extraInstructions := ["{home}", "^r"] ; new task
     } 
     else if (number = 1 && modifiers = "^+")
+    {
+        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", "{down}", "{down}"]
+    }
+    else if (number = 2 && modifiers = "^")
+    {
+        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", "^a", MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1, "{end}"]
+    }
+    else if (number = 2 && modifiers = "^+")
     {
         IS_SORTING_VIEW_ACTIVE := 1
         extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
     }
-    else if (number = 2 && modifiers = "^")
+    else if (number = 2 && modifiers = "!^")
     {
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{DOWN}", "{DOWN}"]
-    }
-    else if (number = 2 && modifiers = "^+")
-    {
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{DOWN}", "{DOWN}"]
-    }
-    else if (number = 3 && modifiers = "^")
-    {
-        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", "^a", MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1, "{end}"]
+        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}"]
     }
     else if (number = 5)
     {

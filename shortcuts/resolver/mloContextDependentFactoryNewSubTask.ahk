@@ -3,7 +3,15 @@
     if (inStr(currentTask, "<TIMER_SEND_KEYS_", true))
     {
         timerTimeout := extractDestinationAfter(currentTask, 1) * 1000
-        TIMEOUT_KEYS_TO_SEND := extractDestinationAfter(currentTask)
+        if timerTimeout is not Number
+        {
+            timerTimeout := extractDestinationAfter(currentTask) * 1000
+            TIMEOUT_KEYS_TO_SEND := 0
+        }
+        else
+        {
+            TIMEOUT_KEYS_TO_SEND := extractDestinationAfter(currentTask)
+        }
         SetTimer TimerMloSendKeys, OFF
         SetTimer TimerMloSendKeys, %timerTimeout%
         
@@ -24,7 +32,7 @@
         {
             sleep 1200
         }
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_GO_TO
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_GO_TO
         sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
         sleep 100
         nextTask := getCurrentTask()
@@ -105,7 +113,7 @@
         
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)    
         sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")    
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_JURNAL
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL
     }
     else if (inStr(currentTask, "<NEW_TASK_GO_AFTER", true))
     {
@@ -121,7 +129,7 @@
     }
     else if (inStr(currentTask, "<SEND_KEYS_", true))
     {
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_SEND_KEYS
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_SEND_KEYS
         keys := extractDestinationAfter(currentTask)
         processKeysAfter(keys)
     }

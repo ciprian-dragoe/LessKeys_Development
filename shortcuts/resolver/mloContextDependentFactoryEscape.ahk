@@ -5,13 +5,13 @@
         send {blind}{enter}{escape}
         MLO_ENTER_MODE := 0
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_ENTER_ESCAPES_SENDS_KEYS)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ENTER_AND_ESCAPE_SENDS_KEYS)
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}")
         sendKeyCombinationIndependentActiveModifiers("{escape}")
         processKeysAfter(TIMEOUT_KEYS_TO_SEND)
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_JURNAL || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_DEZVOLT_JURNAL)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DEZVOLT_JURNAL)
     {
         if (DOUBLE_PRESS_KEY_ACTIVE)
         {
@@ -31,7 +31,7 @@
             setTimer TimerGoToNextQuestion, off
             setTimer TimerGoToNextQuestion, 600
             sendKeyCombinationIndependentActiveModifiers("{ENTER}")
-            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_DEZVOLT_JURNAL
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DEZVOLT_JURNAL
         }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DIALOG)

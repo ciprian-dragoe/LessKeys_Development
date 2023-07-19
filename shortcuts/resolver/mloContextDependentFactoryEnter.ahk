@@ -1,11 +1,11 @@
 ﻿mloContextDependentEnter()
 {
-    if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_JURNAL)
+    if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
         sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_ENTER_ESCAPES_SENDS_KEYS)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ENTER_AND_ESCAPE_SENDS_KEYS)
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}")
         processKeysAfter(TIMEOUT_KEYS_TO_SEND)
@@ -37,7 +37,7 @@
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_DEZVOLT_JURNAL)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DEZVOLT_JURNAL)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
         writeNextQuestion()

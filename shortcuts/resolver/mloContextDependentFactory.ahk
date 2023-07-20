@@ -15,6 +15,7 @@ global MLO_ENTER_MODE_SET_AS_SEND_KEYS := 9
 global MLO_ENTER_MODE_SET_AS_GO_TO := 10
 global MLO_ENTER_MODE_SET_AS_ENTER_AND_ESCAPE_SENDS_KEYS := 11 ; todo determine if it makes sense to remain otherwise remove
 global MLO_ENTER_MODE_SET_AS_TIMER_SEND_KEYS := 12 ; only for documentation, not used as variable
+global MLO_ENTER_MODE_SET_AS_COPY_TEMPLATE := 13
 
 global MLO_ENTER_MODE_SET_AS_DIALOG := 50
 global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ := 51
@@ -347,4 +348,40 @@ timerMloSendKeys()
     {
         showtooltip("======== TIMER EXPIRED =========", 1500)
     }
+}
+
+duplicateCurrentTask(keyAfter = "")
+{
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
+    sleep 100
+    sendKeyCombinationIndependentActiveModifiers("{F2}")
+    sleep 100
+    sendKeyCombinationIndependentActiveModifiers("{delete}")
+    if (keyAfter)
+    {
+        sendKeyCombinationIndependentActiveModifiers(keyAfter)
+    }
+}
+
+startTimerSendKeys(currentTask)
+{
+    timerTimeout := extractDestinationAfter(currentTask, 1) * 1000
+    if timerTimeout is not Number
+    {
+        timerTimeout := extractDestinationAfter(currentTask) * 1000
+        TIMEOUT_KEYS_TO_SEND := 0
+    }
+    else
+    {
+        TIMEOUT_KEYS_TO_SEND := extractDestinationAfter(currentTask)
+    }
+    SetTimer TimerMloSendKeys, OFF
+    SetTimer TimerMloSendKeys, %timerTimeout%
+    
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
+    sleep 150
+    sendKeyCombinationIndependentActiveModifiers("{DOWN}")
+    sleep 300
+    currentTask := getCurrentTask()
+    mloNewContextDependentSubTask(currentTask)
 }

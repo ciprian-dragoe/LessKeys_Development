@@ -380,7 +380,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     else if (number = 2 && modifiers = "^+")
     {
         IS_SORTING_VIEW_ACTIVE := 1
-        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
+        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "0", "+{end}", MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1, "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
     }
     else if (number = 2 && modifiers = "!^")
     {

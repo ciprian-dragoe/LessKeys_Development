@@ -55,6 +55,13 @@
         
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_COPY_TEMPLATE)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{enter}")
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
+        resetMloEnterMode()
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE)
     {
         if (DOUBLE_PRESS_KEY_ACTIVE)

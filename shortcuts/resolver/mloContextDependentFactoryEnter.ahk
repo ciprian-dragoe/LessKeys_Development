@@ -18,6 +18,10 @@
         currentTask := getCurrentTask()
         mloNewContextDependentSubTask(currentTask)
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_COPY_TEMPLATE)
+    {
+        duplicateCurrentTask()
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE)
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")

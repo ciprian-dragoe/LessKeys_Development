@@ -8,6 +8,20 @@
         sendKeyCombinationIndependentActiveModifiers(focusArea . " ")
         return
     }
+    else if (inStr(currentTask, "<TIMER_SEND_KEYS_", true))
+    {
+        startTimerSendKeys(currentTask)
+    }
+    else if (inStr(currentTask, "<COPY_TEMPLATE", true))
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_COPY_TEMPLATE
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_FOLDER)
+        sendKeyCombinationIndependentActiveModifiers("{F2}")
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("{delete}")
+    }
     else if (inStr(currentTask, "<ENTER_GO_AFTER_", true))
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)

@@ -16,6 +16,9 @@ global MLO_ENTER_MODE_SET_AS_GO_TO := 10
 global MLO_ENTER_MODE_SET_AS_ENTER_AND_ESCAPE_SENDS_KEYS := 11 ; todo determine if it makes sense to remain otherwise remove
 global MLO_ENTER_MODE_SET_AS_TIMER_SEND_KEYS := 12 ; only for documentation, not used as variable
 global MLO_ENTER_MODE_SET_AS_COPY_TEMPLATE := 13
+global MLO_ENTER_MODE_SET_AS_FOCUS_AREA := 14
+global FOCUS_AREA := ""
+global MLO_ENTER_MODE_SET_AS_JURNAL_FOCUS_66 := 15
 
 global MLO_ENTER_MODE_SET_AS_DIALOG := 50
 global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ := 51
@@ -25,6 +28,7 @@ global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE := 57
 global MLO_ENTER_MODE_SET_AS_JURNAL := 80
 global MLO_ENTER_MODE_SET_AS_DEZVOLT_JURNAL := 81
 global INTREBARI_JURNAL := {}
+INTREBARI_JURNAL.FOCUS_AREA_66 := ["SEMNIFICATIE: ", "EFECT TERMEN LUNG CONTINUI: ", "IMPACAT ACTIONEZ: "]
 INTREBARI_JURNAL.I := ["SEMNIFICATIE: "]
 INTREBARI_JURNAL.LIMITA := ["E IN CONTROLUL MEU: "]
 INTREBARI_JURNAL.DISTRAGE := ["E IN CONTROLUL MEU: "]
@@ -242,7 +246,10 @@ getCurrentTask(waitTimeAfterCopy = 200)
     ; copy current task so that it can be parsed without loosing clipboard
     temp := Clipboard
     sendKeyCombinationIndependentActiveModifiers("^c")
-    sleep %waitTimeAfterCopy% ; wait for the os to register the command, smaller time causes mlo process errors
+    if (waitTimeAfterCopy)
+    {
+        sleep %waitTimeAfterCopy% ; wait for the os to register the command, smaller time causes mlo process errors
+    }
     currentTask := Clipboard
     debug("=== getCurrentTask: " . currentTask)
     Clipboard := temp

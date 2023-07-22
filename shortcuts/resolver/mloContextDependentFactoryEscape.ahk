@@ -127,6 +127,37 @@
         sendKeyCombinationIndependentActiveModifiers("{ENTER}")
         resetMloEnterMode()   
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_FOCUS_AREA)
+    {
+        sendKeyCombinationIndependentActiveModifiers("^a")
+        currentTask := getCurrentTask()
+        if (strLen(currentTask) = 3)
+        {
+            sendKeyCombinationIndependentActiveModifiers("{escape}") 
+        }
+        else
+        {
+            sendKeyCombinationIndependentActiveModifiers("{ENTER}")
+        }
+        resetMloEnterMode()   
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_FOCUS_66)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}")
+        sleep 400
+        sendKeyCombinationIndependentActiveModifiers("{end}")
+        
+        /*
+        currentTask := getCurrentTask()
+        area := getFocusArea(currentTask)
+        if (area = "66")
+        {
+            mloNewContextDependentSubTask(currentTask)
+            return
+        }
+        */
+        resetMloEnterMode()
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER)
     {
         if (DOUBLE_PRESS_KEY_ACTIVE)

@@ -367,7 +367,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
 ;   if (A_WDay = 1) ; sunday 
     if (number = 1 && modifiers = "^")
     {
-        extraInstructions := ["{home}", "^r"] ; new task
+        extraInstructions := ["{end}"]
     } 
     else if (number = 1 && modifiers = "^+")
     {

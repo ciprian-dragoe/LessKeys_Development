@@ -22,6 +22,12 @@
     {
         duplicateCurrentTask()
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_FOCUS_AREA)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers(FOCUS_AREA . " ")
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE)
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
@@ -36,6 +42,28 @@
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE)
     {
         continueJournalTask("_BUCLA>", "{END}")
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_FOCUS_66)
+    {
+        questions := INTREBARI_JURNAL[MLO_JOURNAL]
+        if (INTREBARI_JURNAL_INDEX > questions.length())
+        {
+            INTREBARI_JURNAL_INDEX := 1
+            sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
+            sleep 400
+            sendKeyCombinationIndependentActiveModifiers("{end}")
+            resetMloEnterMode(0)
+            currentTask := getCurrentTask()
+            focusArea := getFocusArea(currentTask)
+            if (focusArea = "66")
+            {
+                mloNewContextDependentSubTask(currentTask)
+            }
+            return
+        }
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        sendKeyCombinationIndependentActiveModifiers(questions[INTREBARI_JURNAL_INDEX])
+        INTREBARI_JURNAL_INDEX += 1
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER)
     {

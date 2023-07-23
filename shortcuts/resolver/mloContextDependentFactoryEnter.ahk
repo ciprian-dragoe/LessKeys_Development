@@ -43,7 +43,7 @@
     {
         continueJournalTask("_BUCLA>", "{END}")
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_FOCUS_66)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_FOCUS)
     {
         questions := INTREBARI_JURNAL[MLO_JOURNAL]
         if (INTREBARI_JURNAL_INDEX > questions.length())

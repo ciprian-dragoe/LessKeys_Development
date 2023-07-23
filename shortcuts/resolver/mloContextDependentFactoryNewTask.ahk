@@ -14,10 +14,6 @@
     }
     else if (inStr(currentTask, "<TIMER_SEND_KEYS_", true))
     {
-        startTimerSendKeys(currentTask, MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-    }
-    else if (inStr(currentTask, "<TIMER_NEXT_SEND_KEYS_", true))
-    {
         startTimerSendKeys(currentTask, MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
     else if (inStr(currentTask, "<COPY_TEMPLATE", true))

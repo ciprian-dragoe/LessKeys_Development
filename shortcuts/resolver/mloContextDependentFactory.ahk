@@ -28,7 +28,7 @@ global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE := 57
 global MLO_ENTER_MODE_SET_AS_JURNAL := 80
 global MLO_ENTER_MODE_SET_AS_DEZVOLT_JURNAL := 81
 global INTREBARI_JURNAL := {}
-INTREBARI_JURNAL.FOCUS_AREA_66 := ["SEMNIFICATIE: ", "EFECT TERMEN LUNG CONTINUI: ", "IMPACAT ACTIONEZ: "]
+INTREBARI_JURNAL.FOCUS_AREA_66 := ["SEMNIFICATIE: ", "EFECT TERMEN LUNG CONTINUI: ", "MA SIMT IMPACAT SA ACTIONEZ: ", "MA SPRIJINA SA FAC ASTA: "]
 INTREBARI_JURNAL.I := ["SEMNIFICATIE: "]
 INTREBARI_JURNAL.LIMITA := ["E IN CONTROLUL MEU: "]
 INTREBARI_JURNAL.DISTRAGE := ["E IN CONTROLUL MEU: "]
@@ -359,8 +359,11 @@ timerMloSendKeys()
 
 duplicateCurrentTask(keyAfter = "")
 {
+    sendKeyCombinationIndependentActiveModifiers("{enter}{end}{F5}")
+    sleep 400
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
     sleep 100
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_FOLDER)
     sendKeyCombinationIndependentActiveModifiers("{F2}")
     sleep 100
     sendKeyCombinationIndependentActiveModifiers("{delete}")
@@ -370,7 +373,7 @@ duplicateCurrentTask(keyAfter = "")
     }
 }
 
-startTimerSendKeys(currentTask)
+startTimerSendKeys(currentTask, nextTaskMode)
 {
     timerTimeout := extractDestinationAfter(currentTask, 1) * 1000
     if timerTimeout is not Number
@@ -390,5 +393,12 @@ startTimerSendKeys(currentTask)
     sendKeyCombinationIndependentActiveModifiers("{DOWN}")
     sleep 300
     currentTask := getCurrentTask()
-    mloNewContextDependentSubTask(currentTask)
+    if (nextTaskMode = MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    {
+        mloNewContextDependentSubTask(currentTask)
+    }
+    else
+    {
+        mloNewContextDependentTask(currentTask)
+    }
 }

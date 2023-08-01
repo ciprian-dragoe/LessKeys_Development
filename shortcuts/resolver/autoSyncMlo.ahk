@@ -88,7 +88,7 @@ TimerSyncMloStep3_recheckInternet()
     Run,%comspec% /c ping -n 2 -w 200 bing.com > %A_Temp%\ping.log,,hide
     workComp := A_ComputerName = ACTIVE_COMPUTER_IRIS_T15 && (A_WDay = 2 || A_WDay = 3 || A_WDay = 4 || A_WDay = 5 || A_WDay = 6) && (A_Hour >= 9 && A_Hour < 18)
     personalComp := A_ComputerName = ACTIVE_COMPUTER_X1_EXTREME && ((A_WDay = 1 || A_WDay = 2 || A_WDay = 3 || A_WDay = 4 || A_WDay = 5) && (A_Hour < 9 || A_Hour >= 18) || (A_WDay = 7 || A_WDay = 1))
-    if (personalComp)
+    if (workComp)
     {
         SetTimer TimerSyncMloStep4_syncCalendar, OFF
         SetTimer TimerSyncMloStep4_syncCalendar, 3000

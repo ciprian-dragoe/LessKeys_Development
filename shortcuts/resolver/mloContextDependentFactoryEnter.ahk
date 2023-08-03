@@ -55,7 +55,7 @@
             resetMloEnterMode(0)
             currentTask := getCurrentTask()
             focusArea := getFocusArea(currentTask)
-            if (focusArea = "66")
+            if (focusArea = "66" && !inStr(currentTask, "<CANCEL>"))
             {
                 mloNewContextDependentSubTask(currentTask)
             }

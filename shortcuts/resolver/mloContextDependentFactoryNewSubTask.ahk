@@ -1,18 +1,6 @@
 ﻿mloNewContextDependentSubTask(currentTask)
 {
-    focusArea := getFocusArea(currentTask)
-    if (INTREBARI_JURNAL["FOCUS_AREA_" . focusArea])
-    {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-        INTREBARI_JURNAL_INDEX := 1
-        MLO_JOURNAL := "FOCUS_AREA_" . focusArea
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_FOCUS
-        questions := INTREBARI_JURNAL[MLO_JOURNAL]
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers(questions[INTREBARI_JURNAL_INDEX])
-        INTREBARI_JURNAL_INDEX += 1
-    }
-    else if (inStr(currentTask, "<TIMER_SEND_KEYS_", true))
+    if (inStr(currentTask, "<TIMER_SEND_KEYS_", true))
     {
         startTimerSendKeys(currentTask, MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }

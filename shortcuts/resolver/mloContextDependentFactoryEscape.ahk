@@ -11,7 +11,7 @@
         sendKeyCombinationIndependentActiveModifiers("{escape}")
         processKeysAfter(TIMEOUT_KEYS_TO_SEND)
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DEZVOLT_JURNAL)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DEZVOLT_JURNAL || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_1JURNAL)
     {
         if (DOUBLE_PRESS_KEY_ACTIVE)
         {

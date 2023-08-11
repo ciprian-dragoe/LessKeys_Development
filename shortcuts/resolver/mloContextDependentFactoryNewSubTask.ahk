@@ -84,26 +84,12 @@
     }
     else if (inStr(currentTask, "<JURNAL_", true))
     {
-        positionStart := InStr(currentTask, "<") + 1
-        positionEnd := InStr(currentTask, ">")
-        result := SubStr(currentTask, positionStart, positionEnd - positionStart)
-        splits := StrSplit(result, "_")
-        if (splits.Count() = 4)
-        {
-            MLO_JOURNAL := extractDestinationAfter(currentTask, 2)
-            PREVIOUS_TASK := extractDestinationAfter(currentTask, 1)
-            TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)    
-        }
-        else
-        {
-            MLO_JOURNAL := extractDestinationAfter(currentTask, 1)
-            PREVIOUS_TASK := extractDestinationAfter(currentTask)
-            TASK_GO_AFTER_TO := "{DOWN}"
-        }
-        
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)    
-        sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")    
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL
+        startJurnalMode(currentTask)
+    }
+    else if (inStr(currentTask, "<1JURNAL_", true))
+    {
+        startJurnalMode(currentTask)
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_1JURNAL
     }
     else if (inStr(currentTask, "<NEW_TASK_GO_AFTER", true))
     {

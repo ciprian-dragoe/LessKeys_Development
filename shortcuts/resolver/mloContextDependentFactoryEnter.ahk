@@ -5,6 +5,10 @@
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
         sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_1JURNAL)
+    {
+        mloNewContextDependentEscape()
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ENTER_AND_ESCAPE_SENDS_KEYS)
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}")

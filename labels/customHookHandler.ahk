@@ -58,10 +58,6 @@ TimerCancelTooltip:
     timerCancelTooltip()
 return
 
-TimerActivateSleepOnLidClose_step1():
-    timerActivateSleepOnLidClose_step1()
-return
-
 TimerActivateSleepOnLidClose_step2():
     timerActivateSleepOnLidClose_step2()
 return
@@ -84,4 +80,8 @@ return
 
 TimerMloSendKeys():
     timerMloSendKeys()
+return
+
+TimerProcessLidCloseEnhancements():
+    TimerProcessLidCloseEnhancements()
 return

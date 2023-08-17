@@ -3,57 +3,35 @@
 
 
 global LAPTOP_LID_STATE := "opened"
-global HAS_LAPTOP_STARTED_ENTERING_SLEEP := 0
-global LAST_LAPTOP_LID_CLOSE_TIME := 0
-
 hookId := Start_LidWatcher()
+SetTimer, TimerProcessLidCloseEnhancements, 20000 ; 20s - longer then the time required to finish the sleep enter process
+
 LidStateChange(newstate) ; opened / closed
 {
     LAPTOP_LID_STATE := newstate
 }
 
-proceLidCloseEnhancements()
+TimerProcessLidCloseEnhancements()
 {
+    SetTimer, timerActivateSleepOnLidClose_step2, off
+    SetTimer, timerActivateSleepOnLidClose_step3, off
+    SetTimer, timerActivateSleepOnLidClose_step4, off
+    SetTimer, timerActivateSleepOnLidClose_step5, off
     if (LAPTOP_LID_STATE = "closed")
     {
-        debugMloSync("proceLidCloseEnhancements HAS_LAPTOP_STARTED_ENTERING_SLEEP=" . HAS_LAPTOP_STARTED_ENTERING_SLEEP)
-        if (!HAS_LAPTOP_STARTED_ENTERING_SLEEP)
-        {
-            SetTimer, timerActivateSleepOnLidClose_step1, off
-            SetTimer, timerActivateSleepOnLidClose_step2, off
-            SetTimer, timerActivateSleepOnLidClose_step3, off
-            SetTimer, timerActivateSleepOnLidClose_step4, off
-            SetTimer, timerActivateSleepOnLidClose_step5, off
-            SetTimer, timerActivateSleepOnLidClose_step1, 10000 ; 10s
-            LAST_LAPTOP_LID_CLOSE_TIME := A_TickCount
-            HAS_LAPTOP_STARTED_ENTERING_SLEEP := 1
-        }
+        writeNowLogFile("TimerProcessLidCloseEnhancements")
+        SetTimer, timerActivateSleepOnLidClose_step2, 5000 ; 5s - because the computer might not enter sleep instantly when the lid is closed 
     }
-    else
-    {
-        HAS_LAPTOP_STARTED_ENTERING_SLEEP := 0
-    }
-}
-
-timerActivateSleepOnLidClose_step1()
-{
-    SetTimer, timerActivateSleepOnLidClose_step1, off
-    debugMloSync("timerActivateSleepOnLidClose_step1 A_TickCount - LAST_LAPTOP_LID_CLOSE_TIME=" . A_TickCount - LAST_LAPTOP_LID_CLOSE_TIME . " LAPTOP_LID_STATE=" . LAPTOP_LID_STATE)
-    if (LAPTOP_LID_STATE != "closed" || A_TickCount - LAST_LAPTOP_LID_CLOSE_TIME > 15000)
-        return
-    send #d ; show desktop
-    SetTimer, timerActivateSleepOnLidClose_step2, off
-    SetTimer, timerActivateSleepOnLidClose_step2, 1000
 }
 
 timerActivateSleepOnLidClose_step2()
 {
     SetTimer, timerActivateSleepOnLidClose_step2, off
-    debugMloSync("timerActivateSleepOnLidClose_step2 LAPTOP_LID_STATE=" . LAPTOP_LID_STATE)
+    writeNowLogFile("timerActivateSleepOnLidClose_step2")
     if (LAPTOP_LID_STATE != "closed")
         return
     
-    send {escape} ; cancel any other focus
+    send {escape 2} ; cancel any other focus
     SetTimer, timerActivateSleepOnLidClose_step3, off
     SetTimer, timerActivateSleepOnLidClose_step3, 1000
 }
@@ -61,7 +39,7 @@ timerActivateSleepOnLidClose_step2()
 timerActivateSleepOnLidClose_step3()
 {
     SetTimer, timerActivateSleepOnLidClose_step3, off
-    debugMloSync("timerActivateSleepOnLidClose_step3 LAPTOP_LID_STATE=" . LAPTOP_LID_STATE)
+    writeNowLogFile("timerActivateSleepOnLidClose_step3")
     if (LAPTOP_LID_STATE != "closed")
         return
     
@@ -73,22 +51,31 @@ timerActivateSleepOnLidClose_step3()
 timerActivateSleepOnLidClose_step4()
 {
     SetTimer, timerActivateSleepOnLidClose_step4, off
-    debugMloSync("timerActivateSleepOnLidClose_step4 LAPTOP_LID_STATE=" . LAPTOP_LID_STATE)
+    writeNowLogFile("timerActivateSleepOnLidClose_step4")
     if (LAPTOP_LID_STATE != "closed")
         return
     
     ; power menu shutdown & sleep
-    sendInput u
+    send {up 2}{right}
     SetTimer, timerActivateSleepOnLidClose_step5, 1000
 }
 
 timerActivateSleepOnLidClose_step5()
 {
     SetTimer, timerActivateSleepOnLidClose_step5, off
-    debugMloSync("timerActivateSleepOnLidClose_step5 LAPTOP_LID_STATE=" . LAPTOP_LID_STATE)
+    writeNowLogFile("timerActivateSleepOnLidClose_step5")
     if (LAPTOP_LID_STATE != "closed")
         return
     
     ; enter sleep
-    send {raw}s
+    if (A_ComputerName = ACTIVE_COMPUTER_IRIS_T15)
+    {
+        send {down 2} ; hibernate
+    }
+    else
+    {
+        send {down 2} ; sleep
+    }
+    sleep 100
+    send {enter}
 }

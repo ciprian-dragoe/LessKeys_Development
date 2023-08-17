@@ -4,28 +4,33 @@ global INTERNET_ACCESS := 1
 timerCancelTooltip()
 {
     tooltip
+    SetTimer TimerCancelTooltip, OFF
 }
 
-debugMloSync(label)
+writeNowLogFile(label)
 {
     syncLog = %A_Hour%-%A_Min%-%A_Sec%-%A_MSec%-%label%`n
-    FileAppend, %syncLog%, D:\syncLog.txt
+    if (A_ComputerName = ACTIVE_COMPUTER_IRIS_T15)
+    {
+        FileAppend, %syncLog%, c:\Users\ciprian.dragoe\Desktop\syncLog.txt
+    }
+    else
+    {
+        FileAppend, %syncLog%, d:\syncLog.txt
+    }
 }
 
 timerCheckReminder()
 {
     SetTimer TimerCheckReminder, OFF
-    debugMloSync("timerCheckReminder")
     DetectHiddenWindows Off
     if (WinExist("MyLifeOrganized - Reminders"))
     {
-        debugMloSync("timerCheckReminder - reminder window on")
         SetTimer TimerSyncMloStep1_launchPing, 10000
         SetTimer TimerCheckAfterSyncReminders, 30000
     }
     else
     {
-        debugMloSync("timerCheckReminder - reminder window off")
         SetTimer TimerCheckReminder, %TimeoutCheckReminder%
     }    
 }
@@ -47,7 +52,6 @@ timerCheckAfterSyncReminders()
 TimerSyncMloStep1_launchPing()
 {    
     resetTimerSyncMlo()
-    debugMloSync("ping-started")
     Run,%comspec% /c ping -n 2 -w 200 bing.com > %A_Temp%\ping.log,,hide
     SetTimer TimerSyncMloStep2_readPing, OFF
     SetTimer TimerSyncMloStep2_readPing, 3000
@@ -64,20 +68,17 @@ timerSyncMloStep2_readPing()
     {
         IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
         {
-            debugMloSync("mlo-forground-not-task-sync")
             return
         }
         
         INTERNET_ACCESS := 1
         ControlSend, , %MLO_KEYBOARD_SHORTCUT_MLO_SYNC%, ahk_class %MLO_CLASS_NAME%
-        debugMloSync("tasks-synced")
         SetTimer TimerSyncMloStep3_recheckInternet, OFF
         SetTimer TimerSyncMloStep3_recheckInternet, 15000
     }
     else
     {
         INTERNET_ACCESS := 0
-        debugMloSync("no-internet-no-task-sync")
         ControlSend, , ^s, ahk_class %MLO_CLASS_NAME%
     }
 }
@@ -106,15 +107,11 @@ TimerSyncMloStep4_syncCalendar()
     {
         IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
         {
-            debugMloSync("mlo-forground-not-calendar-sync")
             return
         }
         ControlSend, , %MLO_KEYBOARD_SHORTCUT_SYNC_MLO_CALENDAR%, ahk_class %MLO_CLASS_NAME%
-        debugMloSync("calendar-synced")
         return
     }
-    message = %A_Hour%-%A_Min%-%A_Sec%-%A_MSec%-no-internet-no-calendar-sync`n
-    debugMloSync(message)    
 }
 
 resetTimerSyncMlo()

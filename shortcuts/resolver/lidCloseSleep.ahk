@@ -74,7 +74,7 @@ timerActivateSleepOnLidClose_step5()
     }
     else
     {
-        send {down 2} ; sleep
+        send {down} ; sleep
     }
     sleep 100
     send {enter}

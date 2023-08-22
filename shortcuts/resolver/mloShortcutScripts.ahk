@@ -103,7 +103,7 @@ processMloEnhancements()
     }
     else if (SHOULD_SYNC_AFTER_MLO_MINIMIZED)
     {
-        SHOULD_SYNC_AFTER_MLO_MI NIMIZED := 0
+        SHOULD_SYNC_AFTER_MLO_MINIMIZED := 0
         setMloDarkMode(0)
         if (IS_CONDITION_FOR_MLO_SYNC_FULFILLED)
         {

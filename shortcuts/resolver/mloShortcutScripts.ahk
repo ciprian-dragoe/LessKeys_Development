@@ -1,7 +1,7 @@
 global MLO_LAST_VIEW := ""
 global MLO_CLASS_NAME := "TfrmMyLifeMain"
 global MLO_DASHBOARD_CLASS_NAME := "TfrmMLODashboard"
-global MLO_TASK_WINDOWS_NAME :="TVirtualStringTree4_"
+global MLO_TASK_WINDOWS_NAME :="TVirtualStringTree5_"
 global MLO_FILTER_WINDOWS_NAME :="TEdit2_"
 global MLO_NAME := "MyLifeOrganized"
 global MLO_WINDOW_NAME := "MLO_"
@@ -144,6 +144,10 @@ changeViewMlo(viewCombination, extraInstructions)
 
 mloCloseFind()
 {
+    if (!isTaskWindowInFocus())
+    {
+        hideNotesAndFocusTasks()
+    }
     sendKeyCombinationIndependentActiveModifiers("^+!-") ; schimb workspace taskuri focus
 }
 
@@ -359,6 +363,11 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING)
         IS_SET_MLO_ORDER_ACTIVE := 0
+    }
+    
+    if (!isTaskWindowInFocus())
+    {
+        hideNotesAndFocusTasks()
     }
 
 ;   if (A_Hour > 19)

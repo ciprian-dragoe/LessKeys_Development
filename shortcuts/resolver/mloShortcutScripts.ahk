@@ -1,7 +1,8 @@
 global MLO_LAST_VIEW := ""
 global MLO_CLASS_NAME := "TfrmMyLifeMain"
 global MLO_DASHBOARD_CLASS_NAME := "TfrmMLODashboard"
-global MLO_TASK_WINDOWS_NAME :="TVirtualStringTree5_"
+global MLO_NOTES_CLASS_NAME := "TMyRichEdit1"
+global MLO_TASK_WINDOWS_NAME :="TVirtualStringTree5"
 global MLO_FILTER_WINDOWS_NAME :="TEdit2_"
 global MLO_NAME := "MyLifeOrganized"
 global MLO_WINDOW_NAME := "MLO_"
@@ -15,7 +16,7 @@ global MLO_DARK_MODE_BOTTOM_HEIGHT := 0
 global MLO_DARK_MODE_RIGHT_WIDTH := 0
 global MLO_DARK_MODE_LEFT_WIDTH := 0
 global MLO_LAST_TIME_SYNC := 0
-global MLO_POSITION_Y_RAPID_TASK_ENTRY := 0
+global MLO_POSITION_Y_RAPID_TASK_ENTRY := 0 
 global IS_SORTING_VIEW_ACTIVE := 0
 global IS_SET_MLO_ORDER_ACTIVE := 0
 
@@ -150,7 +151,7 @@ changeViewMlo(viewCombination, extraInstructions)
 
 mloCloseFind()
 {
-    if (!isTaskWindowInFocus())
+    if (isNotesWindowInFocus())
     {
         hideNotesAndFocusTasks()
     }
@@ -200,11 +201,25 @@ hideShowMLOnotes()
     }
 }
 
+isNotesWindowInFocus()
+{
+    ControlGetFocus, activeWindowNow, A
+    activeWindowNow := activeWindowNow . "_"  ; transform into a string so that comparison can work
+    IfInString, activeWindowNow, %MLO_NOTES_CLASS_NAME%
+    {
+        return 1
+    }
+    else
+    {
+        return 0
+    }
+}
+
 isTaskWindowInFocus()
 {
     ControlGetFocus, activeWindowNow, A
     activeWindowNow := activeWindowNow . "_"  ; transform into a string so that comparison can work
-    IfInString, MLO_TASK_WINDOWS_NAME, %activeWindowNow%
+    IfInString, activeWindowNow, %MLO_TASK_WINDOWS_NAME%
     {
         return 1
     }
@@ -371,7 +386,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         IS_SET_MLO_ORDER_ACTIVE := 0
     }
     
-    if (!isTaskWindowInFocus())
+    if (isNotesWindowInFocus())
     {
         hideNotesAndFocusTasks()
     }

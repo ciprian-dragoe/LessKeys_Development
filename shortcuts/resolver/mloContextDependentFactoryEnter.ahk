@@ -85,11 +85,10 @@
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_PARTE_INCARCA)
     {
         sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}")
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
         sleep 150
-        sendKeyCombinationIndependentActiveModifiers("{DOWN}{F2}")
+        sendKeyCombinationIndependentActiveModifiers("{DOWN}{F2}{home}")
         sleep 150
-        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE} PARINTE  MA  INTELEGE  ASCULTA  SPRIJINA  SI  IUBESTE" . "{HOME}^{RIGHT 2}+{END}")
+        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}{SPACE}" . "{HOME}^{RIGHT 2}+{END}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE_CONSUMA
         INTREBARI_JURNAL_INDEX := 1
     }

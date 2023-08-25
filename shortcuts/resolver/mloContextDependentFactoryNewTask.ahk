@@ -38,7 +38,7 @@
         PREVIOUS_TASK := INTREBARI_JURNAL_INDEX
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
         sleep 100
-        sendKeyCombinationIndependentActiveModifiers("{HOME}{DOWN}")
+        sendKeyCombinationIndependentActiveModifiers("{HOME}{DOWN 2}")
         sleep 100
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
         sleep 100

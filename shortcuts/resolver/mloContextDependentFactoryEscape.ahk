@@ -26,6 +26,7 @@
         else
         {
             DOUBLE_PRESS_KEY_ACTIVE := 1
+            INTREBARI_JURNAL_INDEX := 1
             setTimer TimerDoubleKeyPressInterval, off
             setTimer TimerDoubleKeyPressInterval, 800
             setTimer TimerGoToNextQuestion, off

@@ -162,17 +162,30 @@ mloShowFind()
 {
     sendKeyCombinationIndependentActiveModifiers("^+!=") ; schimb workspace all tasks
     sendKeyCombinationIndependentActiveModifiers("^+=") ; schimb view search
-    sleep 1000
-    sendKeyCombinationIndependentActiveModifiers("^+l") ; clear previous filter
-    sleep 500
-    ControlClick, TEdit1, A,,,, NA
     sleep 400
-    if (!A_CaretX)
+    sendKeyCombinationIndependentActiveModifiers("^+l") ; clear previous filter
+    loop 6
     {
-        ControlClick, TEdit2, A,,,, NA
+        sleep 100
+        if (!A_CaretX)
+        {
+            if (mod(%A_Index%, 2) = 0)
+            {
+                ControlClick, TEdit2, A,,,, NA
+            }
+            else
+            {
+                ControlClick, TEdit1, A,,,, NA
+            }
+        }
+        else
+        {
+            break
+        }
     }
+    
+    sendKeyCombinationIndependentActiveModifiers("{space 4}^a")
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
-    sendKeyCombinationIndependentActiveModifiers("{space}{space}")
 }
 
 moveNoteWindowAndSetCursorEnd(direction)

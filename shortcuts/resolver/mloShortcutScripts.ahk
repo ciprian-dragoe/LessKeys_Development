@@ -2,7 +2,7 @@ global MLO_LAST_VIEW := ""
 global MLO_CLASS_NAME := "TfrmMyLifeMain"
 global MLO_DASHBOARD_CLASS_NAME := "TfrmMLODashboard"
 global MLO_NOTES_CLASS_NAME := "TMyRichEdit1"
-global MLO_TASK_WINDOWS_NAME :="TVirtualStringTree5"
+global MLO_TASK_WINDOWS_NAME :="TVirtualStringTree"
 global MLO_FILTER_WINDOWS_NAME :="TEdit2_"
 global MLO_NAME := "MyLifeOrganized"
 global MLO_WINDOW_NAME := "MLO_"
@@ -231,8 +231,7 @@ isNotesWindowInFocus()
 isTaskWindowInFocus()
 {
     ControlGetFocus, activeWindowNow, A
-    activeWindowNow := activeWindowNow . "_"  ; transform into a string so that comparison can work
-    IfInString, activeWindowNow, %MLO_TASK_WINDOWS_NAME%
+    if (inStr(activeWindowNow, MLO_TASK_WINDOWS_NAME)) 
     {
         return 1
     }

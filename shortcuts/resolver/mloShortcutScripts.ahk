@@ -164,26 +164,9 @@ mloShowFind()
     sendKeyCombinationIndependentActiveModifiers("^+=") ; schimb view search
     sleep 400
     sendKeyCombinationIndependentActiveModifiers("^+l") ; clear previous filter
-    loop 6
-    {
-        sleep 100
-        if (!A_CaretX)
-        {
-            if (mod(%A_Index%, 2) = 0)
-            {
-                ControlClick, TEdit2, A,,,, NA
-            }
-            else
-            {
-                ControlClick, TEdit1, A,,,, NA
-            }
-        }
-        else
-        {
-            break
-        }
-    }
-    
+    sleep 100
+    sendKeyCombinationIndependentActiveModifiers("{tab}") ; select search filter
+    sleep 100
     sendKeyCombinationIndependentActiveModifiers("{space 4}^a")
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
 }

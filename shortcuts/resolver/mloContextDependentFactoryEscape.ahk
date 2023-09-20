@@ -35,6 +35,23 @@
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DEZVOLT_JURNAL
         }
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_COMPLETE_PREVIOUS)
+    {
+        if (DOUBLE_PRESS_KEY_ACTIVE)
+        {
+            DOUBLE_PRESS_KEY_ACTIVE := 0
+            setTimer TimerDoubleKeyPressInterval, off
+            setTimer TimerCompletePrevious, off
+            resetMloEnterMode(0)
+        }
+        else
+        {
+            DOUBLE_PRESS_KEY_ACTIVE := 1
+            setTimer TimerDoubleKeyPressInterval, 800
+            setTimer TimerCompletePrevious, 600
+            sendKeyCombinationIndependentActiveModifiers("{ENTER}")
+        }
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DIALOG)
     {
         if (DOUBLE_PRESS_KEY_ACTIVE)

@@ -47,7 +47,11 @@ TimerCheckReminder:
 return
 
 TimerDoubleKeyPressInterval:
-    TimerDoubleKeyPressInterval()
+    timerDoubleKeyPressInterval()
+return
+
+TimerCompletePrevious:
+    timerCompletePrevious()
 return
 
 TimerActivateMloRapidTaskWindow:

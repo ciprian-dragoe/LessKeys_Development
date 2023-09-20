@@ -5,6 +5,7 @@
 
 global MLO_ENTER_MODE := 0
 global MLO_ENTER_MODE_SET_AS_NEW_TASK := 1
+
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER := 3
 global MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER := 4
 global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 5
@@ -19,6 +20,8 @@ global MLO_ENTER_MODE_SET_AS_COPY_TEMPLATE := 13
 global MLO_ENTER_MODE_SET_AS_FOCUS_AREA := 14
 global FOCUS_AREA := ""
 global MLO_ENTER_MODE_SET_AS_JURNAL_FOCUS := 15
+global MLO_ENTER_MODE_SET_AS_NEW_TASK_COMPLETE_PREVIOUS := 16
+global NUMBER_TASKS_COMPLETE := 0
 
 global MLO_ENTER_MODE_SET_AS_DIALOG := 50
 global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ := 51
@@ -428,4 +431,21 @@ startJurnalMode(currentTask)
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)    
     sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")    
     MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL
+}
+
+timerCompletePrevious() 
+{
+    setTimer TimerCompletePrevious, OFF
+    if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_COMPLETE_PREVIOUS)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
+        Loop %NUMBER_TASKS_COMPLETE%,
+        {
+            sendKeyCombinationIndependentActiveModifiers("{home}")
+            sleep 150
+            sendKeyCombinationIndependentActiveModifiers("{space}")
+            sleep 150
+        }
+        resetMloEnterMode(0)
+    }
 }

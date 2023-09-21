@@ -1,5 +1,6 @@
 ﻿mloNewContextDependentTask(currentTask = "")
 {
+    focusArea := getFocusArea(currentTask)
     if (inStr(currentTask, "<TIMER_SEND_KEYS_", true))
     {
         startTimerSendKeys(currentTask, MLO_KEYBOARD_SHORTCUT_NEW_TASK)
@@ -66,6 +67,17 @@
     else if (MLO_ENTER_MODE > 0)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    }
+    else if (focusArea)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers(focusArea . " ")
+        if (focusArea = "66")
+        {
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_FOCUS_AREA
+            FOCUS_AREA := focusArea
+        }
     }
     else
     {

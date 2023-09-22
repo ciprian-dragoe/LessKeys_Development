@@ -12,6 +12,7 @@ writeNowLogFile(label)
     syncLog = %A_Hour%-%A_Min%-%A_Sec%-%A_MSec%-%label%`n
     if (A_ComputerName = ACTIVE_COMPUTER_IRIS_T15)
     {
+        return
         FileAppend, %syncLog%, c:\Users\ciprian.dragoe\Desktop\syncLog.txt
     }
     else

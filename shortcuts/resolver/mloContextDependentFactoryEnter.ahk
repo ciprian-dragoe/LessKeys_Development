@@ -114,6 +114,10 @@
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER)
     {
         if (DOUBLE_PRESS_KEY_ACTIVE)
@@ -134,6 +138,29 @@
             setTimer TimerDoubleKeyPressInterval, off
             setTimer TimerDoubleKeyPressInterval, 1000
             TimerCopyMloTaskPhase1()
+        }
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN_ACTIVE)
+    {
+        questions := INTREBARI_JURNAL["JURNAL_REVIN"]
+        if (INTREBARI_JURNAL_INDEX > questions.length())
+        {
+            sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
+            sleep 150
+            sendKeyCombinationIndependentActiveModifiers("{end}")
+            sleep 150
+            currentTask := getCurrentTask()
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_REVIN
+            if (!inStr(currentTask, "==="))
+            {
+                mloNewContextDependentSubTask("")
+            }
+        }
+        else
+        {
+            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+            sendKeyCombinationIndependentActiveModifiers(questions[INTREBARI_JURNAL_INDEX])
+            INTREBARI_JURNAL_INDEX += 1
         }
     }
     else

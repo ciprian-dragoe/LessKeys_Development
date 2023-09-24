@@ -390,9 +390,13 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
 ;   if (A_WDay = 1) ; sunday 
     if (number = 1 && modifiers = "^")
     {
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_REVIN
+        extraInstructions := ["{end}"]
+    }
+    if (number = 1 && modifiers = "^+")
+    {
     } 
-    else if (number = 1 && modifiers = "^+")
+    else if (number = 1 && modifiers = "!^")
     {
         extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", "{down}", "{down}"]
     }

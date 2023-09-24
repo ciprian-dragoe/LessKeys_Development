@@ -64,6 +64,16 @@
         createJournalTask("_BUCLA>")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN_ACTIVE)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
+        sleep 150
+        sendKeyCombinationIndependentActiveModifiers("{end}")
+    }
     else if (MLO_ENTER_MODE > 0)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)

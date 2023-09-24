@@ -158,6 +158,18 @@
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN)
+    {
+        if (!inStr(currentTask, "==="))
+        {
+            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+            questions := INTREBARI_JURNAL["JURNAL_REVIN"]
+            INTREBARI_JURNAL_INDEX := 1
+            sendKeyCombinationIndependentActiveModifiers(questions[INTREBARI_JURNAL_INDEX])
+            INTREBARI_JURNAL_INDEX += 1
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_REVIN_ACTIVE
+        }
+    }
     else
     {
         MLO_ENTER_MODE := 0

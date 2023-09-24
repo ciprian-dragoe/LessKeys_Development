@@ -227,6 +227,17 @@
             setTimer TimerCopyMloTaskClear, 10000
         }
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{enter}")
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN_ACTIVE)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
+        sleep 150
+        sendKeyCombinationIndependentActiveModifiers("{end}")
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_REVIN
+    }
     else
     {
         resetMloEnterMode()

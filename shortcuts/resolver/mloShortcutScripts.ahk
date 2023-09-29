@@ -164,11 +164,12 @@ mloShowFind()
     sendKeyCombinationIndependentActiveModifiers("^+=") ; schimb view search
     sleep 400
     sendKeyCombinationIndependentActiveModifiers("^+l") ; clear previous filter
+    sleep 200
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
     sleep 100
     sendKeyCombinationIndependentActiveModifiers("{tab}") ; select search filter
     sleep 100
     sendKeyCombinationIndependentActiveModifiers("{space 4}^a")
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
 }
 
 moveNoteWindowAndSetCursorEnd(direction)
@@ -391,7 +392,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     if (number = 1 && modifiers = "^")
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_REVIN
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "^c", "{end}"]
+        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "^c", "{home}", "{down}"]
         changeViewMlo(modifiers . number, extraInstructions)
         INTREBARI_JURNAL.JURNAL_REVIN := []
         lines := StrSplit(clipboard, "`n")

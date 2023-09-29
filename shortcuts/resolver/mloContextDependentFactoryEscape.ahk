@@ -230,12 +230,14 @@
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN)
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}")
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("{home}{down}")
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN_ACTIVE)
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
         sleep 150
-        sendKeyCombinationIndependentActiveModifiers("{end}")
+        sendKeyCombinationIndependentActiveModifiers("{home}{down}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_REVIN
     }
     else

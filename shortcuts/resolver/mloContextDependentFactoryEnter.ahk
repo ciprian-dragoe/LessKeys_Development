@@ -146,9 +146,9 @@
         if (INTREBARI_JURNAL_INDEX > questions.length())
         {
             sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
-            sleep 150
+            sleep 500
             sendKeyCombinationIndependentActiveModifiers("{home}{down}")
-            sleep 300
+            sleep 500
             currentTask := getCurrentTask()
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_REVIN
             if (!inStr(currentTask, "==="))

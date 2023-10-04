@@ -440,7 +440,8 @@ timerCompletePrevious()
     setTimer TimerCompletePrevious, OFF
     if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_COMPLETE_PREVIOUS)
     {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
+        sleep 150
+        sendKeyCombinationIndependentActiveModifiers("{left}")
         sleep 150
         sendKeyCombinationIndependentActiveModifiers("{space}")
         NUMBER_TASKS_COMPLETE--

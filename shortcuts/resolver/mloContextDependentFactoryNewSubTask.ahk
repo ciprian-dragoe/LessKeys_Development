@@ -28,6 +28,12 @@
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_COMPLETE_PREVIOUS
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
+    else if (inStr(currentTask, "0 DAU DRUMUL", true))
+    {
+        NUMBER_TASKS_COMPLETE := 1
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_COMPLETE_PREVIOUS
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    }
     else if (inStr(currentTask, "<COPY_TEMPLATE", true))
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_COPY_TEMPLATE

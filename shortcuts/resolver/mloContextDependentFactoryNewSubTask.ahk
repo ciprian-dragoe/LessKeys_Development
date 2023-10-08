@@ -22,7 +22,7 @@
         }
         mloNewContextDependentSubTask(nextTask)
     }
-    else if (inStr(currentTask, "MLO_ENTER_MODE_SET_AS_NEW_TASK_COMPLETE_PREVIOUS", true))
+    else if (inStr(currentTask, "NEW_TASK_COMPLETE_PREVIOUS", true))
     {
         NUMBER_TASKS_COMPLETE := extractDestinationAfter(currentTask)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_COMPLETE_PREVIOUS

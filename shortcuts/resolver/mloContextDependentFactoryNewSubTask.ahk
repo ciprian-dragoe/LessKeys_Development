@@ -22,9 +22,15 @@
         }
         mloNewContextDependentSubTask(nextTask)
     }
-    else if (inStr(currentTask, "MLO_ENTER_MODE_SET_AS_NEW_TASK_COMPLETE_PREVIOUS", true))
+    else if (inStr(currentTask, "NEW_TASK_COMPLETE_PREVIOUS", true))
     {
         NUMBER_TASKS_COMPLETE := extractDestinationAfter(currentTask)
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_COMPLETE_PREVIOUS
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    }
+    else if (inStr(currentTask, "0 DAU DRUMUL", true))
+    {
+        NUMBER_TASKS_COMPLETE := 1
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_COMPLETE_PREVIOUS
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
@@ -169,6 +175,10 @@
             INTREBARI_JURNAL_INDEX += 1
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_REVIN_ACTIVE
         }
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK)
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
     else
     {

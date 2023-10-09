@@ -389,7 +389,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
 
 ;   if (A_Hour > 19)
 ;   if (A_WDay = 1) ; sunday 
-    if (number = 1 && modifiers = "^")
+    if (number = 1 && modifiers = "^!")
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_REVIN
         extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "^c", "{home}", "{down}"]
@@ -409,10 +409,11 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         }
         return
     }
-    if (number = 1 && modifiers = "^+")
+    if (number = 1 && modifiers = "^")
     {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK
     } 
-    else if (number = 1 && modifiers = "!^")
+    else if (number = 1 && modifiers = "^+")
     {
         extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", "{down}", "{down}"]
     }
@@ -423,7 +424,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     else if (number = 2 && modifiers = "^+")
     {
         IS_SORTING_VIEW_ACTIVE := 1
-        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "0", "+{end}", MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1, "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
+        extraInstructions := [MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS, "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
     }
     else if (number = 2 && modifiers = "!^")
     {

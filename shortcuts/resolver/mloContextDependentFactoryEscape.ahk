@@ -240,6 +240,10 @@
         sendKeyCombinationIndependentActiveModifiers("{home}{down}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_REVIN
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{enter}")
+    }
     else
     {
         resetMloEnterMode()

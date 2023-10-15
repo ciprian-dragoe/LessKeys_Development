@@ -1,5 +1,6 @@
 ﻿mloNewContextDependentSubTask(currentTask)
 {
+    focusArea := getFocusArea(currentTask)
     if (inStr(currentTask, "<TIMER_SEND_KEYS_", true))
     {
         startTimerSendKeys(currentTask, MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
@@ -179,6 +180,11 @@
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI && (focusArea = "71" || focusArea = "72" || focusArea = "73" || focusArea = "74" || focusArea = "75"  || focusArea = "76"))
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        LESSON_COMPLETE_AMOUNT := focusArea - 70
     }
     else
     {

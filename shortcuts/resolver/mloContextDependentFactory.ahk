@@ -25,6 +25,8 @@ global NUMBER_TASKS_COMPLETE := 0
 global MLO_ENTER_MODE_SET_AS_JURNAL_REVIN := 17
 global MLO_ENTER_MODE_SET_AS_JURNAL_REVIN_ACTIVE := 18
 global MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK := 19
+global MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI := 20
+global LESSON_COMPLETE_AMOUNT := 0
 
 global MLO_ENTER_MODE_SET_AS_DIALOG := 50
 global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ := 51
@@ -103,6 +105,7 @@ createConsuma()
 resetMloEnterMode(alsoPressEscape = 1)
 {
     MLO_ENTER_MODE := 0
+    LESSON_COMPLETE_AMOUNT := 0
     TASK_GO_AFTER_TO := ""
     INTREBARI_JURNAL_INDEX := 1
     PREVIOUS_TASK := "" 
@@ -273,7 +276,7 @@ getFocusArea(input)
     }
     
     focusArea := SubStr(input, 1, positionSpace)
-    allowedFocusAreas := ["11", "111", "12", "121", "13", "131", "22", "221", "23", "231", "24", "241", "33", "331", "34", "341", "35", "351", "44", "441", "45", "451", "46", "461", "55", "551", "56", "561", "57", "571", "66", "661", "67", "671", "77"]
+    allowedFocusAreas := ["11", "111", "12", "121", "13", "131", "22", "221", "23", "231", "24", "241", "33", "331", "34", "341", "35", "351", "44", "441", "45", "451", "46", "461", "55", "551", "56", "561", "57", "571", "66", "661", "67", "671", "71", "72", "73", "74", "75", "76", "77"]
     for key, allowedArea in allowedFocusAreas
     {
         if (focusArea = allowedArea) {
@@ -454,5 +457,32 @@ timerCompletePrevious()
             sleep 150
         }
         resetMloEnterMode(0)
+    }
+}
+
+timerCompleteLesson() 
+{
+    setTimer TimerCompleteLesson, OFF
+    if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{left}")
+        sleep 150
+        sendKeyCombinationIndependentActiveModifiers("{space}")
+        
+        Loop 7,
+        {
+            LESSON_COMPLETE_AMOUNT := LESSON_COMPLETE_AMOUNT - 1
+            sleep 800
+            currentTask := getCurrentTask()
+            focusArea := getFocusArea(currentTask)
+            ;showtooltip(focusArea . "|" . focusArea - 70 . "|" . LESSON_COMPLETE_AMOUNT, 1500)
+            if (!(focusArea - 70 = LESSON_COMPLETE_AMOUNT))
+            {
+                LESSON_COMPLETE_AMOUNT := 0
+                break
+            }
+            sendKeyCombinationIndependentActiveModifiers("{space}")
+            sleep 150
+        }
     }
 }

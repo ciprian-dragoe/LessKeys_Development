@@ -52,6 +52,23 @@
             sendKeyCombinationIndependentActiveModifiers("{ENTER}")
         }
     }
+    else if (LESSON_COMPLETE_AMOUNT > 0)
+    {
+        if (DOUBLE_PRESS_KEY_ACTIVE)
+        {
+            DOUBLE_PRESS_KEY_ACTIVE := 0
+            setTimer TimerDoubleKeyPressInterval, off
+            setTimer TimerCompleteLesson, off
+            resetMloEnterMode(0)
+        }
+        else
+        {
+            DOUBLE_PRESS_KEY_ACTIVE := 1
+            setTimer TimerDoubleKeyPressInterval, 800
+            setTimer TimerCompleteLesson, 600
+            sendKeyCombinationIndependentActiveModifiers("{ENTER}")
+        }
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DIALOG)
     {
         if (DOUBLE_PRESS_KEY_ACTIVE)

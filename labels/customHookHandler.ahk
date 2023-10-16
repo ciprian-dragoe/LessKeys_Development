@@ -79,7 +79,7 @@ TimerActivateSleepOnLidClose_step5():
 return
 
 TimerSyncMloStep1_launchPing():
-    TimerSyncMloStep1_launchPing()
+    timerSyncMloStep1_launchPing()
 return
 
 TimerMloSendKeys():
@@ -87,5 +87,9 @@ TimerMloSendKeys():
 return
 
 TimerProcessLidCloseEnhancements():
-    TimerProcessLidCloseEnhancements()
+    timerProcessLidCloseEnhancements()
+return
+
+TimerCompleteLesson():
+    timerCompleteLesson()
 return

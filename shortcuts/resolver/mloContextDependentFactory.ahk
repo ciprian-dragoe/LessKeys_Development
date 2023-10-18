@@ -475,8 +475,8 @@ timerCompleteLesson()
             sleep 800
             currentTask := getCurrentTask()
             focusArea := getFocusArea(currentTask)
-            ;showtooltip(focusArea . "|" . focusArea - 70 . "|" . LESSON_COMPLETE_AMOUNT, 1500)
-            if (!(focusArea - 70 = LESSON_COMPLETE_AMOUNT))
+            ;showtooltip(focusArea . "|" . focusArea - 60 . "|" . LESSON_COMPLETE_AMOUNT, 1500)
+            if (!(focusArea - 60 = LESSON_COMPLETE_AMOUNT))
             {
                 LESSON_COMPLETE_AMOUNT := 0
                 break

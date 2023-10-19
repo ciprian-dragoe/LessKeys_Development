@@ -170,12 +170,12 @@ processShiftF2()
 
 processFunctionKey(key)
 {
-    IfInString, lastActiveAppName, %MLO_WINDOW_NAME%
+    if (inStr(lastActiveAppName, MLO_WINDOW_NAME) && IS_FUNCTION_SELECTING_JOURNAL_TASK)
     {
         return goToTask(key)
     }
 
-    IfInString, lastActiveAppName, %SIMPLEMIND_WINDOW_NAME%
+    if (inStr(lastActiveAppName, SIMPLEMIND_WINDOW_NAME))
     {
         return setSimplemindFocusTopic(key)
     }

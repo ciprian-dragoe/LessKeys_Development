@@ -5,7 +5,7 @@
         send {blind}{enter}{escape}
         MLO_ENTER_MODE := 0
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ENTER_AND_ESCAPE_SENDS_KEYS)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_AFTER_TIMER_ENTER_AND_ESCAPE_SENDS_KEYS)
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}")
         sendKeyCombinationIndependentActiveModifiers("{escape}")
@@ -217,31 +217,14 @@
         if (A_CaretX)
         {
             sendKeyCombinationIndependentActiveModifiers("{enter}")
+            processKeysAfter(TASK_GO_AFTER_TO)
         }
-        processKeysAfter(TASK_GO_AFTER_TO)
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER)
     {
-        if (DOUBLE_PRESS_KEY_ACTIVE)
+        if (A_CaretX)
         {
-            DOUBLE_PRESS_KEY_ACTIVE := 0
-            setTimer TimerCopyMloTaskPhase1, off
-            setTimer TimerCopyMloTaskPhase2, off
-            setTimer TimerCopyMloTaskPhase3, off
-            setTimer TimerCopyMloTaskClear, off
-            setTimer TimerDoubleKeyPressInterval, off
-            resetMloEnterMode()
-        }
-        else
-        {
-            DOUBLE_PRESS_KEY_ACTIVE := 1
-            Clipboard := "DO NOT COPY PREVIOUS TASK"
-            setTimer TimerDoubleKeyPressInterval, off
-            setTimer TimerDoubleKeyPressInterval, 700
-            setTimer TimerCopyMloTaskPhase2, off
-            setTimer TimerCopyMloTaskPhase2, 250
-            setTimer TimerCopyMloTaskClear, off
-            setTimer TimerCopyMloTaskClear, 10000
+            sendKeyCombinationIndependentActiveModifiers("{enter}")
         }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN)

@@ -5,17 +5,16 @@
 
 global MLO_ENTER_MODE := 0
 global MLO_ENTER_MODE_SET_AS_NEW_TASK := 1
-
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER := 3
-global MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER := 4
 global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 5
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER := 6
+global MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER := 4
 global MLO_ENTER_MODE_SET_AS_ENTER_GO_AFTER := 7
 global MLO_ENTER_MODE_SET_AS_CANCEL := 8
 global MLO_ENTER_MODE_SET_AS_SEND_KEYS := 9
 global MLO_ENTER_MODE_SET_AS_GO_TO := 10
-global MLO_ENTER_MODE_SET_AS_ENTER_AND_ESCAPE_SENDS_KEYS := 11 ; todo determine if it makes sense to remain otherwise remove
-global MLO_ENTER_MODE_SET_AS_TIMER_SEND_KEYS := 12 ; only for documentation, not used as variable
+global MLO_ENTER_MODE_SET_AS_AFTER_TIMER_ENTER_AND_ESCAPE_SENDS_KEYS := 11
+global MLO_ENTER_MODE_SET_AS_TIMER_SEND_KEYS := 12 ; only for documentation, not used as variable => search for <TIMER_SEND_KEYS_
 global MLO_ENTER_MODE_SET_AS_COPY_TEMPLATE := 13
 global MLO_ENTER_MODE_SET_AS_FOCUS_AREA := 14
 global FOCUS_AREA := ""
@@ -324,9 +323,16 @@ finishQuestions()
 
 processKeysAfter(keys)
 {
+    isMloEnterModeResetRequired = 1
     keys := StrSplit(keys, "|")
     for index, key in keys
     {
+            
+        if (key = "^e" || key = "^r") ; ^e is used for the new task shortcut, ^r is used for the new sub task shortcut
+        {
+            isMloEnterModeResetRequired := 0
+        }
+        
         index := keyboardShortcuts[key]
         if (index)
         {
@@ -342,7 +348,9 @@ processKeysAfter(keys)
         }
         sleep 100
     }
-    if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER)
+    
+    ; reset to normal mlo mode after processing the shortcuts
+    if (isMloEnterModeResetRequired)
     {
         resetMloEnterMode(0)
     }
@@ -351,21 +359,14 @@ processKeysAfter(keys)
 timerMloSendKeys()
 {
     setTimer TimerMloSendKeys, OFF
-    if (TIMEOUT_KEYS_TO_SEND)
-    {
-        processKeysAfter(TIMEOUT_KEYS_TO_SEND)
-    }
-                
-    /* old only on enter & escape send keys
-    if (TIMEOUT_KEYS_TO_SEND)
-    {
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ENTER_AND_ESCAPE_SENDS_KEYS
-    }
-    */
-    
     If (inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
     {
         showtooltip("======== TIMER EXPIRED =========", 1500)
+    }
+    
+    if (TIMEOUT_KEYS_TO_SEND)
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_AFTER_TIMER_ENTER_AND_ESCAPE_SENDS_KEYS
     }
 }
 
@@ -397,8 +398,6 @@ startTimerSendKeys(currentTask, nextTaskMode)
     {
         TIMEOUT_KEYS_TO_SEND := extractDestinationAfter(currentTask)
     }
-    SetTimer TimerMloSendKeys, OFF
-    SetTimer TimerMloSendKeys, %timerTimeout%
     
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
     sleep 150
@@ -413,6 +412,9 @@ startTimerSendKeys(currentTask, nextTaskMode)
     {
         mloNewContextDependentTask(currentTask)
     }
+    
+    SetTimer TimerMloSendKeys, OFF
+    SetTimer TimerMloSendKeys, %timerTimeout%
 }
 
 startJurnalMode(currentTask)

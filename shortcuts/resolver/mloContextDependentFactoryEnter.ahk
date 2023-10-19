@@ -9,7 +9,7 @@
     {
         mloNewContextDependentEscape()
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ENTER_AND_ESCAPE_SENDS_KEYS)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_AFTER_TIMER_ENTER_AND_ESCAPE_SENDS_KEYS)
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}")
         processKeysAfter(TIMEOUT_KEYS_TO_SEND)
@@ -114,31 +114,17 @@
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER)
+    {
+        if (A_CaretX)
+        {
+            sendKeyCombinationIndependentActiveModifiers("{enter}")
+            processKeysAfter(TASK_GO_AFTER_TO)
+        }
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_COPY_GO_AFTER)
-    {
-        if (DOUBLE_PRESS_KEY_ACTIVE)
-        {
-            DOUBLE_PRESS_KEY_ACTIVE := 0
-            setTimer TimerCopyMloTaskPhase1, off
-            setTimer TimerCopyMloTaskPhase2, off
-            setTimer TimerCopyMloTaskPhase3, off
-            setTimer TimerCopyMloTaskClear, off
-            setTimer TimerDoubleKeyPressInterval, off
-            resetMloEnterMode()
-        }
-        else
-        {
-            DOUBLE_PRESS_KEY_ACTIVE := 1
-            setTimer TimerCopyMloTaskClear, off
-            setTimer TimerCopyMloTaskClear, 10000
-            setTimer TimerDoubleKeyPressInterval, off
-            setTimer TimerDoubleKeyPressInterval, 1000
-            TimerCopyMloTaskPhase1()
-        }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN_ACTIVE)
     {

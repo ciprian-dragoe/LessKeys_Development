@@ -217,7 +217,18 @@
         if (A_CaretX)
         {
             sendKeyCombinationIndependentActiveModifiers("{enter}")
-            processKeysAfter(TASK_GO_AFTER_TO)
+            if (DOUBLE_PRESS_KEY_ACTIVE)
+            {
+                DOUBLE_PRESS_KEY_ACTIVE := 0
+                setTimer TimerDoubleKeyPressInterval, off
+                resetMloEnterMode(0)
+            }
+            else
+            {
+                DOUBLE_PRESS_KEY_ACTIVE := 1
+                setTimer TimerDoubleKeyPressInterval, 800
+                processKeysAfter(TASK_GO_AFTER_TO)
+            }
         }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER)

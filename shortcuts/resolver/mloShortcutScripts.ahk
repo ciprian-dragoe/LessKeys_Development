@@ -393,23 +393,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
 ;   if (A_WDay = 1) ; sunday 
     if (number = 1 && modifiers = "^!")
     {
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_REVIN
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "^c", "{home}", "{down}"]
-        changeViewMlo(modifiers . number, extraInstructions)
-        INTREBARI_JURNAL.JURNAL_REVIN := []
-        lines := StrSplit(clipboard, "`n")
-        length := lines.MaxIndex()
-        Loop %length% 
-        {
-            if(!inStr(lines[A_Index], "===") && lines[A_Index])
-            {
-                trimmed := regexreplace(lines[A_Index], "^\s+")
-                trimmed := regexreplace(lines[A_Index], "\s+$")
-                trimmed := trimmed . A_Space
-                INTREBARI_JURNAL.JURNAL_REVIN.push(trimmed)
-            } 
-        }
-        return
+        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}"]
     }
     if (number = 1 && modifiers = "^")
     {

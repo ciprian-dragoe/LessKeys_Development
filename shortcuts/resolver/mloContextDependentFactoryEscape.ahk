@@ -7,8 +7,12 @@
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_AFTER_TIMER_ENTER_AND_ESCAPE_SENDS_KEYS)
     {
+        ; to stop infinite recursion
+        MLO_ENTER_MODE := 0
         sendKeyCombinationIndependentActiveModifiers("{enter}")
         sendKeyCombinationIndependentActiveModifiers("{escape}")
+        ; to enable processKeysAfter 
+        MLO_ENTER_MODE := 10000
         processKeysAfter(TIMEOUT_KEYS_TO_SEND)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DEZVOLT_JURNAL || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_1JURNAL)
@@ -214,21 +218,19 @@
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER)
     {
-        if (A_CaretX)
+        if (DOUBLE_PRESS_KEY_ACTIVE)
+        {
+            DOUBLE_PRESS_KEY_ACTIVE := 0
+            setTimer TimerDoubleKeyPressInterval, off
+            resetMloEnterMode(0)
+            sendKeyCombinationIndependentActiveModifiers("{enter}")
+        } 
+        else if (A_CaretX)
         {
             sendKeyCombinationIndependentActiveModifiers("{enter}")
-            if (DOUBLE_PRESS_KEY_ACTIVE)
-            {
-                DOUBLE_PRESS_KEY_ACTIVE := 0
-                setTimer TimerDoubleKeyPressInterval, off
-                resetMloEnterMode(0)
-            }
-            else
-            {
-                DOUBLE_PRESS_KEY_ACTIVE := 1
-                setTimer TimerDoubleKeyPressInterval, 800
-                processKeysAfter(TASK_GO_AFTER_TO)
-            }
+            DOUBLE_PRESS_KEY_ACTIVE := 1
+            setTimer TimerDoubleKeyPressInterval, 1500
+            processKeysAfter(TASK_GO_AFTER_TO)
         }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER)

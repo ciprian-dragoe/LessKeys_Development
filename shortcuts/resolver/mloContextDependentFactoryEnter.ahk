@@ -11,7 +11,11 @@
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_AFTER_TIMER_ENTER_AND_ESCAPE_SENDS_KEYS)
     {
+        ; to stop infinite recursion
+        MLO_ENTER_MODE := 0
         sendKeyCombinationIndependentActiveModifiers("{enter}")
+        ; to enable processKeysAfter 
+        MLO_ENTER_MODE := 10000
         processKeysAfter(TIMEOUT_KEYS_TO_SEND)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ENTER_GO_AFTER)

@@ -327,26 +327,30 @@ processKeysAfter(keys)
     keys := StrSplit(keys, "|")
     for index, key in keys
     {
-            
-        if (key = "^e" || key = "^r") ; ^e is used for the new task shortcut, ^r is used for the new sub task shortcut
+        ; in case triggering a shortcut has reset the enter mode stop processing further
+        if (MLO_ENTER_MODE != 0) 
         {
-            isMloEnterModeResetRequired := 0
+            if (key = "^e" || key = "^r") ; ^e is used for the new task shortcut, ^r is used for the new sub task shortcut
+                {
+                    isMloEnterModeResetRequired := 0
+                }
+                
+                index := keyboardShortcuts[key]
+                if (index)
+                {
+                    processShortcut(index, key)
+                }
+                else 
+                {
+                    if (StrLen(key) > 1)
+                    {
+                        key := "{" . key . "}"
+                    }
+                    sendKeyCombinationIndependentActiveModifiers(key)
+                }
+                sleep 150
         }
         
-        index := keyboardShortcuts[key]
-        if (index)
-        {
-            processShortcut(index, key)
-        }
-        else 
-        {
-            if (StrLen(key) > 1)
-            {
-                key := "{" . key . "}"
-            }
-            sendKeyCombinationIndependentActiveModifiers(key)
-        }
-        sleep 100
     }
     
     ; reset to normal mlo mode after processing the shortcuts
@@ -362,6 +366,7 @@ timerMloSendKeys()
     If (inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
     {
         showtooltip("======== TIMER EXPIRED =========", 1500)
+        resetMloEnterMode(0)
     }
     
     if (TIMEOUT_KEYS_TO_SEND)

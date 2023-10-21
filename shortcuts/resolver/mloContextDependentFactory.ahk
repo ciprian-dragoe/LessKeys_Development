@@ -53,6 +53,7 @@ global TASK_GO_AFTER_TO := ""
 global PREVIOUS_TASK := ""
 global BUFFER := ""
 global TIMEOUT_KEYS_TO_SEND := ""
+global LAST_TIME_COPIED_TASK := A_TickCount
 
 mloContextDependentKeyFactory(originalAction)
 {
@@ -252,13 +253,19 @@ createJournalTask(template)
     sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . template . "{space}")
 }
 
-getCurrentTask(waitTimeAfterCopy = 200)
+getCurrentTask(waitTimeAfterCopy = 300)
 {
     ; copy current task so that it can be parsed without loosing clipboard
     temp := Clipboard
     sendKeyCombinationIndependentActiveModifiers("^c")
     if (waitTimeAfterCopy)
     {
+        if (A_TickCount - LAST_TIME_COPIED_TASK < 200)
+        {
+            ;writeNowLogFile("A_TickCount - LAST_TIME_COPIED_TASK=" . A_TickCount - LAST_TIME_COPIED_TASK)
+            sleep 400
+        }
+        LAST_TIME_COPIED_TASK := A_TickCount
         sleep %waitTimeAfterCopy% ; wait for the os to register the command, smaller time causes mlo process errors
     }
     currentTask := Clipboard
@@ -323,21 +330,25 @@ finishQuestions()
 
 processKeysAfter(keys)
 {
+    ;writeNowLogFile("processKeysAfter")
     isMloEnterModeResetRequired = 1
     keys := StrSplit(keys, "|")
     for index, key in keys
     {
         ; in case triggering a shortcut has reset the enter mode stop processing further
+        ;writeNowLogFile("MLO_ENTER_MODE=" . MLO_ENTER_MODE)
         if (MLO_ENTER_MODE != 0) 
         {
             if (key = "^e" || key = "^r") ; ^e is used for the new task shortcut, ^r is used for the new sub task shortcut
                 {
+                    ;writeNowLogFile("isMloEnterModeResetRequired=" . isMloEnterModeResetRequired)
                     isMloEnterModeResetRequired := 0
                 }
                 
                 index := keyboardShortcuts[key]
                 if (index)
                 {
+                    ;writeNowLogFile("processShortcut=" . key)
                     processShortcut(index, key)
                 }
                 else 
@@ -346,6 +357,7 @@ processKeysAfter(keys)
                     {
                         key := "{" . key . "}"
                     }
+                    ;writeNowLogFile("sendKey=" . key)
                     sendKeyCombinationIndependentActiveModifiers(key)
                 }
                 sleep 150
@@ -356,6 +368,7 @@ processKeysAfter(keys)
     ; reset to normal mlo mode after processing the shortcuts
     if (isMloEnterModeResetRequired)
     {
+        ;writeNowLogFile("resetMloEnterMode")
         resetMloEnterMode(0)
     }
 }

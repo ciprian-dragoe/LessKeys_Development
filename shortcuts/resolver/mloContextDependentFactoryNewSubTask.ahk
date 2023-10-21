@@ -1,5 +1,6 @@
 ﻿mloNewContextDependentSubTask(currentTask)
 {
+    ;writeNowLogFile("mloNewContextDependentSubTask=" . currentTask)
     focusArea := getFocusArea(currentTask)
     if (inStr(currentTask, "<TIMER_SEND_KEYS_", true))
     {
@@ -144,12 +145,14 @@
     }
     else if (inStr(currentTask, "<NEW_TASK_KEYS_AFTER_", true))
     {
+        ;writeNowLogFile("NEW_TASK_KEYS_AFTER_")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
     else if (inStr(currentTask, "<ONE_NEW_TASK_KEYS_AFTER_", true))
     {
+        ;writeNowLogFile("ONE_NEW_TASK_KEYS_AFTER_")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)

@@ -1,5 +1,6 @@
 ﻿mloNewContextDependentEscape()
 {
+    ;writeNowLogFile("mloNewContextDependentEscape")
     if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK)
     {
         send {blind}{enter}{escape}
@@ -7,6 +8,7 @@
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_AFTER_TIMER_ENTER_AND_ESCAPE_SENDS_KEYS)
     {
+        ;writeNowLogFile("MLO_ENTER_MODE_SET_AS_AFTER_TIMER_ENTER_AND_ESCAPE_SENDS_KEYS")
         ; to stop infinite recursion
         MLO_ENTER_MODE := 0
         sendKeyCombinationIndependentActiveModifiers("{enter}")
@@ -218,6 +220,7 @@
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER)
     {
+        ;writeNowLogFile("MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER")
         if (DOUBLE_PRESS_KEY_ACTIVE)
         {
             DOUBLE_PRESS_KEY_ACTIVE := 0
@@ -235,6 +238,7 @@
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER)
     {
+        ;writeNowLogFile("MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER")
         if (A_CaretX)
         {
             sendKeyCombinationIndependentActiveModifiers("{enter}")

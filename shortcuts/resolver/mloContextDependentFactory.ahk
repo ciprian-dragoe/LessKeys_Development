@@ -282,7 +282,7 @@ getFocusArea(input)
     }
     
     focusArea := SubStr(input, 1, positionSpace)
-    allowedFocusAreas := ["11", "111", "12", "121", "13", "131", "22", "221", "23", "231", "24", "241", "33", "331", "34", "341", "35", "351", "44", "441", "45", "451", "46", "461", "55", "551", "56", "561", "57", "571", "66", "661", "67", "671", "71", "72", "73", "74", "75", "76", "77"]
+    allowedFocusAreas := ["11", "111", "12", "121", "13", "131", "22", "221", "23", "231", "24", "241", "33", "331", "34", "341", "35", "351", "44", "441", "45", "451", "46", "461", "51", "52", "53", "54", "55", "551", "56", "561", "57", "571", "61" ,"62" ,"63" ,"64", "65", "66", "661", "67", "671", "71", "72", "73", "74", "75", "76", "77"]
     for key, allowedArea in allowedFocusAreas
     {
         if (focusArea = allowedArea) {
@@ -496,7 +496,7 @@ timerCompleteLesson()
             currentTask := getCurrentTask()
             focusArea := getFocusArea(currentTask)
             ;showtooltip(focusArea . "|" . focusArea - 60 . "|" . LESSON_COMPLETE_AMOUNT, 1500)
-            if (!(focusArea - 60 = LESSON_COMPLETE_AMOUNT))
+            if (!(focusArea - 50 = LESSON_COMPLETE_AMOUNT))
             {
                 LESSON_COMPLETE_AMOUNT := 0
                 break

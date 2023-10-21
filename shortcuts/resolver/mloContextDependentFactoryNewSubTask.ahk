@@ -184,10 +184,10 @@
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI && (focusArea = "61" || focusArea = "62" || focusArea = "63" || focusArea = "64" || focusArea = "65"  || focusArea = "66"))
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI && (focusArea = "51" || focusArea = "52" || focusArea = "53" || focusArea = "54" || focusArea = "55"))
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-        LESSON_COMPLETE_AMOUNT := focusArea - 60
+        LESSON_COMPLETE_AMOUNT := focusArea - 50
     }
     else
     {

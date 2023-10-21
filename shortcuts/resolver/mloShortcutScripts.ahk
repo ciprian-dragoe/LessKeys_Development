@@ -414,6 +414,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         ;MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI
         ;extraInstructions := [MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS, "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
         
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI
         setMloDarkMode(0)
         send %MLO_KEYBOARD_SHORTCUT_MLO_SYNC%
         setLaptopDependentMloVariables("dashboardActive")

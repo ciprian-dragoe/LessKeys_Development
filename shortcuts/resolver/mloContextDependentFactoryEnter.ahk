@@ -47,11 +47,11 @@
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ)
     {
-        continueJournalTask("_BUCLA>")
+        continueJournalTask("_BUCLA> ")
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE)
     {
-        continueJournalTask("_BUCLA>", "{END}")
+        continueJournalTask("_BUCLA> ", "{END}")
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_FOCUS)
     {
@@ -94,7 +94,7 @@
         sleep 150
         sendKeyCombinationIndependentActiveModifiers("{DOWN}{F2}{home}")
         sleep 150
-        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}{SPACE}" . "{HOME}^{RIGHT 2}+{END}")
+        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>" . "{HOME}^{RIGHT 2}+{END}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE_CONSUMA
         INTREBARI_JURNAL_INDEX := 1
     }

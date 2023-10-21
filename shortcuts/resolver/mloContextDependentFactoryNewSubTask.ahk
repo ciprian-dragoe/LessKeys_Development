@@ -67,7 +67,7 @@
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
         sendKeyCombinationIndependentActiveModifiers("{F2}")
         sleep 150
-        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}" . topic . "{HOME}^{RIGHT 2}+{END}")
+        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>" . topic . "{HOME}^{RIGHT 2}+{END}")
         INTREBARI_JURNAL_INDEX := 1
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE_INCARCA
         */
@@ -83,12 +83,12 @@
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
         sendKeyCombinationIndependentActiveModifiers("{F2}")
         sleep 150
-        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}" . topic . "{HOME}^{RIGHT 2}+{END}")
+        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>" . topic . "{HOME}^{RIGHT 2}+{END}")
         INTREBARI_JURNAL_INDEX := 1
         sendKeyCombinationIndependentActiveModifiers("{enter}")
         sleep 100 
         sendKeyCombinationIndependentActiveModifiers("{down}{F2}")
-        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>{SPACE}" . topic . "{HOME}^{RIGHT 2}+{END}")
+        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>" . topic . "{HOME}^{RIGHT 2}+{END}")
         sleep 150
         sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}")
         sleep 150

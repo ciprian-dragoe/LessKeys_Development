@@ -340,27 +340,29 @@ processKeysAfter(keys)
         if (MLO_ENTER_MODE != 0) 
         {
             if (key = "^e" || key = "^r") ; ^e is used for the new task shortcut, ^r is used for the new sub task shortcut
+            {
+                ;showtooltip("isMloEnterModeResetRequired=" . isMloEnterModeResetRequired, 2000)
+                ; leave time for the getCurrentTask to work
+                sleep 300
+                isMloEnterModeResetRequired := 0
+            }
+            
+            index := keyboardShortcuts[key]
+            if (index)
+            {
+                ;showtooltip("processShortcut=" . key, 2000)
+                processShortcut(index, key)
+            }
+            else 
+            {
+                if (StrLen(key) > 1)
                 {
-                    ;showtooltip("isMloEnterModeResetRequired=" . isMloEnterModeResetRequired, 2000)
-                    isMloEnterModeResetRequired := 0
+                    key := "{" . key . "}"
                 }
-                
-                index := keyboardShortcuts[key]
-                if (index)
-                {
-                    ;showtooltip("processShortcut=" . key, 2000)
-                    processShortcut(index, key)
-                }
-                else 
-                {
-                    if (StrLen(key) > 1)
-                    {
-                        key := "{" . key . "}"
-                    }
-                    ;showtooltip("sendKey=" . key, 2000)
-                    sendKeyCombinationIndependentActiveModifiers(key)
-                }
-                sleep 200
+                ;showtooltip("sendKey=" . key, 2000)
+                sendKeyCombinationIndependentActiveModifiers(key)
+            }
+            sleep 150
         }
         
     }

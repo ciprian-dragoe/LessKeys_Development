@@ -342,8 +342,6 @@ processKeysAfter(keys)
             if (key = "^e" || key = "^r") ; ^e is used for the new task shortcut, ^r is used for the new sub task shortcut
             {
                 ;showtooltip("isMloEnterModeResetRequired=" . isMloEnterModeResetRequired, 2000)
-                ; leave time for the getCurrentTask to work
-                sleep 300
                 isMloEnterModeResetRequired := 0
             }
             

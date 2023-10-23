@@ -330,25 +330,25 @@ finishQuestions()
 
 processKeysAfter(keys)
 {
-    ;writeNowLogFile("processKeysAfter")
+    ;showtooltip("processKeysAfter", 2000)
     isMloEnterModeResetRequired = 1
     keys := StrSplit(keys, "|")
     for index, key in keys
     {
         ; in case triggering a shortcut has reset the enter mode stop processing further
-        ;writeNowLogFile("MLO_ENTER_MODE=" . MLO_ENTER_MODE)
+        ;showtooltip("MLO_ENTER_MODE=" . MLO_ENTER_MODE, 2000)
         if (MLO_ENTER_MODE != 0) 
         {
             if (key = "^e" || key = "^r") ; ^e is used for the new task shortcut, ^r is used for the new sub task shortcut
                 {
-                    ;writeNowLogFile("isMloEnterModeResetRequired=" . isMloEnterModeResetRequired)
+                    ;showtooltip("isMloEnterModeResetRequired=" . isMloEnterModeResetRequired, 2000)
                     isMloEnterModeResetRequired := 0
                 }
                 
                 index := keyboardShortcuts[key]
                 if (index)
                 {
-                    ;writeNowLogFile("processShortcut=" . key)
+                    ;showtooltip("processShortcut=" . key, 2000)
                     processShortcut(index, key)
                 }
                 else 
@@ -357,10 +357,10 @@ processKeysAfter(keys)
                     {
                         key := "{" . key . "}"
                     }
-                    ;writeNowLogFile("sendKey=" . key)
+                    ;showtooltip("sendKey=" . key, 2000)
                     sendKeyCombinationIndependentActiveModifiers(key)
                 }
-                sleep 150
+                sleep 200
         }
         
     }
@@ -368,7 +368,7 @@ processKeysAfter(keys)
     ; reset to normal mlo mode after processing the shortcuts
     if (isMloEnterModeResetRequired)
     {
-        ;writeNowLogFile("resetMloEnterMode")
+        ;showtooltip("resetMloEnterMode", 2000)
         resetMloEnterMode(0)
     }
 }

@@ -56,6 +56,8 @@ processAltShiftDirection(combination, index)
     if (IS_SORTING_VIEW_ACTIVE)
     {
         IS_SET_MLO_ORDER_ACTIVE := 1
+        SetTimer TimerTaskOrderChanged, off
+        SetTimer TimerTaskOrderChanged, 1500
     }
     key := subStr(combination, 3)
     send {blind}{%key%}

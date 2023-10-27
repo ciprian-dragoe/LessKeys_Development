@@ -97,26 +97,29 @@ processMloEnhancements()
             resetTimerSyncMlo()
         }
     }
-    else if (inStr(lastActiveAppName, "MyLifeOrganized - Reminders", true))
+    else
     {
-        SHOULD_SYNC_AFTER_MLO_MINIMIZED := 1
-        IS_CONDITION_FOR_MLO_SYNC_FULFILLED := 1
-        resetTimerSyncMlo()
-    }
-    else if (SHOULD_SYNC_AFTER_MLO_MINIMIZED)
-    {
-        SHOULD_SYNC_AFTER_MLO_MINIMIZED := 0
-        setMloDarkMode(0)
-        if (IS_CONDITION_FOR_MLO_SYNC_FULFILLED)
+        if (inStr(lastActiveAppName, "MyLifeOrganized - Reminders", true))
         {
-            IS_CONDITION_FOR_MLO_SYNC_FULFILLED := 0
-            TimerSyncMloStep1_launchPing()
+            SHOULD_SYNC_AFTER_MLO_MINIMIZED := 1
+            IS_CONDITION_FOR_MLO_SYNC_FULFILLED := 1
+            resetTimerSyncMlo()
         }
-    }
-    else if (A_TickCount - MLO_LAST_TIME_SYNC > 6000000)
-    {
-        MLO_LAST_TIME_SYNC := A_TickCount
-        SetTimer TimerSyncMloStep1_launchPing, 20000
+        else if (SHOULD_SYNC_AFTER_MLO_MINIMIZED)
+        {
+            SHOULD_SYNC_AFTER_MLO_MINIMIZED := 0
+            setMloDarkMode(0)
+            if (IS_CONDITION_FOR_MLO_SYNC_FULFILLED)
+            {
+                IS_CONDITION_FOR_MLO_SYNC_FULFILLED := 0
+                TimerSyncMloStep1_launchPing()
+            }
+        }
+        else if (A_TickCount - MLO_LAST_TIME_SYNC > 6000000)
+        {
+            MLO_LAST_TIME_SYNC := A_TickCount
+            SetTimer TimerSyncMloStep1_launchPing, 20000
+        }
     }
 }
 
@@ -410,22 +413,22 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     }
     else if (number = 2 && modifiers = "^+")
     {
-        ;IS_SORTING_VIEW_ACTIVE := 1
-        ;MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI
-        ;extraInstructions := [MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS, "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
-        
+        IS_SORTING_VIEW_ACTIVE := 1
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI
-        setMloDarkMode(0)
-        send %MLO_KEYBOARD_SHORTCUT_MLO_SYNC%
-        setLaptopDependentMloVariables("dashboardActive")
-        sleep 200
-        setMloDarkMode(1)
-        sendKeyCombinationIndependentActiveModifiers("^+{F4}")
-        WinWaitActive, %MLO_WINDOW_PLAN_MORNING_NAME%, ,8
-        WinMaximize, %MLO_WINDOW_PLAN_MORNING_NAME%
         extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
-        modifiers := ""
-        number := ""
+        
+        ;MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI
+        ;setMloDarkMode(0)
+        ;send %MLO_KEYBOARD_SHORTCUT_MLO_SYNC%
+        ;setLaptopDependentMloVariables("dashboardActive")
+        ;sleep 200
+        ;setMloDarkMode(1)
+        ;sendKeyCombinationIndependentActiveModifiers("^+{F4}")
+        ;WinWaitActive, %MLO_WINDOW_PLAN_MORNING_NAME%, ,8
+        ;WinMaximize, %MLO_WINDOW_PLAN_MORNING_NAME%
+        ;extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
+        ;modifiers := ""
+        ;number := ""
     }
     else if (number = 2 && modifiers = "!^")
     {

@@ -93,3 +93,7 @@ return
 TimerCompleteLesson():
     timerCompleteLesson()
 return
+
+TimerTaskOrderChanged():
+    timerTaskOrderChanged()
+return

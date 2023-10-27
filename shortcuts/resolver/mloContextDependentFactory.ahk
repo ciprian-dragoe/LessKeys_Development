@@ -508,3 +508,16 @@ timerCompleteLesson()
         }
     }
 }
+
+timerTaskOrderChanged()
+{
+    SetTimer TimerTaskOrderChanged, off
+    if (IS_SET_MLO_ORDER_ACTIVE)
+    {
+        If (inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
+        {
+            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING)
+        }
+        IS_SET_MLO_ORDER_ACTIVE := 0
+    }
+}

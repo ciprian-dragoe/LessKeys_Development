@@ -80,7 +80,10 @@ mloContextDependentKeyFactory(originalAction)
 continueJournalTask(template, selectDifferentTemplateKeys = "")
 {
     sendKeyCombinationIndependentActiveModifiers("{enter}")
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEXT_DAY_START_DATE)
+    ;Loop %INTREBARI_JURNAL_INDEX%
+    ;{
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEXT_DAY_START_DATE)
+    ;}
     INTREBARI_JURNAL_INDEX := INTREBARI_JURNAL_INDEX + 1
     sendKeyCombinationIndependentActiveModifiers("{F5}")
     sleep 100

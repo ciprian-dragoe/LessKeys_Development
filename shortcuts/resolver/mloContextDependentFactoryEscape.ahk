@@ -130,7 +130,10 @@
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ)
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}")
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEXT_DAY_START_DATE)
         sleep 500
+        
         sendKeyCombinationIndependentActiveModifiers("1")
         sleep 1000
         currentTask := getCurrentTask()
@@ -139,6 +142,8 @@
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE)
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}")
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEXT_DAY_START_DATE)
         sleep 500
         
         if (PREVIOUS_TASK != INTREBARI_JURNAL_INDEX)

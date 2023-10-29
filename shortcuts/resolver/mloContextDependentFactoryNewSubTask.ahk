@@ -72,31 +72,43 @@
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE_INCARCA
         */
         
-        StringGetPos, newLinePosition, currentTask, `r
-        topic := SubStr(currentTask, InStr(currentTask, "_BUCLA>") + 8, newLinePosition-9)
-        currentTask := SubStr(currentTask, 1, InStr(currentTask, "_BUCLA>") + 7)
-        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask, 1)
-        INTREBARI_JURNAL_INDEX := 0
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1)
-        sendKeyCombinationIndependentActiveModifiers("{DOWN}")
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
-        sendKeyCombinationIndependentActiveModifiers("{F2}")
-        sleep 150
-        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>" . topic . "{HOME}^{RIGHT 2}+{END}")
-        INTREBARI_JURNAL_INDEX := 1
-        sendKeyCombinationIndependentActiveModifiers("{enter}")
-        sleep 100 
-        sendKeyCombinationIndependentActiveModifiers("{down}{F2}")
-        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>" . topic . "{HOME}^{RIGHT 2}+{END}")
-        sleep 150
-        sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}")
-        sleep 150
-        sendKeyCombinationIndependentActiveModifiers("{up}")
-        sleep 150
-        INTREBARI_JURNAL_INDEX := 0
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DIALOG
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        lines := StrSplit(currentTask, "`n")
+        if (lines.MaxIndex() = 3) ; because last line in empty string based on how split works  
+        {
+            StringGetPos, newLinePosition, currentTask, `r
+            topic := SubStr(currentTask, InStr(currentTask, "_BUCLA>") + 8, newLinePosition-9)
+            currentTask := SubStr(currentTask, 1, InStr(currentTask, "_BUCLA>") + 7)
+            TASK_GO_AFTER_TO := extractDestinationAfter(currentTask, 1)
+            INTREBARI_JURNAL_INDEX := 0
+            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1)
+            sendKeyCombinationIndependentActiveModifiers("{DOWN}")
+            sleep 100
+            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
+            sendKeyCombinationIndependentActiveModifiers("{F2}")
+            sleep 150
+            sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>" . topic . "{HOME}^{RIGHT 2}+{END}")
+            INTREBARI_JURNAL_INDEX := 1
+            sendKeyCombinationIndependentActiveModifiers("{enter}")
+            sleep 100 
+            sendKeyCombinationIndependentActiveModifiers("{down}{F2}")
+            sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>" . topic . "{HOME}^{RIGHT 2}+{END}")
+            sleep 150
+            sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}")
+            sleep 150
+            sendKeyCombinationIndependentActiveModifiers("{up}")
+            sleep 150
+            INTREBARI_JURNAL_INDEX := 0
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DIALOG
+            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        }
+        else
+        {
+            sendKeyCombinationIndependentActiveModifiers("{right}")
+            sleep 700
+            currentTask := getCurrentTask()
+            sleep 100
+            mloNewContextDependentSubTask(currentTask)
+        }
     }
     else if (inStr(currentTask, "<PARTE>", true))
     {

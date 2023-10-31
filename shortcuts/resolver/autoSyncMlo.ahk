@@ -59,7 +59,7 @@ TimerSyncMloStep1_launchPing()
     writeNowLogFile("ping-started")
     Run,%comspec% /c ping -n 2 -w 200 bing.com > %A_Temp%\ping.log,,hide
     SetTimer TimerSyncMloStep2_readPing, OFF
-    SetTimer TimerSyncMloStep2_readPing, 3000
+    SetTimer TimerSyncMloStep2_readPing, 8000
 }
 
 timerSyncMloStep2_readPing()

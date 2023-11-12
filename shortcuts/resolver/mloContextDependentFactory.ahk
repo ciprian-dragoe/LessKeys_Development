@@ -358,16 +358,26 @@ processKeysAfter(keys)
             }
             else 
             {
-                if (StrLen(key) > 1)
+                If InStr(key, "sleep")
+                {
+                    time := StrSplit(key, "sleep")[2]
+                    ;showtooltip(time)
+                    sleep %time%
+                }
+                else if (StrLen(key) > 1)
                 {
                     key := "{" . key . "}"
+                    ;showtooltip("sendKey=" . key, 2000)
+                    sendKeyCombinationIndependentActiveModifiers(key)
                 }
-                ;showtooltip("sendKey=" . key, 2000)
-                sendKeyCombinationIndependentActiveModifiers(key)
+                else
+                {
+                    ;showtooltip("sendKey=" . key, 2000)
+                    sendKeyCombinationIndependentActiveModifiers(key)
+                }
             }
             sleep 150
         }
-        
     }
     
     ; reset to normal mlo mode after processing the shortcuts

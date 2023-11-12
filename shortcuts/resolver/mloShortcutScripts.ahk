@@ -140,7 +140,7 @@ changeViewMlo(viewCombination, extraInstructions)
         {
             If InStr(instruction, "sleep")
             {
-                time := StrSplit(instruction, "_")[2]
+                time := StrSplit(instruction, "sleep")[2]
                 sleep %time%
             }
             else
@@ -414,7 +414,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     {
         IS_SORTING_VIEW_ACTIVE := 1
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI
-        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "81", "+{up 4}", MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1, "{home}", "sleep_600", "0", "{right}", "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
+        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "81", "+{up 4}", MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1, "{home}", "sleep600", "0", "{right}", "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
         
         ;MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI
         ;setMloDarkMode(0)

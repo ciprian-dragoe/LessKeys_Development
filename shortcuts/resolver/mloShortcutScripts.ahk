@@ -408,26 +408,26 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     }
     else if (number = 2 && modifiers = "^")
     {
-        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "^a", MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1, "{end}", "{home}"]
+        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{end}", "{home}"]
     }
     else if (number = 2 && modifiers = "^+")
     {
-        IS_SORTING_VIEW_ACTIVE := 1
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI
-        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "81", "+{up 4}", MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1, "{home}", "sleep600", "0", "{right}", "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
-        
+        ;IS_SORTING_VIEW_ACTIVE := 1
         ;MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI
-        ;setMloDarkMode(0)
-        ;send %MLO_KEYBOARD_SHORTCUT_MLO_SYNC%
-        ;setLaptopDependentMloVariables("dashboardActive")
-        ;sleep 200
-        ;setMloDarkMode(1)
-        ;sendKeyCombinationIndependentActiveModifiers("^+{F4}")
-        ;WinWaitActive, %MLO_WINDOW_PLAN_MORNING_NAME%, ,8
-        ;WinMaximize, %MLO_WINDOW_PLAN_MORNING_NAME%
-        ;extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
-        ;modifiers := ""
-        ;number := ""
+        ;extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", "sleep600", "0", "{right}", "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
+        
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI
+        setMloDarkMode(0)
+        send %MLO_KEYBOARD_SHORTCUT_MLO_SYNC%
+        setLaptopDependentMloVariables("dashboardActive")
+        sleep 200
+        setMloDarkMode(1)
+        sendKeyCombinationIndependentActiveModifiers("^+{F4}")
+        WinWaitActive, %MLO_WINDOW_PLAN_MORNING_NAME%, ,8
+        WinMaximize, %MLO_WINDOW_PLAN_MORNING_NAME%
+        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", "sleep600", "0", "{right}", "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
+        modifiers := ""
+        number := ""
     }
     else if (number = 2 && modifiers = "!^")
     {

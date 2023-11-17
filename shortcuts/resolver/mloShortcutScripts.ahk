@@ -167,7 +167,7 @@ mloShowFind()
     sendKeyCombinationIndependentActiveModifiers("^+=") ; schimb view search
     sleep 400
     sendKeyCombinationIndependentActiveModifiers("^+l") ; clear previous filter
-    sleep 200
+    sleep 350
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
     sleep 100
     sendKeyCombinationIndependentActiveModifiers("{tab}") ; select search filter

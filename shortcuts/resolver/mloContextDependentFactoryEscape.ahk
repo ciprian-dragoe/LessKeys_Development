@@ -145,20 +145,10 @@
         sleep 100
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEXT_DAY_START_DATE)
         sleep 500
-        
-        if (PREVIOUS_TASK != INTREBARI_JURNAL_INDEX)
-        {
-            sleep 500
-            sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK)
-            sleep 1000
-            currentTask := getCurrentTask()
-            mloNewContextDependentSubTask(currentTask)
-        }
-        else
-        {
-            sendKeyCombinationIndependentActiveModifiers("{END}")
-            resetMloEnterMode()    
-        }
+        sendKeyCombinationIndependentActiveModifiers("{end}")
+        sleep 1000
+        currentTask := getCurrentTask()
+        mloNewContextDependentSubTask(currentTask)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_PARTE_INCARCA)
     {

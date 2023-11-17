@@ -266,7 +266,7 @@
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}")
     }
-    else
+    else if (MLO_ENTER_MODE != MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI)
     {
         resetMloEnterMode()
     }

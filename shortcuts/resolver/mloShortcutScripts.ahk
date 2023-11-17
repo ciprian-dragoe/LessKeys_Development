@@ -425,7 +425,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         sendKeyCombinationIndependentActiveModifiers("^+{F4}")
         WinWaitActive, %MLO_WINDOW_PLAN_MORNING_NAME%, ,8
         WinMaximize, %MLO_WINDOW_PLAN_MORNING_NAME%
-        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", "sleep600", "0", "{right}", "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
+        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", "sleep600", "0", "{right}", "{home}"]
         modifiers := ""
         number := ""
     }

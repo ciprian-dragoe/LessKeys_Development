@@ -404,7 +404,23 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     }
     else if (number = 1 && modifiers = "^!")
     {
-        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}"]
+        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "^c", "{home}", "{down}"]
+        changeViewMlo(modifiers . number, extraInstructions)
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_REVIN
+        INTREBARI_JURNAL.JURNAL_REVIN := []
+        lines := StrSplit(clipboard, "`n")
+        length := lines.MaxIndex()
+        Loop %length% 
+        {
+            if(!inStr(lines[A_Index], "===") && lines[A_Index])
+            {
+                trimmed := regexreplace(lines[A_Index], "^\s+")
+                trimmed := regexreplace(lines[A_Index], "\s+$")
+                trimmed := trimmed . A_Space
+                INTREBARI_JURNAL.JURNAL_REVIN.push(trimmed)
+            }
+        }
+        return
     }
     else if (number = 2 && modifiers = "^")
     {

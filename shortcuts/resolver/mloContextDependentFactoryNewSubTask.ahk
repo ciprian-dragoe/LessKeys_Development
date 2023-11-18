@@ -191,6 +191,10 @@
             INTREBARI_JURNAL_INDEX += 1
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_REVIN_ACTIVE
         }
+        else
+        {
+            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK)
     {

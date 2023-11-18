@@ -243,14 +243,14 @@
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}")
         sleep 100
-        sendKeyCombinationIndependentActiveModifiers("{home}{down}")
+        sendKeyCombinationIndependentActiveModifiers("{home}{down 3}")
         mloNewContextDependentSubTask("")
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN_ACTIVE)
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
         sleep 150
-        sendKeyCombinationIndependentActiveModifiers("{home}{down}")
+        sendKeyCombinationIndependentActiveModifiers("{home}{down 3}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_REVIN
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK)

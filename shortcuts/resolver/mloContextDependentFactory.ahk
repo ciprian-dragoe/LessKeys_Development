@@ -432,7 +432,7 @@ startTimerSendKeys(currentTask, nextTaskMode)
         TIMEOUT_KEYS_TO_SEND := extractDestinationAfter(currentTask)
     }
     
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
+    ;sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
     sleep 150
     sendKeyCombinationIndependentActiveModifiers("{DOWN}")
     sleep 300

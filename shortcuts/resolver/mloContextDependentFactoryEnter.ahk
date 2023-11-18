@@ -141,7 +141,7 @@
         {
             sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
             sleep 500
-            sendKeyCombinationIndependentActiveModifiers("{home}{down}")
+            sendKeyCombinationIndependentActiveModifiers("{home}{down 3}")
             sleep 500
             currentTask := getCurrentTask()
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_REVIN

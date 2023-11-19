@@ -241,8 +241,8 @@
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN)
     {
-        sendKeyCombinationIndependentActiveModifiers("{enter}")
-        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("{space}{space}{space}{enter}")
+        sleep 600
         sendKeyCombinationIndependentActiveModifiers("{home}{down 3}")
         mloNewContextDependentSubTask("")
     }

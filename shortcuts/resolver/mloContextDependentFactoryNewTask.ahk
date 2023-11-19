@@ -88,12 +88,11 @@
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
         sleep 100
-        sendKeyCombinationIndependentActiveModifiers(focusArea . " ")
-        if (focusArea = "66")
+        if (focusArea - 60 >= 1 && focusArea - 60 <= 6)
         {
-            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_FOCUS_AREA
-            FOCUS_AREA := focusArea
+            focusArea := focusArea - 1
         }
+        sendKeyCombinationIndependentActiveModifiers(focusArea . " ")
     }
     else
     {

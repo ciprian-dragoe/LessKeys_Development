@@ -163,20 +163,6 @@
         sendKeyCombinationIndependentActiveModifiers("{ENTER}")
         resetMloEnterMode()   
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_FOCUS_AREA)
-    {
-        sendKeyCombinationIndependentActiveModifiers("^a")
-        currentTask := getCurrentTask()
-        if (strLen(currentTask) = 3)
-        {
-            sendKeyCombinationIndependentActiveModifiers("{escape}") 
-        }
-        else
-        {
-            sendKeyCombinationIndependentActiveModifiers("{ENTER}")
-        }
-        resetMloEnterMode()   
-    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_FOCUS)
     {
         sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}")

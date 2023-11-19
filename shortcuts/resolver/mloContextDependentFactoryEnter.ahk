@@ -32,12 +32,6 @@
     {
         duplicateCurrentTask()
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_FOCUS_AREA)
-    {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers(FOCUS_AREA . " ")
-    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE)
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")

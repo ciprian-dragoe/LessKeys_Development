@@ -227,10 +227,14 @@
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN)
     {
-        sendKeyCombinationIndependentActiveModifiers("{space}{space}{space}{enter}")
-        sleep 600
-        sendKeyCombinationIndependentActiveModifiers("{home}{down 3}")
-        mloNewContextDependentSubTask("")
+        if (A_CaretX)
+        {
+            sendKeyCombinationIndependentActiveModifiers("{enter}")
+        }
+        else
+        {
+            sendKeyCombinationIndependentActiveModifiers("{escape}")
+        }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN_ACTIVE)
     {

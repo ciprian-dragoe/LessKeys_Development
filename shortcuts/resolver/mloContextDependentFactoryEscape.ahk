@@ -230,6 +230,9 @@
         if (A_CaretX)
         {
             sendKeyCombinationIndependentActiveModifiers("{enter}")
+            sleep 600
+            sendKeyCombinationIndependentActiveModifiers("{home}{down 3}")
+            mloNewContextDependentSubTask("")
         }
         else
         {

@@ -80,7 +80,7 @@
         sleep 150
         sendKeyCombinationIndependentActiveModifiers("{end}")
     }
-    else if (MLO_ENTER_MODE > 0)
+    else if (MLO_ENTER_MODE > 0 && MLO_ENTER_MODE != MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }

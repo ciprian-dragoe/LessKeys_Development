@@ -70,15 +70,23 @@
         sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . "_BUCLA> " . "{space}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN)
+    else if (inStr(currentTask, "<EVENIMENTE_REFLECT>", true))
     {
+        INTREBARI_JURNAL.JURNAL_REVIN := []
+        lines := StrSplit(currentTask, "`n")
+        length := lines.MaxIndex()
+        Loop %length% 
+        {
+            if(!inStr(lines[A_Index], "===") && lines[A_Index])
+            {
+                trimmed := regexreplace(lines[A_Index], "^\s+")
+                trimmed := regexreplace(lines[A_Index], "\s+$")
+                trimmed := trimmed . A_Space
+                INTREBARI_JURNAL.JURNAL_REVIN.push(trimmed)
+            }
+        }
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_EVENIMENTE_REFLECT
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN_ACTIVE)
-    {
-        sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
-        sleep 150
-        sendKeyCombinationIndependentActiveModifiers("{end}")
     }
     else if (MLO_ENTER_MODE > 0 && MLO_ENTER_MODE != MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI)
     {

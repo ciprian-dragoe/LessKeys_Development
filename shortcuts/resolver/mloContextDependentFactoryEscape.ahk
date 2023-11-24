@@ -225,13 +225,13 @@
             sendKeyCombinationIndependentActiveModifiers("{enter}")
         }
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_EVENIMENTE_REFLECT)
     {
         if (A_CaretX)
         {
             sendKeyCombinationIndependentActiveModifiers("{enter}")
             sleep 600
-            sendKeyCombinationIndependentActiveModifiers("{home}{down 3}")
+            sendKeyCombinationIndependentActiveModifiers("<H{down 2}")
             mloNewContextDependentSubTask("")
         }
         else
@@ -239,12 +239,12 @@
             sendKeyCombinationIndependentActiveModifiers("{escape}")
         }
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN_ACTIVE)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_EVENIMENTE_REFLECT_ACTIVE)
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
         sleep 150
-        sendKeyCombinationIndependentActiveModifiers("{home}{down 3}")
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_REVIN
+        sendKeyCombinationIndependentActiveModifiers("<H{down 2}")
+        resetMloEnterMode()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK)
     {

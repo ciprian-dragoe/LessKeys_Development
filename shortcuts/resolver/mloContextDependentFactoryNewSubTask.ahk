@@ -122,7 +122,7 @@
         if (MLO_ENTER_MODE > 0) 
         {
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_CANCEL
-            resetMloEnterMode()    
+            resetMloEnterMode()
         }
         else
         {
@@ -180,7 +180,7 @@
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_EVENIMENTE_REFLECT)
     {
         if (!inStr(currentTask, "==="))
         {
@@ -189,11 +189,11 @@
             INTREBARI_JURNAL_INDEX := 1
             sendKeyCombinationIndependentActiveModifiers(questions[INTREBARI_JURNAL_INDEX])
             INTREBARI_JURNAL_INDEX += 1
-            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_REVIN_ACTIVE
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_EVENIMENTE_REFLECT_ACTIVE
         }
         else
         {
-            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+            resetMloEnterMode()
         }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK)

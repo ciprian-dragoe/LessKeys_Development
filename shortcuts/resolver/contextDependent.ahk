@@ -53,7 +53,7 @@ processEnter()
 
 processAltShiftDirection(combination, index)
 {
-    if (IS_SORTING_VIEW_ACTIVE || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_REVIN)
+    if (IS_SORTING_VIEW_ACTIVE)
     {
         IS_SET_MLO_ORDER_ACTIVE := 1
         SetTimer TimerTaskOrderChanged, off

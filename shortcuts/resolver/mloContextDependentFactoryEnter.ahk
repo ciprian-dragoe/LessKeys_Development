@@ -145,6 +145,7 @@
             }
             else
             {
+                sendKeyCombinationIndependentActiveModifiers("{home}")
                 resetMloEnterMode(0)
             }
         }

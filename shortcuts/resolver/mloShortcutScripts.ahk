@@ -395,7 +395,9 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
 ;   if (A_WDay = 1) ; sunday 
     if (number = 1 && modifiers = "^")
     {
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK
+        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", "<H{down 2}"]
+        IS_SORTING_VIEW_ACTIVE := 1
+        
     } 
     else if (number = 1 && modifiers = "^+")
     {
@@ -404,8 +406,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     }
     else if (number = 1 && modifiers = "^!")
     {
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", "<H{down 2}"]
-        IS_SORTING_VIEW_ACTIVE := 1
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK
     }
     else if (number = 2 && modifiers = "^")
     {

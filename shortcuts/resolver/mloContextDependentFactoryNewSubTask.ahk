@@ -119,15 +119,7 @@
     }
     else if (inStr(currentTask, "<CANCEL>", true))
     {
-        if (MLO_ENTER_MODE > 0) 
-        {
-            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_CANCEL
-            resetMloEnterMode()
-        }
-        else
-        {
-            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-        }
+        resetMloEnterMode()
     }
     else if (inStr(currentTask, "<GANDURI_EXPLOREZ>", true))
     {

@@ -40,7 +40,7 @@ INTREBARI_JURNAL.I := ["SEMNIFICATIE: "]
 INTREBARI_JURNAL.LIMITA := ["E IN CONTROLUL MEU: "]
 INTREBARI_JURNAL.DISTRAGE := ["E IN CONTROLUL MEU: "]
 INTREBARI_JURNAL.NEVOIE := ["POT SA INGRIJESC CU CEEA CE AM: "]
-INTREBARI_JURNAL.PAUZA := []
+INTREBARI_JURNAL.INTENTIE := ["MA AJUTA SA FIU IMPACAT IN ACEL SPATIU: "]
 INTREBARI_JURNAL.DAUᵒDRUMUL := ["EFECT TERMEN LUNG CONTINUI IGNOR LIMITA: "]
 INTREBARI_JURNAL.CERᵒAJUTOR := ["SPRIJIN POT SA OFER: "]
 INTREBARI_JURNAL.GREUTATE := ["COMUNIC ACESTUI MEDIU: "]
@@ -338,6 +338,7 @@ processKeysAfter(keys)
     {
         ; in case triggering a shortcut has reset the enter mode stop processing further
         ;showtooltip("MLO_ENTER_MODE=" . MLO_ENTER_MODE, 2000)
+        ;showtooltip("key=" . key, 2000)
         if (MLO_ENTER_MODE != 0) 
         {
             if (key = "^e" || key = "^r") ; ^e is used for the new task shortcut, ^r is used for the new sub task shortcut
@@ -361,12 +362,6 @@ processKeysAfter(keys)
                     time := StrSplit(key, "sleep")[2]
                     ;showtooltip(time)
                     sleep %time%
-                }
-                else if (StrLen(key) > 1)
-                {
-                    key := "{" . key . "}"
-                    ;showtooltip("sendKey=" . key, 2000)
-                    sendKeyCombinationIndependentActiveModifiers(key)
                 }
                 else
                 {
@@ -392,12 +387,15 @@ timerMloSendKeys()
     If (inStr(lastActiveAppName, MLO_WINDOW_NAME, true))
     {
         showtooltip("======== TIMER EXPIRED =========", 1500)
-        resetMloEnterMode(0)
+        ;showtooltip(TIMEOUT_KEYS_TO_SEND)
+        if (TIMEOUT_KEYS_TO_SEND)
+        {
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_AFTER_TIMER_ENTER_AND_ESCAPE_SENDS_KEYS
+        }
     }
-    
-    if (TIMEOUT_KEYS_TO_SEND)
+    else
     {
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_AFTER_TIMER_ENTER_AND_ESCAPE_SENDS_KEYS
+        resetMloEnterMode(0)
     }
 }
 
@@ -429,8 +427,10 @@ startTimerSendKeys(currentTask, nextTaskMode)
     {
         TIMEOUT_KEYS_TO_SEND := extractDestinationAfter(currentTask)
     }
+    ;showtooltip("TIMEOUT_KEYS_TO_SEND=" . TIMEOUT_KEYS_TO_SEND, 1000)
+    ;showtooltip("timerTimeout=" . timerTimeout, 1000)
     
-    ;sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1)
     sleep 150
     sendKeyCombinationIndependentActiveModifiers("{DOWN}")
     sleep 300

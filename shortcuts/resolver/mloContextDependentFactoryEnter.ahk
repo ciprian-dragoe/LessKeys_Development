@@ -18,6 +18,7 @@
         sendKeyCombinationIndependentActiveModifiers("{enter}")
         ; to enable processKeysAfter 
         MLO_ENTER_MODE := 10000
+        ;showtooltip(TIMEOUT_KEYS_TO_SEND)
         processKeysAfter(TIMEOUT_KEYS_TO_SEND)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ENTER_GO_AFTER)

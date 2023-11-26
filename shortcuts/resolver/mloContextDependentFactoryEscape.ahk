@@ -231,7 +231,7 @@
         {
             sendKeyCombinationIndependentActiveModifiers("{enter}")
             sleep 600
-            sendKeyCombinationIndependentActiveModifiers("<H{down 2}")
+            sendKeyCombinationIndependentActiveModifiers("{home}{down 5}")
             mloNewContextDependentSubTask("")
         }
         else
@@ -243,7 +243,7 @@
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
         sleep 150
-        sendKeyCombinationIndependentActiveModifiers("<H{down 2}")
+        sendKeyCombinationIndependentActiveModifiers("{home}{down 5}")
         resetMloEnterMode()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK)

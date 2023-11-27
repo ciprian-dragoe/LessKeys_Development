@@ -395,7 +395,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
 ;   if (A_WDay = 1) ; sunday 
     if (number = 1 && modifiers = "^")
     {
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}"]
+        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{end}"]
         IS_SORTING_VIEW_ACTIVE := 1
     } 
     else if (number = 1 && modifiers = "^+")
@@ -417,6 +417,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         ;MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI
         ;extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}", "sleep600", "0", "{right}", "{home}", MLO_KEYBOARD_SHORTCUT_MLO_SYNC]
         
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_MLO_SYNC)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI
         setMloDarkMode(0)
         send %MLO_KEYBOARD_SHORTCUT_MLO_SYNC%

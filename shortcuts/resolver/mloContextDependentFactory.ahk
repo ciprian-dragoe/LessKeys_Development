@@ -29,8 +29,8 @@ global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ := 51
 global MLO_ENTER_MODE_SET_AS_PARTE_CONSUMA := 53
 global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE := 54
 global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE := 57
-global MLO_ENTER_MODE_SET_AS_JURNAL := 80
-global MLO_ENTER_MODE_SET_AS_1JURNAL := 82
+global MLO_ENTER_MODE_SET_AS_JOURNAL := 80
+global MLO_ENTER_MODE_SET_AS_1JOURNAL := 82
 global MLO_ENTER_MODE_SET_AS_DEZVOLT_JURNAL := 81
 global INTREBARI_JURNAL := {}
 INTREBARI_JURNAL.EVENIMENT := ["CE SIMT IN ACEST SPATIU: ", "CE AR FACE UN PARINTE CARE MA IUBESTE: "]
@@ -221,6 +221,10 @@ TimerGoToNextQuestion()
         if (TASK_GO_AFTER_TO = "{DOWN}")
         {
             mloNewContextDependentSubTask(currentTask)
+        }
+        else if (inStr(TASK_GO_AFTER_TO, "cancel"))
+        {
+            resetMloEnterMode(0)
         }
         else
         {
@@ -444,28 +448,29 @@ startTimerSendKeys(currentTask, nextTaskMode)
     SetTimer TimerMloSendKeys, %timerTimeout%
 }
 
-startJurnalMode(currentTask)
+startJournalMode(currentTask)
 {
     positionStart := InStr(currentTask, "<") + 1
     positionEnd := InStr(currentTask, ">")
-    result := SubStr(currentTask, positionStart, positionEnd - positionStart)
-    splits := StrSplit(result, "_")
-    if (splits.Count() = 4)
+    journal := SubStr(currentTask, positionStart, positionEnd - positionStart)
+    splits := StrSplit(journal, "_")
+    
+    if (splits.Count() = 3)
     {
-        MLO_JOURNAL := extractDestinationAfter(currentTask, 2)
-        PREVIOUS_TASK := extractDestinationAfter(currentTask, 1)
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)    
+        MLO_JOURNAL := extractDestinationAfter(currentTask, 1)
     }
     else
     {
-        MLO_JOURNAL := extractDestinationAfter(currentTask, 1)
-        PREVIOUS_TASK := extractDestinationAfter(currentTask)
+        MLO_JOURNAL := extractDestinationAfter(currentTask)
         TASK_GO_AFTER_TO := "{DOWN}"
     }
     
+    PREVIOUS_TASK := SubStr(currentTask, 1, InStr(currentTask, " ") - 1)
+    
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)    
     sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")    
-    MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL
+    MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNAL
 }
 
 timerCompletePrevious() 

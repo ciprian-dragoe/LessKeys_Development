@@ -1,12 +1,12 @@
 ﻿mloContextDependentEnter()
 {
     ;writeNowLogFile("mloContextDependentEnter")
-    if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL)
+    if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
         sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_1JURNAL)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_1JOURNAL)
     {
         mloNewContextDependentEscape()
     }

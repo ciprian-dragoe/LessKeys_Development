@@ -134,12 +134,12 @@
     }
     else if (inStr(currentTask, "<JURNAL_", true))
     {
-        startJurnalMode(currentTask)
+        startJournalMode(currentTask)
     }
     else if (inStr(currentTask, "<1JURNAL_", true))
     {
-        startJurnalMode(currentTask)
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_1JURNAL
+        startJournalMode(currentTask)
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_1JOURNAL
     }
     else if (inStr(currentTask, "<NEW_TASK_GO_AFTER", true))
     {

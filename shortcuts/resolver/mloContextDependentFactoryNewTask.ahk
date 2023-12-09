@@ -86,6 +86,7 @@
             }
         }
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_EVENIMENTE_REFLECT
+        PREVIOUS_TASK := SubStr(currentTask, 1, InStr(currentTask, " ") - 1)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
     else if (MLO_ENTER_MODE > 0 && MLO_ENTER_MODE != MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI)

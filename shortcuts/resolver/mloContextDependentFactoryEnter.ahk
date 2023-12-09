@@ -136,7 +136,7 @@
         {
             sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
             sleep 500
-            sendKeyCombinationIndependentActiveModifiers("{home}{down 5}")
+            sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK . "{DOWN}")
             sleep 500
             currentTask := getCurrentTask()
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_EVENIMENTE_REFLECT

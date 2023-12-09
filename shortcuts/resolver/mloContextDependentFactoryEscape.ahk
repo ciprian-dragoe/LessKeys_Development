@@ -231,7 +231,7 @@
         {
             sendKeyCombinationIndependentActiveModifiers("{enter}")
             sleep 600
-            sendKeyCombinationIndependentActiveModifiers("{home}{down 5}")
+            sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK . "{DOWN}")
             mloNewContextDependentSubTask("")
         }
         else

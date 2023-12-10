@@ -125,33 +125,22 @@
             processKeysAfter(TASK_GO_AFTER_TO)
         }
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_EVENIMENTE_REFLECT)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_EVENIMENTE_REFLECT_ACTIVE)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ_ACTIVE)
     {
-        questions := INTREBARI_JURNAL["JURNAL_REVIN"]
+        questions := INTREBARI_JURNAL["JURNAL_ALINIEZ"]
         if (INTREBARI_JURNAL_INDEX > questions.length())
         {
             sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
-            sleep 500
+            sleep 300
             sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK . "{DOWN}")
-            sleep 500
+            sleep 600
             currentTask := getCurrentTask()
-            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_EVENIMENTE_REFLECT
-            if (!inStr(currentTask, "==="))
-            {
-                mloNewContextDependentSubTask("")
-            }
-            else
-            {
-                sendKeyCombinationIndependentActiveModifiers("{home}{down}")
-                resetMloEnterMode(0)
-                sleep 600
-                currentTask := getCurrentTask()
-                mloNewContextDependentSubTask(currentTask)
-            }
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ
+            mloNewContextDependentSubTask(currentTask)
         }
         else
         {

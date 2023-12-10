@@ -52,6 +52,35 @@
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ENTER_GO_AFTER
     }
+    else if (inStr(currentTask, "<EVENIMENTE_ALINIEZ>", true))
+    {
+        INTREBARI_JURNAL.JURNAL_ALINIEZ := []
+        lines := StrSplit(currentTask, "`n")
+        length := lines.MaxIndex()
+        Loop %length% 
+        {
+            if(!inStr(lines[A_Index], "===") && lines[A_Index])
+            {
+                trimmed := regexreplace(lines[A_Index], "^\s+")
+                trimmed := regexreplace(lines[A_Index], "\s+$")
+                trimmed := trimmed . A_Space
+                INTREBARI_JURNAL.JURNAL_ALINIEZ.push(trimmed)
+            }
+        }
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ
+        PREVIOUS_TASK := SubStr(currentTask, 1, InStr(currentTask, " ") - 1)
+        sendKeyCombinationIndependentActiveModifiers("{down}")
+        sleep 600
+        currentTask := getCurrentTask()
+        if ((inStr(currentTask, "<EVENIMENTE_ALINIEZ>", true)))
+        {
+            resetMloEnterMode()
+        }
+        else
+        {
+            mloNewContextDependentSubTask(currentTask)
+        }
+    }
     else if (inStr(currentTask, "_BUCLA>", true))
     {
         ; old way kept if needed to come back
@@ -172,20 +201,20 @@
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_EVENIMENTE_REFLECT)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ)
     {
-        if (!inStr(currentTask, "==="))
+        if (inStr(currentTask, "<EVENIMENTE_ALINIEZ>", true))
         {
-            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-            questions := INTREBARI_JURNAL["JURNAL_REVIN"]
-            INTREBARI_JURNAL_INDEX := 1
-            sendKeyCombinationIndependentActiveModifiers(questions[INTREBARI_JURNAL_INDEX])
-            INTREBARI_JURNAL_INDEX += 1
-            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_EVENIMENTE_REFLECT_ACTIVE
+            resetMloEnterMode()
         }
         else
         {
-            resetMloEnterMode()
+            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+            questions := INTREBARI_JURNAL["JURNAL_ALINIEZ"]
+            INTREBARI_JURNAL_INDEX := 1
+            sendKeyCombinationIndependentActiveModifiers(questions[INTREBARI_JURNAL_INDEX])
+            INTREBARI_JURNAL_INDEX += 1
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ_ACTIVE
         }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK)

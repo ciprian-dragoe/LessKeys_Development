@@ -225,7 +225,7 @@
             sendKeyCombinationIndependentActiveModifiers("{enter}")
         }
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_EVENIMENTE_REFLECT)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ)
     {
         if (A_CaretX)
         {
@@ -239,11 +239,10 @@
             sendKeyCombinationIndependentActiveModifiers("{escape}")
         }
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_EVENIMENTE_REFLECT_ACTIVE)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ_ACTIVE)
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
         sleep 150
-        sendKeyCombinationIndependentActiveModifiers("{home}{down 5}")
         resetMloEnterMode()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK)

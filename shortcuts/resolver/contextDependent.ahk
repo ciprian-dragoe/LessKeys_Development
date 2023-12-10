@@ -61,6 +61,13 @@ processAltShiftDirection(combination, index)
     }
     key := subStr(combination, 3)
     send {blind}{%key%}
+    if (key = "right" || key = "left")
+    {
+        currentTask := getCurrentTask()
+        index := SubStr(currentTask, 1, InStr(currentTask, " ") - 1)
+        sleep 200
+        sendKeyCombinationIndependentActiveModifiers(index)
+    }
 }
 
 processCtrlF()

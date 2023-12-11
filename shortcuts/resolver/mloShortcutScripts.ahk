@@ -408,7 +408,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     }
     else if (number = 2 && modifiers = "^")
     {
-        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{end}", "{home}"]
+        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "^a", MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1, "{home}{down}"]
     }
     else if (number = 2 && modifiers = "^+")
     {

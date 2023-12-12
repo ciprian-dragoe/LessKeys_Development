@@ -50,10 +50,6 @@ TimerDoubleKeyPressInterval:
     timerDoubleKeyPressInterval()
 return
 
-TimerCompletePrevious:
-    timerCompletePrevious()
-return
-
 TimerActivateMloRapidTaskWindow:
     timerActivateMloRapidTaskWindow()
 return

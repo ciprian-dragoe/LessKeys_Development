@@ -5,41 +5,21 @@
 
 global MLO_ENTER_MODE := 0
 global MLO_ENTER_MODE_SET_AS_NEW_TASK := 1
-global MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER := 3
 global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 5
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER := 6
 global MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER := 4
-global MLO_ENTER_MODE_SET_AS_ENTER_GO_AFTER := 7
 global MLO_ENTER_MODE_SET_AS_SEND_KEYS := 9
-global MLO_ENTER_MODE_SET_AS_GO_TO := 10
 global MLO_ENTER_MODE_SET_AS_AFTER_TIMER_ENTER_AND_ESCAPE_SENDS_KEYS := 11
 global MLO_ENTER_MODE_SET_AS_TIMER_SEND_KEYS := 12 ; only for documentation, not used as variable => search for <TIMER_SEND_KEYS_
-global MLO_ENTER_MODE_SET_AS_COPY_TEMPLATE := 13
-global MLO_ENTER_MODE_SET_AS_JURNAL_FOCUS := 15
-global MLO_ENTER_MODE_SET_AS_NEW_TASK_COMPLETE_PREVIOUS := 16
-global NUMBER_TASKS_COMPLETE := 0
 global MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK := 19
 global MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI := 20
 global LESSON_COMPLETE_AMOUNT := 0
-global MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ := 21
-global MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ_ACTIVE := 22
 
 global MLO_ENTER_MODE_SET_AS_DIALOG := 50
 global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ := 51
 global MLO_ENTER_MODE_SET_AS_PARTE_CONSUMA := 53
 global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE := 54
 global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE := 57
-global MLO_ENTER_MODE_SET_AS_JOURNAL := 80
-global MLO_ENTER_MODE_SET_AS_1JOURNAL := 82
-
-global INTREBARI_JURNAL := {}
-INTREBARI_JURNAL.EVENIMENT := ["SEMNIFICATIE: ", "MESAJ PARINTE MA IUBESTE: "]
-INTREBARI_JURNAL.LIMITA := ["E IN CONTROLUL MEU: "]
-INTREBARI_JURNAL.DISTRAGE := ["E IN CONTROLUL MEU: "]
-INTREBARI_JURNAL.NEVOIE := ["POT SA INGRIJESC CU CEEA CE AM: "]
-INTREBARI_JURNAL.INTENTIE := ["POT SA FAC SA FIU IMPACAT IN ACEST SPATIU: "]
-INTREBARI_JURNAL.DAUᵒDRUMUL := ["EFECT TERMEN LUNG CONTINUI IGNOR LIMITA: "]
-INTREBARI_JURNAL.CERᵒAJUTOR := ["SPRIJIN POT SA OFER: "]
 
 global MLO_ENTER_MODE_SET_AS_JOURNAL := 91
 global MLO_ENTER_MODE_SET_AS_JOURNAL_ASK_QUESTIONS := 92
@@ -471,52 +451,6 @@ startTimerSendKeys(currentTask, nextTaskMode)
     
     SetTimer TimerMloSendKeys, OFF
     SetTimer TimerMloSendKeys, %timerTimeout%
-}
-
-startJournalMode(currentTask)
-{
-    positionStart := InStr(currentTask, "<") + 1
-    positionEnd := InStr(currentTask, ">")
-    journal := SubStr(currentTask, positionStart, positionEnd - positionStart)
-    splits := StrSplit(journal, "_")
-    
-    if (splits.Count() = 3)
-    {
-        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)    
-        MLO_JOURNAL := extractDestinationAfter(currentTask, 1)
-    }
-    else
-    {
-        MLO_JOURNAL := extractDestinationAfter(currentTask)
-        TASK_GO_AFTER_TO := "{DOWN}"
-    }
-    
-    PREVIOUS_TASK := SubStr(currentTask, 1, InStr(currentTask, " ") - 1)
-    
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)    
-    sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")    
-    MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNAL
-}
-
-timerCompletePrevious() 
-{
-    setTimer TimerCompletePrevious, OFF
-    if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_COMPLETE_PREVIOUS)
-    {
-        sleep 150
-        sendKeyCombinationIndependentActiveModifiers("{left}")
-        sleep 150
-        sendKeyCombinationIndependentActiveModifiers("{space}")
-        NUMBER_TASKS_COMPLETE--
-        Loop %NUMBER_TASKS_COMPLETE%,
-        {
-            sendKeyCombinationIndependentActiveModifiers("{up}")
-            sleep 150
-            sendKeyCombinationIndependentActiveModifiers("{space}")
-            sleep 150
-        }
-        resetMloEnterMode(0)
-    }
 }
 
 timerCompleteLesson() 

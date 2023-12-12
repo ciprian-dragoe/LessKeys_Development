@@ -6,10 +6,6 @@
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
         sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_1JOURNAL)
-    {
-        mloNewContextDependentEscape()
-    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_AFTER_TIMER_ENTER_AND_ESCAPE_SENDS_KEYS)
     {
         ;writeNowLogFile("MLO_ENTER_MODE_SET_AS_AFTER_TIMER_ENTER_AND_ESCAPE_SENDS_KEYS")
@@ -20,18 +16,6 @@
         MLO_ENTER_MODE := 10000
         ;showtooltip(TIMEOUT_KEYS_TO_SEND)
         processKeysAfter(TIMEOUT_KEYS_TO_SEND)
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ENTER_GO_AFTER)
-    {
-        sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
-        sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
-        sleep 400
-        currentTask := getCurrentTask()
-        mloNewContextDependentSubTask(currentTask)
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_COPY_TEMPLATE)
-    {
-        duplicateCurrentTask()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE)
     {
@@ -47,28 +31,6 @@
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE)
     {
         continueJournalTask("_BUCLA> ", "{END}")
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_FOCUS)
-    {
-        questions := INTREBARI_JURNAL[MLO_JOURNAL]
-        if (JOURNAL_QUESTION_INDEX > questions.length())
-        {
-            JOURNAL_QUESTION_INDEX := 1
-            sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
-            sleep 400
-            sendKeyCombinationIndependentActiveModifiers("{end}")
-            resetMloEnterMode(0)
-            currentTask := getCurrentTask()
-            focusArea := getFocusArea(currentTask)
-            if (focusArea = "66" && !inStr(currentTask, "<CANCEL>"))
-            {
-                mloNewContextDependentSubTask(currentTask)
-            }
-            return
-        }
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-        sendKeyCombinationIndependentActiveModifiers(questions[JOURNAL_QUESTION_INDEX])
-        JOURNAL_QUESTION_INDEX += 1
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER)
     {
@@ -102,14 +64,6 @@
         sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . JOURNAL_QUESTION_INDEX . "" . JOURNAL_QUESTION_INDEX)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER)
-    {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_COMPLETE_PREVIOUS)
-    {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER)
     {
         ;writeNowLogFile("MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER")
@@ -122,30 +76,6 @@
         {
             sendKeyCombinationIndependentActiveModifiers("{enter}")
             processKeysAfter(TASK_GO_AFTER_TO)
-        }
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ)
-    {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ_ACTIVE)
-    {
-        questions := INTREBARI_JURNAL["JURNAL_ALINIEZ"]
-        if (JOURNAL_QUESTION_INDEX > questions.length())
-        {
-            sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
-            sleep 300
-            sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK . "{DOWN}")
-            sleep 600
-            currentTask := getCurrentTask()
-            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ
-            mloNewContextDependentSubTask(currentTask)
-        }
-        else
-        {
-            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-            sendKeyCombinationIndependentActiveModifiers(questions[JOURNAL_QUESTION_INDEX])
-            JOURNAL_QUESTION_INDEX += 1
         }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK)

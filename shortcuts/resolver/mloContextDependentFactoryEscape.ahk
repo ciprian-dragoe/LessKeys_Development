@@ -17,7 +17,7 @@
         MLO_ENTER_MODE := 10000
         processKeysAfter(TIMEOUT_KEYS_TO_SEND)
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL_ASK_QUESTIONS || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_1JOURNAL)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL_ASK_QUESTIONS)
     {
         if (DOUBLE_PRESS_KEY_ACTIVE)
         {
@@ -39,23 +39,6 @@
             setTimer TimerNextJournalQuestion, 600
             sendKeyCombinationIndependentActiveModifiers("{ENTER}")
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNAL_ASK_QUESTIONS
-        }
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_COMPLETE_PREVIOUS)
-    {
-        if (DOUBLE_PRESS_KEY_ACTIVE)
-        {
-            DOUBLE_PRESS_KEY_ACTIVE := 0
-            setTimer TimerDoubleKeyPressInterval, off
-            setTimer TimerCompletePrevious, off
-            resetMloEnterMode(0)
-        }
-        else
-        {
-            DOUBLE_PRESS_KEY_ACTIVE := 1
-            setTimer TimerDoubleKeyPressInterval, 800
-            setTimer TimerCompletePrevious, 600
-            sendKeyCombinationIndependentActiveModifiers("{ENTER}")
         }
     }
     else if (LESSON_COMPLETE_AMOUNT > 0)
@@ -95,13 +78,6 @@
         sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . JOURNAL_QUESTION_INDEX . "" . JOURNAL_QUESTION_INDEX)
         
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_COPY_TEMPLATE)
-    {
-        sendKeyCombinationIndependentActiveModifiers("{enter}")
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_EXPAND_ALL_TASKS)
-        resetMloEnterMode()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE)
     {
@@ -163,42 +139,6 @@
         sendKeyCombinationIndependentActiveModifiers("{ENTER}")
         resetMloEnterMode()   
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_FOCUS)
-    {
-        sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}")
-        sleep 400
-        sendKeyCombinationIndependentActiveModifiers("{end}")
-        
-        /*
-        currentTask := getCurrentTask()
-        area := getFocusArea(currentTask)
-        if (area = "66")
-        {
-            mloNewContextDependentSubTask(currentTask)
-            return
-        }
-        */
-        resetMloEnterMode()
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER)
-    {
-        if (DOUBLE_PRESS_KEY_ACTIVE)
-        {
-            DOUBLE_PRESS_KEY_ACTIVE := 0
-            setTimer TimerDoubleKeyPressInterval, off
-            setTimer TimerGoToMloTask, off
-            resetMloEnterMode()
-        }
-        else
-        {
-            DOUBLE_PRESS_KEY_ACTIVE := 1
-            setTimer TimerDoubleKeyPressInterval, off
-            setTimer TimerDoubleKeyPressInterval, 900
-            setTimer TimerGoToMloTask, off
-            setTimer TimerGoToMloTask, 800
-            sendKeyCombinationIndependentActiveModifiers("{enter}{f5}{escape}")
-        }
-    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER)
     {
         ;writeNowLogFile("MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER")
@@ -224,26 +164,6 @@
         {
             sendKeyCombinationIndependentActiveModifiers("{enter}")
         }
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ)
-    {
-        if (A_CaretX)
-        {
-            sendKeyCombinationIndependentActiveModifiers("{enter}")
-            sleep 600
-            sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK . "{DOWN}")
-            mloNewContextDependentSubTask("")
-        }
-        else
-        {
-            sendKeyCombinationIndependentActiveModifiers("{escape}")
-        }
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ_ACTIVE)
-    {
-        sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
-        sleep 150
-        resetMloEnterMode()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK)
     {

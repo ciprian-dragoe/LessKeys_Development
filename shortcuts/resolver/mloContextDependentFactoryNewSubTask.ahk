@@ -6,81 +6,6 @@
     {
         startTimerSendKeys(currentTask, MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
-    else if (inStr(currentTask, "<GO_TO_", true))
-    {
-        
-        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
-        if (MLO_ENTER_MODE != 0)
-        {
-            sleep 1200
-        }
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_GO_TO
-        sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
-        sleep 100
-        nextTask := getCurrentTask()
-        if (nextTask = currentTask)
-        {
-            sleep 1000
-        }
-        mloNewContextDependentSubTask(nextTask)
-    }
-    else if (inStr(currentTask, "NEW_TASK_COMPLETE_PREVIOUS", true))
-    {
-        NUMBER_TASKS_COMPLETE := extractDestinationAfter(currentTask)
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_COMPLETE_PREVIOUS
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-    }
-    else if (inStr(currentTask, "0 DAU DRUMUL", true))
-    {
-        NUMBER_TASKS_COMPLETE := 1
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_COMPLETE_PREVIOUS
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-    }
-    else if (inStr(currentTask, "<COPY_TEMPLATE", true))
-    {
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_COPY_TEMPLATE
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_FOLDER)
-        sendKeyCombinationIndependentActiveModifiers("{F2}")
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers("{delete}")
-    }
-    else if (inStr(currentTask, "<ENTER_GO_AFTER_", true))
-    {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ENTER_GO_AFTER
-    }
-    else if (inStr(currentTask, "<EVENIMENTE_ALINIEZ>", true))
-    {
-        INTREBARI_JURNAL.JURNAL_ALINIEZ := []
-        lines := StrSplit(currentTask, "`n")
-        length := lines.MaxIndex()
-        Loop %length% 
-        {
-            if(!inStr(lines[A_Index], "===") && lines[A_Index])
-            {
-                trimmed := regexreplace(lines[A_Index], "^\s+")
-                trimmed := regexreplace(lines[A_Index], "\s+$")
-                trimmed := trimmed . A_Space
-                INTREBARI_JURNAL.JURNAL_ALINIEZ.push(trimmed)
-            }
-        }
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ
-        PREVIOUS_TASK := SubStr(currentTask, 1, InStr(currentTask, " ") - 1)
-        sendKeyCombinationIndependentActiveModifiers("{down}")
-        sleep 600
-        currentTask := getCurrentTask()
-        if ((inStr(currentTask, "<EVENIMENTE_ALINIEZ>", true)))
-        {
-            resetMloEnterMode()
-        }
-        else
-        {
-            mloNewContextDependentSubTask(currentTask)
-        }
-    }
     else if (inStr(currentTask, "_BUCLA>", true))
     {
         ; old way kept if needed to come back
@@ -161,24 +86,9 @@
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
-    else if (inStr(currentTask, "<JURNAL_", true))
-    {
-        startJournalMode(currentTask)
-    }
     else if (inStr(currentTask, "<JOURNAL_", true))
     {
         writeJournalTopics(currentTask)
-    }
-    else if (inStr(currentTask, "<1JURNAL_", true))
-    {
-        startJournalMode(currentTask)
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_1JOURNAL
-    }
-    else if (inStr(currentTask, "<NEW_TASK_GO_AFTER", true))
-    {
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER
-        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
     else if (inStr(currentTask, "<NEW_TASK_KEYS_AFTER_", true))
     {
@@ -204,22 +114,6 @@
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ)
-    {
-        if (inStr(currentTask, "<EVENIMENTE_ALINIEZ>", true))
-        {
-            resetMloEnterMode()
-        }
-        else
-        {
-            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-            questions := INTREBARI_JURNAL["JURNAL_ALINIEZ"]
-            JOURNAL_QUESTION_INDEX := 1
-            sendKeyCombinationIndependentActiveModifiers(questions[JOURNAL_QUESTION_INDEX])
-            JOURNAL_QUESTION_INDEX += 1
-            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ_ACTIVE
-        }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK)
     {

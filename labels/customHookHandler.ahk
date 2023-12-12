@@ -2,32 +2,8 @@ TimerCheckAfterSyncReminders:
     timerCheckAfterSyncReminders()
 return
 
-TimerCopyMloTaskPhase1:
-    TimerCopyMloTaskPhase1()
-return
-
-TimerCopyMloTaskPhase2:
-    TimerCopyMloTaskPhase2()
-return
-
-TimerCopyMloTaskPhase3:
-    TimerCopyMloTaskPhase3()
-return
-
 TimerNextJournalQuestion:
     TimerNextJournalQuestion()
-return
-
-TimerGoToNextDialoguePhase:
-    timerGoToNextDialoguePhase()
-return
-
-TimerGoToMloTask:
-    timerGoToMloTask()
-return
-
-TimerCopyMloTaskClear:
-    timerCopyMloTaskClear()
 return
 
 TimerSyncMloStep2_readPing:

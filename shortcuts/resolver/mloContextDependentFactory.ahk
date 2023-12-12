@@ -98,12 +98,6 @@ resetMloEnterMode(alsoPressEscape = 1)
     }
 }
 
-newBrainStormTask(originalAction)
-{
-    sendKeyCombinationIndependentActiveModifiers("{enter}{F5}{LEFT}")
-    sendKeyCombinationIndependentActiveModifiers(originalAction)
-}
-
 extractDestinationAfter(input, indexPositionFromRight = 0)
 {
     positionStart := InStr(input, "<") + 1
@@ -111,61 +105,6 @@ extractDestinationAfter(input, indexPositionFromRight = 0)
     result := SubStr(input, positionStart, positionEnd - positionStart)
     splits := StrSplit(result, "_")
     return splits[splits.Count() - indexPositionFromRight]
-}
-
-mloAddJournalDelimiterSubTask()
-{
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-    sendKeyCombinationIndependentActiveModifiers("======{space}{space}======{space}{space}{left 9}")
-    MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_NEW_TASK_WITH_REFRESH
-}
-
-TimerCopyMloTaskClear()
-{
-    setTimer TimerCopyMloTaskClear, off
-    PREVIOUS_TASK := ""
-}
-
-TimerGoToMloTask()
-{
-    setTimer TimerGoToMloTask, off
-    if (DOUBLE_PRESS_KEY_ACTIVE)
-    {
-        sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
-        nextTaskToGoAfter := getCurrentTask()
-        mloNewContextDependentSubTask(nextTaskToGoAfter)
-    }
-}
-
-TimerCopyMloTaskPhase1()
-{
-    setTimer TimerCopyMloTaskPhase1, off
-    setTimer TimerCopyMloTaskPhase2, 250
-    sendKeyCombinationIndependentActiveModifiers("{right}{space}^a^c")
-}
-
-TimerCopyMloTaskPhase2()
-{
-    setTimer TimerCopyMloTaskPhase2, off
-    setTimer TimerCopyMloTaskPhase3, 250
-    if (Clipboard = "New Task " || Clipboard = " ")
-    {
-        send %PREVIOUS_TASK%
-    }
-    else
-    {
-        PREVIOUS_TASK := Clipboard
-    }
-    sendKeyCombinationIndependentActiveModifiers("{enter}{f5}")
-}
-
-TimerCopyMloTaskPhase3()
-{
-    setTimer TimerCopyMloTaskPhase3, off
-    sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
-    sleep 250
-    goAfter := getCurrentTask(600)
-    mloNewContextDependentSubTask(goAfter)
 }
 
 TimerNextJournalQuestion()
@@ -252,15 +191,6 @@ nextGroupQuestions()
     }
 }
 
-timerGoToNextDialoguePhase()
-{
-    SetTimer TimerGoToNextDialoguePhase, off
-    TASK_GO_AFTER_TO := Mod(TASK_GO_AFTER_TO + 1, 2)
-    sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
-    sendKeyCombinationIndependentActiveModifiers("{DOWN}")
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-}
-
 createJournalTask(template)
 {
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
@@ -306,32 +236,6 @@ getFocusArea(input)
             return allowedArea
         }
     } 
-}
-
-lastJournalTask(lastTaskName)
-{
-    sendKeyCombinationIndependentActiveModifiers("^a")
-    currentTask := getCurrentTask()
-    if (SubStr(currentTask,0,1) = " ")
-    {
-        sendKeyCombinationIndependentActiveModifiers("{BackSpace}{BackSpace}{BackSpace}l")
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers("{enter}")
-    }
-    else
-    {
-        sendKeyCombinationIndependentActiveModifiers("{enter}")
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEXT_DAY_START_DATE)
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers("{F2}{down}")
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers("^a")
-        sleep 250
-        sendKeyCombinationIndependentActiveModifiers(lastTaskName)
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
-    }
 }
 
 processKeysAfter(keys)
@@ -401,22 +305,6 @@ timerMloSendKeys()
     else
     {
         resetMloEnterMode(0)
-    }
-}
-
-duplicateCurrentTask(keyAfter = "")
-{
-    sendKeyCombinationIndependentActiveModifiers("{enter}{end}{F5}")
-    sleep 400
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
-    sleep 100
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_FOLDER)
-    sendKeyCombinationIndependentActiveModifiers("{F2}")
-    sleep 100
-    sendKeyCombinationIndependentActiveModifiers("{delete}")
-    if (keyAfter)
-    {
-        sendKeyCombinationIndependentActiveModifiers(keyAfter)
     }
 }
 

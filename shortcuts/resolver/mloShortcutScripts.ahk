@@ -1,4 +1,4 @@
-global IS_FUNCTION_SELECTING_JOURNAL_TASK := ""
+global IS_FUNCTION_KEY_SELECTING_JOURNAL_TASK := ""
 global MLO_LAST_VIEW := ""
 global MLO_CLASS_NAME := "TfrmMyLifeMain"
 global MLO_DASHBOARD_CLASS_NAME := "TfrmMLODashboard"
@@ -379,7 +379,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     resetMloEnterMode(0)
     setTimer TimerMloSendKeys, OFF
     IS_SORTING_VIEW_ACTIVE := 0
-    IS_FUNCTION_SELECTING_JOURNAL_TASK := 0
+    IS_FUNCTION_KEY_SELECTING_JOURNAL_TASK := 0
     if (IS_SET_MLO_ORDER_ACTIVE)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_TO_DO_MANUAL_SORTING)
@@ -399,7 +399,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     } 
     else if (number = 1 && modifiers = "^+")
     {
-        IS_FUNCTION_SELECTING_JOURNAL_TASK := 1
+        IS_FUNCTION_KEY_SELECTING_JOURNAL_TASK := 1
         extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}"]
     }
     else if (number = 1 && modifiers = "^!")

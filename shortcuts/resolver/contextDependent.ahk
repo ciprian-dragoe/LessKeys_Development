@@ -53,20 +53,21 @@ processEnter()
 
 processAltShiftDirection(combination, index)
 {
+    
+    key := subStr(combination, 3)
+    send {blind}{%key%}
     if (IS_SORTING_VIEW_ACTIVE)
     {
         IS_SET_MLO_ORDER_ACTIVE := 1
         SetTimer TimerTaskOrderChanged, off
         SetTimer TimerTaskOrderChanged, 1500
-    }
-    key := subStr(combination, 3)
-    send {blind}{%key%}
-    if (key = "right" || key = "left")
-    {
-        currentTask := getCurrentTask()
-        index := SubStr(currentTask, 1, InStr(currentTask, " ") - 1)
-        sleep 200
-        sendKeyCombinationIndependentActiveModifiers(index)
+        if (key = "right" || key = "left")
+        {
+            currentTask := getCurrentTask()
+            index := SubStr(currentTask, 1, InStr(currentTask, " ") - 1)
+            sleep 200
+            sendKeyCombinationIndependentActiveModifiers(index)
+        }
     }
 }
 
@@ -179,7 +180,7 @@ processShiftF2()
 
 processFunctionKey(key)
 {
-    if (inStr(lastActiveAppName, MLO_WINDOW_NAME) && IS_FUNCTION_SELECTING_JOURNAL_TASK)
+    if (inStr(lastActiveAppName, MLO_WINDOW_NAME) && IS_FUNCTION_KEY_SELECTING_JOURNAL_TASK)
     {
         return goToTask(key)
     }

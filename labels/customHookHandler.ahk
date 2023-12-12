@@ -14,8 +14,8 @@ TimerCopyMloTaskPhase3:
     TimerCopyMloTaskPhase3()
 return
 
-TimerGoToNextQuestion:
-    TimerGoToNextQuestion()
+TimerNextJournalQuestion:
+    TimerNextJournalQuestion()
 return
 
 TimerGoToNextDialoguePhase:

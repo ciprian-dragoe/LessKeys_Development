@@ -51,9 +51,9 @@
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_FOCUS)
     {
         questions := INTREBARI_JURNAL[MLO_JOURNAL]
-        if (INTREBARI_JURNAL_INDEX > questions.length())
+        if (JOURNAL_QUESTION_INDEX > questions.length())
         {
-            INTREBARI_JURNAL_INDEX := 1
+            JOURNAL_QUESTION_INDEX := 1
             sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
             sleep 400
             sendKeyCombinationIndependentActiveModifiers("{end}")
@@ -67,16 +67,15 @@
             return
         }
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-        sendKeyCombinationIndependentActiveModifiers(questions[INTREBARI_JURNAL_INDEX])
-        INTREBARI_JURNAL_INDEX += 1
+        sendKeyCombinationIndependentActiveModifiers(questions[JOURNAL_QUESTION_INDEX])
+        JOURNAL_QUESTION_INDEX += 1
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DEZVOLT_JURNAL)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL_ASK_QUESTIONS)
     {
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
         writeNextQuestion()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK)
@@ -89,9 +88,9 @@
         sleep 150
         sendKeyCombinationIndependentActiveModifiers("{DOWN}{F2}{home}")
         sleep 150
-        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>" . "{HOME}^{RIGHT 2}+{END}")
+        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . JOURNAL_QUESTION_INDEX . " <PARTE>" . "{HOME}^{RIGHT 2}+{END}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE_CONSUMA
-        INTREBARI_JURNAL_INDEX := 1
+        JOURNAL_QUESTION_INDEX := 1
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_PARTE_CONSUMA)
     {
@@ -100,7 +99,7 @@
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DIALOG)
     {
         sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}")
-        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . "" . INTREBARI_JURNAL_INDEX)
+        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . JOURNAL_QUESTION_INDEX . "" . JOURNAL_QUESTION_INDEX)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_GO_AFTER)
@@ -132,7 +131,7 @@
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ_ACTIVE)
     {
         questions := INTREBARI_JURNAL["JURNAL_ALINIEZ"]
-        if (INTREBARI_JURNAL_INDEX > questions.length())
+        if (JOURNAL_QUESTION_INDEX > questions.length())
         {
             sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
             sleep 300
@@ -145,8 +144,8 @@
         else
         {
             sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-            sendKeyCombinationIndependentActiveModifiers(questions[INTREBARI_JURNAL_INDEX])
-            INTREBARI_JURNAL_INDEX += 1
+            sendKeyCombinationIndependentActiveModifiers(questions[JOURNAL_QUESTION_INDEX])
+            JOURNAL_QUESTION_INDEX += 1
         }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK)

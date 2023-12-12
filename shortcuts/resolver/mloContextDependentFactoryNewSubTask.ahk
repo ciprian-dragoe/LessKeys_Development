@@ -89,15 +89,15 @@
         topic := SubStr(currentTask, InStr(currentTask, "_BUCLA>") + 8, newLinePosition-9)
         currentTask := SubStr(currentTask, 1, InStr(currentTask, "_BUCLA>") + 7)
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask, 1)
-        INTREBARI_JURNAL_INDEX := 0
+        JOURNAL_QUESTION_INDEX := 0
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1)
         sendKeyCombinationIndependentActiveModifiers("{DOWN}")
         sleep 100
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
         sendKeyCombinationIndependentActiveModifiers("{F2}")
         sleep 150
-        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>" . topic . "{HOME}^{RIGHT 2}+{END}")
-        INTREBARI_JURNAL_INDEX := 1
+        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . JOURNAL_QUESTION_INDEX . " <PARTE>" . topic . "{HOME}^{RIGHT 2}+{END}")
+        JOURNAL_QUESTION_INDEX := 1
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_PARTE_INCARCA
         */
         
@@ -108,25 +108,25 @@
             topic := SubStr(currentTask, InStr(currentTask, "_BUCLA>") + 8, newLinePosition-9)
             currentTask := SubStr(currentTask, 1, InStr(currentTask, "_BUCLA>") + 7)
             TASK_GO_AFTER_TO := extractDestinationAfter(currentTask, 1)
-            INTREBARI_JURNAL_INDEX := 0
+            JOURNAL_QUESTION_INDEX := 0
             sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1)
             sendKeyCombinationIndependentActiveModifiers("{DOWN}")
             sleep 100
             sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
             sendKeyCombinationIndependentActiveModifiers("{F2}")
             sleep 150
-            sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>" . topic . "{HOME}^{RIGHT 2}+{END}")
-            INTREBARI_JURNAL_INDEX := 1
+            sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . JOURNAL_QUESTION_INDEX . " <PARTE>" . topic . "{HOME}^{RIGHT 2}+{END}")
+            JOURNAL_QUESTION_INDEX := 1
             sendKeyCombinationIndependentActiveModifiers("{enter}")
             sleep 100 
             sendKeyCombinationIndependentActiveModifiers("{down}{F2}")
-            sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . " <PARTE>" . topic . "{HOME}^{RIGHT 2}+{END}")
+            sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . JOURNAL_QUESTION_INDEX . " <PARTE>" . topic . "{HOME}^{RIGHT 2}+{END}")
             sleep 150
             sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}")
             sleep 150
             sendKeyCombinationIndependentActiveModifiers("{up}")
             sleep 150
-            INTREBARI_JURNAL_INDEX := 0
+            JOURNAL_QUESTION_INDEX := 0
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DIALOG
             sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         }
@@ -142,7 +142,7 @@
     else if (inStr(currentTask, "<PARTE>", true))
     {
         TASK_GO_AFTER_TO := SubStr(currentTask, 1, 1)
-        INTREBARI_JURNAL_INDEX := SubStr(currentTask, 2, 1)
+        JOURNAL_QUESTION_INDEX := SubStr(currentTask, 2, 1)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DIALOG
     }
@@ -152,7 +152,7 @@
     }
     else if (inStr(currentTask, "<GANDURI_EXPLOREZ>", true))
     {
-        INTREBARI_JURNAL_INDEX := 1
+        JOURNAL_QUESTION_INDEX := 1
         createJournalTask("_BUCLA> ")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ
     }
@@ -164,6 +164,10 @@
     else if (inStr(currentTask, "<JURNAL_", true))
     {
         startJournalMode(currentTask)
+    }
+    else if (inStr(currentTask, "<JOURNAL_", true))
+    {
+        writeJournalTopics(currentTask)
     }
     else if (inStr(currentTask, "<1JURNAL_", true))
     {
@@ -211,9 +215,9 @@
         {
             sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
             questions := INTREBARI_JURNAL["JURNAL_ALINIEZ"]
-            INTREBARI_JURNAL_INDEX := 1
-            sendKeyCombinationIndependentActiveModifiers(questions[INTREBARI_JURNAL_INDEX])
-            INTREBARI_JURNAL_INDEX += 1
+            JOURNAL_QUESTION_INDEX := 1
+            sendKeyCombinationIndependentActiveModifiers(questions[JOURNAL_QUESTION_INDEX])
+            JOURNAL_QUESTION_INDEX += 1
             MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_EVENIMENTE_ALINIEZ_ACTIVE
         }
     }

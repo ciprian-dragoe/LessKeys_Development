@@ -31,7 +31,7 @@ global MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE := 54
 global MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE := 57
 global MLO_ENTER_MODE_SET_AS_JOURNAL := 80
 global MLO_ENTER_MODE_SET_AS_1JOURNAL := 82
-global MLO_ENTER_MODE_SET_AS_DEZVOLT_JURNAL := 81
+
 global INTREBARI_JURNAL := {}
 INTREBARI_JURNAL.EVENIMENT := ["SEMNIFICATIE: ", "MESAJ PARINTE MA IUBESTE: "]
 INTREBARI_JURNAL.LIMITA := ["E IN CONTROLUL MEU: "]
@@ -41,7 +41,13 @@ INTREBARI_JURNAL.INTENTIE := ["POT SA FAC SA FIU IMPACAT IN ACEST SPATIU: "]
 INTREBARI_JURNAL.DAUᵒDRUMUL := ["EFECT TERMEN LUNG CONTINUI IGNOR LIMITA: "]
 INTREBARI_JURNAL.CERᵒAJUTOR := ["SPRIJIN POT SA OFER: "]
 
-global INTREBARI_JURNAL_INDEX := 1
+global MLO_ENTER_MODE_SET_AS_JOURNAL := 91
+global MLO_ENTER_MODE_SET_AS_JOURNAL_ASK_QUESTIONS := 92
+global JOURNAL_QUESTIONS := {}
+
+global JOURNAL_GROUP_INDEX := 1
+global JOURNAL_QUESTION_INDEX := 1
+global JOURNAL_LAST_INDEX := 1
 global MLO_JOURNAL := ""
 global TASK_GO_AFTER_TO := ""
 global PREVIOUS_TASK := ""
@@ -74,11 +80,11 @@ mloContextDependentKeyFactory(originalAction)
 continueJournalTask(template, selectDifferentTemplateKeys = "")
 {
     sendKeyCombinationIndependentActiveModifiers("{enter}")
-    ;Loop %INTREBARI_JURNAL_INDEX%
+    ;Loop %JOURNAL_QUESTION_INDEX%
     ;{
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEXT_DAY_START_DATE)
     ;}
-    INTREBARI_JURNAL_INDEX := INTREBARI_JURNAL_INDEX + 1
+    JOURNAL_QUESTION_INDEX := JOURNAL_QUESTION_INDEX + 1
     sendKeyCombinationIndependentActiveModifiers("{F5}")
     sleep 100
     if (selectDifferentTemplateKeys)
@@ -91,8 +97,8 @@ continueJournalTask(template, selectDifferentTemplateKeys = "")
 createConsuma()
 {
     sendKeyCombinationIndependentActiveModifiers("{ENTER}")
-    INTREBARI_JURNAL_INDEX := Mod(INTREBARI_JURNAL_INDEX + 1, 2)
-    sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX)
+    JOURNAL_QUESTION_INDEX := Mod(JOURNAL_QUESTION_INDEX + 1, 2)
+    sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . JOURNAL_QUESTION_INDEX)
     sendKeyCombinationIndependentActiveModifiers("{F5}")
     sleep 100
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
@@ -104,7 +110,7 @@ resetMloEnterMode(alsoPressEscape = 1)
     MLO_ENTER_MODE := 0
     LESSON_COMPLETE_AMOUNT := 0
     TASK_GO_AFTER_TO := ""
-    INTREBARI_JURNAL_INDEX := 1
+    JOURNAL_QUESTION_INDEX := 1
     PREVIOUS_TASK := "" 
     if (alsoPressEscape)
     {
@@ -151,32 +157,6 @@ TimerGoToMloTask()
     }
 }
 
-writeNextQuestion()
-{
-    questions := INTREBARI_JURNAL[MLO_JOURNAL]
-    if (!questions)
-    {
-        showtooltip("INVALID JOURNAL TOPIC", 1000)
-        return
-    }
-    if (questions.length() = 0)
-    {
-        sendKeyCombinationIndependentActiveModifiers("{escape}")
-        finishQuestions()
-        return
-    }
-    if (INTREBARI_JURNAL_INDEX > questions.length())
-    {
-        INTREBARI_JURNAL_INDEX := 1
-        setTimer TimerGoToNextQuestion, off
-        setTimer TimerGoToNextQuestion, 800
-        sendKeyCombinationIndependentActiveModifiers("{enter}")    
-        return
-    }
-    sendKeyCombinationIndependentActiveModifiers(questions[INTREBARI_JURNAL_INDEX])
-    INTREBARI_JURNAL_INDEX += 1
-}
-
 TimerCopyMloTaskPhase1()
 {
     setTimer TimerCopyMloTaskPhase1, off
@@ -208,16 +188,69 @@ TimerCopyMloTaskPhase3()
     mloNewContextDependentSubTask(goAfter)
 }
 
-TimerGoToNextQuestion()
+TimerNextJournalQuestion()
 {
-    setTimer TimerGoToNextQuestion, off
+    setTimer TimerNextJournalQuestion, off
+    ;showtooltip("TimerNextJournalQuestion", 1200)
     sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK)
     sleep 100
-    sendKeyCombinationIndependentActiveModifiers("{down}{F5}")
+    JOURNAL_LAST_INDEX += 1 ; because the 1st task is "==="
+    sendKeyCombinationIndependentActiveModifiers("{F5}{down " . JOURNAL_LAST_INDEX . "}")
     sleep 800
     currentTask := getCurrentTask(300) 
+    ;showtooltip(currentTask, 2000)
     if (!inStr(currentTask, "<" . MLO_JOURNAL . ">", true))
     {
+        return nextGroupQuestions()
+    }
+    writeNextQuestion()
+}
+
+writeNextQuestion()
+{
+    questions := JOURNAL_QUESTIONS[MLO_JOURNAL][JOURNAL_GROUP_INDEX]
+    if (!questions)
+    {
+        showtooltip("INVALID JOURNAL TOPIC", 1000)
+        return nextGroupQuestions()
+    }
+    if (questions.length() = 0)
+    {
+        return nextGroupQuestions()
+    }
+    if (JOURNAL_QUESTION_INDEX > questions.length())
+    {
+        JOURNAL_QUESTION_INDEX := 1
+        setTimer TimerNextJournalQuestion, off
+        setTimer TimerNextJournalQuestion, 800
+        sendKeyCombinationIndependentActiveModifiers("{enter}")    
+        return
+    }
+    if (JOURNAL_QUESTION_INDEX = 1) 
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    }
+    else
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    }
+    ;showtooltip(questions[JOURNAL_QUESTION_INDEX], 2000)
+    sendKeyCombinationIndependentActiveModifiers(questions[JOURNAL_QUESTION_INDEX])
+    JOURNAL_QUESTION_INDEX += 1
+}
+
+nextGroupQuestions()
+{
+    JOURNAL_GROUP_INDEX += 1
+    JOURNAL_LAST_INDEX := 1
+    questions := JOURNAL_QUESTIONS[MLO_JOURNAL][JOURNAL_GROUP_INDEX]
+    if (questions)
+    {
+        TimerNextJournalQuestion()
+    }
+    else
+    {
+        currentTask := getCurrentTask()
         if (TASK_GO_AFTER_TO = "{DOWN}")
         {
             mloNewContextDependentSubTask(currentTask)
@@ -228,12 +261,15 @@ TimerGoToNextQuestion()
         }
         else
         {
-            finishQuestions()
+            sleep 1000
+            sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
+            sleep 150
+            currentTask := getCurrentTask()
+            resetMloEnterMode(0)
+            MLO_ENTER_MODE := 99999 ; a value that for sure is not linked to task but might trigger a <CANCEL> action 
+            mloNewContextDependentSubTask(currentTask)
         }
-        return
     }
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-    writeNextQuestion()
 }
 
 timerGoToNextDialoguePhase()
@@ -251,7 +287,7 @@ createJournalTask(template)
     sendKeyCombinationIndependentActiveModifiers("{DOWN}")
     sendKeyCombinationIndependentActiveModifiers("{F2}")
     sleep 50
-    sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . template . "{space}")
+    sendKeyCombinationIndependentActiveModifiers(JOURNAL_QUESTION_INDEX . template . "{space}")
 }
 
 getCurrentTask(waitTimeAfterCopy = 300)
@@ -316,17 +352,6 @@ lastJournalTask(lastTaskName)
         sleep 100
         sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
     }
-}
-
-finishQuestions()
-{
-    sleep 1000
-    sendKeyCombinationIndependentActiveModifiers(TASK_GO_AFTER_TO)
-    sleep 150
-    currentTask := getCurrentTask()
-    resetMloEnterMode(0)
-    MLO_ENTER_MODE := 99999 ; a value that for sure is not linked to task but might trigger a <CANCEL> action 
-    mloNewContextDependentSubTask(currentTask)
 }
 
 processKeysAfter(keys)
@@ -532,4 +557,65 @@ timerTaskOrderChanged()
         }
         IS_SET_MLO_ORDER_ACTIVE := 0
     }
+}
+
+writeJournalTopics(currentTask)
+{
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1)
+    positionStart := InStr(currentTask, "<") + 1
+    positionEnd := InStr(currentTask, ">")
+    journal := SubStr(currentTask, positionStart, positionEnd - positionStart)
+    splits := StrSplit(journal, "_")
+    if (splits.Count() = 3)
+    {
+        MLO_JOURNAL := extractDestinationAfter(currentTask, 1)
+        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
+    }
+    else
+    {
+        MLO_JOURNAL := extractDestinationAfter(currentTask)
+        TASK_GO_AFTER_TO := "{DOWN}"
+    }
+    PREVIOUS_TASK := SubStr(currentTask, 1, InStr(currentTask, " ") - 1)
+    sleep 200
+    sendKeyCombinationIndependentActiveModifiers("{DOWN}")
+    currentTask := getCurrentTask()
+    ;showtooltip(currentTask, 2000)
+    setJournalTopics(currentTask, MLO_JOURNAL)
+    JOURNAL_QUESTION_INDEX := 1
+    JOURNAL_GROUP_INDEX := 1
+    JOURNAL_LAST_INDEX := 1
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
+    sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")    
+    MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNAL
+}
+
+setJournalTopics(topics, journal)
+{
+    phases := StrSplit(topics, "===")
+    groups := []
+    JOURNAL_QUESTIONS[journal] := groups
+    for key, phase in phases
+    {
+        topics := StrSplit(phase, "`n")
+        if (topics.MaxIndex())
+        {
+            questions := []
+            for index, topic in topics
+            {
+                if (StrLen(topic) > 2)
+                {
+                    ;showtooltip("key=" key . " index=" . index " topic=" . topic, 3500)
+                    StringReplace,topic,topic,`n,,A
+                    StringReplace,topic,topic,`r,,A
+                    questions.push(topic)
+                }
+            }
+            
+            if (questions.MaxIndex() > 0)
+            {
+                groups.push(questions)
+            }
+        }
+    } 
 }

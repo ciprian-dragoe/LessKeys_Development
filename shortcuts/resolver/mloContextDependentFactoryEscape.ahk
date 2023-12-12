@@ -17,13 +17,13 @@
         MLO_ENTER_MODE := 10000
         processKeysAfter(TIMEOUT_KEYS_TO_SEND)
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_DEZVOLT_JURNAL || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_1JOURNAL)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL_ASK_QUESTIONS || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_1JOURNAL)
     {
         if (DOUBLE_PRESS_KEY_ACTIVE)
         {
             DOUBLE_PRESS_KEY_ACTIVE := 0
             setTimer TimerDoubleKeyPressInterval, off
-            setTimer TimerGoToNextQuestion, off
+            setTimer TimerNextJournalQuestion, off
             sendKeyCombinationIndependentActiveModifiers("{ESCAPE}")
             sleep 100
             sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK)
@@ -32,13 +32,13 @@
         else
         {
             DOUBLE_PRESS_KEY_ACTIVE := 1
-            INTREBARI_JURNAL_INDEX := 1
+            JOURNAL_QUESTION_INDEX := 1
             setTimer TimerDoubleKeyPressInterval, off
             setTimer TimerDoubleKeyPressInterval, 800
-            setTimer TimerGoToNextQuestion, off
-            setTimer TimerGoToNextQuestion, 600
+            setTimer TimerNextJournalQuestion, off
+            setTimer TimerNextJournalQuestion, 600
             sendKeyCombinationIndependentActiveModifiers("{ENTER}")
-            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_DEZVOLT_JURNAL
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNAL_ASK_QUESTIONS
         }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_COMPLETE_PREVIOUS)
@@ -81,8 +81,8 @@
         {
             setTimer TimerDoubleKeyPressInterval, off
             sendKeyCombinationIndependentActiveModifiers("{escape}")
-            INTREBARI_JURNAL_INDEX := Mod(INTREBARI_JURNAL_INDEX + 1, 2)
-            sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . "" . INTREBARI_JURNAL_INDEX . "{DOWN}")
+            JOURNAL_QUESTION_INDEX := Mod(JOURNAL_QUESTION_INDEX + 1, 2)
+            sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . JOURNAL_QUESTION_INDEX . "" . JOURNAL_QUESTION_INDEX . "{DOWN}")
             DOUBLE_PRESS_KEY_ACTIVE := 0
             resetMloEnterMode()
             return
@@ -91,8 +91,8 @@
         DOUBLE_PRESS_KEY_ACTIVE := 1
         sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}^+.")
         sleep 100
-        INTREBARI_JURNAL_INDEX := Mod(INTREBARI_JURNAL_INDEX + 1, 2)
-        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . INTREBARI_JURNAL_INDEX . "" . INTREBARI_JURNAL_INDEX)
+        JOURNAL_QUESTION_INDEX := Mod(JOURNAL_QUESTION_INDEX + 1, 2)
+        sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . JOURNAL_QUESTION_INDEX . "" . JOURNAL_QUESTION_INDEX)
         
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }

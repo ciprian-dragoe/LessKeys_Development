@@ -23,8 +23,8 @@
     }
     else if (inStr(currentTask, "_BUCLA>", true))
     {
-        INTREBARI_JURNAL_INDEX := SubStr(currentTask, 1, 1) + 1
-        PREVIOUS_TASK := INTREBARI_JURNAL_INDEX
+        JOURNAL_QUESTION_INDEX := SubStr(currentTask, 1, 1) + 1
+        PREVIOUS_TASK := JOURNAL_QUESTION_INDEX
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
         sleep 100
         sendKeyCombinationIndependentActiveModifiers("{HOME}")
@@ -34,13 +34,13 @@
         sendKeyCombinationIndependentActiveModifiers("{DOWN}")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_FOLDER)
         sleep 200
-        Loop %INTREBARI_JURNAL_INDEX%
+        Loop %JOURNAL_QUESTION_INDEX%
         {
             sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEXT_DAY_START_DATE)
         }
         sendKeyCombinationIndependentActiveModifiers("{F2}")
         sleep 50
-        sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . "_BUCLA>  ")
+        sendKeyCombinationIndependentActiveModifiers(JOURNAL_QUESTION_INDEX . "_BUCLA>  ")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ_CONTINUE
     }
     else if (inStr(currentTask, "<PARTE>", true))
@@ -61,13 +61,13 @@
     }
     else if (inStr(currentTask, "<GANDURI_EXPLOREZ>", true))
     {
-        INTREBARI_JURNAL_INDEX := 1
+        JOURNAL_QUESTION_INDEX := 1
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
         sendKeyCombinationIndependentActiveModifiers("{DOWN}")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_FOLDER)
         sendKeyCombinationIndependentActiveModifiers("{F2}")
         sleep 50
-        sendKeyCombinationIndependentActiveModifiers(INTREBARI_JURNAL_INDEX . "_BUCLA> " . "{space}")
+        sendKeyCombinationIndependentActiveModifiers(JOURNAL_QUESTION_INDEX . "_BUCLA> " . "{space}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ
     }
     else if (MLO_ENTER_MODE > 0 && MLO_ENTER_MODE != MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI)

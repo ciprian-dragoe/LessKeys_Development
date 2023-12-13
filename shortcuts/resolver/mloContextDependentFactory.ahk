@@ -154,7 +154,7 @@ writeNextQuestion()
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
     ;showtooltip(questions[JOURNAL_QUESTION_INDEX], 2000)
-    sendKeyCombinationIndependentActiveModifiers(questions[JOURNAL_QUESTION_INDEX])
+    sendKeyCombinationIndependentActiveModifiers(questions[JOURNAL_QUESTION_INDEX] . "{space}")
     JOURNAL_QUESTION_INDEX += 1
 }
 
@@ -402,37 +402,6 @@ timerTaskOrderChanged()
         }
         IS_SET_MLO_ORDER_ACTIVE := 0
     }
-}
-
-writeJournalTopics(currentTask)
-{
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1)
-    positionStart := InStr(currentTask, "<") + 1
-    positionEnd := InStr(currentTask, ">")
-    journal := SubStr(currentTask, positionStart, positionEnd - positionStart)
-    splits := StrSplit(journal, "_")
-    if (splits.Count() = 3)
-    {
-        MLO_JOURNAL := extractDestinationAfter(currentTask, 1)
-        TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
-    }
-    else
-    {
-        MLO_JOURNAL := extractDestinationAfter(currentTask)
-        TASK_GO_AFTER_TO := "{DOWN}"
-    }
-    PREVIOUS_TASK := SubStr(currentTask, 1, InStr(currentTask, " ") - 1)
-    sleep 200
-    sendKeyCombinationIndependentActiveModifiers("{DOWN}")
-    currentTask := getCurrentTask()
-    ;showtooltip(currentTask, 2000)
-    setJournalTopics(currentTask, MLO_JOURNAL)
-    JOURNAL_QUESTION_INDEX := 1
-    JOURNAL_GROUP_INDEX := 1
-    JOURNAL_LAST_INDEX := 1
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
-    sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")    
-    MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNAL
 }
 
 setJournalTopics(topics, journal)

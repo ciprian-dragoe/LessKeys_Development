@@ -69,3 +69,7 @@ return
 TimerTaskOrderChanged():
     timerTaskOrderChanged()
 return
+
+TimerDisplayRemainingTime:
+    timerDisplayRemainingTime()
+return

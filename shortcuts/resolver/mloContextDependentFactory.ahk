@@ -31,8 +31,8 @@ global JOURNAL_LAST_INDEX := 1
 global MLO_JOURNAL := ""
 global TASK_GO_AFTER_TO := ""
 global PREVIOUS_TASK := ""
-global BUFFER := ""
 global TIMEOUT_KEYS_TO_SEND := ""
+global TIMEOUT_REMAINING_TIME := ""
 global LAST_TIME_COPIED_TASK := A_TickCount
 
 mloContextDependentKeyFactory(originalAction)
@@ -310,10 +310,10 @@ timerMloSendKeys()
 
 startTimerSendKeys(currentTask, nextTaskMode)
 {
-    timerTimeout := extractDestinationAfter(currentTask, 1) * 1000
-    if timerTimeout is not Number
+    TIMEOUT_REMAINING_TIME := extractDestinationAfter(currentTask, 1) * 1000
+    if TIMEOUT_REMAINING_TIME is not Number
     {
-        timerTimeout := extractDestinationAfter(currentTask) * 1000
+        TIMEOUT_REMAINING_TIME := extractDestinationAfter(currentTask) * 1000
         TIMEOUT_KEYS_TO_SEND := 0
     }
     else
@@ -321,7 +321,7 @@ startTimerSendKeys(currentTask, nextTaskMode)
         TIMEOUT_KEYS_TO_SEND := extractDestinationAfter(currentTask)
     }
     ;showtooltip("TIMEOUT_KEYS_TO_SEND=" . TIMEOUT_KEYS_TO_SEND, 1000)
-    ;showtooltip("timerTimeout=" . timerTimeout, 1000)
+    ;showtooltip("TIMEOUT_REMAINING_TIME=" . TIMEOUT_REMAINING_TIME, 1000)
     
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_CURRENT_TASK_SHOW_LEVEL_1)
     sleep 150
@@ -338,7 +338,30 @@ startTimerSendKeys(currentTask, nextTaskMode)
     }
     
     SetTimer TimerMloSendKeys, OFF
-    SetTimer TimerMloSendKeys, %timerTimeout%
+    SetTimer TimerMloSendKeys, %TIMEOUT_REMAINING_TIME% 
+    SetTimer TimerDisplayRemainingTime, off
+    SetTimer TimerDisplayRemainingTime, 1000
+}
+
+timerDisplayRemainingTime()
+{
+    SetTimer TimerDisplayRemainingTime, off
+    if (TIMEOUT_REMAINING_TIME > 0)
+    {
+        SetFormat, float, 02
+        minutes1 := (TIMEOUT_REMAINING_TIME // 1000) // 60
+        seconds1 := ((TIMEOUT_REMAINING_TIME // 1000) - minutes1 * 60)
+        minutes1+=0.00
+        seconds1+=0.00
+        timeToDisplay=%minutes1%:%seconds1%
+        TIMEOUT_REMAINING_TIME := TIMEOUT_REMAINING_TIME - 1000
+        tooltip, %timeToDisplay%, 0, 0, 5
+        SetTimer TimerDisplayRemainingTime, 1000
+    }
+    else
+    {
+        tooltip, , 0, 0, 5
+    }
 }
 
 timerCompleteLesson() 

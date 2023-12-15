@@ -346,7 +346,7 @@ startTimerSendKeys(currentTask, nextTaskMode)
 timerDisplayRemainingTime()
 {
     SetTimer TimerDisplayRemainingTime, off
-    if (TIMEOUT_REMAINING_TIME > 0)
+    if (TIMEOUT_REMAINING_TIME > 0 && InStr(lastActiveAppName, MLO_WINDOW_NAME))
     {
         SetFormat, float, 02
         minutes1 := (TIMEOUT_REMAINING_TIME // 1000) // 60

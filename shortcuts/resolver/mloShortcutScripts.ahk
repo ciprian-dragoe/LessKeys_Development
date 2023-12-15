@@ -375,6 +375,9 @@ goToTask(key)
 changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + # 
 {
     sendKeyCombinationIndependentActiveModifiers("{escape}")
+    SetTimer TimerMloSendKeys, OFF
+    SetTimer TimerDisplayRemainingTime, off
+    tooltip, , 0, 0, 5
     extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS]
     resetMloEnterMode(0)
     setTimer TimerMloSendKeys, OFF

@@ -62,7 +62,7 @@
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
         sleep 100
-        if (focusArea - 60 >= 1 && focusArea - 60 <= 6)
+        if (focusArea - 70 >= 1 && focusArea - 70 <= 7)
         {
             focusArea := focusArea - 1
         }

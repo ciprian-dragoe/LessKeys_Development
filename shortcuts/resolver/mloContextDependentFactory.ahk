@@ -380,7 +380,7 @@ timerCompleteLesson()
             currentTask := getCurrentTask()
             focusArea := getFocusArea(currentTask)
             ;showtooltip(focusArea . "|" . focusArea - 60 . "|" . LESSON_COMPLETE_AMOUNT, 1500)
-            if (!(focusArea - 60 = LESSON_COMPLETE_AMOUNT))
+            if (!(focusArea - 70 = LESSON_COMPLETE_AMOUNT))
             {
                 LESSON_COMPLETE_AMOUNT := 0
                 break

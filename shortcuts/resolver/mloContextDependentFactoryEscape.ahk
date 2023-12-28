@@ -139,7 +139,7 @@
         sendKeyCombinationIndependentActiveModifiers("{ENTER}")
         resetMloEnterMode()   
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER)
     {
         ;writeNowLogFile("MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER")
         if (DOUBLE_PRESS_KEY_ACTIVE)
@@ -155,14 +155,6 @@
             DOUBLE_PRESS_KEY_ACTIVE := 1
             setTimer TimerDoubleKeyPressInterval, 1500
             processKeysAfter(TASK_GO_AFTER_TO)
-        }
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER)
-    {
-        ;writeNowLogFile("MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER")
-        if (A_CaretX)
-        {
-            sendKeyCombinationIndependentActiveModifiers("{enter}")
         }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK)

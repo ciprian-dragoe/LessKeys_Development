@@ -5,6 +5,8 @@
 
 global MLO_ENTER_MODE := 0
 global MLO_ENTER_MODE_SET_AS_NEW_TASK := 1
+global MLO_ENTER_MODE_SET_AS_POMODORO := 2
+global MLO_ENTER_MODE_SET_AS_POMODORO_START := 3
 global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 5
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER := 6
 global MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER := 4
@@ -432,4 +434,21 @@ setJournalTopics(topics, journal)
             }
         }
     } 
+}
+
+describePomodoroStep(newTaskType)
+{
+    sendKeyCombinationIndependentActiveModifiers(newTaskType)
+    sendKeyCombinationIndependentActiveModifiers("PAS INTENTIONEZ FAC: ")
+}
+
+startPomodoroTimer()
+{
+    sendKeyCombinationIndependentActiveModifiers("{enter}")
+    sleep 100
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEXT_SET_REMINDER_IN_10_MINUTES)
+    resetMloEnterMode()
+    sleep 100
+    hideNotesAndFocusTasks()
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_MLO_SYNC)
 }

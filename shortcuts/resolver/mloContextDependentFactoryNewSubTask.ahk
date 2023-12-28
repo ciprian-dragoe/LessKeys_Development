@@ -130,6 +130,11 @@
         TASK_GO_AFTER_TO := extractDestinationAfter(currentTask)
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
+    else if (inStr(currentTask, "<POMODORO", true))
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_POMODORO
+        describePomodoroStep(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    }
     else if (inStr(currentTask, "<SEND_KEYS_", true))
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_SEND_KEYS

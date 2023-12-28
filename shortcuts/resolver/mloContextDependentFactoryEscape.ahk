@@ -137,7 +137,17 @@
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER)
     {
         sendKeyCombinationIndependentActiveModifiers("{ENTER}")
-        resetMloEnterMode()   
+        resetMloEnterMode()
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO_START)
+    {
+        startPomodoroTimer()
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO)
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_POMODORO_START
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        sendKeyCombinationIndependentActiveModifiers("DISTRAGE PREZENT: ")   
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER)
     {

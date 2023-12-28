@@ -24,6 +24,14 @@
         sendKeyCombinationIndependentActiveModifiers("{home}")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO)
+    {
+        describePomodoroStep(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO_START)
+    {
+        startPomodoroTimer()
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ)
     {
         continueJournalTask("_BUCLA> ")

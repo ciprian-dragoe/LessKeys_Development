@@ -73,3 +73,7 @@ return
 TimerDisplayRemainingTime:
     timerDisplayRemainingTime()
 return
+
+TimerResetPomodoroMessage:
+    timerResetPomodoroMessage()
+return

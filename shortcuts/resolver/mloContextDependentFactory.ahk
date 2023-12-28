@@ -7,6 +7,8 @@ global MLO_ENTER_MODE := 0
 global MLO_ENTER_MODE_SET_AS_NEW_TASK := 1
 global MLO_ENTER_MODE_SET_AS_POMODORO := 2
 global MLO_ENTER_MODE_SET_AS_POMODORO_START := 3
+global POMODORO_MESSAGE := ""
+global IS_MLO_REMINDER_WINDOWS_TO_BE_MINIMIZED := 0
 global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 5
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER := 6
 global MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER := 4
@@ -436,6 +438,13 @@ setJournalTopics(topics, journal)
     } 
 }
 
+timerResetPomodoroMessage()
+{
+    SetTimer TimerResetPomodoroMessage, off
+    POMODORO_MESSAGE := ""
+    IS_MLO_REMINDER_WINDOWS_TO_BE_MINIMIZED := 0
+}
+
 describePomodoroStep(newTaskType)
 {
     sendKeyCombinationIndependentActiveModifiers(newTaskType)
@@ -451,4 +460,8 @@ startPomodoroTimer()
     sleep 100
     hideNotesAndFocusTasks()
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_MLO_SYNC)
+    POMODORO_MESSAGE := getCurrentTask()
+    oneHour := 1000 * 60 * 60
+    SetTimer TimerResetPomodoroMessage, %oneHour%
+    IS_MLO_REMINDER_WINDOWS_TO_BE_MINIMIZED := 1
 }

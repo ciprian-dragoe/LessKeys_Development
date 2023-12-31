@@ -35,10 +35,32 @@
             JOURNAL_QUESTION_INDEX := 1
             setTimer TimerDoubleKeyPressInterval, off
             setTimer TimerDoubleKeyPressInterval, 800
-            setTimer TimerNextJournalQuestion, off
-            setTimer TimerNextJournalQuestion, 600
-            sendKeyCombinationIndependentActiveModifiers("{ENTER}")
-            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNAL_ASK_QUESTIONS
+            if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL)
+            {
+                MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNAL_ASK_QUESTIONS
+                setTimer TimerNextJournalQuestion, off
+                setTimer TimerNextJournalQuestion, 600
+                sendKeyCombinationIndependentActiveModifiers("{ENTER}")
+            }
+            else
+            {
+                if (JOURNAL_QUESTIONS[MLO_JOURNAL].length() > JOURNAL_GROUP_INDEX)
+                {
+                    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_FOLDER)
+                }
+                else
+                {
+                    sendKeyCombinationIndependentActiveModifiers("{enter}")
+                }
+                MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNAL
+                JOURNAL_QUESTION_INDEX := 1
+                JOURNAL_GROUP_INDEX := 1
+                JOURNAL_LAST_INDEX := 0
+                sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK)
+                sleep 150
+                sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)    
+                sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")
+            }
         }
     }
     else if (LESSON_COMPLETE_AMOUNT > 0)

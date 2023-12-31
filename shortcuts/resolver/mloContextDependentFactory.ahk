@@ -196,13 +196,24 @@ nextGroupQuestions()
     else
     {
         currentTask := getCurrentTask()
-        if (TASK_GO_AFTER_TO = "{DOWN}")
+        if (!TASK_GO_AFTER_TO)
         {
-            mloNewContextDependentSubTask(currentTask)
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNAL
+            JOURNAL_QUESTION_INDEX := 1
+            JOURNAL_GROUP_INDEX := 1
+            JOURNAL_LAST_INDEX := 0
+            sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK)
+            sleep 150
+            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)    
+            sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")
         }
         else if (inStr(TASK_GO_AFTER_TO, "cancel"))
         {
             resetMloEnterMode(0)
+        }
+        if (inStr(TASK_GO_AFTER_TO, "DOWN"))
+        {
+            mloNewContextDependentSubTask(currentTask)
         }
         else
         {

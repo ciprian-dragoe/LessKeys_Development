@@ -101,7 +101,7 @@
         else
         {
             MLO_JOURNAL := extractDestinationAfter(currentTask)
-            TASK_GO_AFTER_TO := "{DOWN}"
+            TASK_GO_AFTER_TO := 0
         }
         PREVIOUS_TASK := SubStr(currentTask, 1, InStr(currentTask, " ") - 1)
         openNotesAssociatedWithTask()

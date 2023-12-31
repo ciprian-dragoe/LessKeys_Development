@@ -7,7 +7,6 @@ global MLO_ENTER_MODE := 0
 global MLO_ENTER_MODE_SET_AS_NEW_TASK := 1
 global MLO_ENTER_MODE_SET_AS_POMODORO := 2
 global MLO_ENTER_MODE_SET_AS_POMODORO_START := 3
-global POMODORO_MESSAGE := ""
 global IS_MLO_REMINDER_WINDOWS_TO_BE_MINIMIZED := 0
 global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 5
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER := 6
@@ -38,6 +37,8 @@ global PREVIOUS_TASK := ""
 global TIMEOUT_KEYS_TO_SEND := ""
 global TIMEOUT_REMAINING_TIME := ""
 global LAST_TIME_COPIED_TASK := A_TickCount
+global POMODORO_MESSAGE := ""
+global IS_TIMER_SHOWN_OUTSIDE_MLO := ""
 
 mloContextDependentKeyFactory(originalAction)
 {
@@ -383,7 +384,7 @@ startTimerSendKeys(currentTask, nextTaskMode)
 timerDisplayRemainingTime()
 {
     SetTimer TimerDisplayRemainingTime, off
-    if (TIMEOUT_REMAINING_TIME > 0 && InStr(lastActiveAppName, MLO_WINDOW_NAME))
+    if (TIMEOUT_REMAINING_TIME > 0 && (InStr(lastActiveAppName, MLO_WINDOW_NAME) || IS_TIMER_SHOWN_OUTSIDE_MLO))
     {
         SetFormat, float, 02
         minutes1 := (TIMEOUT_REMAINING_TIME // 1000) // 60
@@ -476,6 +477,7 @@ timerResetPomodoroMessage()
     SetTimer TimerResetPomodoroMessage, off
     POMODORO_MESSAGE := ""
     IS_MLO_REMINDER_WINDOWS_TO_BE_MINIMIZED := 0
+    IS_TIMER_SHOWN_OUTSIDE_MLO := 0
 }
 
 describePomodoroStep(newTaskType)
@@ -494,7 +496,45 @@ startPomodoroTimer()
     hideNotesAndFocusTasks()
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_MLO_SYNC)
     POMODORO_MESSAGE := getCurrentTask()
-    oneHour := 1000 * 60 * 60
-    SetTimer TimerResetPomodoroMessage, %oneHour%
+    words := StrSplit(POMODORO_MESSAGE, " ")
+    
+    lastWord := trim(words[words.length()])
+    if (isStringNumber(lastWord))
+    {
+       TIMEOUT_REMAINING_TIME := StrReplace(lastWord, "`r`n", "") * 60 * 1000
+       showtooltip(TIMEOUT_REMAINING_TIME)
+    }
+    else
+    {
+        TIMEOUT_REMAINING_TIME := 50 * 60 * 1000
+    }
+    IS_TIMER_SHOWN_OUTSIDE_MLO := 1
     IS_MLO_REMINDER_WINDOWS_TO_BE_MINIMIZED := 1
+    timerDisplayRemainingTime()
+    SetTimer TimerResetPomodoroMessage, %TIMEOUT_REMAINING_TIME%
+}
+
+isStringNumber(possibleNumber, ignoreWhiteSpace = 1)
+{
+    if (ignoreWhiteSpace)
+    {
+        possibleNumber := StrReplace(possibleNumber, " ", "")
+        possibleNumber := StrReplace(possibleNumber, "`n", "")
+        possibleNumber := StrReplace(possibleNumber, "`r", "")
+        possibleNumber := StrReplace(possibleNumber, "`r`n", "")
+    }
+    possibleNumber := StrReplace(possibleNumber, "0", "")
+    possibleNumber := StrReplace(possibleNumber, "1", "")
+    possibleNumber := StrReplace(possibleNumber, "2", "")
+    possibleNumber := StrReplace(possibleNumber, "3", "")
+    possibleNumber := StrReplace(possibleNumber, "4", "")
+    possibleNumber := StrReplace(possibleNumber, "5", "")
+    possibleNumber := StrReplace(possibleNumber, "6", "")
+    possibleNumber := StrReplace(possibleNumber, "8", "")
+    possibleNumber := StrReplace(possibleNumber, "9", "")
+    if (possibleNumber = "")
+    {
+        return true
+    }
+    return false
 }

@@ -117,8 +117,15 @@ TimerNextJournalQuestion()
     ;showtooltip("TimerNextJournalQuestion", 1200)
     sendKeyCombinationIndependentActiveModifiers(PREVIOUS_TASK)
     sleep 100
-    JOURNAL_LAST_INDEX += 1 ; because the 1st task is "==="
-    sendKeyCombinationIndependentActiveModifiers("{F5}{down " . JOURNAL_LAST_INDEX . "}")
+    if (JOURNAL_QUESTIONS[MLO_JOURNAL].length() > JOURNAL_GROUP_INDEX)
+    {
+        JOURNAL_LAST_INDEX += 1
+        sendKeyCombinationIndependentActiveModifiers("{F5}{down " . JOURNAL_LAST_INDEX . "}")
+    }
+    else
+    {
+        sendKeyCombinationIndependentActiveModifiers("{down}")
+    }
     sleep 800
     currentTask := getCurrentTask(300) 
     ;showtooltip(currentTask, 2000)
@@ -137,16 +144,26 @@ writeNextQuestion()
         showtooltip("INVALID JOURNAL TOPIC", 1000)
         return nextGroupQuestions()
     }
+    
     if (questions.length() = 0)
     {
         return nextGroupQuestions()
     }
+    
     if (JOURNAL_QUESTION_INDEX > questions.length())
     {
         JOURNAL_QUESTION_INDEX := 1
         setTimer TimerNextJournalQuestion, off
         setTimer TimerNextJournalQuestion, 800
-        sendKeyCombinationIndependentActiveModifiers("{enter}")    
+        if (JOURNAL_QUESTIONS[MLO_JOURNAL].length() > JOURNAL_GROUP_INDEX)
+        {
+            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_FOLDER)
+        }
+        else
+        {
+            sendKeyCombinationIndependentActiveModifiers("{enter}")
+        }
+        
         return
     }
     if (JOURNAL_QUESTION_INDEX = 1) 
@@ -155,6 +172,11 @@ writeNextQuestion()
     }
     else
     {
+        if (JOURNAL_QUESTIONS[MLO_JOURNAL].length() > JOURNAL_GROUP_INDEX)
+        {
+            sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_FOLDER)
+        }
+        
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
     ;showtooltip(questions[JOURNAL_QUESTION_INDEX], 2000)

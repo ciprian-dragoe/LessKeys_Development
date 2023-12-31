@@ -104,15 +104,18 @@
             TASK_GO_AFTER_TO := "{DOWN}"
         }
         PREVIOUS_TASK := SubStr(currentTask, 1, InStr(currentTask, " ") - 1)
+        openNotesAssociatedWithTask()
+        sendKeyCombinationIndependentActiveModifiers("^a")
+        sendKeyCombinationIndependentActiveModifiers("^c")
         sleep 200
-        sendKeyCombinationIndependentActiveModifiers("{DOWN}")
-        currentTask := getCurrentTask()
-        ;showtooltip(currentTask, 2000)
-        setJournalTopics(currentTask, MLO_JOURNAL)
+        hideNotesAndFocusTasks()
+        questions := CLIPBOARD
+        ;showtooltip(questions, 2000)
+        setJournalTopics(questions, MLO_JOURNAL)
         JOURNAL_QUESTION_INDEX := 1
         JOURNAL_GROUP_INDEX := 1
-        JOURNAL_LAST_INDEX := 1
-        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)    
+        JOURNAL_LAST_INDEX := 0
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)    
         sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")    
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNAL
     }

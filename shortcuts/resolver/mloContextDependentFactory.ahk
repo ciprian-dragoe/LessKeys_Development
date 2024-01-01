@@ -495,14 +495,13 @@ startPomodoroTimer()
     sleep 100
     hideNotesAndFocusTasks()
     sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_MLO_SYNC)
-    POMODORO_MESSAGE := getCurrentTask()
+    POMODORO_MESSAGE := getCurrentTask(1000)
     words := StrSplit(POMODORO_MESSAGE, " ")
     
     lastWord := trim(words[words.length()])
     if (isStringNumber(lastWord))
     {
        TIMEOUT_REMAINING_TIME := StrReplace(lastWord, "`r`n", "") * 60 * 1000
-       showtooltip(TIMEOUT_REMAINING_TIME)
     }
     else
     {
@@ -532,8 +531,9 @@ isStringNumber(possibleNumber, ignoreWhiteSpace = 1)
     possibleNumber := StrReplace(possibleNumber, "6", "")
     possibleNumber := StrReplace(possibleNumber, "8", "")
     possibleNumber := StrReplace(possibleNumber, "9", "")
-    if (possibleNumber = "")
+    if (strLen(possibleNumber) = 0)
     {
+        ;showtooltip(strLen(possibleNumber), 2000)
         return true
     }
     return false

@@ -136,6 +136,8 @@
     else if (inStr(currentTask, "<POMODORO", true))
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_POMODORO
+        SetTimer TimerDisplayRemainingTime, off
+        tooltip, , 0, 0, 5
         describePomodoroStep(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
     else if (inStr(currentTask, "<SEND_KEYS_", true))

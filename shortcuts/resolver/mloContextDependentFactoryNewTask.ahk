@@ -5,6 +5,12 @@
     {
         startTimerSendKeys(currentTask, MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
+    else if (inStr(currentTask, "<POMODORO", true))
+    {
+        SetTimer TimerDisplayRemainingTime, off
+        tooltip, , 0, 0, 5
+        showtooltip("Stop Pomodoro Timer")
+    }
     else if (inStr(currentTask, "_BUCLA>", true))
     {
         JOURNAL_QUESTION_INDEX := SubStr(currentTask, 1, 1) + 1

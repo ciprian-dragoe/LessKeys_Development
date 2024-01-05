@@ -207,11 +207,11 @@ nextGroupQuestions()
             sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)    
             sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")
         }
-        else if (inStr(TASK_GO_AFTER_TO, "cancel"))
+        else if (inStr(TASK_GO_AFTER_TO, "CANCEL"))
         {
             resetMloEnterMode(0)
         }
-        if (inStr(TASK_GO_AFTER_TO, "DOWN"))
+        else if (inStr(TASK_GO_AFTER_TO, "DOWN"))
         {
             mloNewContextDependentSubTask(currentTask)
         }

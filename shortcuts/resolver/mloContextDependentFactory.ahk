@@ -476,6 +476,9 @@ timerResetPomodoroMessage()
     SetTimer TimerResetPomodoroMessage, off
     POMODORO_MESSAGE := ""
     IS_TIMER_SHOWN_OUTSIDE_MLO := 0
+    tooltip, ===========================`nPOMODORO FINISHED`n===========================, 0, 0
+    SetTimer TimerCancelTooltip, OFF
+    SetTimer TimerCancelTooltip, 5000
 }
 
 describePomodoroStep(newTaskType)

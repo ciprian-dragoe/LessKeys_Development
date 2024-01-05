@@ -104,11 +104,6 @@ processMloEnhancements()
         {
             SHOULD_SYNC_AFTER_MLO_MINIMIZED := 1
             IS_CONDITION_FOR_MLO_SYNC_FULFILLED := 1
-            if (IS_MLO_REMINDER_WINDOWS_TO_BE_MINIMIZED)
-            {
-                IS_MLO_REMINDER_WINDOWS_TO_BE_MINIMIZED := 0
-                WinMinimize, MyLifeOrganized - Reminders
-            }
             resetTimerSyncMlo()
         }
         else if (SHOULD_SYNC_AFTER_MLO_MINIMIZED)

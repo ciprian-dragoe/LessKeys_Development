@@ -7,7 +7,6 @@ global MLO_ENTER_MODE := 0
 global MLO_ENTER_MODE_SET_AS_NEW_TASK := 1
 global MLO_ENTER_MODE_SET_AS_POMODORO := 2
 global MLO_ENTER_MODE_SET_AS_POMODORO_START := 3
-global IS_MLO_REMINDER_WINDOWS_TO_BE_MINIMIZED := 0
 global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 5
 global MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER := 6
 global MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER := 4
@@ -476,7 +475,6 @@ timerResetPomodoroMessage()
 {
     SetTimer TimerResetPomodoroMessage, off
     POMODORO_MESSAGE := ""
-    IS_MLO_REMINDER_WINDOWS_TO_BE_MINIMIZED := 0
     IS_TIMER_SHOWN_OUTSIDE_MLO := 0
 }
 
@@ -508,7 +506,6 @@ startPomodoroTimer()
         TIMEOUT_REMAINING_TIME := 50 * 60 * 1000
     }
     IS_TIMER_SHOWN_OUTSIDE_MLO := 1
-    IS_MLO_REMINDER_WINDOWS_TO_BE_MINIMIZED := 1
     timerDisplayRemainingTime()
     SetTimer TimerResetPomodoroMessage, %TIMEOUT_REMAINING_TIME%
 }

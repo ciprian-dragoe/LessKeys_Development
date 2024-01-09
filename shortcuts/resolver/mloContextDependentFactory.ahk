@@ -27,6 +27,7 @@ global MLO_ENTER_MODE_SET_AS_JOURNAL := 91
 global MLO_ENTER_MODE_SET_AS_JOURNAL_ASK_QUESTIONS := 92
 global JOURNAL_QUESTIONS := {}
 
+global IS_MLO_REMINDER_WINDOW_TO_BE_MINIMIZED := 0
 global JOURNAL_GROUP_INDEX := 1
 global JOURNAL_QUESTION_INDEX := 1
 global JOURNAL_LAST_INDEX := 1
@@ -476,6 +477,7 @@ timerResetPomodoroMessage()
     SetTimer TimerResetPomodoroMessage, off
     POMODORO_MESSAGE := ""
     IS_TIMER_SHOWN_OUTSIDE_MLO := 0
+    IS_MLO_REMINDER_WINDOW_TO_BE_MINIMIZED := 0
     tooltip, ===========================`nPOMODORO FINISHED`n===========================, 0, 0
     SetTimer TimerCancelTooltip, OFF
     SetTimer TimerCancelTooltip, 20000
@@ -509,6 +511,7 @@ startPomodoroTimer()
         TIMEOUT_REMAINING_TIME := 50 * 60 * 1000
     }
     IS_TIMER_SHOWN_OUTSIDE_MLO := 1
+    IS_MLO_REMINDER_WINDOW_TO_BE_MINIMIZED := 1
     timerDisplayRemainingTime()
     SetTimer TimerResetPomodoroMessage, %TIMEOUT_REMAINING_TIME%
 }

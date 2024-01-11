@@ -15,6 +15,11 @@ global MLO_ENTER_MODE_SET_AS_AFTER_TIMER_ENTER_AND_ESCAPE_SENDS_KEYS := 11
 global MLO_ENTER_MODE_SET_AS_TIMER_SEND_KEYS := 12 ; only for documentation, not used as variable => search for <TIMER_SEND_KEYS_
 global MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK := 19
 global MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI := 20
+
+global MLO_ENTER_MODE_SET_AS_ALIGN_QUESTIONS := 21
+global ALIGN_QUESTIONS := []
+global ALIGN_QUESTIONS_INDEX := 0
+
 global LESSON_COMPLETE_AMOUNT := 0
 
 global MLO_ENTER_MODE_SET_AS_DIALOG := 50
@@ -28,7 +33,7 @@ global MLO_ENTER_MODE_SET_AS_JOURNAL_ASK_QUESTIONS := 92
 global JOURNAL_QUESTIONS := {}
 
 global MLO_ENTER_MODE_SET_AS_POMODORO_INDEX := 0
-global MLO_ENTER_MODE_SET_AS_POMODORO_QUESTIONS := ["__PERSPECTIVA SPRIJINA SA FIU PREZENT & IMPACAT: ", "__PASI INTENTIONEZ SA FAC: ", "__POATE SA MA DISTRAGA: "]
+global POMODORO_QUESTIONS := ["__PERSPECTIVA SPRIJINA SA FIU PREZENT & IMPACAT: ", "__PASI INTENTIONEZ SA FAC: ", "__POATE SA MA DISTRAGA: "]
 
 global JOURNAL_GROUP_INDEX := 1
 global JOURNAL_QUESTION_INDEX := 1
@@ -98,6 +103,10 @@ resetMloEnterMode(alsoPressEscape = 1)
     LESSON_COMPLETE_AMOUNT := 0
     TASK_GO_AFTER_TO := ""
     JOURNAL_QUESTION_INDEX := 1
+    JOURNAL_GROUP_INDEX := 1
+    JOURNAL_LAST_INDEX := 1
+    MLO_ENTER_MODE_SET_AS_POMODORO_INDEX := 1
+    ALIGN_QUESTIONS_INDEX := 1
     PREVIOUS_TASK := "" 
     if (alsoPressEscape)
     {
@@ -497,11 +506,43 @@ describePomodoroStep(newTaskType)
     
     sendKeyCombinationIndependentActiveModifiers(newTaskType)
     MLO_ENTER_MODE_SET_AS_POMODORO_INDEX += 1
-    sendKeyCombinationIndependentActiveModifiers(MLO_ENTER_MODE_SET_AS_POMODORO_QUESTIONS[MLO_ENTER_MODE_SET_AS_POMODORO_INDEX])
-    if (MLO_ENTER_MODE_SET_AS_POMODORO_INDEX >= MLO_ENTER_MODE_SET_AS_POMODORO_QUESTIONS.length())
+    sendKeyCombinationIndependentActiveModifiers(POMODORO_QUESTIONS[MLO_ENTER_MODE_SET_AS_POMODORO_INDEX])
+    if (MLO_ENTER_MODE_SET_AS_POMODORO_INDEX >= POMODORO_QUESTIONS.length())
     {
         sendKeyCombinationIndependentActiveModifiers("{space}50{space}{left 4}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_POMODORO_START
+    }
+}
+
+describeAlignStep(newTaskMode)
+{
+    ALIGN_QUESTIONS_INDEX += 1
+    ;showtooltip(ALIGN_QUESTIONS.length())
+    if (ALIGN_QUESTIONS_INDEX <= ALIGN_QUESTIONS.length())
+    {
+        sendKeyCombinationIndependentActiveModifiers(newTaskMode)
+        sleep 100
+        question := removeWhiteSpace(ALIGN_QUESTIONS[ALIGN_QUESTIONS_INDEX])
+        sendKeyCombinationIndependentActiveModifiers(question)
+    }
+    else
+    {
+        sendKeyCombinationIndependentActiveModifiers("{enter}")
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("{down}")
+        sleep 200
+        currentTask := getCurrentTask()
+        ;showtooltip(subStr(currentTask, 1, 1), 2000)
+        if (subStr(currentTask, 1, 1) = "[")
+        {
+            ALIGN_QUESTIONS_INDEX := 0
+            describeAlignStep(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        }
+        else
+        {
+            resetMloEnterMode(0)
+            mloNewContextDependentSubTask(currentTask)
+        }
     }
 }
 
@@ -548,10 +589,7 @@ isStringNumber(possibleNumber, ignoreWhiteSpace = 1)
 {
     if (ignoreWhiteSpace)
     {
-        possibleNumber := StrReplace(possibleNumber, " ", "")
-        possibleNumber := StrReplace(possibleNumber, "`n", "")
-        possibleNumber := StrReplace(possibleNumber, "`r", "")
-        possibleNumber := StrReplace(possibleNumber, "`r`n", "")
+        possibleNumber := removeWhiteSpace(possibleNumber, 1)
     }
     if (strLen(possibleNumber) = 0) ; empty string
     {
@@ -572,4 +610,16 @@ isStringNumber(possibleNumber, ignoreWhiteSpace = 1)
         return true
     }
     return false
+}
+
+removeWhiteSpace(input, includingSpaceBetweenWords = 0)
+{
+    if (includingSpaceBetweenWords)
+    {
+        input := StrReplace(input, " ", "")
+    }
+    input := StrReplace(input, "`n", "")
+    input := StrReplace(input, "`r", "")
+    input := StrReplace(input, "`r`n", "")
+    return input
 }

@@ -104,13 +104,10 @@
             TASK_GO_AFTER_TO := 0
         }
         PREVIOUS_TASK := SubStr(currentTask, 1, InStr(currentTask, " ") - 1)
+
         openNotesAssociatedWithTask()
-        sendKeyCombinationIndependentActiveModifiers("^a")
-        sendKeyCombinationIndependentActiveModifiers("^c")
-        sleep 200
+        questions := getCurrentTask(600, 1)
         hideNotesAndFocusTasks()
-        questions := CLIPBOARD
-        ;showtooltip(questions, 2000)
         setJournalTopics(questions, MLO_JOURNAL)
         JOURNAL_QUESTION_INDEX := 1
         JOURNAL_GROUP_INDEX := 1
@@ -118,6 +115,20 @@
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)    
         sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")    
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNAL
+    }
+    else if (inStr(currentTask, "<ALIGN>", true))
+    {
+        openNotesAssociatedWithTask()
+        questions := getCurrentTask(600, 1)
+        hideNotesAndFocusTasks()
+        ;showtooltip(questions)
+        ALIGN_QUESTIONS := StrSplit(questions, "`n")
+        ALIGN_QUESTIONS.pop() ; last item is an empty line
+        ALIGN_QUESTIONS_INDEX := 0
+        sendKeyCombinationIndependentActiveModifiers("[")
+        sleep 500    
+        describeAlignStep(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ALIGN_QUESTIONS
     }
     else if (inStr(currentTask, "<NEW_TASK_KEYS_AFTER_", true))
     {

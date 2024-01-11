@@ -28,6 +28,10 @@
     {
         describePomodoroStep(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ALIGN_QUESTIONS)
+    {
+        describeAlignStep(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO_START)
     {
         startPomodoroTimer()

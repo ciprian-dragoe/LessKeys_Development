@@ -27,7 +27,10 @@ global MLO_ENTER_MODE_SET_AS_JOURNAL := 91
 global MLO_ENTER_MODE_SET_AS_JOURNAL_ASK_QUESTIONS := 92
 global JOURNAL_QUESTIONS := {}
 
-global IS_MLO_REMINDER_WINDOW_TO_BE_MINIMIZED := 0
+global MLO_ENTER_MODE_SET_AS_POMODORO_INDEX := 0
+global MLO_ENTER_MODE_SET_AS_POMODORO_QUESTIONS := ["__PERSPECTIVA SPRIJINA SA FIU PREZENT & IMPACAT: ", "__PASI INTENTIONEZ SA FAC: ", "__POATE SA MA DISTRAGA: "]
+
+global IS_MLO_REMINDER_WINDOW_TO_BE_MINIMIZED := 1
 global JOURNAL_GROUP_INDEX := 1
 global JOURNAL_QUESTION_INDEX := 1
 global JOURNAL_LAST_INDEX := 1
@@ -238,10 +241,15 @@ createJournalTask(template)
     sendKeyCombinationIndependentActiveModifiers(JOURNAL_QUESTION_INDEX . template . "{space}")
 }
 
-getCurrentTask(waitTimeAfterCopy = 300)
+getCurrentTask(waitTimeAfterCopy = 300, selectAllBeforeCopy = 0)
 {
     ; copy current task so that it can be parsed without loosing clipboard
     temp := Clipboard
+    if (selectAllBeforeCopy)
+    {
+        sendKeyCombinationIndependentActiveModifiers("^a")
+        sleep 100
+    }
     sendKeyCombinationIndependentActiveModifiers("^c")
     if (waitTimeAfterCopy)
     {
@@ -267,7 +275,7 @@ getFocusArea(input)
     }
     
     focusArea := SubStr(input, 1, positionSpace)
-    allowedFocusAreas := ["11", "110", "12", "120", "13", "130", "22", "220", "23", "230", "24", "240", "33", "330", "34", "340", "35", "350", "44", "440", "45", "450", "46", "460", "55", "550", "56", "560", "61" ,"62" ,"63" ,"64", "65", "66", "66", "71", "72", "73", "74", "75", "76", "77"]
+    allowedFocusAreas := ["11", "110", "12", "120", "13", "130", "22", "220", "23", "230", "24", "240", "33", "330", "34", "340", "35", "350", "44", "440", "45", "450", "46", "460", "55", "550", "56", "560", "61" ,"62" ,"63" ,"64", "65", "66", "71", "72", "73", "74", "75", "76", "77"]
     for key, allowedArea in allowedFocusAreas
     {
         if (focusArea = allowedArea) {
@@ -485,35 +493,55 @@ timerResetPomodoroMessage()
 
 describePomodoroStep(newTaskType)
 {
+    SetTimer TimerDisplayRemainingTime, off
+    tooltip, , 0, 0, 5
+    
     sendKeyCombinationIndependentActiveModifiers(newTaskType)
-    sendKeyCombinationIndependentActiveModifiers("PAS INTENTIONEZ FAC: ")
+    MLO_ENTER_MODE_SET_AS_POMODORO_INDEX += 1
+    sendKeyCombinationIndependentActiveModifiers(MLO_ENTER_MODE_SET_AS_POMODORO_QUESTIONS[MLO_ENTER_MODE_SET_AS_POMODORO_INDEX])
+    if (MLO_ENTER_MODE_SET_AS_POMODORO_INDEX >= MLO_ENTER_MODE_SET_AS_POMODORO_QUESTIONS.length())
+    {
+        sendKeyCombinationIndependentActiveModifiers("{space}50{space}{left 4}")
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_POMODORO_START
+    }
 }
 
 startPomodoroTimer()
 {
-    sendKeyCombinationIndependentActiveModifiers("{enter}")
-    sleep 100
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEXT_SET_REMINDER_IN_10_MINUTES)
-    resetMloEnterMode()
-    sleep 100
-    hideNotesAndFocusTasks()
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_MLO_SYNC)
-    POMODORO_MESSAGE := getCurrentTask(1000)
+    POMODORO_MESSAGE := getCurrentTask(300, 1)
+    sendKeyCombinationIndependentActiveModifiers("{right}")
     words := StrSplit(POMODORO_MESSAGE, " ")
-    
     lastWord := trim(words[words.length()])
+    beforeLastWord := trim(words[words.length() - 1])
+
     if (isStringNumber(lastWord))
     {
+       ;showtooltip("lastWord " . lastWord)
        TIMEOUT_REMAINING_TIME := StrReplace(lastWord, "`r`n", "") * 60 * 1000
+       spaceCount := 1
+       defaultTimerCount := 2
+       sendKeyCombinationIndependentActiveModifiers("{end}{backspace " . strLen(lastWord) + spaceCount + defaultTimerCount . "}")
+       
+    }
+    else if (isStringNumber(beforeLastWord))
+    {
+        ;showtooltip("beforeLastWord " . beforeLastWord)
+        TIMEOUT_REMAINING_TIME := StrReplace(beforeLastWord, "`r`n", "") * 60 * 1000
+        spaceCount := 1
+        sendKeyCombinationIndependentActiveModifiers("{end}{backspace " . strLen(beforeLastWord) + spaceCount . "}")
     }
     else
     {
         TIMEOUT_REMAINING_TIME := 50 * 60 * 1000
     }
+    POMODORO_MESSAGE := getCurrentTask(300, 1)
+    ;showtooltip(POMODORO_MESSAGE)
+    sendKeyCombinationIndependentActiveModifiers("{enter}")
     IS_TIMER_SHOWN_OUTSIDE_MLO := 1
     IS_MLO_REMINDER_WINDOW_TO_BE_MINIMIZED := 1
     timerDisplayRemainingTime()
     SetTimer TimerResetPomodoroMessage, %TIMEOUT_REMAINING_TIME%
+    resetMloEnterMode(0)
 }
 
 isStringNumber(possibleNumber, ignoreWhiteSpace = 1)
@@ -524,6 +552,10 @@ isStringNumber(possibleNumber, ignoreWhiteSpace = 1)
         possibleNumber := StrReplace(possibleNumber, "`n", "")
         possibleNumber := StrReplace(possibleNumber, "`r", "")
         possibleNumber := StrReplace(possibleNumber, "`r`n", "")
+    }
+    if (strLen(possibleNumber) = 0) ; empty string
+    {
+        return false
     }
     possibleNumber := StrReplace(possibleNumber, "0", "")
     possibleNumber := StrReplace(possibleNumber, "1", "")

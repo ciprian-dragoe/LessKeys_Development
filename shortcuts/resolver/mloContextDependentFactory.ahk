@@ -52,11 +52,13 @@ mloContextDependentKeyFactory(originalAction)
     if (originalAction = MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     {
         currentTask := getCurrentTask()
+        ;showToolTip(currentTask)
         mloNewContextDependentSubTask(currentTask)
     }
     else if (originalAction = MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     {
         currentTask := getCurrentTask()
+        ;showToolTip(currentTask)
         mloNewContextDependentTask(currentTask)
     } 
     else if (originalAction = "enter")

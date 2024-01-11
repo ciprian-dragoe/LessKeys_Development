@@ -443,9 +443,10 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         number := ""
         */
     }
-    else if (number = 2 && modifiers = "!^")
+    else if (number = 2 && modifiers = "^!")
     {
         extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}"]
+        MLO_ENTER_MODE := 99999 ; a non existent mlo mode so that <send_keys> still works
     }
     else if (number = 5)
     {

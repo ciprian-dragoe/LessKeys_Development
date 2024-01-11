@@ -30,7 +30,7 @@ timerCheckReminder()
     {
         ;writeNowLogFile("timerCheckReminder - reminder window on")
         SetTimer TimerSyncMloStep1_launchPing, 1000
-        SetTimer TimerCheckAfterSyncReminders, 30000
+        SetTimer TimerCheckReminder, %TIMEOUT_CHECK_REMINDER%
     }
     else
     {
@@ -39,18 +39,14 @@ timerCheckReminder()
     }    
 }
 
-timerCheckAfterSyncReminders()
+timerDisplayPomodoroMessageReminders()
 {
-    SetTimer TimerCheckAfterSyncReminders, OFF
-    DetectHiddenWindows Off
-    if (WinExist("MyLifeOrganized - Reminders") && POMODORO_MESSAGE != "")
+    if (POMODORO_MESSAGE != "")
     {
-        DetectHiddenWindows On
-        tooltip, ===========================`n%POMODORO_MESSAGE%===========================, 0, 0
+        tooltip, ===========================`n%POMODORO_MESSAGE%`n===========================, 0, 0
         SetTimer TimerCancelTooltip, OFF
         SetTimer TimerCancelTooltip, 5000
     }
-    SetTimer TimerCheckReminder, %TIMEOUT_CHECK_REMINDER%
 }
 
 TimerSyncMloStep1_launchPing()

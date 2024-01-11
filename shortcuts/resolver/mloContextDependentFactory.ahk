@@ -482,6 +482,7 @@ setJournalTopics(topics, journal)
 timerResetPomodoroMessage()
 {
     SetTimer TimerResetPomodoroMessage, off
+    SetTimer TimerDisplayPomodoroMessageReminders, off
     POMODORO_MESSAGE := ""
     IS_TIMER_SHOWN_OUTSIDE_MLO := 0
     tooltip, ===========================`nPOMODORO FINISHED`n===========================, 0, 0
@@ -538,6 +539,8 @@ startPomodoroTimer()
     IS_TIMER_SHOWN_OUTSIDE_MLO := 1
     timerDisplayRemainingTime()
     SetTimer TimerResetPomodoroMessage, %TIMEOUT_REMAINING_TIME%
+    time := 1000 * 60 * 10
+    SetTimer TimerDisplayPomodoroMessageReminders, %time%
     resetMloEnterMode(0)
 }
 

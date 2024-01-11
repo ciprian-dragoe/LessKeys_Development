@@ -1,5 +1,5 @@
-TimerCheckAfterSyncReminders:
-    timerCheckAfterSyncReminders()
+timerDisplayPomodoroMessageReminders:
+    timerDisplayPomodoroMessageReminders()
 return
 
 TimerNextJournalQuestion:

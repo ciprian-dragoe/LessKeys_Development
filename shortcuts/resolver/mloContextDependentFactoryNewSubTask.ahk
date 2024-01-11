@@ -159,7 +159,7 @@
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         LESSON_COMPLETE_AMOUNT := focusArea - 70
     }
-    else if (focusArea != "71" && focusArea != "72" && focusArea != "73" && focusArea != "74" && focusArea != "75" && focusArea != "76" && focusArea != "77" && focusArea != "66" && focusArea != "65" && focusArea != "64" && focusArea != "63" && focusArea != "62" && focusArea != "61")
+    else if (focusArea && focusArea != "71" && focusArea != "72" && focusArea != "73" && focusArea != "74" && focusArea != "75" && focusArea != "76" && focusArea != "77" && focusArea != "66" && focusArea != "65" && focusArea != "64" && focusArea != "63" && focusArea != "62" && focusArea != "61")
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_POMODORO
         MLO_ENTER_MODE_SET_AS_POMODORO_INDEX := 0

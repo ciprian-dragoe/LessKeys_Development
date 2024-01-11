@@ -97,15 +97,6 @@ processMloEnhancements()
             IS_CONDITION_FOR_MLO_SYNC_FULFILLED := 1
             resetTimerSyncMlo()
         }
-        
-        if (IS_MLO_REMINDER_WINDOW_TO_BE_MINIMIZED)
-        {
-            if WinExist("MyLifeOrganized - Reminders")
-            {
-                IS_MLO_REMINDER_WINDOW_TO_BE_MINIMIZED := 0
-                WinMinimize, MyLifeOrganized - Reminders
-            } 
-        }
     }
     else
     {

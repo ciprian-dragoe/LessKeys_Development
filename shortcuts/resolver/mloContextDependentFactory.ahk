@@ -30,7 +30,6 @@ global JOURNAL_QUESTIONS := {}
 global MLO_ENTER_MODE_SET_AS_POMODORO_INDEX := 0
 global MLO_ENTER_MODE_SET_AS_POMODORO_QUESTIONS := ["__PERSPECTIVA SPRIJINA SA FIU PREZENT & IMPACAT: ", "__PASI INTENTIONEZ SA FAC: ", "__POATE SA MA DISTRAGA: "]
 
-global IS_MLO_REMINDER_WINDOW_TO_BE_MINIMIZED := 1
 global JOURNAL_GROUP_INDEX := 1
 global JOURNAL_QUESTION_INDEX := 1
 global JOURNAL_LAST_INDEX := 1
@@ -485,7 +484,6 @@ timerResetPomodoroMessage()
     SetTimer TimerResetPomodoroMessage, off
     POMODORO_MESSAGE := ""
     IS_TIMER_SHOWN_OUTSIDE_MLO := 0
-    IS_MLO_REMINDER_WINDOW_TO_BE_MINIMIZED := 0
     tooltip, ===========================`nPOMODORO FINISHED`n===========================, 0, 0
     SetTimer TimerCancelTooltip, OFF
     SetTimer TimerCancelTooltip, 20000
@@ -538,7 +536,6 @@ startPomodoroTimer()
     ;showtooltip(POMODORO_MESSAGE)
     sendKeyCombinationIndependentActiveModifiers("{enter}")
     IS_TIMER_SHOWN_OUTSIDE_MLO := 1
-    IS_MLO_REMINDER_WINDOW_TO_BE_MINIMIZED := 1
     timerDisplayRemainingTime()
     SetTimer TimerResetPomodoroMessage, %TIMEOUT_REMAINING_TIME%
     resetMloEnterMode(0)

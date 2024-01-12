@@ -7,6 +7,7 @@
     }
     else if (inStr(currentTask, "<POMODORO", true))
     {
+        SetTimer TimerDisplayPomodoroMessageReminders, off
         SetTimer TimerDisplayRemainingTime, off
         tooltip, , 0, 0, 5
         showtooltip("Stop Pomodoro Timer")

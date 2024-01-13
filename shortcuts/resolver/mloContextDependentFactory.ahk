@@ -511,7 +511,7 @@ describePomodoroStep(newTaskType)
     sendKeyCombinationIndependentActiveModifiers(POMODORO_QUESTIONS[MLO_ENTER_MODE_SET_AS_POMODORO_INDEX])
     if (MLO_ENTER_MODE_SET_AS_POMODORO_INDEX >= POMODORO_QUESTIONS.length())
     {
-        sendKeyCombinationIndependentActiveModifiers("{space}50{space}{left 4}")
+        sendKeyCombinationIndependentActiveModifiers("{space}44{space}{left 4}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_POMODORO_START
     }
 }

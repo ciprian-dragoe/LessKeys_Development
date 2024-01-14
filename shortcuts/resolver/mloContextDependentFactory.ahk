@@ -33,7 +33,9 @@ global MLO_ENTER_MODE_SET_AS_JOURNAL_ASK_QUESTIONS := 92
 global JOURNAL_QUESTIONS := {}
 
 global MLO_ENTER_MODE_SET_AS_POMODORO_INDEX := 0
-global POMODORO_QUESTIONS := ["__PASI INTENTIONEZ SA FAC: ", "__ACTIONEZ CAND SUNT IMPACAT & APRECIEZ: ", "__PAUZA & MA INCARC DUPA: " "__POATE SA MA DISTRAGA: "]
+global DEFAULT_POMODORO_TIME := 44
+global SELECTED_POMODORO_TIME := 0
+global POMODORO_QUESTIONS := ["PASI INTENTIONEZ SA FAC: ", "ACTIONEZ CAND SUNT IMPACAT & APRECIEZ: ", "PAUZA & MA INCARC DUPA: " "POATE SA MA DISTRAGA: "]
 
 global JOURNAL_GROUP_INDEX := 1
 global JOURNAL_QUESTION_INDEX := 1
@@ -294,6 +296,29 @@ getFocusArea(input)
     } 
 }
 
+getPomodoroTimeFrom(input)
+{
+    positionSpace := InStr(input, " ")
+    if (positionSpace = 0) {
+        return 0
+    }
+    
+    focusArea := SubStr(input, 1, positionSpace)
+    isPomodoro := subStr(focusArea, 3, 1) = "8"
+    ;showtooltip(subStr(focusArea, 3, 1))
+    if (isPomodoro) {
+        words := StrSplit(input, " ")
+        lastWord := removeWhiteSpace(words[words.length()])
+        ;showtooltip(lastWord)
+        if (isStringNumber(lastWord)) {
+            return lastWord
+        }
+        return DEFAULT_POMODORO_TIME
+    }
+    
+    return 0 
+}
+
 processKeysAfter(keys)
 {
     ;showtooltip("processKeysAfter", 2000)
@@ -511,7 +536,7 @@ describePomodoroStep(newTaskType)
     sendKeyCombinationIndependentActiveModifiers(POMODORO_QUESTIONS[MLO_ENTER_MODE_SET_AS_POMODORO_INDEX])
     if (MLO_ENTER_MODE_SET_AS_POMODORO_INDEX >= POMODORO_QUESTIONS.length())
     {
-        sendKeyCombinationIndependentActiveModifiers("{space}44{space}{left 4}")
+        sendKeyCombinationIndependentActiveModifiers("{space}" . SELECTED_POMODORO_TIME . "{space}{left 4}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_POMODORO_START
     }
 }

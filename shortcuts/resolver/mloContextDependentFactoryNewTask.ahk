@@ -5,7 +5,7 @@
     {
         startTimerSendKeys(currentTask, MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
-    else if (inStr(currentTask, "<POMODORO", true))
+    else if (inStr(currentTask, "<POMODORO", true) || getPomodoroTimeFrom(currentTask))
     {
         SetTimer TimerDisplayPomodoroMessageReminders, off
         SetTimer TimerDisplayRemainingTime, off

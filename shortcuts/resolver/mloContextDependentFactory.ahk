@@ -35,7 +35,7 @@ global JOURNAL_QUESTIONS := {}
 global MLO_ENTER_MODE_SET_AS_POMODORO_INDEX := 0
 global DEFAULT_POMODORO_TIME := 44
 global SELECTED_POMODORO_TIME := 0
-global POMODORO_QUESTIONS := ["PASI INTENTIONEZ SA FAC: ", "ACTIONEZ CAND SUNT IMPACAT & APRECIEZ: ", "PAUZA & MA INCARC DUPA: " "POATE SA MA DISTRAGA: "]
+global POMODORO_QUESTIONS := ["PASI INTENTIONEZ SA FAC: ", "ACTIONEZ CAND SUNT IMPACAT & APRECIEZ: ", "PAUZA & MA INCARC DUPA: ", "POATE SA MA DISTRAGA: "]
 
 global JOURNAL_GROUP_INDEX := 1
 global JOURNAL_QUESTION_INDEX := 1
@@ -304,7 +304,7 @@ getPomodoroTimeFrom(input)
     }
     
     focusArea := SubStr(input, 1, positionSpace)
-    isPomodoro := subStr(focusArea, 3, 1) = "8"
+    isPomodoro := subStr(focusArea, 3, 1) = "8" || subStr(focusArea, 2, 1) = "8"
     ;showtooltip(subStr(focusArea, 3, 1))
     if (isPomodoro) {
         words := StrSplit(input, " ")

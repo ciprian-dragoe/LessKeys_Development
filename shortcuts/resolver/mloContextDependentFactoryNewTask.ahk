@@ -37,6 +37,10 @@
     else if (inStr(currentTask, "<PARTE>", true))
     {
         index := SubStr(currentTask, 1, 1) + 4
+        if (index > 8)
+        {
+            return showToolTip("WORKS ONLY FOR INDEXES 1-4")
+        }
         setMloDarkMode(0)
         setLaptopDependentMloVariables("dashboardActive")
         sleep 200

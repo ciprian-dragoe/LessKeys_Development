@@ -448,9 +448,9 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}"]
         MLO_ENTER_MODE := 99999 ; a non existent mlo mode so that <send_keys> still works
     }
-    else if (number = 5)
+    else if (number = 4 && modifiers = "^+")
     {
-        extraInstructions := ["{F12}"]
+        IS_SORTING_VIEW_ACTIVE := 1
     }
     
     ; close dashboard windows if navigating away from it 

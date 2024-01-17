@@ -26,15 +26,23 @@
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO)
     {
-        describePomodoroStep(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        describePomodoroStep("{enter}" . MLO_KEYBOARD_SHORTCUT_FOLDER . MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ALIGN_QUESTIONS)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO)
     {
-        describeAlignStep(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        describePomodoroStep("{enter}" . MLO_KEYBOARD_SHORTCUT_FOLDER . MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO_START)
     {
         startPomodoroTimer()
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP)
+    {
+        describePomodoroFollowUpStep(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP_FINISH)
+    {
+        finishPomodoro()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ)
     {

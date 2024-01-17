@@ -167,6 +167,12 @@
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
+    else if (inStr(currentTask, removeWhiteSpace(POMODORO_QUESTIONS[POMODORO_QUESTIONS.length()])))
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP
+        MLO_ENTER_MODE_SET_AS_POMODORO_INDEX := 0
+        describePomodoroFollowUpStep(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI && (focusArea = "71" || focusArea = "72" || focusArea = "73" || focusArea = "74" || focusArea = "75" || focusArea = "76" || focusArea = "77"))
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)

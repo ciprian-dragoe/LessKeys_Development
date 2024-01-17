@@ -7,15 +7,17 @@ global MLO_ENTER_MODE := 0
 global MLO_ENTER_MODE_SET_AS_NEW_TASK := 1
 global MLO_ENTER_MODE_SET_AS_POMODORO := 2
 global MLO_ENTER_MODE_SET_AS_POMODORO_START := 3
-global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 5
-global MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER := 6
-global MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER := 4
+global MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP := 4
+global MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP_FINISH := 5
+global MLO_ENTER_MODE_SET_AS_ESCAPE_AS_ENTER := 6
+global MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER := 7
+global MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER := 8
 global MLO_ENTER_MODE_SET_AS_SEND_KEYS := 9
-global MLO_ENTER_MODE_SET_AS_AFTER_TIMER_ENTER_AND_ESCAPE_SENDS_KEYS := 11
-global MLO_ENTER_MODE_SET_AS_TIMER_SEND_KEYS := 12 ; only for documentation, not used as variable => search for <TIMER_SEND_KEYS_
+global MLO_ENTER_MODE_SET_AS_AFTER_TIMER_ENTER_AND_ESCAPE_SENDS_KEYS := 10
+global MLO_ENTER_MODE_SET_AS_TIMER_SEND_KEYS := 11 ; only for documentation, not used as variable => search for <TIMER_SEND_KEYS_
+
 global MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK := 19
 global MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI := 20
-
 global MLO_ENTER_MODE_SET_AS_ALIGN_QUESTIONS := 21
 global ALIGN_QUESTIONS := []
 global ALIGN_QUESTIONS_INDEX := 0
@@ -36,6 +38,7 @@ global MLO_ENTER_MODE_SET_AS_POMODORO_INDEX := 0
 global DEFAULT_POMODORO_TIME := 44
 global SELECTED_POMODORO_TIME := 0
 global POMODORO_QUESTIONS := ["__PASI INTENTIONEZ SA FAC: ", "__PAUZA & MA INCARC DUPA: ", "__POATE SA MA DISTRAGA: "]
+global POMODORO_FOLLOW_UP_QUESTIONS := ["__ACTIUNI INTENTIONEZ SA FAC MAI DEPARTE PENTRU ACEST TASK: ", "__POT SA IAU PAUZA PRIN: "]
 
 global JOURNAL_GROUP_INDEX := 1
 global JOURNAL_QUESTION_INDEX := 1
@@ -309,6 +312,7 @@ getPomodoroTimeFrom(input)
     if (isPomodoro) {
         words := StrSplit(input, " ")
         lastWord := removeWhiteSpace(words[words.length()])
+        lastWord := StrReplace(lastWord, "|", "")
         ;showtooltip(lastWord)
         if (isStringNumber(lastWord)) {
             return lastWord
@@ -541,6 +545,17 @@ describePomodoroStep(newTaskType)
     }
 }
 
+describePomodoroFollowUpStep(newTaskType)
+{
+    sendKeyCombinationIndependentActiveModifiers(newTaskType)
+    MLO_ENTER_MODE_SET_AS_POMODORO_INDEX += 1
+    sendKeyCombinationIndependentActiveModifiers(POMODORO_FOLLOW_UP_QUESTIONS[MLO_ENTER_MODE_SET_AS_POMODORO_INDEX])
+    if (MLO_ENTER_MODE_SET_AS_POMODORO_INDEX >= POMODORO_FOLLOW_UP_QUESTIONS.length())
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP_FINISH
+    }
+}
+
 describeAlignStep(newTaskMode)
 {
     ALIGN_QUESTIONS_INDEX += 1
@@ -604,11 +619,22 @@ startPomodoroTimer()
     POMODORO_MESSAGE := getCurrentTask(300, 1)
     ;showtooltip(POMODORO_MESSAGE)
     sendKeyCombinationIndependentActiveModifiers("{enter}")
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_FOLDER)
     IS_TIMER_SHOWN_OUTSIDE_MLO := 1
     timerDisplayRemainingTime()
     SetTimer TimerResetPomodoroMessage, %TIMEOUT_REMAINING_TIME%
     time := 1000 * 60 * 10
     SetTimer TimerDisplayPomodoroMessageReminders, %time%
+    resetMloEnterMode(0)
+}
+
+finishPomodoro()
+{
+    sendKeyCombinationIndependentActiveModifiers("{enter}")
+    sleep 200
+    sendKeyCombinationIndependentActiveModifiers("{left 4}")
+    sleep 200
+    sendKeyCombinationIndependentActiveModifiers("{space}")
     resetMloEnterMode(0)
 }
 
@@ -645,6 +671,7 @@ removeWhiteSpace(input, includingSpaceBetweenWords = 0)
     {
         input := StrReplace(input, " ", "")
     }
+    input := RegExReplace(input, "^\s+|\s+$")
     input := StrReplace(input, "`n", "")
     input := StrReplace(input, "`r", "")
     input := StrReplace(input, "`r`n", "")

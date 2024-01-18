@@ -57,7 +57,7 @@
     else if (inStr(currentTask, "<GANDURI_EXPLOREZ>", true))
     {
         IS_TIMER_SHOWN_OUTSIDE_MLO := 1
-        TIMEOUT_REMAINING_TIME := 10 * 60 * 50
+        TIMEOUT_REMAINING_TIME := 1000 * 60 * 50
         timerDisplayRemainingTime()
         JOURNAL_QUESTION_INDEX := 1
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)

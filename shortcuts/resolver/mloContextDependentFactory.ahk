@@ -38,7 +38,7 @@ global MLO_ENTER_MODE_SET_AS_POMODORO_INDEX := 0
 global DEFAULT_POMODORO_TIME := 44
 global SELECTED_POMODORO_TIME := 0
 global POMODORO_QUESTIONS := ["__PASI INTENTIONEZ SA FAC: ", "__PAUZA & MA INCARC DUPA: ", "__POATE SA MA DISTRAGA: "]
-global POMODORO_FOLLOW_UP_QUESTIONS := ["__ACTIUNI INTENTIONEZ SA FAC MAI DEPARTE PENTRU ACEST TASK: ", "__POT SA IAU PAUZA PRIN: "]
+global POMODORO_FOLLOW_UP_QUESTIONS := ["__ACTIUNI INTENTIONEZ SA FAC MAI DEPARTE PENTRU ACEST TASK: ", "__CE NEVOIE S-AU ACUMULAT: ", "__CE POT SA FAC IN URMATOAREA PAUZA: "]
 
 global JOURNAL_GROUP_INDEX := 1
 global JOURNAL_QUESTION_INDEX := 1
@@ -676,4 +676,12 @@ removeWhiteSpace(input, includingSpaceBetweenWords = 0)
     input := StrReplace(input, "`r", "")
     input := StrReplace(input, "`r`n", "")
     return input
+}
+
+stopPomodoroTimer()
+{
+    SetTimer TimerDisplayPomodoroMessageReminders, off
+    SetTimer TimerDisplayRemainingTime, off
+    tooltip, , 0, 0, 5
+    showtooltip("Stop Pomodoro Timer")
 }

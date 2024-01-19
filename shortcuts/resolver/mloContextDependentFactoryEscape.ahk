@@ -165,10 +165,6 @@
     {
         startPomodoroTimer()
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO)
-    {
-        describePomodoroStep(MLO_KEYBOARD_SHORTCUT_NEW_TASK)   
-    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP_FINISH)
     {
         finishPomodoro()

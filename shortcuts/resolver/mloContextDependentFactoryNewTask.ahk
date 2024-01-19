@@ -7,10 +7,7 @@
     }
     else if (inStr(currentTask, "<POMODORO", true) || getPomodoroTimeFrom(currentTask))
     {
-        SetTimer TimerDisplayPomodoroMessageReminders, off
-        SetTimer TimerDisplayRemainingTime, off
-        tooltip, , 0, 0, 5
-        showtooltip("Stop Pomodoro Timer")
+        stopPomodoroTimer()
     }
     else if (inStr(currentTask, "_BUCLA>", true))
     {

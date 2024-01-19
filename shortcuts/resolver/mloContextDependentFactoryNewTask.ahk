@@ -51,11 +51,17 @@
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_DUAL_ACTIVE
     }
-    else if (inStr(currentTask, "<GANDURI_EXPLOREZ>", true))
+    else if (inStr(currentTask, "<GANDURI_EXPLOREZ", true))
     {
+        TIMEOUT_REMAINING_TIME := extractDestinationAfter(currentTask) * 1000 * 60
+        if TIMEOUT_REMAINING_TIME is not Number
+        {
+            TIMEOUT_REMAINING_TIME := 1000 * 60 * 50
+        }
         IS_TIMER_SHOWN_OUTSIDE_MLO := 1
-        TIMEOUT_REMAINING_TIME := 1000 * 60 * 50
         timerDisplayRemainingTime()
+        ;showtooltip(TIMEOUT_REMAINING_TIME)
+        
         JOURNAL_QUESTION_INDEX := 1
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
         sendKeyCombinationIndependentActiveModifiers("{DOWN}")

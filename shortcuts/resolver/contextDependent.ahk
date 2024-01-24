@@ -61,7 +61,6 @@ processAltShiftDirection(combination, index)
         IS_SET_MLO_ORDER_ACTIVE := 1
         SetTimer TimerTaskOrderChanged, off
         SetTimer TimerTaskOrderChanged, 1500
-        /*
         if (key = "right" || key = "left")
         {
             currentTask := getCurrentTask()
@@ -69,7 +68,6 @@ processAltShiftDirection(combination, index)
             sleep 200
             sendKeyCombinationIndependentActiveModifiers(index)
         }
-        */
     }
 }
 

@@ -682,6 +682,7 @@ removeWhiteSpace(input, includingSpaceBetweenWords = 0)
 stopPomodoroTimer()
 {
     SetTimer TimerDisplayPomodoroMessageReminders, off
+    SetTimer TimerResetPomodoroMessage, off
     SetTimer TimerDisplayRemainingTime, off
     tooltip, , 0, 0, 5
     showtooltip("Stop Pomodoro Timer")

@@ -38,7 +38,7 @@ global MLO_ENTER_MODE_SET_AS_POMODORO_INDEX := 0
 global DEFAULT_POMODORO_TIME := 44
 global SELECTED_POMODORO_TIME := 0
 global POMODORO_QUESTIONS := ["__PASI INTENTIONEZ SA FAC: ", "__PAUZA & MA INCARC DUPA: ", "__POATE SA MA DISTRAGA: "]
-global POMODORO_FOLLOW_UP_QUESTIONS := ["__ACTIUNI INTENTIONEZ SA FAC MAI DEPARTE PENTRU ACEST TASK: ", "__CE NEVOIE S-AU ACUMULAT: ", "__CE POT SA FAC IN URMATOAREA PAUZA: "]
+global POMODORO_FOLLOW_UP_QUESTIONS := ["__ACTIUNI INTENTIONEZ SA FAC MAI DEPARTE PENTRU ACEST TASK: "]
 
 global JOURNAL_GROUP_INDEX := 1
 global JOURNAL_QUESTION_INDEX := 1
@@ -565,7 +565,7 @@ describeAlignStep(newTaskMode)
         sendKeyCombinationIndependentActiveModifiers(newTaskMode)
         sleep 100
         question := removeWhiteSpace(ALIGN_QUESTIONS[ALIGN_QUESTIONS_INDEX])
-        sendKeyCombinationIndependentActiveModifiers(question)
+        sendKeyCombinationIndependentActiveModifiers(question . "{space}")
     }
     else
     {
@@ -574,8 +574,9 @@ describeAlignStep(newTaskMode)
         sendKeyCombinationIndependentActiveModifiers("{down}")
         sleep 200
         currentTask := getCurrentTask()
+        focusArea := getFocusArea(currentTask)
         ;showtooltip(subStr(currentTask, 1, 1), 2000)
-        if (subStr(currentTask, 1, 1) = "[")
+        if (focusArea)
         {
             ALIGN_QUESTIONS_INDEX := 0
             describeAlignStep(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)

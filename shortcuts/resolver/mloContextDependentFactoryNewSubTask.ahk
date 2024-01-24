@@ -127,7 +127,7 @@
         ALIGN_QUESTIONS := StrSplit(questions, "`n")
         ALIGN_QUESTIONS.pop() ; last item is an empty line
         ALIGN_QUESTIONS_INDEX := 0
-        sendKeyCombinationIndependentActiveModifiers("[")
+        sendKeyCombinationIndependentActiveModifiers("{down}")
         sleep 500    
         describeAlignStep(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ALIGN_QUESTIONS

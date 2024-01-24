@@ -150,6 +150,7 @@
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_POMODORO
         MLO_ENTER_MODE_SET_AS_POMODORO_INDEX := 0
+        SELECTED_POMODORO_TIME := DEFAULT_POMODORO_TIME
         describePomodoroStep(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
     else if (inStr(currentTask, "<SEND_KEYS_", true))
@@ -178,14 +179,6 @@
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         LESSON_COMPLETE_AMOUNT := focusArea - 70
-    }
-    else if (getPomodoroTimeFrom(currentTask))
-    {
-        
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_POMODORO
-        SELECTED_POMODORO_TIME := getPomodoroTimeFrom(currentTask)
-        MLO_ENTER_MODE_SET_AS_POMODORO_INDEX := 0
-        describePomodoroStep(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
     else
     {

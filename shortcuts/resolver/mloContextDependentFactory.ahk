@@ -632,10 +632,10 @@ startPomodoroTimer()
 finishPomodoro()
 {
     sendKeyCombinationIndependentActiveModifiers("{enter}")
-    sleep 200
-    sendKeyCombinationIndependentActiveModifiers("{left 4}")
-    sleep 200
-    sendKeyCombinationIndependentActiveModifiers("{space}")
+    ;sleep 200
+    ;sendKeyCombinationIndependentActiveModifiers("{left 4}")
+    ;sleep 200
+    ;sendKeyCombinationIndependentActiveModifiers("{space}")
     resetMloEnterMode(0)
 }
 

@@ -415,7 +415,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     }
     else if (number = 2 && modifiers = "^")
     {
-        extraInstructions := ["^a", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{end}", "{right}", "{up}", "{right}"]
+        extraInstructions := ["^a", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{end}", "{right}", "{up}", "{right}", "{up}", "{right}", "{up}", "{right}"]
     }
     else if (number = 2 && modifiers = "^+")
     {

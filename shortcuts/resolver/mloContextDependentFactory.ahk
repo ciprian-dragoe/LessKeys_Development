@@ -431,17 +431,26 @@ startTimerSendKeys(currentTask, nextTaskMode)
 timerDisplayRemainingTime()
 {
     SetTimer TimerDisplayRemainingTime, off
-    if (TIMEOUT_REMAINING_TIME > 0 && (InStr(lastActiveAppName, MLO_WINDOW_NAME) || IS_TIMER_SHOWN_OUTSIDE_MLO))
+    if (InStr(lastActiveAppName, MLO_WINDOW_NAME) || IS_TIMER_SHOWN_OUTSIDE_MLO)
     {
-        SetFormat, float, 02
-        minutes1 := (TIMEOUT_REMAINING_TIME // 1000) // 60
-        seconds1 := ((TIMEOUT_REMAINING_TIME // 1000) - minutes1 * 60)
-        minutes1+=0.00
-        seconds1+=0.00
-        timeToDisplay=%minutes1%:%seconds1%
-        TIMEOUT_REMAINING_TIME := TIMEOUT_REMAINING_TIME - 1000
-        tooltip, %timeToDisplay%, 0, 0, 5
-        SetTimer TimerDisplayRemainingTime, 1000
+            SetFormat, float, 02
+            minutes1 := (TIMEOUT_REMAINING_TIME // 1000) // 60
+            seconds1 := ((TIMEOUT_REMAINING_TIME // 1000) - minutes1 * 60)
+            if (seconds1 < 0)
+            {
+                seconds1 := -1 * seconds1
+            }
+            minutes1+=0.00
+            seconds1+=0.00
+            
+            timeToDisplay=%minutes1%:%seconds1%
+            if (TIMEOUT_REMAINING_TIME < 0)
+            {
+                timeToDisplay = ---%timeToDisplay%
+            }
+            TIMEOUT_REMAINING_TIME := TIMEOUT_REMAINING_TIME - 1000
+            tooltip, %timeToDisplay%, 0, 0, 5 
+            SetTimer TimerDisplayRemainingTime, 1000
     }
     else
     {

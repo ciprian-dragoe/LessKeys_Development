@@ -77,11 +77,9 @@
     {
         resetMloEnterMode()
     }
-    else if (inStr(currentTask, "<GANDURI_EXPLOREZ>", true))
+    else if (inStr(currentTask, "<GANDURI_EXPLOREZ", true))
     {
-        JOURNAL_QUESTION_INDEX := 1
-        createJournalTask("_BUCLA> ")
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ
+        TIMEOUT_REMAINING_TIME := 0
     }
     else if (inStr(currentTask, "<NEW_TASK>", true))
     {

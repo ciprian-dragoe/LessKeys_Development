@@ -426,6 +426,12 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         {
             extraInstructions.push("0", "{right}", "{home}")
         }
+        ;showtooltip(A_WDay)
+        if (A_WDay = 7 || A_WDay = 1) ; saturday / sunday 
+        {
+            number := "y"
+        }
+         
         
         /*
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_MLO_SYNC)

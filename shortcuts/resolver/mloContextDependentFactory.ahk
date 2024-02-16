@@ -38,7 +38,7 @@ global MLO_ENTER_MODE_SET_AS_POMODORO_INDEX := 0
 global DEFAULT_POMODORO_TIME := 44
 global SELECTED_POMODORO_TIME := 0
 global POMODORO_QUESTIONS := ["__PASI INTENTIONEZ SA FAC: ", "__PAUZA & MA INCARC DUPA: ", "__LIMITE MENTIN: "]
-global POMODORO_FOLLOW_UP_QUESTIONS := ["__ACTIUNI INTENTIONEZ SA FAC MAI DEPARTE PENTRU ACEST TASK: "]
+global POMODORO_FOLLOW_UP_QUESTIONS := ["__ACTIUNI INTENTIONEZ SA FAC MAI DEPARTE PENTRU ACEST TASK: ", "__DAU DRUMUL / FAC PAUZA: "]
 
 global JOURNAL_GROUP_INDEX := 1
 global JOURNAL_QUESTION_INDEX := 1
@@ -558,11 +558,12 @@ describePomodoroFollowUpStep(newTaskType)
 {
     sendKeyCombinationIndependentActiveModifiers(newTaskType)
     MLO_ENTER_MODE_SET_AS_POMODORO_INDEX += 1
-    sendKeyCombinationIndependentActiveModifiers(POMODORO_FOLLOW_UP_QUESTIONS[MLO_ENTER_MODE_SET_AS_POMODORO_INDEX])
     if (MLO_ENTER_MODE_SET_AS_POMODORO_INDEX >= POMODORO_FOLLOW_UP_QUESTIONS.length())
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP_FINISH
+        MLO_ENTER_MODE_SET_AS_POMODORO_INDEX := POMODORO_FOLLOW_UP_QUESTIONS.length()
     }
+    sendKeyCombinationIndependentActiveModifiers(POMODORO_FOLLOW_UP_QUESTIONS[MLO_ENTER_MODE_SET_AS_POMODORO_INDEX])
 }
 
 describeAlignStep(newTaskMode)
@@ -638,13 +639,14 @@ startPomodoroTimer()
     resetMloEnterMode(0)
 }
 
-finishPomodoro()
+finishPomodoroFollowUp()
 {
     sendKeyCombinationIndependentActiveModifiers("{enter}")
     ;sleep 200
     ;sendKeyCombinationIndependentActiveModifiers("{left 4}")
     ;sleep 200
     ;sendKeyCombinationIndependentActiveModifiers("{space}")
+    stopPomodoroTimer()
     resetMloEnterMode(0)
 }
 

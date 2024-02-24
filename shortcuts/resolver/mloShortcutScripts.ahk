@@ -97,6 +97,10 @@ processMloEnhancements()
             IS_CONDITION_FOR_MLO_SYNC_FULFILLED := 1
             resetTimerSyncMlo()
         }
+        if (WinExist("MyLifeOrganized - Reminders"))
+        {
+            WinMinimize, MyLifeOrganized - Reminders
+        }
     }
     else
     {

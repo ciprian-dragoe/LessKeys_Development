@@ -402,14 +402,10 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
 ;   if (A_WDay = 1) ; sunday 
     if (number = 1 && modifiers = "^")
     {
-        extraInstructions := ["{home}", MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{right}", "{down}"]
-    } 
-    else if (number = 1 && modifiers = "^+")
-    {
         IS_FUNCTION_KEY_SELECTING_JOURNAL_TASK := 1
         extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}"]
     }
-    else if (number = 1 && modifiers = "^!")
+    else if (number = 1 && modifiers = "^+")
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK
     }

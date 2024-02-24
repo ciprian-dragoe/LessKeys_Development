@@ -15,7 +15,7 @@
         PREVIOUS_TASK := JOURNAL_QUESTION_INDEX
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS)
         sleep 100
-        sendKeyCombinationIndependentActiveModifiers("{HOME}")
+        sendKeyCombinationIndependentActiveModifiers("{HOME}{DOWN}")
         sleep 100
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
         sleep 100

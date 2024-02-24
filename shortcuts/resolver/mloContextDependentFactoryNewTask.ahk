@@ -71,6 +71,15 @@
         sendKeyCombinationIndependentActiveModifiers(JOURNAL_QUESTION_INDEX . "_BUCLA> " . "{space}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ
     }
+    else if (inStr(currentTask, removeWhiteSpace(POMODORO_QUESTIONS[POMODORO_QUESTIONS.length()])))
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP
+        MLO_ENTER_MODE_SET_AS_POMODORO_INDEX := 0
+        describePomodoroFollowUpStep(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        TIMEOUT_REMAINING_TIME := 5 * 60 * 1000
+        IS_TIMER_SHOWN_OUTSIDE_MLO := 1
+        timerDisplayRemainingTime()
+    }
     else if (MLO_ENTER_MODE > 0 && MLO_ENTER_MODE != MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)

@@ -161,13 +161,47 @@
         sendKeyCombinationIndependentActiveModifiers("{ENTER}")
         resetMloEnterMode()
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO)
+    {
+        if (DOUBLE_PRESS_KEY_ACTIVE)
+        {
+            DOUBLE_PRESS_KEY_ACTIVE := 0
+            setTimer TimerDoubleKeyPressInterval, off
+            stopPomodoroTimer()
+            resetMloEnterMode(0)
+            sendKeyCombinationIndependentActiveModifiers("{enter}")
+        } 
+        else if (A_CaretX)
+        {
+            sendKeyCombinationIndependentActiveModifiers("{enter}{left}")
+            sleep 800
+            describePomodoroStep(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+            DOUBLE_PRESS_KEY_ACTIVE := 1
+            setTimer TimerDoubleKeyPressInterval, 800
+        }
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO_START)
     {
         startPomodoroTimer()
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP_FINISH || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP)
     {
-        finishPomodoroFollowUp()
+        if (DOUBLE_PRESS_KEY_ACTIVE)
+        {
+            DOUBLE_PRESS_KEY_ACTIVE := 0
+            setTimer TimerDoubleKeyPressInterval, off
+            stopPomodoroTimer()
+            resetMloEnterMode(0)
+            sendKeyCombinationIndependentActiveModifiers("{enter}")
+        } 
+        else if (A_CaretX)
+        {
+            sendKeyCombinationIndependentActiveModifiers("{enter}{left}")
+            sleep 800
+            describePomodoroFollowUpStep(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+            DOUBLE_PRESS_KEY_ACTIVE := 1
+            setTimer TimerDoubleKeyPressInterval, 800
+        }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_NEW_TASK_KEYS_AFTER || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER)
     {

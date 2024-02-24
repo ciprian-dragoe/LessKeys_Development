@@ -546,23 +546,37 @@ describePomodoroStep(newTaskType)
     sendKeyCombinationIndependentActiveModifiers(newTaskType)
     MLO_ENTER_MODE_SET_AS_POMODORO_INDEX += 1
     sendKeyCombinationIndependentActiveModifiers(POMODORO_QUESTIONS[MLO_ENTER_MODE_SET_AS_POMODORO_INDEX])
+    
     if (MLO_ENTER_MODE_SET_AS_POMODORO_INDEX >= POMODORO_QUESTIONS.length())
     {
         sendKeyCombinationIndependentActiveModifiers("{space}" . SELECTED_POMODORO_TIME . "{space}{left 4}")
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_POMODORO_START
     }
+    else
+    {
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("__")
+    }
 }
 
 describePomodoroFollowUpStep(newTaskType)
 {
-    sendKeyCombinationIndependentActiveModifiers(newTaskType)
     MLO_ENTER_MODE_SET_AS_POMODORO_INDEX += 1
-    if (MLO_ENTER_MODE_SET_AS_POMODORO_INDEX >= POMODORO_FOLLOW_UP_QUESTIONS.length())
+    
+    if (MLO_ENTER_MODE_SET_AS_POMODORO_INDEX > POMODORO_FOLLOW_UP_QUESTIONS.length())
     {
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP_FINISH
-        MLO_ENTER_MODE_SET_AS_POMODORO_INDEX := POMODORO_FOLLOW_UP_QUESTIONS.length()
+        resetMloEnterMode(0)
+        stopPomodoroTimer()
     }
-    sendKeyCombinationIndependentActiveModifiers(POMODORO_FOLLOW_UP_QUESTIONS[MLO_ENTER_MODE_SET_AS_POMODORO_INDEX])
+    else
+    {
+        sendKeyCombinationIndependentActiveModifiers(newTaskType)
+        sendKeyCombinationIndependentActiveModifiers(POMODORO_FOLLOW_UP_QUESTIONS[MLO_ENTER_MODE_SET_AS_POMODORO_INDEX])
+        sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("__")
+    }
 }
 
 describeAlignStep(newTaskMode)
@@ -629,7 +643,6 @@ startPomodoroTimer()
     POMODORO_MESSAGE := getCurrentTask(300, 1)
     ;showtooltip(POMODORO_MESSAGE)
     sendKeyCombinationIndependentActiveModifiers("{enter}")
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_FOLDER)
     IS_TIMER_SHOWN_OUTSIDE_MLO := 1
     timerDisplayRemainingTime()
     SetTimer TimerResetPomodoroMessage, %TIMEOUT_REMAINING_TIME%

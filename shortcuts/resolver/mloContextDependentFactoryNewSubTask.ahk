@@ -170,7 +170,7 @@
     {
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP
         MLO_ENTER_MODE_SET_AS_POMODORO_INDEX := 0
-        describePomodoroFollowUpStep(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+        describePomodoroFollowUpStep(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
         TIMEOUT_REMAINING_TIME := 5 * 60 * 1000
         IS_TIMER_SHOWN_OUTSIDE_MLO := 1
         timerDisplayRemainingTime()

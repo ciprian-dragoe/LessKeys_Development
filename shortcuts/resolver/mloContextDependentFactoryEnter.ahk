@@ -26,11 +26,13 @@
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO)
     {
-        describePomodoroStep("{enter}" . MLO_KEYBOARD_SHORTCUT_FOLDER . MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        sendKeyCombinationIndependentActiveModifiers("{enter}" . MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("__")
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO)
     {
-        describePomodoroStep("{enter}" . MLO_KEYBOARD_SHORTCUT_FOLDER . MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        describePomodoroStep("{enter}" . MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO_START)
     {
@@ -38,7 +40,9 @@
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP)
     {
-        describePomodoroFollowUpStep(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        sendKeyCombinationIndependentActiveModifiers("{enter}" . MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+        sleep 100
+        sendKeyCombinationIndependentActiveModifiers("__")
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP_FINISH)
     {

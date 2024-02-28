@@ -58,7 +58,7 @@
         {
             TIMEOUT_REMAINING_TIME := 1000 * 60 * 50
         }
-        IS_TIMER_SHOWN_OUTSIDE_MLO := 1
+        IS_TIMER_SHOWN_OUTSIDE_MLO := 0
         timerDisplayRemainingTime()
         ;showtooltip(TIMEOUT_REMAINING_TIME)
         

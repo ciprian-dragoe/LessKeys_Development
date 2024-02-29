@@ -36,7 +36,8 @@ timerCheckReminder()
     {
         ;writeNowLogFile("timerCheckReminder - reminder window off")
         SetTimer TimerCheckReminder, %TIMEOUT_CHECK_REMINDER%
-    }    
+    }
+    DetectHiddenWindows On
 }
 
 timerDisplayPomodoroMessageReminders()

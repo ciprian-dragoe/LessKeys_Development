@@ -407,7 +407,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     if (number = 1 && modifiers = "^")
     {
         IS_FUNCTION_KEY_SELECTING_JOURNAL_TASK := 1
-        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}"]
+        extraInstructions := [MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}{down}"]
     }
     else if (number = 1 && modifiers = "^+")
     {

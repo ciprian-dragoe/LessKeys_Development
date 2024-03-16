@@ -42,12 +42,12 @@
             sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_DUPLICATE_TASK)
             sendKeyCombinationIndependentActiveModifiers("{F2}")
             sleep 150
-            sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . JOURNAL_QUESTION_INDEX . " <PARTE>" . topic . "{HOME}^{RIGHT 2}+{END}")
+            sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . JOURNAL_QUESTION_INDEX . " <PARTE>" . " SPUN CE AM NEVOIE CA SA MA DESCARC " . "{HOME}^{RIGHT 2}+{END}")
             JOURNAL_QUESTION_INDEX := 1
             sendKeyCombinationIndependentActiveModifiers("{enter}")
             sleep 100 
             sendKeyCombinationIndependentActiveModifiers("{down}{F2}")
-            sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . JOURNAL_QUESTION_INDEX . " <PARTE>" . topic . "{HOME}^{RIGHT 2}+{END}")
+            sendKeyCombinationIndependentActiveModifiers("" . TASK_GO_AFTER_TO . "" . JOURNAL_QUESTION_INDEX . " <PARTE>" . " SPRIJIN POT SA OFER IN ACEST SPATIU " . "{HOME}^{RIGHT 2}+{END}")
             sleep 150
             sendKeyCombinationIndependentActiveModifiers("{ENTER}{F5}")
             sleep 150

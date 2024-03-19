@@ -24,6 +24,19 @@
         sendKeyCombinationIndependentActiveModifiers("{home}")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_EFECT_TERMEN_LUNG)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
+        sleep 500
+        sendKeyCombinationIndependentActiveModifiers("{home}")
+        sleep 200
+        currentTask := getCurrentTask()
+        focusArea := getFocusArea(currentTask)
+        if (focusArea = "55" || focusArea = "56")
+        {
+            writeJournalEffect()
+        }
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO)
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}" . MLO_KEYBOARD_SHORTCUT_NEW_TASK)

@@ -424,7 +424,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         extraInstructions := [MLO_KEYBOARD_SHORTCUT_MLO_SYNC, MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}"]
         if ((A_Hour > 3) && (A_Hour < 11))
         {
-            extraInstructions.push("0", "{right}", "{home}")
+            ;extraInstructions.push("0", "{right}", "{home}")
         }
         ;showtooltip(A_WDay)
         if (A_WDay = 7 || A_WDay = 1) ; saturday / sunday 

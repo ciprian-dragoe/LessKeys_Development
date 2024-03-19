@@ -15,6 +15,7 @@ global MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER := 8
 global MLO_ENTER_MODE_SET_AS_SEND_KEYS := 9
 global MLO_ENTER_MODE_SET_AS_AFTER_TIMER_ENTER_AND_ESCAPE_SENDS_KEYS := 10
 global MLO_ENTER_MODE_SET_AS_TIMER_SEND_KEYS := 11 ; only for documentation, not used as variable => search for <TIMER_SEND_KEYS_
+global MLO_ENTER_MODE_SET_AS_JURNAL_EFECT_TERMEN_LUNG := 12
 
 global MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK := 19
 global MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI := 20
@@ -709,4 +710,12 @@ stopPomodoroTimer()
     SetTimer TimerDisplayRemainingTime, off
     tooltip, , 0, 0, 5
     showtooltip("Stop Pomodoro Timer")
+}
+
+writeJournalEffect()
+{
+    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
+    MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_EFECT_TERMEN_LUNG
+    sleep 300
+    sendKeyCombinationIndependentActiveModifiers("EFECT TERMEN LUNG CONTINUI ACTIONEZ ACEST MOD: ")
 }

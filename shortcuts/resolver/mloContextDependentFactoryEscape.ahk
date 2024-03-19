@@ -184,6 +184,11 @@
     {
         startPomodoroTimer()
     }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_EFECT_TERMEN_LUNG)
+    {
+        sendKeyCombinationIndependentActiveModifiers("{escape}")
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI
+    }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP_FINISH || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP)
     {
         if (DOUBLE_PRESS_KEY_ACTIVE)

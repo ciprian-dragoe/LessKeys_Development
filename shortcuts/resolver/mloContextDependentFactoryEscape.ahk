@@ -184,10 +184,10 @@
     {
         startPomodoroTimer()
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_EFECT_TERMEN_LUNG)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL_INTEGRATE || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL_INTEGRATE_FINISH)
     {
         sendKeyCombinationIndependentActiveModifiers("{escape}")
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLAN_DAY
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP_FINISH || MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP)
     {
@@ -230,7 +230,7 @@
     {
         sendKeyCombinationIndependentActiveModifiers("{enter}")
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_PLAN_DAY)
     {
         sendKeyCombinationIndependentActiveModifiers("{escape}")
     }

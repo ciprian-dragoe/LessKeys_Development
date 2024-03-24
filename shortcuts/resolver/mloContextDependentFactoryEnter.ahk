@@ -24,17 +24,22 @@
         sendKeyCombinationIndependentActiveModifiers("{home}")
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JURNAL_EFECT_TERMEN_LUNG)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL_INTEGRATE)
     {
-        sendKeyCombinationIndependentActiveModifiers("{enter}{F5}")
+        writeJournalIntegrate(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
+    }
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_JOURNAL_INTEGRATE_FINISH)
+    {
+        writeJournalIntegrate("{enter}{F5}")
         sleep 500
         sendKeyCombinationIndependentActiveModifiers("{home}")
         sleep 200
         currentTask := getCurrentTask()
         focusArea := getFocusArea(currentTask)
-        if (focusArea = "55" || focusArea = "56")
+        if (focusArea = "0" || focusArea = "77")
         {
-            writeJournalEffect()
+            MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLAN_DAY
+            mloNewContextDependentSubTask(currentTask)
         }
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO)
@@ -60,10 +65,6 @@
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_POMODORO_FOLLOW_UP_FINISH)
     {
         describePomodoroFollowUpStep(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
-    }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_ALIGN_QUESTIONS)
-    {
-        describeAlignStep(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
     else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_GANDURI_EXPLOREZ)
     {
@@ -123,7 +124,7 @@
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI && LESSON_COMPLETE_AMOUNT > 0)
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_PLAN_DAY && LESSON_COMPLETE_AMOUNT > 0)
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_TASK)
     }

@@ -15,13 +15,14 @@ global MLO_ENTER_MODE_SET_AS_ONE_NEW_TASK_KEYS_AFTER := 8
 global MLO_ENTER_MODE_SET_AS_SEND_KEYS := 9
 global MLO_ENTER_MODE_SET_AS_AFTER_TIMER_ENTER_AND_ESCAPE_SENDS_KEYS := 10
 global MLO_ENTER_MODE_SET_AS_TIMER_SEND_KEYS := 11 ; only for documentation, not used as variable => search for <TIMER_SEND_KEYS_
-global MLO_ENTER_MODE_SET_AS_JURNAL_EFECT_TERMEN_LUNG := 12
+
+global MLO_ENTER_MODE_SET_AS_JOURNAL_INTEGRATE := 12
+global MLO_ENTER_MODE_SET_AS_JOURNAL_INTEGRATE_FINISH := 13
+global MLO_ENTER_MODE_SET_AS_JOURNAL_INTEGRATE_QUESTIONS := ["EFECT TERMEN LUNG CONTINUI ACEST MOD DE ACTIUNE: ", "SPRIJIN POT SA OFER CU CEEA CE AM: "]
+global MLO_ENTER_MODE_SET_AS_JOURNAL_INTEGRATE_INDEX := 0
 
 global MLO_ENTER_MODE_SET_AS_VIEW_LEVEL_NEW_TASK := 19
-global MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI := 20
-global MLO_ENTER_MODE_SET_AS_ALIGN_QUESTIONS := 21
-global ALIGN_QUESTIONS := []
-global ALIGN_QUESTIONS_INDEX := 0
+global MLO_ENTER_MODE_SET_AS_VIEW_PLAN_DAY := 20
 
 global LESSON_COMPLETE_AMOUNT := 0
 
@@ -291,13 +292,14 @@ getFocusArea(input)
     }
     
     focusArea := SubStr(input, 1, positionSpace)
-    allowedFocusAreas := ["11", "110", "12", "120", "13", "130", "22", "220", "23", "230", "24", "240", "33", "330", "34", "340", "35", "350", "44", "440", "45", "450", "46", "460", "55", "550", "56", "560", "61" ,"62" ,"63" ,"64", "65", "66", "71", "72", "73", "74", "75", "76", "77"]
+    allowedFocusAreas := ["11", "110", "12", "120", "13", "130", "22", "220", "23", "230", "24", "240", "33", "330", "34", "340", "35", "350", "44", "440", "45", "450", "46", "460", "55", "550", "56", "560", "61" ,"62" ,"63" ,"64", "65", "66", "71", "72", "73", "74", "75", "76", "77", "78"]
     for key, allowedArea in allowedFocusAreas
     {
         if (focusArea = allowedArea) {
             return allowedArea
         }
-    } 
+    }
+    return 0
 }
 
 getPomodoroTimeFrom(input)
@@ -462,7 +464,7 @@ timerDisplayRemainingTime()
 timerCompleteLesson() 
 {
     setTimer TimerCompleteLesson, OFF
-    if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI)
+    if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_PLAN_DAY)
     {
         sendKeyCombinationIndependentActiveModifiers("{left}")
         sleep 150
@@ -580,39 +582,6 @@ describePomodoroFollowUpStep(newTaskType)
     }
 }
 
-describeAlignStep(newTaskMode)
-{
-    ALIGN_QUESTIONS_INDEX += 1
-    ;showtooltip(ALIGN_QUESTIONS.length())
-    if (ALIGN_QUESTIONS_INDEX <= ALIGN_QUESTIONS.length())
-    {
-        sendKeyCombinationIndependentActiveModifiers(newTaskMode)
-        sleep 100
-        question := removeWhiteSpace(ALIGN_QUESTIONS[ALIGN_QUESTIONS_INDEX])
-        sendKeyCombinationIndependentActiveModifiers(question . "{space}")
-    }
-    else
-    {
-        sendKeyCombinationIndependentActiveModifiers("{enter}")
-        sleep 100
-        sendKeyCombinationIndependentActiveModifiers("{down}")
-        sleep 200
-        currentTask := getCurrentTask()
-        focusArea := getFocusArea(currentTask)
-        ;showtooltip(subStr(currentTask, 1, 1), 2000)
-        if (focusArea)
-        {
-            ALIGN_QUESTIONS_INDEX := 0
-            describeAlignStep(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-        }
-        else
-        {
-            resetMloEnterMode(0)
-            mloNewContextDependentSubTask(currentTask)
-        }
-    }
-}
-
 startPomodoroTimer()
 {
     POMODORO_MESSAGE := getCurrentTask(300, 1)
@@ -628,7 +597,6 @@ startPomodoroTimer()
        spaceCount := 1
        defaultTimerCount := 2
        sendKeyCombinationIndependentActiveModifiers("{end}{backspace " . strLen(lastWord) + spaceCount + defaultTimerCount . "}")
-       
     }
     else if (isStringNumber(beforeLastWord))
     {
@@ -712,10 +680,15 @@ stopPomodoroTimer()
     showtooltip("Stop Pomodoro Timer")
 }
 
-writeJournalEffect()
+writeJournalIntegrate(taskMode)
 {
-    sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-    MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JURNAL_EFECT_TERMEN_LUNG
+    MLO_ENTER_MODE_SET_AS_JOURNAL_INTEGRATE_INDEX := MLO_ENTER_MODE_SET_AS_JOURNAL_INTEGRATE_INDEX + 1
+    sendKeyCombinationIndependentActiveModifiers(taskMode)
     sleep 300
-    sendKeyCombinationIndependentActiveModifiers("EFECT TERMEN LUNG CONTINUI ACTIONEZ ACEST MOD: ")
+    sendKeyCombinationIndependentActiveModifiers(MLO_ENTER_MODE_SET_AS_JOURNAL_INTEGRATE_QUESTIONS[MLO_ENTER_MODE_SET_AS_JOURNAL_INTEGRATE_INDEX])
+    
+    if (MLO_ENTER_MODE_SET_AS_JOURNAL_INTEGRATE_INDEX >= MLO_ENTER_MODE_SET_AS_JOURNAL_INTEGRATE_QUESTIONS.length())
+    {
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNAL_INTEGRATE_FINISH
+    }
 }

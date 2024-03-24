@@ -420,7 +420,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     else if (number = 2 && modifiers = "^+")
     {
         IS_SORTING_VIEW_ACTIVE := 1
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLAN_DAY
         extraInstructions := [MLO_KEYBOARD_SHORTCUT_MLO_SYNC, MLO_KEYBOARD_SHORTCUT_COLLAPSE_ALL_TASKS, "{home}"]
         if ((A_Hour > 3) && (A_Hour < 11))
         {
@@ -435,7 +435,7 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
         
         /*
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_MLO_SYNC)
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_VIEW_PLAN_DAY
         setMloDarkMode(0)
         send %MLO_KEYBOARD_SHORTCUT_MLO_SYNC%
         setLaptopDependentMloVariables("dashboardActive")

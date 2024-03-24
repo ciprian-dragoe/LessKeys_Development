@@ -116,20 +116,6 @@
         sendKeyCombinationIndependentActiveModifiers("<" . MLO_JOURNAL . ">{space}")    
         MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNAL
     }
-    else if (inStr(currentTask, "<ALIGN>", true))
-    {
-        openNotesAssociatedWithTask()
-        questions := getCurrentTask(600, 1)
-        hideNotesAndFocusTasks()
-        ;showtooltip(questions)
-        ALIGN_QUESTIONS := StrSplit(questions, "`n")
-        ALIGN_QUESTIONS.pop() ; last item is an empty line
-        ALIGN_QUESTIONS_INDEX := 0
-        sendKeyCombinationIndependentActiveModifiers("{down}")
-        sleep 500    
-        describeAlignStep(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
-        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_ALIGN_QUESTIONS
-    }
     else if (inStr(currentTask, "<NEW_TASK_KEYS_AFTER_", true))
     {
         ;writeNowLogFile("NEW_TASK_KEYS_AFTER_")
@@ -175,11 +161,13 @@
         IS_TIMER_SHOWN_OUTSIDE_MLO := 1
         timerDisplayRemainingTime()
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI && (focusArea = "55" || focusArea = "56"))
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_PLAN_DAY && focusArea = "0")
     {
-        writeJournalEffect()
+        MLO_ENTER_MODE := MLO_ENTER_MODE_SET_AS_JOURNAL_INTEGRATE
+        MLO_ENTER_MODE_SET_AS_JOURNAL_INTEGRATE_INDEX := 0
+        writeJournalIntegrate(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
     }
-    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_PLANIFIC_ZI && (focusArea = "71" || focusArea = "72" || focusArea = "73" || focusArea = "74" || focusArea = "75" || focusArea = "76" || focusArea = "77"))
+    else if (MLO_ENTER_MODE = MLO_ENTER_MODE_SET_AS_VIEW_PLAN_DAY && (focusArea = "71" || focusArea = "72" || focusArea = "73" || focusArea = "74" || focusArea = "75" || focusArea = "76" || focusArea = "77"))
     {
         sendKeyCombinationIndependentActiveModifiers(MLO_KEYBOARD_SHORTCUT_NEW_SUB_TASK)
         LESSON_COMPLETE_AMOUNT := focusArea - 70

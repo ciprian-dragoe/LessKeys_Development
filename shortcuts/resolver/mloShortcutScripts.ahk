@@ -462,6 +462,10 @@ changeViewMloFactory(number, modifiers) ; modifier order: ^ ! + #
     {
         extraInstructions := []
     }
+    else if (number = 6)
+    {
+        IS_SORTING_VIEW_ACTIVE := 1
+    }
     
     ; close dashboard windows if navigating away from it 
     if (number && modifiers)
